@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/pages/home/home_page.dart';
-import 'package:time_tracker_flutter_course/pages/sign_in/sign_in_page.dart';
-import 'package:time_tracker_flutter_course/services/auth.dart';
-import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:chow_down/pages/home/home_page.dart';
+import 'package:chow_down/pages/sign_in/sign_in_page.dart';
+import 'package:chow_down/services/auth.dart';
+import 'package:chow_down/services/database.dart';
 
 class LandingPage extends StatelessWidget {
   @override

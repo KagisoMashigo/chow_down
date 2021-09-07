@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/pages/sign_in/email_sign_in_page.dart';
-import 'package:time_tracker_flutter_course/pages/sign_in/sign_in_manager.dart';
-import 'package:time_tracker_flutter_course/pages/sign_in/sign_in_button.dart';
-import 'package:time_tracker_flutter_course/pages/sign_in/social_sign_in_button.dart';
-import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/services/auth.dart';
+import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
+import 'package:chow_down/pages/sign_in/sign_in_manager.dart';
+import 'package:chow_down/pages/sign_in/sign_in_button.dart';
+import 'package:chow_down/pages/sign_in/social_sign_in_button.dart';
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key key, @required this.manager, @required this.isLoading})
@@ -80,7 +80,7 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('Time Tracker'),
+          child: Text('Chow Down'),
         ),
         elevation: 4.0,
       ),
@@ -103,7 +103,7 @@ class SignInPage extends StatelessWidget {
           SizedBox(height: 48.0),
           SizedBox(height: 8.0),
           SocialSignInButton(
-            assetName: 'images/google-logo.png',
+            assetName: 'assets/images/google-logo.png',
             text: 'Sign in with Google',
             textColor: Colors.black87,
             color: Colors.white,
@@ -111,7 +111,7 @@ class SignInPage extends StatelessWidget {
           ),
           SizedBox(height: 8.0),
           SocialSignInButton(
-            assetName: 'images/facebook-logo.png',
+            assetName: 'assets/images/facebook-logo.png',
             text: 'Sign in with Facebook',
             textColor: Colors.white,
             color: Color(0xFF334D92),

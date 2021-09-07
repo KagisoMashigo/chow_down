@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 
 Future<void> showExceptionAlertDialog(
   BuildContext context, {

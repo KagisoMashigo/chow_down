@@ -1,5 +1,5 @@
 // import 'package:flutter/cupertino.dart';
-// import 'package:time_tracker_flutter_course/services/auth.dart';
+// import 'package:chow_down/services/auth.dart';
 //
 // class AuthProvider extends InheritedWidget {
 //   AuthProvider({@required this.auth, @required this.child});

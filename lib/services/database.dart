@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:time_tracker_flutter_course/core/data/models/entry.dart';
-import 'package:time_tracker_flutter_course/core/data/models/job.dart';
-import 'package:time_tracker_flutter_course/services/api_path.dart';
-import 'package:time_tracker_flutter_course/services/firestore_service.dart';
+import 'package:chow_down/core/data/models/entry.dart';
+import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/services/api_path.dart';
+import 'package:chow_down/services/firestore_service.dart';
 
 abstract class Database {
   Future<void> setJob(Job job);

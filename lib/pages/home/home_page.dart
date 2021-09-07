@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/pages/home/account/account_page.dart';
-import 'package:time_tracker_flutter_course/pages/home/cupertino_home_scaffold.dart';
-import 'package:time_tracker_flutter_course/pages/home/entries/entries_page.dart';
-import 'package:time_tracker_flutter_course/pages/home/jobs/jobs_page.dart';
-import 'package:time_tracker_flutter_course/pages/home/tab_item.dart';
+import 'package:chow_down/pages/home/account/account_page.dart';
+import 'package:chow_down/pages/home/cupertino_home_scaffold.dart';
+import 'package:chow_down/pages/home/entries/entries_page.dart';
+import 'package:chow_down/pages/home/jobs/jobs_page.dart';
+import 'package:chow_down/pages/home/tab_item.dart';
 
 class HomePage extends StatefulWidget {
   @override

@@ -2,12 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:time_tracker_flutter_course/pages/home/job_entries/date_time_picker.dart';
-import 'package:time_tracker_flutter_course/pages/home/job_entries/format.dart';
-import 'package:time_tracker_flutter_course/core/data/models/entry.dart';
-import 'package:time_tracker_flutter_course/core/data/models/job.dart';
-import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:chow_down/pages/home/job_entries/date_time_picker.dart';
+import 'package:chow_down/pages/home/job_entries/format.dart';
+import 'package:chow_down/core/data/models/entry.dart';
+import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/services/database.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({@required this.database, @required this.job, this.entry});

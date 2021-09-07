@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/components/avatar.dart';
-import 'package:time_tracker_flutter_course/services/auth.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/avatar.dart';
+import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {

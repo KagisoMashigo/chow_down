@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/pages/home/job_entries/format.dart';
-import 'package:time_tracker_flutter_course/core/data/models/entry.dart';
-import 'package:time_tracker_flutter_course/core/data/models/job.dart';
+import 'package:chow_down/pages/home/job_entries/format.dart';
+import 'package:chow_down/core/data/models/entry.dart';
+import 'package:chow_down/core/data/models/job.dart';
 
 class EntryListItem extends StatelessWidget {
   const EntryListItem({

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_tracker_flutter_course/components/empty_content.dart';
+import 'package:chow_down/components/empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext contet, T item);
 

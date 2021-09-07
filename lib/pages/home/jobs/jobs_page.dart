@@ -2,15 +2,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/components/builders/list_items_builder.dart';
-import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/components/job_list_tile.dart';
-import 'package:time_tracker_flutter_course/core/data/models/job.dart';
-import 'package:time_tracker_flutter_course/pages/home/job_entries/job_entries_page.dart';
-import 'package:time_tracker_flutter_course/pages/home/jobs/edit_job_page.dart';
-import 'package:time_tracker_flutter_course/services/auth.dart';
-import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/builders/list_items_builder.dart';
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/components/job_list_tile.dart';
+import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/pages/home/job_entries/job_entries_page.dart';
+import 'package:chow_down/pages/home/jobs/edit_job_page.dart';
+import 'package:chow_down/services/auth.dart';
+import 'package:chow_down/services/database.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _delete(BuildContext context, Job job) async {

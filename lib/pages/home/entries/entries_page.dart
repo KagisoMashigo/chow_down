@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/pages/home/entries/entries_bloc.dart';
-import 'package:time_tracker_flutter_course/pages/home/entries/entries_list_tile.dart';
-import 'package:time_tracker_flutter_course/components/builders/list_items_builder.dart';
-import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:chow_down/pages/home/entries/entries_bloc.dart';
+import 'package:chow_down/pages/home/entries/entries_list_tile.dart';
+import 'package:chow_down/components/builders/list_items_builder.dart';
+import 'package:chow_down/services/database.dart';
 
 class EntriesPage extends StatelessWidget {
   static Widget create(BuildContext context) {

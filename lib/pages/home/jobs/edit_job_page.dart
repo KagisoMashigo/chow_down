@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:time_tracker_flutter_course/components/alert_dialogs/show_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/components/errors/show_exception_alert_dialog.dart';
-import 'package:time_tracker_flutter_course/core/data/models/job.dart';
-import 'package:time_tracker_flutter_course/services/database.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/services/database.dart';
 
 class EditJobPage extends StatefulWidget {
   const EditJobPage({Key key, @required this.database, this.job})
