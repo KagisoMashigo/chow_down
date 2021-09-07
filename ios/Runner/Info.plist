@@ -23,15 +23,15 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.839369405187-fgbcfk2olh7uaj576j8v7vi7cmht2fac</string>
-				<string>fb3917100891701241</string>
+				<string>com.googleusercontent.apps.873973766406-7incvrooh783efo0h4fkdkhfjpe2q552</string>
+				<string>fb342567164233169</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
-	<string>3917100891701241</string>
+	<string>342567164233169</string>
 	<key>FacebookDisplayName</key>
 	<string>Chow Down</string>
 	<key>LSApplicationQueriesSchemes</key>
