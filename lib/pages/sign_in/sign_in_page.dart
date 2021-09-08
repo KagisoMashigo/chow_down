@@ -78,82 +78,97 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Center(
-          child: Text('Chow Down'),
-        ),
-        elevation: 4.0,
+        brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
+        // title: Image.asset('assets/images/chow_down.png'),
+        elevation: 0.0,
       ),
       body: _buildContent(context),
-      backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(
-            height: 50.0,
-            child: _buildHeader(),
-          ),
-          SizedBox(height: 48.0),
-          SizedBox(height: 8.0),
-          SocialSignInButton(
-            assetName: 'assets/images/google-logo.png',
-            text: 'Sign in with Google',
-            textColor: Colors.black87,
-            color: Colors.white,
-            onPressed: () => isLoading ? null : _signInGoogle(context),
-          ),
-          SizedBox(height: 8.0),
-          SocialSignInButton(
-            assetName: 'assets/images/facebook-logo.png',
-            text: 'Sign in with Facebook',
-            textColor: Colors.white,
-            color: Color(0xFF334D92),
-            onPressed: () => isLoading ? null : _signInFacebook(context),
-          ),
-          SizedBox(height: 8.0),
-          SignInButton(
-            text: 'Sign in with email',
-            textColor: Colors.white,
-            color: Colors.teal[700],
-            onPressed: () => isLoading ? null : _signInEmail(context),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'or',
-            style: TextStyle(fontSize: 14.0, color: Colors.black87),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 8.0),
-          SignInButton(
-            text: 'Go anonymous',
-            textColor: Colors.black,
-            color: Colors.lime[300],
-            onPressed: () => isLoading ? null : _signInAnon(context),
-          ),
-        ],
-      ),
-    );
-  }
-
+  /// Builds the header
   Widget _buildHeader() {
     if (isLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
     }
-    return Text(
-      'Sign In',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 32.0,
-        fontWeight: FontWeight.w600,
+
+    return Container(
+      alignment: Alignment.center,
+      child: Image.asset(
+        // TODO: Can make a better logo
+        'assets/images/chow_down.png',
+        height: 150,
+        width: 150,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  /// Builds the body
+  Widget _buildContent(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/home_img.jpg'),
+          fit: BoxFit.fill,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: 150.0,
+              child: _buildHeader(),
+            ),
+            // TODO: make sizes responsive
+            SizedBox(height: 48.0),
+            SizedBox(height: 8.0),
+            SocialSignInButton(
+              assetName: 'assets/images/google-logo.png',
+              text: 'Sign in with Google',
+              textColor: Colors.black87,
+              color: Colors.white,
+              onPressed: () => isLoading ? null : _signInGoogle(context),
+            ),
+            SizedBox(height: 8.0),
+            SocialSignInButton(
+              assetName: 'assets/images/facebook-logo.png',
+              text: 'Sign in with Facebook',
+              // TODO: create theme file
+              textColor: Colors.white,
+              color: Color(0xFF334D92),
+              onPressed: () => isLoading ? null : _signInFacebook(context),
+            ),
+            SizedBox(height: 8.0),
+            SignInButton(
+              text: 'Sign in with email',
+              textColor: Colors.white,
+              color: Colors.teal[700],
+              onPressed: () => isLoading ? null : _signInEmail(context),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              'or',
+              style: TextStyle(fontSize: 24.0, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 8.0),
+            SignInButton(
+              text: 'Go anonymous',
+              textColor: Colors.black,
+              color: Colors.lime[300],
+              onPressed: () => isLoading ? null : _signInAnon(context),
+            ),
+          ],
+        ),
       ),
     );
   }

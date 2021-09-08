@@ -1,10 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/services/auth.dart';
 
 Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -19,7 +22,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Time Tracker',
         theme: ThemeData(
-          primarySwatch: Colors.indigo,
+          appBarTheme: AppBarTheme(brightness: Brightness.dark),
+          primarySwatch: Colors.blueGrey,
+          fontFamily: 'Lato',
         ),
         home: LandingPage(),
       ),
