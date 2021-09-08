@@ -59,6 +59,32 @@ flutter:
   assets:
    - assets/images/google-logo.png
    - assets/images/facebook-logo.png
+   - assets/images/chow_down.png
+   - assets/images/chow_down2.png
+   - assets/images/home_img.jpg
+   - assets/images/spice_home.jpg
+   - assets/images/vege_home.jpg
+   - assets/images/bowl_home.jpg
+   - assets/images/fork_home.jpg
+   - assets/images/fire_home.jpg
+   - assets/images/mush_home.jpg
+   - assets/images/board_home.jpg
+
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/Lato-Bold.ttf
+          # style: italic
+    # - family: RobotoMono
+    #   fonts:
+    #     - asset: fonts/RobotoMono-Regular.ttf
+    #     - asset: fonts/RobotoMono-Bold.ttf
+    #       weight: 700
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
