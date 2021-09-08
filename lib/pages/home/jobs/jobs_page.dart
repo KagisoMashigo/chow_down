@@ -28,7 +28,7 @@ class JobsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jobs'),
+        title: Text('Recipes'),
         actions: <Widget>[
           IconButton(
             onPressed: () => EditJobPage.show(context,

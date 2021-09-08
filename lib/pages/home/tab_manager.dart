@@ -16,16 +16,16 @@ class _TabManagerState extends State<TabManager> {
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
-    TabItem.jobs: GlobalKey<NavigatorState>(),
-    TabItem.entries: GlobalKey<NavigatorState>(),
+    TabItem.recipes: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
     TabItem.account: GlobalKey<NavigatorState>()
   };
 
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.home: (_) => HomePage(),
-      TabItem.jobs: (_) => JobsPage(),
-      TabItem.entries: (context) => EntriesPage.create(context),
+      TabItem.recipes: (_) => JobsPage(),
+      TabItem.search: (context) => EntriesPage.create(context),
       TabItem.account: (_) => AccountPage()
     };
   }

@@ -18,7 +18,7 @@ class EntriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Entries'),
+        title: Text('Search'),
         elevation: 2.0,
       ),
       body: _buildContents(context),

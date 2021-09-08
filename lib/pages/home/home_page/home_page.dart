@@ -29,14 +29,15 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => EditJobPage.show(context,
-                database: Provider.of<Database>(context, listen: false)),
-            icon: Icon(Icons.add),
-            color: Colors.white,
-          ),
-        ],
+        // TODO: check if needed later
+        // actions: <Widget>[
+        //   IconButton(
+        //     onPressed: () => EditJobPage.show(context,
+        //         database: Provider.of<Database>(context, listen: false)),
+        //     icon: Icon(Icons.add),
+        //     color: Colors.white,
+        //   ),
+        // ],
       ),
       body: _buildContents(context),
     );
