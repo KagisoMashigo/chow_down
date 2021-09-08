@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
 
-class SignInButton extends CustomRaisedButton {
+class SignInButton extends CustomElevatedButton {
   SignInButton({
     @required String text,
     Color color,

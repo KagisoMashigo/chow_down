@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
 
-class SocialSignInButton extends CustomRaisedButton {
+class SocialSignInButton extends CustomElevatedButton {
   SocialSignInButton({
     @required String assetName,
     @required String text,

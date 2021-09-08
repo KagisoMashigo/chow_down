@@ -37,14 +37,15 @@ class ListItemsBuilder<T> extends StatelessWidget {
   }
 
   /// Will not add separation lines at start and end
-  Widget _buildList(List<T> items) {
-    // A ListView factory contructor that can return a large number of items
-    return ListView.separated(
-      separatorBuilder: (context, index) => Divider(height: 0.5),
-      itemBuilder: (context, index) => itemBuilder(context, items[index]),
-      itemCount: items.length,
-    );
-  }
+  /// TODO: decide on which to use
+  // Widget _buildList(List<T> items) {
+  //   // A ListView factory contructor that can return a large number of items
+  //   return ListView.separated(
+  //     separatorBuilder: (context, index) => Divider(height: 0.5),
+  //     itemBuilder: (context, index) => itemBuilder(context, items[index]),
+  //     itemCount: items.length,
+  //   );
+  // }
 
   /// Will add separation lines at start and end
   Widget _buildListSeparatedAtEnds(List<T> items) {
