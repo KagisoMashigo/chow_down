@@ -151,7 +151,7 @@ class SignInPage extends StatelessWidget {
             SignInButton(
               text: 'Sign in with email',
               textColor: Colors.white,
-              color: Colors.teal[700],
+              color: Colors.green[900],
               onPressed: () => isLoading ? null : _signInEmail(context),
             ),
             SizedBox(height: 8.0),
@@ -164,7 +164,7 @@ class SignInPage extends StatelessWidget {
             SignInButton(
               text: 'Go anonymous',
               textColor: Colors.black,
-              color: Colors.lime[300],
+              color: Colors.red[900],
               onPressed: () => isLoading ? null : _signInAnon(context),
             ),
           ],
