@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return Provider<AuthBase>(
       create: (context) => Auth(),
       child: MaterialApp(
-        title: 'Time Tracker',
+        title: 'Chow Down',
         theme: ThemeData(
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
           primarySwatch: Colors.blueGrey,

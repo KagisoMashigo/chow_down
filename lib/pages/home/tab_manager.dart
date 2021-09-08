@@ -1,3 +1,4 @@
+import 'package:chow_down/pages/home/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/pages/home/account/account_page.dart';
 import 'package:chow_down/pages/home/cupertino_home_scaffold.dart';
@@ -5,15 +6,16 @@ import 'package:chow_down/pages/home/entries/entries_page.dart';
 import 'package:chow_down/pages/home/jobs/jobs_page.dart';
 import 'package:chow_down/pages/home/tab_item.dart';
 
-class HomePage extends StatefulWidget {
+class TabManager extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _TabManagerState createState() => _TabManagerState();
 }
 
-class _HomePageState extends State<HomePage> {
-  TabItem _currentTab = TabItem.jobs;
+class _TabManagerState extends State<TabManager> {
+  TabItem _currentTab = TabItem.home;
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
+    TabItem.home: GlobalKey<NavigatorState>(),
     TabItem.jobs: GlobalKey<NavigatorState>(),
     TabItem.entries: GlobalKey<NavigatorState>(),
     TabItem.account: GlobalKey<NavigatorState>()
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
+      TabItem.home: (_) => HomePage(),
       TabItem.jobs: (_) => JobsPage(),
       TabItem.entries: (context) => EntriesPage.create(context),
       TabItem.account: (_) => AccountPage()
@@ -30,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   void _selectTab(TabItem tabItem) {
     // This allows you to pop back to (the home) of the currently selected tab
     if (tabItem == _currentTab) {
+      // TODO: revview now that there os a new tab
       navigatorKeys[tabItem].currentState.popUntil(
             (route) => route.isFirst,
           );
