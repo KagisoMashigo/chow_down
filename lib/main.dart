@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Chow Down',
         theme: ThemeData(
           appBarTheme: AppBarTheme(brightness: Brightness.dark),
-          primarySwatch: Colors.blueGrey,
+          primarySwatch: Colors.deepPurple,
           fontFamily: 'Lato',
         ),
         home: LandingPage(),
