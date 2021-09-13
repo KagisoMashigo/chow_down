@@ -110,7 +110,7 @@ class _EmailSignInFormChangeNotifierState
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
-        hintText: 'test@test.com',
+        hintText: 'chow@down.com',
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),
