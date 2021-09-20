@@ -91,7 +91,7 @@ class _EditJobPageState extends State<EditJobPage> {
     } on FirebaseException catch (e) {
       showExceptionAlertDialog(
         context,
-        title: "'Operation Failed",
+        title: 'Operation Failed',
         exception: e,
       );
     } finally {
