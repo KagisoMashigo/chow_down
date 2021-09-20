@@ -18,6 +18,8 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   bool isLoading;
   bool submitted;
   EmailSignInFormType formType;
+  bool passwordForgotten = true;
+  bool alertText = false;
 
   Future<void> submit() async {
     updateWith(submitted: true, isLoading: true);
@@ -27,6 +29,20 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
       } else {
         await auth.createUserWithEmailAndPassword(this.email, this.password);
       }
+    } catch (e) {
+      updateWith(isLoading: false);
+      rethrow;
+    }
+  }
+
+  Future<String> resetPassword() async {
+    updateWith(submitted: true, isLoading: true);
+    try {
+      // print('${this.email} is');
+      await auth.sendPasswordResetEmail(this.email);
+      alertText = true;
+      // print('reset');
+      return this.email;
     } catch (e) {
       updateWith(isLoading: false);
       rethrow;
@@ -51,6 +67,10 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
         !isLoading;
   }
 
+  bool get canReset {
+    return emailValidator.isValid(email) && !isLoading;
+  }
+
   String get passwordErrorText {
     bool showErrorText = submitted && !passwordValidator.isValid(password);
     return showErrorText ? invalidPasswordErrorText : null;
@@ -62,9 +82,13 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   }
 
   void toggleFormType() {
-    final formType = this.formType == EmailSignInFormType.signIn
-        ? EmailSignInFormType.register
-        : EmailSignInFormType.signIn;
+    if (this.formType == EmailSignInFormType.signIn) {
+      formType = EmailSignInFormType.register;
+      passwordForgotten = false;
+    } else {
+      formType = EmailSignInFormType.signIn;
+      passwordForgotten = true;
+    }
     updateWith(
       email: '',
       password: '',

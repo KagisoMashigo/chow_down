@@ -10,28 +10,28 @@ abstract class AuthBase {
   Future<User> signInWithFacebook();
   Future<User> signInWithEmailAndPassword(String email, String password);
   Future<User> createUserWithEmailAndPassword(String email, String password);
-
+  Future<void> sendPasswordResetEmail(String email);
   Future<void> signOut();
 }
 
 class Auth implements AuthBase {
-  final _firebaseauth = FirebaseAuth.instance;
+  final _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  Stream<User> authStateChanges() => _firebaseauth.authStateChanges();
+  Stream<User> authStateChanges() => _firebaseAuth.authStateChanges();
 
   @override
-  User get currentUser => _firebaseauth.currentUser;
+  User get currentUser => _firebaseAuth.currentUser;
 
   @override
   Future<User> signInAnonymously() async {
-    final userCredentials = await _firebaseauth.signInAnonymously();
+    final userCredentials = await _firebaseAuth.signInAnonymously();
     return userCredentials.user;
   }
 
   @override
   Future<User> signInWithEmailAndPassword(String email, String password) async {
-    final userCredentials = await _firebaseauth.signInWithCredential(
+    final userCredentials = await _firebaseAuth.signInWithCredential(
         EmailAuthProvider.credential(email: email, password: password));
     return userCredentials.user;
   }
@@ -39,10 +39,14 @@ class Auth implements AuthBase {
   @override
   Future<User> createUserWithEmailAndPassword(
       String email, String password) async {
-    final userCredentials = await _firebaseauth.createUserWithEmailAndPassword(
+    final userCredentials = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     return userCredentials.user;
   }
+
+  // Reset Password
+  Future<void> sendPasswordResetEmail(String email) async =>
+      _firebaseAuth.sendPasswordResetEmail(email: email);
 
   @override
   Future<User> signInWithGoogle() async {
@@ -51,7 +55,7 @@ class Auth implements AuthBase {
     if (googleUser != null) {
       final googleAuth = await googleUser.authentication;
       if (googleAuth.idToken != null) {
-        final userCredential = await _firebaseauth
+        final userCredential = await _firebaseAuth
             .signInWithCredential(GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
           accessToken: googleAuth.accessToken,
@@ -81,7 +85,7 @@ class Auth implements AuthBase {
     switch (response.status) {
       case FacebookLoginStatus.success:
         final accessToken = response.accessToken;
-        final userCredential = await _firebaseauth.signInWithCredential(
+        final userCredential = await _firebaseAuth.signInWithCredential(
           FacebookAuthProvider.credential(accessToken.token),
         );
         return userCredential.user;
@@ -106,6 +110,6 @@ class Auth implements AuthBase {
     await googleSignIn.signOut();
     final facebookLogin = FacebookLogin();
     await facebookLogin.logOut();
-    await _firebaseauth.signOut();
+    await _firebaseAuth.signOut();
   }
 }
