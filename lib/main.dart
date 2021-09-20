@@ -6,8 +6,6 @@ import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/services/auth.dart';
 
 Future<void> main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -22,7 +20,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Chow Down',
         theme: ThemeData(
-          appBarTheme: AppBarTheme(brightness: Brightness.dark),
+          appBarTheme:
+              AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
           primarySwatch: Colors.deepPurple,
           fontFamily: 'Lato',
         ),
