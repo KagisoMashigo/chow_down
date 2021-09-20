@@ -10,7 +10,6 @@
 .history
 .svn/
 .dart_tool/
-.env/
 
 # IntelliJ related
 *.iml
@@ -20,6 +19,7 @@
 
 # Visual Studio Code related
 .vscode/
+.env
 
 # Flutter repo-specific
 /bin/cache/
