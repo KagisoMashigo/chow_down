@@ -8,11 +8,11 @@ import 'package:chow_down/services/auth.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(ChowDown());
 }
 
 // Main app call
-class MyApp extends StatelessWidget {
+class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider<AuthBase>(
