@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
-import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EditJobPage extends StatefulWidget {

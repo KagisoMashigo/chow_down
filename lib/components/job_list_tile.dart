@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/models/firestore/job.dart';
 
 class JobsListTile extends StatelessWidget {
   const JobsListTile({Key key, @required this.job, this.onTap})

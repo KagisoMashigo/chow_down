@@ -4,8 +4,8 @@ import 'package:chow_down/pages/home/entries/daily_jobs_details.dart';
 import 'package:chow_down/pages/home/entries/entries_list_tile.dart';
 import 'package:chow_down/pages/home/entries/entry_job.dart';
 import 'package:chow_down/pages/home/job_entries/format.dart';
-import 'package:chow_down/core/data/models/entry.dart';
-import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/models/firestore/entry.dart';
+import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EntriesBloc {

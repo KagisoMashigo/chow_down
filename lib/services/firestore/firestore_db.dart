@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
-import 'package:chow_down/core/data/models/entry.dart';
-import 'package:chow_down/core/data/models/job.dart';
+import 'package:chow_down/models/firestore/entry.dart';
+import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/services/firestore/firestore_api_path.dart';
 import 'package:chow_down/services/firestore/firestore_service.dart';
 

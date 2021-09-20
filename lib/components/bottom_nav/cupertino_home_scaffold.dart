@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:chow_down/pages/home/tab_item.dart';
+import 'package:chow_down/components/bottom_nav/tab_item.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
   const CupertinoHomeScaffold({

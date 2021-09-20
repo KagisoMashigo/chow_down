@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:chow_down/pages/home/tab_manager.dart';
+import 'package:chow_down/components/bottom_nav/tab_manager.dart';
 import 'package:chow_down/pages/sign_in/sign_in_page.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';

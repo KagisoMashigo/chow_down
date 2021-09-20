@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
-import 'package:chow_down/pages/sign_in/email_sign_in_model.dart';
+import 'package:chow_down/models/page/email_sign_in_model.dart';
 import 'package:chow_down/services/auth.dart';
 
 class EmailSignInBloc {

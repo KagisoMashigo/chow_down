@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chow_down/pages/sign_in/email_sign_in_model.dart';
+import 'package:chow_down/models/page/email_sign_in_model.dart';
 import 'package:chow_down/pages/sign_in/validators.dart';
 import 'package:chow_down/services/auth.dart';
 

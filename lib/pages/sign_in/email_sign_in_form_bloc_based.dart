@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_bloc.dart';
-import 'package:chow_down/pages/sign_in/email_sign_in_model.dart';
+import 'package:chow_down/models/page/email_sign_in_model.dart';
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/services/auth.dart';
