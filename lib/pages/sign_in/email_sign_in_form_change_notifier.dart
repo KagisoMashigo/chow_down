@@ -1,3 +1,4 @@
+import 'package:chow_down/pages/forgot_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,6 @@ class _EmailSignInFormChangeNotifierState
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
-
   EmailSignInChangeModel get model => widget.model;
 
   @override
@@ -85,6 +85,9 @@ class _EmailSignInFormChangeNotifierState
         child: Text(model.secondaryButtonText),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
+      model.passwordForgotten
+          ? _showForgotPasswordButton(model.passwordForgotten)
+          : Container()
     ];
   }
 
@@ -102,6 +105,22 @@ class _EmailSignInFormChangeNotifierState
       onChanged: model.updatePassword,
       onEditingComplete: _submit,
     );
+  }
+
+  Visibility _showForgotPasswordButton(bool visible) {
+    return Visibility(
+      child: TextButton(
+          child: Text('Forgot your password?'),
+          onPressed: () => _forgotPassword(context)),
+      visible: visible,
+    );
+  }
+
+  void _forgotPassword(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => ForgotPasswordPage.create(context),
+      fullscreenDialog: true,
+    ));
   }
 
   TextField _buildEmailTextField() {
