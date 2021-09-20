@@ -12,7 +12,7 @@ import 'package:chow_down/components/builders/list_items_builder.dart';
 import 'package:chow_down/core/data/models/entry.dart';
 import 'package:chow_down/core/data/models/job.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
-import 'package:chow_down/services/database.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class JobEntriesPage extends StatelessWidget {
   const JobEntriesPage({@required this.database, @required this.job});

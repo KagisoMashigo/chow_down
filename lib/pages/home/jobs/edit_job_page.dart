@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/core/data/models/job.dart';
-import 'package:chow_down/services/database.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EditJobPage extends StatefulWidget {
   const EditJobPage({Key key, @required this.database, this.job})

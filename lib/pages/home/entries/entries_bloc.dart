@@ -6,7 +6,7 @@ import 'package:chow_down/pages/home/entries/entry_job.dart';
 import 'package:chow_down/pages/home/job_entries/format.dart';
 import 'package:chow_down/core/data/models/entry.dart';
 import 'package:chow_down/core/data/models/job.dart';
-import 'package:chow_down/services/database.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EntriesBloc {
   EntriesBloc({@required this.database});

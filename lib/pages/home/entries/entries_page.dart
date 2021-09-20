@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:chow_down/pages/home/entries/entries_bloc.dart';
 import 'package:chow_down/pages/home/entries/entries_list_tile.dart';
 import 'package:chow_down/components/builders/list_items_builder.dart';
-import 'package:chow_down/services/database.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EntriesPage extends StatelessWidget {
   static Widget create(BuildContext context) {

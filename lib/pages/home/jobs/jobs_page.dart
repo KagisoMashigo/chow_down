@@ -8,7 +8,7 @@ import 'package:chow_down/components/job_list_tile.dart';
 import 'package:chow_down/core/data/models/job.dart';
 import 'package:chow_down/pages/home/job_entries/job_entries_page.dart';
 import 'package:chow_down/pages/home/jobs/edit_job_page.dart';
-import 'package:chow_down/services/database.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class JobsPage extends StatelessWidget {
   Future<void> _delete(BuildContext context, Job job) async {
