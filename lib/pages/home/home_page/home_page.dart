@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     } on FirebaseException catch (e) {
       showExceptionAlertDialog(
         context,
-        title: "Delete Operation Failed",
+        title: 'Delete Operation Failed',
         exception: e,
       );
     }

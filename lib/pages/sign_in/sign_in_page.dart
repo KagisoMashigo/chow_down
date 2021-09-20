@@ -80,9 +80,8 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        brightness: Brightness.light,
+        // brightness: Brightness.light,
         backgroundColor: Colors.transparent,
-        // title: Image.asset('assets/images/chow_down.png'),
         elevation: 0.0,
       ),
       body: _buildContent(context),
