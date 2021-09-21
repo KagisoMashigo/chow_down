@@ -1,4 +1,4 @@
-import 'package:chow_down/pages/home/home_page/home_page.dart';
+import 'package:chow_down/pages/home/Body.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/pages/account/account_page.dart';
 import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
@@ -33,7 +33,7 @@ class _TabManagerState extends State<TabManager> {
   void _selectTab(TabItem tabItem) {
     // This allows you to pop back to (the home) of the currently selected tab
     if (tabItem == _currentTab) {
-      // TODO: revview now that there os a new tab
+      // TODO: review now that there is a new tab
       navigatorKeys[tabItem].currentState.popUntil(
             (route) => route.isFirst,
           );
