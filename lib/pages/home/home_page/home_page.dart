@@ -6,7 +6,7 @@ import 'package:chow_down/components/builders/list_items_builder.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/components/job_list_tile.dart';
 import 'package:chow_down/models/firestore/job.dart';
-import 'package:chow_down/pages/home/job_entries/job_entries_page.dart';
+import 'package:chow_down/pages/jobs/job_entries/job_entries_page.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class HomePage extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:chow_down/pages/home/entries/daily_jobs_details.dart';
-import 'package:chow_down/pages/home/entries/entries_list_tile.dart';
-import 'package:chow_down/pages/home/entries/entry_job.dart';
-import 'package:chow_down/pages/home/job_entries/format.dart';
+import 'package:chow_down/pages/entries/daily_jobs_details.dart';
+import 'package:chow_down/pages/entries/entries_list_tile.dart';
+import 'package:chow_down/pages/entries/entry_job.dart';
+import 'package:chow_down/pages/jobs/job_entries/format.dart';
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
