@@ -51,7 +51,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('Forgot Password'),
+        title: Text(
+          'Oopsie',
+          style: TextStyle(fontSize: 25),
+        ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
@@ -59,8 +62,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         height: 900,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/vege_home.jpg'),
-            fit: BoxFit.fill,
+            image: NetworkImage(
+                'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzF8fGZvb2R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+            fit: BoxFit.cover,
           ),
         ),
         child: Padding(
@@ -72,6 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: [
                 SizedBox(height: 120.0),
                 Card(
+                  // color: Colors.transparent,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -180,6 +185,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   TextField _buildEmailTextField() {
     return TextField(
+      // TODO: style the form and card
+      // style: TextStyle(color: Colors.white),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(

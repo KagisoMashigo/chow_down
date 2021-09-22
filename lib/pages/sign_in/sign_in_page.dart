@@ -113,8 +113,9 @@ class SignInPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/home_img.jpg'),
-          fit: BoxFit.fill,
+          image: NetworkImage(
+              'https://images.unsplash.com/photo-1590005024862-6b67679a29fb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjk2fHxmb29kfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+          fit: BoxFit.cover,
         ),
       ),
       child: Padding(

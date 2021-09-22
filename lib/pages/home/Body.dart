@@ -44,22 +44,26 @@ class HomePage extends StatelessWidget {
 
   Widget _buildContents(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    return StreamBuilder<List<Job>>(
-      stream: database.jobsStream(),
-      builder: (context, snapshot) {
-        return ListItemsBuilder<Job>(
-            snapshot: snapshot,
-            itemBuilder: (context, job) => Dismissible(
-                  key: Key('job-${job.id}'),
-                  background: Container(color: Colors.red),
-                  onDismissed: (direction) => _delete(context, job),
-                  direction: DismissDirection.endToStart,
-                  child: JobsListTile(
-                    job: job,
-                    onTap: () => JobEntriesPage.show(context, job),
-                  ),
-                ));
-      },
+    return RefreshIndicator(
+      // Will refresh data
+      onRefresh: () {},
+      child: StreamBuilder<List<Job>>(
+        stream: database.jobsStream(),
+        builder: (context, snapshot) {
+          return ListItemsBuilder<Job>(
+              snapshot: snapshot,
+              itemBuilder: (context, job) => Dismissible(
+                    key: Key('job-${job.id}'),
+                    background: Container(color: Colors.red),
+                    onDismissed: (direction) => _delete(context, job),
+                    direction: DismissDirection.endToStart,
+                    child: JobsListTile(
+                      job: job,
+                      onTap: () => JobEntriesPage.show(context, job),
+                    ),
+                  ));
+        },
+      ),
     );
   }
 }

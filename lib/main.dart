@@ -12,6 +12,7 @@ Future<void> main() async {
 }
 
 // Main app call
+// TODO: Consider using cachedImage for network images
 class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
