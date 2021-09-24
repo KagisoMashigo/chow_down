@@ -8,9 +8,9 @@ import 'package:chow_down/core/data/models/spoonacular_models.dart/similar_recip
 import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
-class RecipeInformation {
+class RecipeInformationService {
   // TODO: use dotenv
-  final String apiKey = 'ApiKey.keys';
+  final String apiKey = '8888e278b728436ca3c758230ddf3e16';
 
   Future<Recipe> getRecipeInformationFood(String id) async {
     final url =
