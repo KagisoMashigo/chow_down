@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:chow_down/pages/recipes/bloc/recipe_page_state.dart';
-import 'package:chow_down/services/api/spoonacular_api.dart';
+import 'package:chow_down/services/spoonacular_api/recipe_endpoints.dart';
 
 class RecipeCubit extends Cubit<RecipeState> {
   RecipeCubit(this._recipeInformationService)
