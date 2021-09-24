@@ -26,6 +26,7 @@ class ChowDown extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
           fontFamily: 'Lato',
         ),
+        // TODO: make sure logged in goes to home
         home: LandingPage(),
       ),
     );

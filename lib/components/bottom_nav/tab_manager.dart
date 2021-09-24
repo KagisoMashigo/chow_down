@@ -1,4 +1,5 @@
 import 'package:chow_down/pages/home/Body.dart';
+import 'package:chow_down/pages/recipes/recipes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/pages/account/account_page.dart';
 import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
@@ -24,7 +25,7 @@ class _TabManagerState extends State<TabManager> {
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.home: (_) => HomePage(),
-      TabItem.recipes: (_) => JobsPage(),
+      TabItem.recipes: (_) => RecipePage(),
       TabItem.search: (context) => EntriesPage.create(context),
       TabItem.account: (_) => AccountPage()
     };
