@@ -1,10 +1,9 @@
 import 'package:chow_down/pages/home/Body.dart';
 import 'package:chow_down/pages/recipes/recipes_page.dart';
+import 'package:chow_down/pages/search/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/pages/account/account_page.dart';
 import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
-import 'package:chow_down/pages/entries/entries_page.dart';
-import 'package:chow_down/pages/jobs/jobs_page.dart';
 import 'package:chow_down/components/bottom_nav/tab_item.dart';
 
 class TabManager extends StatefulWidget {
@@ -26,7 +25,7 @@ class _TabManagerState extends State<TabManager> {
     return {
       TabItem.home: (_) => HomePage(),
       TabItem.recipes: (_) => RecipePage(),
-      TabItem.search: (context) => EntriesPage.create(context),
+      TabItem.search: (context) => SearchPage(),
       TabItem.account: (_) => AccountPage()
     };
   }
