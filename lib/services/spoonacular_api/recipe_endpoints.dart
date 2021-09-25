@@ -9,6 +9,8 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
 class RecipeInformationService {
+// TODO: NB endpoints = extract from website /
+
   // TODO: use dotenv
   final String apiKey = '8888e278b728436ca3c758230ddf3e16';
 
@@ -90,5 +92,22 @@ class RecipeInformationService {
       }
       throw Failure(code: response.statusCode, message: msg);
     }
+  }
+
+  Future<Recipe> getRecipe() async {
+    List<String> ingredients = ['bananas', 'apples', 'cheese', 'crackers'];
+
+    String requestString =
+        "https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true";
+
+    final ingredientsString =
+        ingredients.map((ingredient) => ingredient + '%2C').toString();
+
+    // requestString = requestString + ingredientsString;
+
+    final response = await Dio().get(requestString);
+    final body = Recipe.fromJson(response.data);
+    print("Data :" + body.toString());
+    print("Response: " + response.statusCode.toString());
   }
 }
