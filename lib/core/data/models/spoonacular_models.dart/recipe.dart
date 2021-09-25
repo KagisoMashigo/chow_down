@@ -99,9 +99,9 @@ class Recipe {
       imageType: json['imageType'],
       summary: json['summary'],
       cuisines: json['cuisines'],
-      extendedIngredients: (json['extendedIngredients'] as List)
-          .map((data) => ExtendedIngredients.fromJson(data))
-          .toList(),
+      // extendedIngredients: (json['extendedIngredients'] as List)
+      //     .map((data) => ExtendedIngredients.fromJson(data))
+      //     .toList(),
       dishTypes: json['dishTypes'],
       diets: json['diets'],
       occasions: json['occasions'],
