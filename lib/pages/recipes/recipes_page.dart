@@ -15,14 +15,15 @@ class _RecipePageState extends State<RecipePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    service = RecipeInformationService().getRecipe();
+    service =
+        RecipeInformationService().getRecipe().then((value) => recipe = value);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recipes'),
+        title: Text('${recipe.toString()}'),
       ),
       body: Column(
         children: [
