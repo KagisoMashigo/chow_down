@@ -1,4 +1,6 @@
 import 'package:chow_down/components/buttons/form_submit_button.dart';
+import 'package:chow_down/components/cards/recipe_card.dart';
+import 'package:chow_down/core/data/models/spoonacular_models.dart/recipe.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -14,19 +16,47 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 150),
-          _buildEmailTextField(),
-          SizedBox(height: 8.0),
-          FormSubmitButton(
-            text: 'Search',
-            onPressed: () {},
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            SizedBox(height: 150),
+            _buildEmailTextField(),
+            SizedBox(height: 8.0),
+            FormSubmitButton(
+              text: 'Search',
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
     );
   }
+
+//TODO: create recipeCard model
+  Widget _createCard(Recipe recipe) {
+    final title = recipe.title;
+    final image = recipe.image;
+    final id = recipe.id;
+    final imageType = recipe.imageType;
+
+    return RecipeCard(
+      title: title,
+      imageUrl: image,
+      id: id,
+      imageType: imageType,
+    );
+  }
+
+  //   List<Widget> _renderEventList() {
+  //   final filteredEvents = events
+  //       .where((e) => e.type != MotionType.stopped)
+  //       .toSet()
+  //       .map<Widget>((eventData) => _createCard(eventData))
+  //       .toList();
+
+  //   return filteredEvents;
+  // }
 
   TextField _buildEmailTextField() {
     return TextField(
@@ -40,6 +70,17 @@ class _SearchPageState extends State<SearchPage> {
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
       // onChanged: model.updateEmail,
+    );
+  }
+}
+
+class Search extends StatelessWidget {
+  const Search({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(),
     );
   }
 }
