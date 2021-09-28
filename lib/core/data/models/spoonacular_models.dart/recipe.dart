@@ -1,5 +1,3 @@
-import 'package:chow_down/core/data/models/spoonacular_models.dart/extended_ingredients.dart';
-
 class Recipe {
   final bool vegetarian;
   final bool vegan;
@@ -20,7 +18,6 @@ class Recipe {
   final String sourceName;
   final double pricePerServing;
   final int id;
-  final List<ExtendedIngredients> extendedIngredients;
   final String title;
   final int readyInMinutes;
   final int servings;
@@ -32,7 +29,7 @@ class Recipe {
   final List dishTypes;
   final List diets;
   final List occasions;
-  final String instructions;
+  final String analyzedInstructions;
   final String spoonacularSourceUrl;
 
   Recipe(
@@ -52,7 +49,6 @@ class Recipe {
       this.healthScore,
       this.creditsText,
       this.license,
-      this.extendedIngredients,
       this.sourceName,
       this.pricePerServing,
       this.id,
@@ -67,46 +63,43 @@ class Recipe {
       this.dishTypes,
       this.diets,
       this.occasions,
-      this.instructions,
+      this.analyzedInstructions,
       this.spoonacularSourceUrl});
 
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return Recipe(
-      vegetarian: json['vegetarian'],
-      vegan: json['vegan'],
-      glutenFree: json['glutenFree'],
-      dairyFree: json['dairyFree'],
-      veryHealthy: json['veryHealthy'],
-      cheap: json['cheap'],
-      veryPopular: json['veryPopular'],
-      sustainable: json['sustainable'],
-      weightWatcherSmartPoints: json['weightWatcherSmartPoints'],
-      gaps: json['gaps'],
-      lowFodmap: json['lowFodmap'],
-      aggregateLikes: json['aggregateLikes'],
-      spoonacularScore: json['spoonacularScore'],
-      healthScore: json['healthScore'],
-      creditsText: json['creditsText'],
-      license: json['license'],
-      sourceName: json['sourceName'],
-      pricePerServing: json['pricePerServing'],
+      // vegetarian: json['vegetarian'],
+      // vegan: json['vegan'],
+      // glutenFree: json['glutenFree'],
+      // dairyFree: json['dairyFree'],
+      // veryHealthy: json['veryHealthy'],
+      // cheap: json['cheap'],
+      // veryPopular: json['veryPopular'],
+      // sustainable: json['sustainable'],
+      // weightWatcherSmartPoints: json['weightWatcherSmartPoints'],
+      // gaps: json['gaps'],
+      // lowFodmap: json['lowFodmap'],
+      // aggregateLikes: json['aggregateLikes'],
+      // spoonacularScore: json['spoonacularScore'],
+      // healthScore: json['healthScore'],
+      // creditsText: json['creditsText'],
+      // license: json['license'],
+      // sourceName: json['sourceName'],
+      // pricePerServing: json['pricePerServing'],
+      // readyInMinutes: json['readyInMinutes'],
+      // servings: json['servings'],
+      // sourceUrl: json['sourceUrl'],
       id: json['id'],
       title: json['title'],
-      readyInMinutes: json['readyInMinutes'],
-      servings: json['servings'],
-      sourceUrl: json['sourceUrl'],
       image: json['image'],
       imageType: json['imageType'],
-      summary: json['summary'],
-      cuisines: json['cuisines'],
-      // extendedIngredients: (json['extendedIngredients'] as List)
-      //     .map((data) => ExtendedIngredients.fromJson(data))
-      //     .toList(),
-      dishTypes: json['dishTypes'],
-      diets: json['diets'],
-      occasions: json['occasions'],
-      instructions: json['instructions'],
-      spoonacularSourceUrl: json['spoonacularSourceUrl'],
+      // summary: json['summary'],
+      // cuisines: json['cuisines'],
+      // dishTypes: json['dishTypes'],
+      // diets: json['diets'],
+      // occasions: json['occasions'],
+      // analyzedInstructions: json['analyzedInstructions'],
+      // spoonacularSourceUrl: json['spoonacularSourceUrl'],
     );
   }
 }
