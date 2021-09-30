@@ -1,35 +1,48 @@
-import 'package:chow_down/core/data/models/spoonacular_models.dart/recipe.dart';
-import 'package:chow_down/services/spoonacular_api/recipe_endpoints.dart';
+import 'package:chow_down/providers/recipe_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecipePage extends StatefulWidget {
   @override
   _RecipePageState createState() => _RecipePageState();
+  // TODO: consider passing in uid I guess?
 }
 
 class _RecipePageState extends State<RecipePage> {
-  Future<Recipe> service;
-  Recipe recipe;
+  // move to provider
+  RecipeProvider _provider;
+  // Recipe recipe;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    service =
-        RecipeInformationService().getRecipe().then((value) => recipe = value);
+    _provider = Provider.of<RecipeProvider>(context, listen: false);
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Provider<RecipeProvider>(
+  //     create: (_) => RecipeProvider(),
+  //     builder: (context, provider, _) {
+  //       return Column(
+  //         children: [
+  //           Text('Hey'),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${recipe.toString()}'),
-      ),
-      body: Column(
-        children: [
-          Container(),
-        ],
-      ),
+    return Consumer<RecipeProvider>(
+      builder: (context, provider, _) {
+        return Column(
+          children: [
+            Text('Hey'),
+          ],
+        );
+      },
     );
   }
 }
