@@ -1,48 +1,25 @@
-// /// all providers being used in the application
-// final providers = <SingleChildWidget>[
-//   ..._authProviders,
-//   ..._functionalityProviders,
-//   Provider<GoogleAnalytics>(
-//     create: (_) => GoogleAnalytics(analytics),
-//   ),
-// ];
+import 'package:chow_down/providers/recipe_provider.dart';
+import 'package:chow_down/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
-// /// All providers being used through user management, sign in and sign out
-// final _authProviders = <SingleChildWidget>[
-//   ChangeNotifierProvider<SignInProvider>(
-//     create: (_) => SignInProvider(),
-//   ),
-//   ChangeNotifierProvider<ResetPasswordProvider>(
-//     create: (_) => ResetPasswordProvider(),
-//   ),
-//   ChangeNotifierProvider<AuthProvider>(
-//     create: (_) => AuthProvider(),
-//   ),
-//   ChangeNotifierProvider<ChangePasswordProvider>(
-//     create: (_) => ChangePasswordProvider(),
-//   )
-// ];
+/// all providers being used in the application
+final providers = <SingleChildWidget>[
+  ..._authProviders,
+  ..._functionalityProviders,
+];
 
-// /// Providers that may or may not require an token, but provides functionality on the scope
-// /// of the app domains
-// final _functionalityProviders = <SingleChildWidget>[
-//   ChangeNotifierProvider<PushNotificationProvider>(
-//     create: (_) => PushNotificationProvider(),
-//   ),
-//   ChangeNotifierProvider<EventHistoryProvider>(
-//     create: (_) => EventHistoryProvider(),
-//   ),
-//   ChangeNotifierProvider<HomeEventProvider>(
-//     create: (_) => HomeEventProvider(),
-//   ),
-//   ChangeNotifierProvider<MotionProvider>(
-//     create: (_) => MotionProvider(),
-//   ),
-//   ChangeNotifierProvider<SourceProvider>(
-//     create: (_) => SourceProvider(),
-//   ),
+/// All providers being used through user management, sign in and sign out
+final _authProviders = <SingleChildWidget>[
+  Provider<AuthBase>(
+    create: (_) => Auth(),
+  ),
+];
 
-//   /// Provider managing thingsMeta
-//   ChangeNotifierProvider<SourceMetaProvider>(
-//       create: (_) => SourceMetaProvider()),
-// ];
+/// Providers that may or may not require an token, but provides functionality on the scope
+/// of the app domains
+final _functionalityProviders = <SingleChildWidget>[
+  ChangeNotifierProvider<RecipeProvider>(
+    create: (_) => RecipeProvider(),
+  ),
+];
