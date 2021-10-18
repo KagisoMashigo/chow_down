@@ -1,4 +1,5 @@
 import 'package:chow_down/providers/recipe_provider.dart';
+import 'package:chow_down/providers/search_provider.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -21,5 +22,8 @@ final _authProviders = <SingleChildWidget>[
 final _functionalityProviders = <SingleChildWidget>[
   ChangeNotifierProvider<RecipeProvider>(
     create: (_) => RecipeProvider(),
+  ),
+  ChangeNotifierProvider<SearchProvider>(
+    create: (_) => SearchProvider(),
   ),
 ];

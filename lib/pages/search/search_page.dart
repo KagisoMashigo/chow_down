@@ -1,7 +1,9 @@
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/domain/models/recipe/recipe_model.dart';
+import 'package:chow_down/providers/search_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -11,6 +13,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  SearchProvider provider;
+
+  @override
+  void initState() {
+    provider = Provider.of<SearchProvider>(context, listen: false);
+    super.initState();
+    provider.getRecipeResults();
+  }
+
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   @override
