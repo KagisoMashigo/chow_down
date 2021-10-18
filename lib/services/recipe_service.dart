@@ -11,7 +11,7 @@ class RecipeService implements DisposableService {
     _instance = this;
   }
 
-  RemoteRecipeRepository _repository;
+  RemoteRecipe _repository;
 
   factory RecipeService({@required RecipeRepository repository}) =>
       _instance ?? RecipeService._(repository);

@@ -19,7 +19,9 @@ class _RecipePageState extends State<RecipePage> {
   void initState() {
     super.initState();
     _provider = Provider.of<RecipeProvider>(context, listen: false);
-    _provider.getRecipeHome();
+    _provider
+      ..init()
+      ..getRecipeHome();
   }
 
   Widget _createCard(Recipe recipe) {

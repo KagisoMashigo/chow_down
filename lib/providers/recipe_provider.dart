@@ -1,9 +1,10 @@
 import 'package:chow_down/domain/models/recipe/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/providers/authenticated_provider.dart';
 import 'package:chow_down/providers/busy_provider.dart';
 import 'package:chow_down/services/recipe_service.dart';
 
-class RecipeProvider extends BusyProvider {
+class RecipeProvider extends BusyProvider implements AuthenticatedProvider {
   RecipeProvider({RecipeService service})
       : _service = service ?? RecipeService.instance;
 
@@ -15,7 +16,6 @@ class RecipeProvider extends BusyProvider {
   List<Recipe> get recipes => _recipes;
 
   Future<void> getRecipeHome() async {
-    // TODO Due to change of spec, how to make it "Loading", then No Devices and Device list?
     try {
       final response = await _service.getRecipe();
       print('Res: $response');
@@ -27,5 +27,15 @@ class RecipeProvider extends BusyProvider {
       }
       print(e);
     }
+  }
+
+  @override
+  void init() {
+    _service = _service ?? RecipeService.instance;
+  }
+
+  void logout() {
+    _service = null;
+    _recipes = <Recipe>[];
   }
 }

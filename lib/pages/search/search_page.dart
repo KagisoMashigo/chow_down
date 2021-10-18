@@ -1,6 +1,6 @@
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
-import 'package:chow_down/core/data/models/spoonacular_models.dart/recipe.dart';
+import 'package:chow_down/domain/models/recipe/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {

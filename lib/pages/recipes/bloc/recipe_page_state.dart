@@ -1,9 +1,5 @@
-import 'dart:ui';
-
-import 'package:bloc/bloc.dart';
+import 'package:chow_down/domain/models/recipe/recipe_model.dart';
 import 'package:flutter/foundation.dart';
-
-import 'package:chow_down/core/data/models/spoonacular_models.dart/recipe.dart';
 
 // TODO: consider freezed use case for immutable classes
 @immutable
