@@ -6,8 +6,8 @@ class RecipeCard extends StatelessWidget {
   const RecipeCard({
     Key key,
     this.id,
-    this.title,
-    this.imageUrl,
+    @required this.title,
+    @required this.imageUrl,
     this.imageType,
   }) : super(key: key);
 

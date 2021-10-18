@@ -134,19 +134,23 @@ class RemoteRecipe extends RemoteRecipeRepository {
   }
 
   Future<Recipe> getRecipe() async {
-    List<String> ingredients = ['bananas', 'apples', 'cheese', 'crackers'];
+    // List<String> ingredients = ['bananas', 'apples', 'cheese', 'crackers'];
 
     String requestString =
         "https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true";
 
-    final ingredientsString =
-        ingredients.map((ingredient) => ingredient + '%2C').toString();
+    // final ingredientsString =
+    //     ingredients.map((ingredient) => ingredient + '%2C').toString();
 
     // requestString = requestString + ingredientsString;
-
-    final response = await Dio().get(requestString);
-    final body = Recipe.fromJson(response.data);
-    print("Data :" + body.toString());
-    print("Response: " + response.statusCode.toString());
+    try {
+      final response = await Dio().get(requestString);
+      final body = Recipe.fromJson(response.data);
+      print("Data :" + body.toString());
+      print("Response: " + response.statusCode.toString());
+      return body;
+    } catch (e) {
+      print(e);
+    }
   }
 }
