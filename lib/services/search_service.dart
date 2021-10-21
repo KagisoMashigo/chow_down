@@ -1,4 +1,3 @@
-import 'package:chow_down/core/data/sources/remotes/spoonacular_api/recipe_remote_repository.dart';
 import 'package:chow_down/core/data/sources/remotes/spoonacular_api/search_remote_repository.dart';
 import 'package:chow_down/domain/models/search/search_repository.dart';
 import 'package:chow_down/domain/models/search/search_result_model.dart';

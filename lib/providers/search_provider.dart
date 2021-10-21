@@ -1,28 +1,26 @@
-import 'package:chow_down/domain/models/recipe/recipe_model.dart';
 import 'package:chow_down/domain/models/search/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/providers/authenticated_provider.dart';
 import 'package:chow_down/providers/busy_provider.dart';
-import 'package:chow_down/services/recipe_service.dart';
 import 'package:chow_down/services/search_service.dart';
 
 class SearchProvider extends BusyProvider implements AuthenticatedProvider {
-  SearchProvider({RecipeService service})
+  SearchProvider({SearchService service})
       : _service = service ?? SearchService.instance;
 
   SearchService _service;
 
-  List<SearchResultList> _recipes;
+  List<SearchResultList> _results;
 
   /// Copy of the list of sources of this group
-  List<SearchResultList> get results => _recipes;
+  List<SearchResultList> get results => _results;
 
   Future<void> getRecipeResults() async {
     try {
       final response = await _service.getRecipe();
       print('Res: $response');
-      _recipes = response ?? <Recipe>[];
-      print('Recipes: $_recipes');
+      _results = response ?? <SearchResultList>[];
+      print('Recipes: $_results');
     } catch (e) {
       if (e is ApiException) {
         print(e);
@@ -33,11 +31,11 @@ class SearchProvider extends BusyProvider implements AuthenticatedProvider {
 
   @override
   void init() {
-    _service = _service ?? RecipeService.instance;
+    _service = _service ?? SearchService.instance;
   }
 
   void logout() {
     _service = null;
-    _recipes = <SearchResultList>[];
+    _results = <SearchResultList>[];
   }
 }
