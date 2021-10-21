@@ -1,97 +1,103 @@
-import 'package:chow_down/components/buttons/form_submit_button.dart';
-import 'package:chow_down/components/cards/recipe_card.dart';
-import 'package:chow_down/domain/models/recipe/recipe_model.dart';
-import 'package:chow_down/providers/search_provider.dart';
+import 'package:chow_down/cubit/search_cubit.dart';
+import 'package:chow_down/domain/models/search/search_result_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key}) : super(key: key);
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  SearchProvider provider;
-
-  @override
-  void initState() {
-    provider = Provider.of<SearchProvider>(context, listen: false);
-    super.initState();
-    provider.getRecipeResults();
-  }
-
-  final TextEditingController _emailController = TextEditingController();
-  final FocusNode _emailFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 150),
-            _buildEmailTextField(),
-            SizedBox(height: 8.0),
-            FormSubmitButton(
-              text: 'Search',
-              onPressed: () {},
-            ),
-          ],
+      appBar: AppBar(
+        title: Text("Weather Search"),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        alignment: Alignment.center,
+        child: BlocConsumer<SearchCubit, SearchState>(
+          listener: (context, state) {
+            if (state is SearchError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is SearchInitial) {
+              return buildInitialInput();
+            } else if (state is SearchLoading) {
+              return buildLoading();
+            } else if (state is SearchLoaded) {
+              return buildColumnWithData(state.searchResultList);
+            } else {
+              // error state snackbar
+              return buildInitialInput();
+            }
+          },
         ),
       ),
     );
   }
 
-//TODO: create recipeCard model
-  Widget _createCard(Recipe recipe) {
-    final title = recipe.title;
-    final image = recipe.image;
-    final id = recipe.id;
-    final imageType = recipe.imageType;
-
-    return RecipeCard(
-      title: title,
-      imageUrl: image,
-      id: id,
-      imageType: imageType,
+  Widget buildInitialInput() {
+    return Center(
+      child: SearchInputField(),
     );
   }
 
-  //   List<Widget> _renderEventList() {
-  //   final filteredEvents = events
-  //       .where((e) => e.type != MotionType.stopped)
-  //       .toSet()
-  //       .map<Widget>((eventData) => _createCard(eventData))
-  //       .toList();
+  Widget buildLoading() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
 
-  //   return filteredEvents;
-  // }
-
-  TextField _buildEmailTextField() {
-    return TextField(
-      // TODO: style the form and card
-      // style: TextStyle(color: Colors.white),
-      controller: _emailController,
-      focusNode: _emailFocusNode,
-      decoration: InputDecoration(
-          // labelText: 'Email',
-          ),
-      autocorrect: false,
-      keyboardType: TextInputType.emailAddress,
-      // onChanged: model.updateEmail,
+  Column buildColumnWithData(SearchResultList searchResultList) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        // Text(
+        //   weather.cityName,
+        //   style: TextStyle(
+        //     fontSize: 40,
+        //     fontWeight: FontWeight.w700,
+        //   ),
+        // ),
+        // Text(
+        //   // Display the temperature with 1 decimal place
+        //   "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
+        //   style: TextStyle(fontSize: 80),
+        // ),
+        SearchInputField(),
+      ],
     );
   }
 }
 
-class Search extends StatelessWidget {
-  const Search({Key key}) : super(key: key);
-
+class SearchInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: TextField(
+        onSubmitted: (value) => submitRecipe(context, value),
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: "Search a recipe",
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          suffixIcon: Icon(Icons.search),
+        ),
+      ),
     );
+  }
+
+  void submitRecipe(BuildContext context, String recipeName) {
+    final searchCubit = context.read<SearchCubit>();
+    searchCubit.fetchRecipesList();
   }
 }
