@@ -6,7 +6,7 @@ class RecipeCard extends StatelessWidget {
   const RecipeCard({
     Key key,
     this.id,
-    @required this.title,
+    @required this.name,
     @required this.imageUrl,
     this.imageType,
   }) : super(key: key);
@@ -14,7 +14,7 @@ class RecipeCard extends StatelessWidget {
   /// the Asset uri string
   final int id;
 
-  final String title;
+  final String name;
 
   final String imageUrl;
 
@@ -22,63 +22,73 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BaseCard(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              child: Image.asset(
-                imageUrl,
-              ),
-            ),
-            horizontalDivider(factor: 4),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    title.toString(),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textScaleFactor: 1,
-                    style: TextStyle(
-                        fontSize: 2 * Responsive.ratioVertical,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple),
-                  ),
+    return BaseCard(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            child: Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
-                // Container(
-                //   child: Text(
-                //     eventText,
-                //     softWrap: true,
-                //     overflow: TextOverflow.ellipsis,
-                //     textScaleFactor: 1,
-                //     style: TextStyle(
-                //       fontSize: 2 * Responsive.ratioVertical,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
-                // Flexible(
-                //   flex: 2,
-                //   child: Text(
-                //     descriptionText,
-                //     overflow: TextOverflow.ellipsis,
-                //     textScaleFactor: 1,
-                //     style: TextStyle(
-                //       fontSize: 2 * Responsive.ratioVertical,
-                //       fontWeight: FontWeight.w200,
-                //       color: Colors.grey,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-            SizedBox.shrink(),
-          ],
-        ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    imageUrl,
+                    width: 30,
+                    fit: BoxFit.cover,
+                  ),
+                )),
+          ),
+          SizedBox(
+            width: 100,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  name.toString(),
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  textScaleFactor: 1,
+                  style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.deepPurple),
+                ),
+              ),
+              // Container(
+              //   child: Text(
+              //     eventText,
+              //     softWrap: true,
+              //     overflow: TextOverflow.ellipsis,
+              //     textScaleFactor: 1,
+              //     style: TextStyle(
+              //       fontSize: 2 * Responsive.ratioVertical,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
+              // Flexible(
+              //   flex: 2,
+              //   child: Text(
+              //     descriptionText,
+              //     overflow: TextOverflow.ellipsis,
+              //     textScaleFactor: 1,
+              //     style: TextStyle(
+              //       fontSize: 2 * Responsive.ratioVertical,
+              //       fontWeight: FontWeight.w200,
+              //       color: Colors.grey,
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+          SizedBox.shrink(),
+        ],
       ),
     );
   }
