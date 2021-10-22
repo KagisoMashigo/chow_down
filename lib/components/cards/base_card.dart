@@ -12,7 +12,7 @@ class BaseCard extends StatelessWidget {
     this.color = Colors.white,
     this.borderRadius = 16,
     this.paddingHorizontal = 16,
-    this.paddingVertical = 24,
+    this.paddingVertical = 16,
   });
 
   @override
