@@ -13,11 +13,11 @@ class SearchCubit extends Cubit<SearchState> {
 
   SearchCubit(this._searchRepository) : super(SearchInitial());
 
-  Future<void> fetchRecipesList() async {
+  Future<void> fetchRecipesList(String query) async {
     try {
       emit(SearchLoading());
 
-      final searchResults = await _searchRepository.getRecipesList();
+      final searchResults = await _searchRepository.getRecipesList(query);
 
       emit(SearchLoaded(searchResults));
     } on Failure {
