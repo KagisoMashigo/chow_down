@@ -1,3 +1,4 @@
+import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/cubit/search_cubit.dart';
 import 'package:chow_down/domain/models/search/search_result_model.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Weather Search"),
+        title: Text("Recipe Search"),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 16),
@@ -57,24 +58,30 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Column buildColumnWithData(SearchResultList searchResultList) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        // Text(
-        //   weather.cityName,
-        //   style: TextStyle(
-        //     fontSize: 40,
-        //     fontWeight: FontWeight.w700,
-        //   ),
-        // ),
-        // Text(
-        //   // Display the temperature with 1 decimal place
-        //   "${weather.temperatureCelsius.toStringAsFixed(1)} °C",
-        //   style: TextStyle(fontSize: 80),
-        // ),
-        SearchInputField(),
-      ],
+  Widget buildColumnWithData(SearchResultList searchResultList) {
+    final results = searchResultList.list;
+
+    return ListView(
+      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: results
+          .map((recipe) => RecipeCard(
+                id: recipe.id,
+                name: recipe.name,
+                imageUrl: recipe.image,
+              ))
+          .toList(),
+      // Text(
+      //   searchResultList.list[4].name,
+      //   style: TextStyle(
+      //     fontSize: 40,
+      //     fontWeight: FontWeight.w700,
+      //   ),
+      // ),
+      // Text(
+      //   // Display the temperature with 1 decimal place
+      //   "${searchResultList.temperatureCelsius.toStringAsFixed(1)} °C",
+      //   style: TextStyle(fontSize: 80),
+      // ),
     );
   }
 }

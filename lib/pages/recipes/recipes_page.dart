@@ -31,7 +31,7 @@ class _RecipePageState extends State<RecipePage> {
     final imageType = recipe.imageType;
 
     return RecipeCard(
-      title: title,
+      name: title,
       imageUrl: image,
       id: id,
       imageType: imageType,
