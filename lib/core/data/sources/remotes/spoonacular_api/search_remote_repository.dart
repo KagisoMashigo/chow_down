@@ -35,7 +35,7 @@ class RemoteSearchRepository {
     final endpoint =
         'https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey';
     final response = await Dio().get(endpoint);
-    final body = json.decode(response.data);
+    final body = json.decode(response.toString());
     print("body: $body");
     print("response: $response");
 
