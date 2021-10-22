@@ -30,10 +30,9 @@ class RemoteSearchRepository {
   //   }
   // }
 
-  Future<SearchResultList> getRecipesList() async {
-    final query = '';
+  Future<SearchResultList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey';
     final response = await Dio().get(endpoint);
     final body = json.decode(response.toString());
     print("body: $body");
