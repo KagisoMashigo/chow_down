@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class SearchRepository {
   Future<SearchResultList> getRecipesList(String query);
 }
 
 class RemoteSearchRepository implements SearchRepository {
-  final String apiKey = '8888e278b728436ca3c758230ddf3e16';
+  final String apiKey = dotenv.env['api_key'];
 
   @override
   Future<SearchResultList> getRecipesList(String query) async {
