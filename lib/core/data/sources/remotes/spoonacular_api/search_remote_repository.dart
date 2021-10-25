@@ -4,39 +4,19 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
 abstract class SearchRepository {
-  Future<SearchResultList> getRecipesList();
+  Future<SearchResultList> getRecipesList(String query);
 }
 
 class RemoteSearchRepository {
   final String apiKey = '8888e278b728436ca3c758230ddf3e16';
 
-  // Future<SearchResultList> getSearchList(String type, int no) async {
-  //   final endpoint =
-  //       'https://api.spoonacular.com/recipes/complexSearch?query=$type&number=$no&apiKey=$apiKey';
-  //   final response = await Dio().get(endpoint);
-  //   final body = json.decode(response.data);
-  //   print("get random food: " + response.statusCode.toString());
-
-  //   if (response.statusCode == 200) {
-  //     return SearchResultList.fromJson(body['results']);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     var msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
-
+  @override
   Future<SearchResultList> getRecipesList(String query) async {
     final endpoint =
         'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey';
+
     final response = await Dio().get(endpoint);
     final body = json.decode(response.toString());
-    print("body: $body");
-    print("response: $response");
 
     if (response.statusCode == 200) {
       return SearchResultList.fromJson(body['results']);
@@ -60,6 +40,26 @@ class RemoteSearchRepository {
 
   //   if (response.statusCode == 200) {
   //     return SearchAutoCompleteList.fromJson(body);
+  //   } else if (response.statusCode == 401) {
+  //     throw Failure(code: 401, message: body['message']);
+  //   } else {
+  //     var msg = 'Something went wrong';
+  //     if (body.containsKey('message')) {
+  //       msg = body['message'];
+  //     }
+  //     throw Failure(code: response.statusCode, message: msg);
+  //   }
+  // }
+
+  // Future<SearchResultList> getSearchList(String type, int no) async {
+  //   final endpoint =
+  //       'https://api.spoonacular.com/recipes/complexSearch?query=$type&number=$no&apiKey=$apiKey';
+  //   final response = await Dio().get(endpoint);
+  //   final body = json.decode(response.data);
+  //   print("get random food: " + response.statusCode.toString());
+
+  //   if (response.statusCode == 200) {
+  //     return SearchResultList.fromJson(body['results']);
   //   } else if (response.statusCode == 401) {
   //     throw Failure(code: 401, message: body['message']);
   //   } else {
