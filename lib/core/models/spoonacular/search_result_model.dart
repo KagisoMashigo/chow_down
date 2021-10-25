@@ -1,14 +1,14 @@
-class SearchResult {
+class RecipeCardInfo {
   final int id;
   final String name;
   final String image;
-  SearchResult({
+  RecipeCardInfo({
     this.id,
     this.name,
     this.image,
   });
-  factory SearchResult.fromJson(Map<String, dynamic> json) {
-    return SearchResult(
+  factory RecipeCardInfo.fromJson(Map<String, dynamic> json) {
+    return RecipeCardInfo(
       id: json['id'],
       name: json['title'],
       image: json['image'],
@@ -16,15 +16,15 @@ class SearchResult {
   }
 }
 
-class SearchResultList {
-  final List<SearchResult> list;
-  SearchResultList({
+class RecipeCardInfoList {
+  final List<RecipeCardInfo> list;
+  RecipeCardInfoList({
     this.list,
   });
 
-  factory SearchResultList.fromJson(List<dynamic> json) {
-    return SearchResultList(
-      list: json.map((data) => SearchResult.fromJson(data)).toList(),
+  factory RecipeCardInfoList.fromJson(List<dynamic> json) {
+    return RecipeCardInfoList(
+      list: json.map((data) => RecipeCardInfo.fromJson(data)).toList(),
     );
   }
 }

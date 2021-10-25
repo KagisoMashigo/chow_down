@@ -72,7 +72,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildColumnWithData(SearchResultList searchResultList) {
+  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) {
     final results = searchResultList.list;
 
     return Container(

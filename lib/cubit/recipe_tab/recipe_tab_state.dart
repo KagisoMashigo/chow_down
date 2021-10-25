@@ -17,7 +17,7 @@ class SearchLoading extends SearchState {
 }
 
 class SearchLoaded extends SearchState {
-  final SearchResultList searchResultList;
+  final RecipeCardInfoList searchResultList;
   const SearchLoaded(this.searchResultList);
 
   // TODO: incorporate freezed later on as this is not prod viable
