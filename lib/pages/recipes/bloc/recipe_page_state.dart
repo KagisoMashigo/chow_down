@@ -1,4 +1,4 @@
-import 'package:chow_down/core/data/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/foundation.dart';
 
 // TODO: consider freezed use case for immutable classes

@@ -1,4 +1,4 @@
-import 'package:chow_down/core/data/sources/remotes/remote_spoonacular/search_remote_repository.dart';
+import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
