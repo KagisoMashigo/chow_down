@@ -116,6 +116,6 @@ class SearchInputField extends StatelessWidget {
 
   void _submitForm(BuildContext context, String query) {
     final searchCubit = context.read<SearchCubit>();
-    searchCubit.fetchRecipesList(query);
+    searchCubit.fetchSearchResults(query);
   }
 }

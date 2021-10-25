@@ -16,6 +16,14 @@ class RemoteSearchRepository implements SearchRepository {
     final endpoint =
         'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey';
 
+    // try {
+    //   final response = await Dio().get(endpoint);
+    //   final body = json.decode(response.toString());
+    //   return RecipeCardInfoList.fromJson(body['results']);
+    // } on Failure {
+    //   throw Failure;
+    // }
+
     final response = await Dio().get(endpoint);
     final body = json.decode(response.toString());
 
