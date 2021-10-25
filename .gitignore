@@ -19,7 +19,7 @@
 
 # Visual Studio Code related
 .vscode/
-.env
+*.env
 
 # Flutter repo-specific
 /bin/cache/
