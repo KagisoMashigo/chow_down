@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:chow_down/core/data/models/spoonacular/search_result_model.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 

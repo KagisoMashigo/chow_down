@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chow_down/core/models/spoonacular/equipment.dart';
 import 'package:chow_down/core/models/spoonacular/nutrients.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
@@ -13,7 +14,7 @@ abstract class RecipeRepository {
 
 class RemoteRecipe implements RecipeRepository {
   // TODO: use dotenv
-  final String apiKey = '8888e278b728436ca3c758230ddf3e16';
+  final String apiKey = dotenv.env['api_key'];
 
   @override
   Future<Recipe> getRecipe() async {
