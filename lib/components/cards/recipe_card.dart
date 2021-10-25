@@ -6,79 +6,77 @@ class RecipeCard extends StatelessWidget {
   const RecipeCard({
     Key key,
     this.id,
-    @required this.title,
+    @required this.name,
     @required this.imageUrl,
     this.imageType,
   }) : super(key: key);
 
-  /// the Asset uri string
+  /// Recipe id
   final int id;
 
-  final String title;
+  /// Recipe name
+  final String name;
 
+  /// Recipe url
   final String imageUrl;
 
   final String imageType;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: BaseCard(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              child: Image.asset(
-                imageUrl,
+    return BaseCard(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                child: Text(
+                  name.toString(),
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  textScaleFactor: 1,
+                  style: TextStyle(
+                      fontSize: 4 * Responsive.ratioHorizontal,
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
               ),
-            ),
-            horizontalDivider(factor: 4),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    title.toString(),
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    textScaleFactor: 1,
-                    style: TextStyle(
-                        fontSize: 2 * Responsive.ratioVertical,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.deepPurple),
+            ],
+          ),
+          horizontalDivider(factor: 5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Card(
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.network(
+                    imageUrl,
+                    width: 35 * Responsive.ratioHorizontal,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                // Container(
-                //   child: Text(
-                //     eventText,
-                //     softWrap: true,
-                //     overflow: TextOverflow.ellipsis,
-                //     textScaleFactor: 1,
-                //     style: TextStyle(
-                //       fontSize: 2 * Responsive.ratioVertical,
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
-                // Flexible(
-                //   flex: 2,
-                //   child: Text(
-                //     descriptionText,
-                //     overflow: TextOverflow.ellipsis,
-                //     textScaleFactor: 1,
-                //     style: TextStyle(
-                //       fontSize: 2 * Responsive.ratioVertical,
-                //       fontWeight: FontWeight.w200,
-                //       color: Colors.grey,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
-            SizedBox.shrink(),
-          ],
-        ),
+              ),
+              horizontalDivider(factor: 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Placeholder: Rating'),
+                  verticalDivider(factor: 3),
+                  Text('Placeholder: Relevant info'),
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

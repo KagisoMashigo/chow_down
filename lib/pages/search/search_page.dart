@@ -1,86 +1,121 @@
-import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
-import 'package:chow_down/domain/models/recipe/recipe_model.dart';
+import 'package:chow_down/cubit/search_cubit.dart';
+import 'package:chow_down/domain/models/search/search_result_model.dart';
+import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key}) : super(key: key);
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final FocusNode _emailFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            SizedBox(height: 150),
-            _buildEmailTextField(),
-            SizedBox(height: 8.0),
-            FormSubmitButton(
-              text: 'Search',
-              onPressed: () {},
-            ),
-          ],
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: Text('What are we eating?'),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+                'https://images.unsplash.com/photo-1526318896980-cf78c088247c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 16),
+        alignment: Alignment.center,
+        child: BlocConsumer<SearchCubit, SearchState>(
+          listener: (context, state) {
+            if (state is SearchError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is SearchInitial) {
+              return _buildInitialInput();
+            } else if (state is SearchLoading) {
+              return _buildLoading();
+            } else if (state is SearchLoaded) {
+              return _buildColumnWithData(state.searchResultList);
+            } else {
+              // error state snackbar
+              return _buildInitialInput();
+            }
+          },
         ),
       ),
     );
   }
 
-//TODO: create recipeCard model
-  Widget _createCard(Recipe recipe) {
-    final title = recipe.title;
-    final image = recipe.image;
-    final id = recipe.id;
-    final imageType = recipe.imageType;
-
-    return RecipeCard(
-      title: title,
-      imageUrl: image,
-      id: id,
-      imageType: imageType,
+  Widget _buildInitialInput() {
+    return Padding(
+      padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
+      child: Column(
+        children: [SearchInputField()],
+      ),
     );
   }
 
-  //   List<Widget> _renderEventList() {
-  //   final filteredEvents = events
-  //       .where((e) => e.type != MotionType.stopped)
-  //       .toSet()
-  //       .map<Widget>((eventData) => _createCard(eventData))
-  //       .toList();
+  Widget _buildLoading() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
+  }
 
-  //   return filteredEvents;
-  // }
+  Widget _buildColumnWithData(SearchResultList searchResultList) {
+    final results = searchResultList.list;
 
-  TextField _buildEmailTextField() {
-    return TextField(
-      // TODO: style the form and card
-      // style: TextStyle(color: Colors.white),
-      controller: _emailController,
-      focusNode: _emailFocusNode,
-      decoration: InputDecoration(
-          // labelText: 'Email',
-          ),
-      autocorrect: false,
-      keyboardType: TextInputType.emailAddress,
-      // onChanged: model.updateEmail,
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: ListView(
+          children: results
+              .map((recipe) => RecipeCard(
+                    id: recipe.id,
+                    name: recipe.name,
+                    imageUrl: recipe.image,
+                  ))
+              .toList(),
+        ),
+      ),
     );
   }
 }
 
-class Search extends StatelessWidget {
-  const Search({Key key}) : super(key: key);
-
+class SearchInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: TextField(
+        style: TextStyle(color: Colors.white),
+        onSubmitted: (query) => _submitForm(context, query),
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+            hintText: "Search a recipe",
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.white, width: 0.0),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            suffixIcon: Icon(Icons.search),
+            labelStyle: TextStyle(color: Colors.white),
+            hintStyle: TextStyle(color: Colors.white)),
+      ),
     );
+  }
+
+  void _submitForm(BuildContext context, String query) {
+    final searchCubit = context.read<SearchCubit>();
+    searchCubit.fetchRecipesList(query);
   }
 }
