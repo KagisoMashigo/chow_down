@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:chow_down/core/models/spoonacular/equipment.dart';
 import 'package:chow_down/core/models/spoonacular/nutrients.dart';
@@ -8,7 +9,7 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
 abstract class RecipeHomeRepository {
-  Future<Recipe> getLatestRecipe();
+  Future<RecipeCardInfoList> getLatestRecipe();
 }
 
 class RemoteHomeRecipe implements RecipeHomeRepository {
@@ -16,7 +17,7 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   final baseUrl = 'https://api.spoonacular.com/recipes';
 
   @override
-  Future<Recipe> getLatestRecipe() async {
+  Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
         '$baseUrl/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true';
 
@@ -27,10 +28,12 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
 
     try {
       final response = await Dio().get(endpoint);
-      final body = Recipe.fromJson(response.data);
+      final body = json.decode(response.toString());
+
       print("Data :" + body.toString());
       print("Response: " + response.statusCode.toString());
-      return body;
+      // TODO: Actual error handling
+      return RecipeCardInfoList.fromJson(body['results']);
     } catch (e) {
       print(e);
     }
