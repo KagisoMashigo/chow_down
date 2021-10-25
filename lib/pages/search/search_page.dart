@@ -1,6 +1,6 @@
 import 'package:chow_down/components/cards/recipe_card.dart';
-import 'package:chow_down/cubit/search_cubit.dart';
-import 'package:chow_down/domain/models/search/search_result_model.dart';
+import 'package:chow_down/cubit/search/search_cubit.dart';
+import 'package:chow_down/core/data/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

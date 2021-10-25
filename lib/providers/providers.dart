@@ -1,7 +1,5 @@
-import 'package:chow_down/core/data/sources/remotes/spoonacular_api/search_remote_repository.dart';
-import 'package:chow_down/cubit/search_cubit.dart';
-import 'package:chow_down/providers/recipe_provider.dart';
-import 'package:chow_down/providers/search_provider.dart';
+import 'package:chow_down/core/data/sources/remotes/remote_spoonacular/search_remote_repository.dart';
+import 'package:chow_down/cubit/search/search_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +21,10 @@ final _authProviders = <SingleChildWidget>[
 /// Providers that may or may not require an token, but provides functionality on the scope
 /// of the app domains
 final _functionalityProviders = <SingleChildWidget>[
-  ChangeNotifierProvider<RecipeProvider>(
-    create: (_) => RecipeProvider(),
-  ),
-  // ChangeNotifierProvider<SearchProvider>(
-  //   create: (_) => SearchProvider(),
+  // BlocProvider<RecipeCubit>(
+  //   create: (context) => RecipeCubit(
+  //     RemoteRecipeRepository(),
+  //   ),
   // ),
   BlocProvider<SearchCubit>(
     create: (context) => SearchCubit(

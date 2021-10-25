@@ -1,4 +1,4 @@
-import 'package:chow_down/core/data/models/spoonacular_models.dart/search_autocomplete_model.dart';
+import 'package:chow_down/core/data/models/spoonacular/search_autocomplete_model.dart';
 import 'package:equatable/equatable.dart';
 
 enum Status { loading, initial, success }
