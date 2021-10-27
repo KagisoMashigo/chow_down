@@ -33,11 +33,11 @@ class RecipeCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
+              Flexible(
                 child: Text(
                   name.toString(),
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
+                  softWrap: false,
+                  overflow: TextOverflow.fade,
                   textScaleFactor: 1,
                   style: TextStyle(
                       fontSize: 4 * Responsive.ratioHorizontal,
@@ -47,25 +47,29 @@ class RecipeCard extends StatelessWidget {
               ),
             ],
           ),
-          horizontalDivider(factor: 5),
+          verticalDivider(factor: 1.5),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Card(
+                elevation: 2,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    imageUrl,
-                    width: 35 * Responsive.ratioHorizontal,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () => print(id),
+                    child: Image.network(
+                      imageUrl,
+                      width: 35 * Responsive.ratioHorizontal,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-              horizontalDivider(factor: 5),
+              horizontalDivider(factor: 3),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -73,7 +77,7 @@ class RecipeCard extends StatelessWidget {
                   verticalDivider(factor: 3),
                   Text('Placeholder: Relevant info'),
                 ],
-              )
+              ),
             ],
           ),
         ],
