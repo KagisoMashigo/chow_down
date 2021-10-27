@@ -1,6 +1,7 @@
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
+import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class _SearchPageState extends State<SearchPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1526318896980-cf78c088247c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80'),
+                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
             fit: BoxFit.cover,
           ),
         ),
@@ -77,13 +78,22 @@ class _SearchPageState extends State<SearchPage> {
 
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(18),
         child: ListView(
           children: results
-              .map((recipe) => RecipeCard(
-                    id: recipe.id,
-                    name: recipe.name,
-                    imageUrl: recipe.image,
+              .map((recipe) => GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RecipeInfoPage(recipeId: recipe.id.toString()),
+                      ),
+                    ),
+                    child: RecipeCard(
+                      id: recipe.id,
+                      name: recipe.name,
+                      imageUrl: recipe.image,
+                    ),
                   ))
               .toList(),
         ),

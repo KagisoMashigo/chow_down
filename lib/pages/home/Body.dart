@@ -1,3 +1,5 @@
+import 'package:chow_down/components/customAppBar.dart';
+import 'package:chow_down/plugins/responsive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,19 +27,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        // TODO: check if needed later
-        // actions: <Widget>[
-        //   IconButton(
-        //     onPressed: () => EditJobPage.show(context,
-        //         database: Provider.of<Database>(context, listen: false)),
-        //     icon: Icon(Icons.add),
-        //     color: Colors.white,
-        //   ),
-        // ],
-      ),
+    return CustomLogoAppBar(
+      imgUrl: 'assets/images/chow_down.png',
+      title: 'Home',
       body: _buildContents(context),
     );
   }

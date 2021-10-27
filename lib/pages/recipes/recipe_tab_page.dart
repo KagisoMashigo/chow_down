@@ -1,4 +1,5 @@
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
+import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_home.dart/recipe_home_cubit.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
@@ -22,18 +23,14 @@ class _RecipeHomePageState extends State<RecipeHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text('Your recipes'),
-        // backgroundColor: Colors.transparent,
-        // elevation: 0.0,
-      ),
+    return CustomLogoAppBar(
+      imgUrl: 'assets/images/chow_down.png',
+      title: 'Saved Recipes',
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80'),
+                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
             fit: BoxFit.cover,
           ),
         ),
