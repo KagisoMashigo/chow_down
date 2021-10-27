@@ -32,14 +32,16 @@ Future<void> main() async {
 // Main app call
 // TODO: Consider using cachedImage for network images
 class ChowDown extends StatelessWidget {
+  final primaryColor = Color(0xFF151026);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chow Down',
+
       theme: ThemeData(
         appBarTheme:
             AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.light),
-        primarySwatch: Colors.deepPurple,
+        // primarySwatch: primaryColor,
         fontFamily: 'Lato',
       ),
       // TODO: make sure logged in goes to home
