@@ -1,105 +1,160 @@
+import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
+import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
+
 class Recipe {
-  final bool vegetarian;
-  final bool vegan;
-  final bool glutenFree;
-  final bool dairyFree;
-  final bool veryHealthy;
-  final bool cheap;
-  final bool veryPopular;
-  final bool sustainable;
-  final int weightWatcherSmartPoints;
-  final String gaps;
-  final bool lowFodmap;
-  final int aggregateLikes;
-  final double spoonacularScore;
-  final double healthScore;
-  final String creditsText;
-  final String license;
-  final String sourceName;
-  final double pricePerServing;
-  final int id;
-  final String title;
-  final int readyInMinutes;
-  final int servings;
-  final String sourceUrl;
-  final String image;
-  final String imageType;
-  final String summary;
-  final List cuisines;
-  final List dishTypes;
-  final List diets;
-  final List occasions;
-  final String analyzedInstructions;
-  final String spoonacularSourceUrl;
+  bool vegetarian;
+  bool vegan;
+  bool glutenFree;
+  bool dairyFree;
+  bool veryHealthy;
+  bool cheap;
+  bool veryPopular;
+  bool sustainable;
+  int weightWatcherSmartPoints;
+  String gaps;
+  bool lowFodmap;
+  int aggregateLikes;
+  double spoonacularScore;
+  double healthScore;
+  String creditsText;
+  String license;
+  String sourceName;
+  double pricePerServing;
+  List<ExtendedIngredients> extendedIngredients;
+  int id;
+  String title;
+  int readyInMinutes;
+  int servings;
+  String sourceUrl;
+  String image;
+  String imageType;
+  String summary;
+  List<dynamic> cuisines;
+  List<dynamic> dishTypes;
+  List<dynamic> diets;
+  List<dynamic> occasions;
+  String instructions;
+  List<AnalyzedInstruction> analyzedInstructions;
+  dynamic originalId;
+  String spoonacularSourceUrl;
 
-  Recipe(
-      {this.vegetarian,
-      this.vegan,
-      this.glutenFree,
-      this.dairyFree,
-      this.veryHealthy,
-      this.cheap,
-      this.veryPopular,
-      this.sustainable,
-      this.weightWatcherSmartPoints,
-      this.gaps,
-      this.lowFodmap,
-      this.aggregateLikes,
-      this.spoonacularScore,
-      this.healthScore,
-      this.creditsText,
-      this.license,
-      this.sourceName,
-      this.pricePerServing,
-      this.id,
-      this.title,
-      this.readyInMinutes,
-      this.servings,
-      this.sourceUrl,
-      this.image,
-      this.imageType,
-      this.summary,
-      this.cuisines,
-      this.dishTypes,
-      this.diets,
-      this.occasions,
-      this.analyzedInstructions,
-      this.spoonacularSourceUrl});
+  Recipe({
+    this.vegetarian,
+    this.vegan,
+    this.glutenFree,
+    this.dairyFree,
+    this.veryHealthy,
+    this.cheap,
+    this.veryPopular,
+    this.sustainable,
+    this.weightWatcherSmartPoints,
+    this.gaps,
+    this.lowFodmap,
+    this.aggregateLikes,
+    this.spoonacularScore,
+    this.healthScore,
+    this.creditsText,
+    this.license,
+    this.sourceName,
+    this.pricePerServing,
+    this.extendedIngredients,
+    this.id,
+    this.title,
+    this.readyInMinutes,
+    this.servings,
+    this.sourceUrl,
+    this.image,
+    this.imageType,
+    this.summary,
+    this.cuisines,
+    this.dishTypes,
+    this.diets,
+    this.occasions,
+    this.instructions,
+    this.analyzedInstructions,
+    this.originalId,
+    this.spoonacularSourceUrl,
+  });
 
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
-      vegetarian: json['vegetarian'],
-      vegan: json['vegan'],
-      glutenFree: json['glutenFree'],
-      dairyFree: json['dairyFree'],
-      veryHealthy: json['veryHealthy'],
-      cheap: json['cheap'],
-      veryPopular: json['veryPopular'],
-      sustainable: json['sustainable'],
-      weightWatcherSmartPoints: json['weightWatcherSmartPoints'],
-      gaps: json['gaps'],
-      lowFodmap: json['lowFodmap'],
-      aggregateLikes: json['aggregateLikes'],
-      spoonacularScore: json['spoonacularScore'],
-      healthScore: json['healthScore'],
-      creditsText: json['creditsText'],
-      license: json['license'],
-      sourceName: json['sourceName'],
-      pricePerServing: json['pricePerServing'],
-      readyInMinutes: json['readyInMinutes'],
-      servings: json['servings'],
-      sourceUrl: json['sourceUrl'],
-      id: json['id'],
-      title: json['title'],
-      image: json['image'],
-      imageType: json['imageType'],
-      summary: json['summary'],
-      cuisines: json['cuisines'],
-      dishTypes: json['dishTypes'],
-      diets: json['diets'],
-      occasions: json['occasions'],
-      analyzedInstructions: json['analyzedInstructions'],
-      spoonacularSourceUrl: json['spoonacularSourceUrl'],
-    );
-  }
+  factory Recipe.fromJson(json) => Recipe(
+        vegetarian: json['vegetarian'] as bool,
+        vegan: json['vegan'] as bool,
+        glutenFree: json['glutenFree'] as bool,
+        dairyFree: json['dairyFree'] as bool,
+        veryHealthy: json['veryHealthy'] as bool,
+        cheap: json['cheap'] as bool,
+        veryPopular: json['veryPopular'] as bool,
+        sustainable: json['sustainable'] as bool,
+        weightWatcherSmartPoints: json['weightWatcherSmartPoints'] as int,
+        gaps: json['gaps'] as String,
+        lowFodmap: json['lowFodmap'] as bool,
+        aggregateLikes: json['aggregateLikes'] as int,
+        spoonacularScore: json['spoonacularScore'] as double,
+        healthScore: json['healthScore'] as double,
+        creditsText: json['creditsText'] as String,
+        license: json['license'] as String,
+        sourceName: json['sourceName'] as String,
+        pricePerServing: (json['pricePerServing'] as num).toDouble(),
+        extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
+            .map((e) => ExtendedIngredients.fromJson(e))
+            .toList(),
+        id: json['id'] as int,
+        title: json['title'] as String,
+        readyInMinutes: json['readyInMinutes'] as int,
+        servings: json['servings'] as int,
+        sourceUrl: json['sourceUrl'] as String,
+        image: json['image'] as String,
+        imageType: json['imageType'] as String,
+        summary: json['summary'] as String,
+        cuisines: json['cuisines'] as List<dynamic>,
+        dishTypes: json['dishTypes'] as List<dynamic>,
+        diets: json['diets'] as List<dynamic>,
+        occasions: json['occasions'] as List<dynamic>,
+        instructions: json['instructions'] as String,
+        analyzedInstructions: (json['analyzedInstructions'] as List<dynamic>)
+            .map((e) => AnalyzedInstruction.fromJson(e))
+            .toList(),
+        originalId: json['originalId'] as dynamic,
+        spoonacularSourceUrl: json['spoonacularSourceUrl'] as String,
+      );
+
+  toJson() => {
+        'vegetarian': vegetarian,
+        'vegan': vegan,
+        'glutenFree': glutenFree,
+        'dairyFree': dairyFree,
+        'veryHealthy': veryHealthy,
+        'cheap': cheap,
+        'veryPopular': veryPopular,
+        'sustainable': sustainable,
+        'weightWatcherSmartPoints': weightWatcherSmartPoints,
+        'gaps': gaps,
+        'lowFodmap': lowFodmap,
+        'aggregateLikes': aggregateLikes,
+        'spoonacularScore': spoonacularScore,
+        'healthScore': healthScore,
+        'creditsText': creditsText,
+        'license': license,
+        'sourceName': sourceName,
+        'pricePerServing': pricePerServing,
+        'extendedIngredients':
+            extendedIngredients.map((e) => e.toJson()).toList(),
+        'id': id,
+        'title': title,
+        'readyInMinutes': readyInMinutes,
+        'servings': servings,
+        'sourceUrl': sourceUrl,
+        'image': image,
+        'imageType': imageType,
+        'summary': summary,
+        'cuisines': cuisines,
+        'dishTypes': dishTypes,
+        'diets': diets,
+        'occasions': occasions,
+        'instructions': instructions,
+        'analyzedInstructions':
+            analyzedInstructions.map((e) => e.toJson()).toList(),
+        'originalId': originalId,
+        'spoonacularSourceUrl': spoonacularSourceUrl,
+      };
 }
