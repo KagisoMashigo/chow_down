@@ -39,10 +39,14 @@ class RecipeCardGrid extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          RecipeInfoPage(recipeId: recipe.id.toString()),
+                      builder: (context) => RecipeInfoPage(
+                        title: recipe.name,
+                        id: recipe.id,
+                      ),
                       fullscreenDialog: true,
                     ));
+
+                    /// TODO the below can be the SAVED pop up
                     // Widget snackBar =
                     //     SnackBar(content: Text(recipe.id.toString()));
 
