@@ -1,5 +1,7 @@
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_home_remote_repository.dart';
+import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
+import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
 import 'package:chow_down/services/auth.dart';
@@ -23,6 +25,11 @@ final _authProviders = <SingleChildWidget>[
 /// Providers that may or may not require an token, but provides functionality on the scope
 /// of the app domains
 final _functionalityProviders = <SingleChildWidget>[
+  BlocProvider<RecipeInfoCubit>(
+    create: (context) => RecipeInfoCubit(
+      RemoteRecipe(),
+    ),
+  ),
   BlocProvider<RecipeTabCubit>(
     create: (context) => RecipeTabCubit(
       RemoteHomeRecipe(),
