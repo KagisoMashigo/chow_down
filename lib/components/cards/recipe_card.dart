@@ -33,16 +33,17 @@ class RecipeCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Flexible(
+              Expanded(
                 child: Text(
                   name.toString(),
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
-                  textScaleFactor: 1,
+                  // softWrap: false,
+                  // overflow: TextOverflow.fade,
+                  // textScaleFactor: 1,
                   style: TextStyle(
-                      fontSize: 4 * Responsive.ratioHorizontal,
-                      // fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                    fontSize: 4 * Responsive.ratioHorizontal,
+                    // fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ],

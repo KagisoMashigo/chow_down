@@ -47,7 +47,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.all(11.1),
+        // padding: EdgeInsets.all(11.1),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
           listener: (context, state) {
@@ -63,7 +63,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             if (state is RecipeInfoLoading) {
               return _buildLoading();
             } else if (state is RecipeInfoLoaded) {
-              return _buildColumnWithData(state.recipe);
+              return _buildContents(state.recipe);
             } else {
               // error state snackbar
               return _buildInitialInput();
@@ -85,11 +85,59 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
         child: CircularProgressIndicator(),
       );
 
-  Widget _buildColumnWithData(Recipe recipe) => ListView(
+  Widget _buildContents(Recipe recipe) => ListView(
         children: [
-          verticalDivider(factor: 2),
-          Center(
-            child: Text(recipe.summary),
+          Expanded(
+            child: Image.network(
+              recipe.image,
+              // width: 3 * Responsive.ratioHorizontal,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                // verticalDivider(factor: 2),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        recipe.title,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'By ${recipe.sourceName}',
+                        style: TextStyle(
+                          fontSize: 20, fontStyle: FontStyle.italic,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2),
+                Center(
+                  child: Text(
+                    recipe.summary,
+                    style: TextStyle(
+                      fontSize: 15,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       );
