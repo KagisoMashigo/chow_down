@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 
 abstract class RecipeRepository {
   Future<Recipe> getRecipe();
+  Future<Recipe> getRecipeInformation();
 }
 
 class RemoteRecipe implements RecipeRepository {
@@ -38,23 +39,20 @@ class RemoteRecipe implements RecipeRepository {
     }
   }
 
-  Future<Recipe> getRecipeInformationFood(String id) async {
-    final url =
-        'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
-    final response = await Dio().get(url);
-    final body = json.decode(response.data);
-    print("get random food: " + response.statusCode.toString());
+  Future<Recipe> getRecipeInformation() async {
+    final endpoint =
+        'https://api.spoonacular.com/recipes/716429/information?apiKey=$apiKey';
 
-    if (response.statusCode == 200) {
+    try {
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
+
+      print("Data :" + body.toString());
+      print("Response: " + response.statusCode.toString());
+      // TODO: Actual error handling
       return Recipe.fromJson(body);
-    } else if (response.statusCode == 401) {
-      throw Failure(code: 401, message: body['message']);
-    } else {
-      String msg = 'Something went wrong';
-      if (body.containsKey('message')) {
-        msg = body['message'];
-      }
-      throw Failure(code: response.statusCode, message: msg);
+    } catch (e) {
+      print(e);
     }
   }
 

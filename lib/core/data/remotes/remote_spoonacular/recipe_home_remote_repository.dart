@@ -12,6 +12,7 @@ abstract class RecipeHomeRepository {
   Future<RecipeCardInfoList> getLatestRecipe();
 }
 
+// This is the repo for the home page, the tab page will be calling firebase
 class RemoteHomeRecipe implements RecipeHomeRepository {
   final String apiKey = dotenv.env['api_key'];
   final baseUrl = 'https://api.spoonacular.com/recipes';
