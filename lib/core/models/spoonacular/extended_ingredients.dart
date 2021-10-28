@@ -1,3 +1,5 @@
+import 'package:chow_down/core/models/spoonacular/measures.dart';
+
 class ExtendedIngredients {
   final int id;
   final String aisle;
@@ -48,50 +50,21 @@ class ExtendedIngredients {
       measures: Measures.fromJson(json['measures']),
     );
   }
-}
 
-class Measures {
-  Us us;
-  Metric metric;
-
-  Measures({this.us, this.metric});
-
-  factory Measures.fromJson(Map<String, dynamic> json) {
-    return Measures(
-      us: Us.fromJson(json['us']),
-      metric: Metric.fromJson(json['metric']),
-    );
-  }
-}
-
-class Us {
-  final double amount;
-  final String unitShort;
-  final String unitLong;
-
-  Us({this.amount, this.unitShort, this.unitLong});
-
-  factory Us.fromJson(Map<String, dynamic> json) {
-    return Us(
-      amount: json['amount'],
-      unitShort: json['unitShort'],
-      unitLong: json['unitLong'],
-    );
-  }
-}
-
-class Metric {
-  final double amount;
-  final String unitShort;
-  final String unitLong;
-
-  Metric({this.amount, this.unitShort, this.unitLong});
-
-  factory Metric.fromJson(Map<String, dynamic> json) {
-    return Metric(
-      amount: json['amount'],
-      unitShort: json['unitShort'],
-      unitLong: json['unitLong'],
-    );
-  }
+  toJson() => {
+        'id': id,
+        'aisle': aisle,
+        'image': image,
+        'consistency': consistency,
+        'name': name,
+        'nameClean': nameClean,
+        'original': original,
+        'originalString': originalString,
+        'originalName': originalName,
+        'amount': amount,
+        'unit': unit,
+        'meta': meta,
+        'metaInformation': metaInformation,
+        'measures': measures.toJson(),
+      };
 }

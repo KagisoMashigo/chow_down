@@ -99,7 +99,7 @@ class SignInPage extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Image.asset(
-        // TODO: Can make a better logo
+        // TODO: Can make a better logo / reconsider padding or text size
         'assets/images/chow_down.png',
         height: 150,
         width: 150,

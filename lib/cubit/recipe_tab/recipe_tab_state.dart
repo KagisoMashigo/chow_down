@@ -1,46 +1,45 @@
 part of 'recipe_tab_cubit.dart';
 
-abstract class SearchState extends Equatable {
-  const SearchState();
+abstract class RecipeTabState extends Equatable {
+  const RecipeTabState();
 
   @override
   List<Object> get props => [];
 }
 
-// The initial search bar
-class SearchInitial extends SearchState {
-  const SearchInitial();
+class RecipeTabInitial extends RecipeTabState {
+  const RecipeTabInitial();
 }
 
-class SearchLoading extends SearchState {
-  const SearchLoading();
+class RecipeTabLoading extends RecipeTabState {
+  const RecipeTabLoading();
 }
 
-class SearchLoaded extends SearchState {
-  final SearchResultList searchResultList;
-  const SearchLoaded(this.searchResultList);
+class RecipeTabLoaded extends RecipeTabState {
+  const RecipeTabLoaded(this.recipeCardList);
+  final RecipeCardInfoList recipeCardList;
 
   // TODO: incorporate freezed later on as this is not prod viable
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is SearchLoaded && other.searchResultList == searchResultList;
+    return other is RecipeTabLoaded && other.recipeCardList == recipeCardList;
   }
 
   @override
-  int get hashCode => searchResultList.hashCode;
+  int get hashCode => recipeCardList.hashCode;
 }
 
-class SearchError extends SearchState {
+class RecipTabError extends RecipeTabState {
   final String message;
-  const SearchError(this.message);
+  const RecipTabError(this.message);
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is SearchError && other.message == message;
+    return other is RecipTabError && other.message == message;
   }
 
   @override

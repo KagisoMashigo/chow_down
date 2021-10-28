@@ -2,8 +2,8 @@ import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 
-class RecipeCard extends StatelessWidget {
-  const RecipeCard({
+class RecipeSquare extends StatelessWidget {
+  const RecipeSquare({
     Key key,
     this.id,
     @required this.name,
@@ -33,11 +33,11 @@ class RecipeCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Flexible(
+              Container(
                 child: Text(
                   name.toString(),
-                  softWrap: false,
-                  overflow: TextOverflow.fade,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
                   textScaleFactor: 1,
                   style: TextStyle(
                       fontSize: 4 * Responsive.ratioHorizontal,
@@ -47,29 +47,25 @@ class RecipeCard extends StatelessWidget {
               ),
             ],
           ),
-          verticalDivider(factor: 1.5),
+          horizontalDivider(factor: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Card(
-                elevation: 2,
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
+                  borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: GestureDetector(
-                    onTap: () => print(id),
-                    child: Image.network(
-                      imageUrl,
-                      width: 35 * Responsive.ratioHorizontal,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.network(
+                    imageUrl,
+                    width: 35 * Responsive.ratioHorizontal,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              horizontalDivider(factor: 3),
+              horizontalDivider(factor: 5),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -77,7 +73,7 @@ class RecipeCard extends StatelessWidget {
                   verticalDivider(factor: 3),
                   Text('Placeholder: Relevant info'),
                 ],
-              ),
+              )
             ],
           ),
         ],

@@ -1,6 +1,5 @@
 import 'package:chow_down/pages/home/Body.dart';
-import 'package:chow_down/pages/jobs/jobs_page.dart';
-import 'package:chow_down/pages/recipes/recipes_page.dart';
+import 'package:chow_down/pages/recipes/recipe_tab_page.dart';
 import 'package:chow_down/pages/search/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chow_down/pages/account/account_page.dart';
@@ -25,7 +24,7 @@ class _TabManagerState extends State<TabManager> {
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.home: (_) => HomePage(),
-      TabItem.recipes: (_) => Container(),
+      TabItem.recipes: (_) => RecipeTabPage(),
       TabItem.search: (context) => SearchPage(),
       TabItem.account: (_) => AccountPage()
     };
