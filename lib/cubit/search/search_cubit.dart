@@ -11,7 +11,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   SearchCubit(this._searchRepository) : super(SearchInitial());
 
-  Future<void> fetchRecipesList(String query) async {
+  Future<void> fetchSearchResults(String query) async {
     try {
       emit(SearchLoading());
 

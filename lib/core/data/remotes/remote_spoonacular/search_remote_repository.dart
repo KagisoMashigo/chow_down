@@ -5,22 +5,30 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class SearchRepository {
-  Future<SearchResultList> getRecipesList(String query);
+  Future<RecipeCardInfoList> getRecipesList(String query);
 }
 
 class RemoteSearchRepository implements SearchRepository {
   final String apiKey = dotenv.env['api_key'];
 
   @override
-  Future<SearchResultList> getRecipesList(String query) async {
+  Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
         'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey';
+
+    // try {
+    //   final response = await Dio().get(endpoint);
+    //   final body = json.decode(response.toString());
+    //   return RecipeCardInfoList.fromJson(body['results']);
+    // } on Failure {
+    //   throw Failure;
+    // }
 
     final response = await Dio().get(endpoint);
     final body = json.decode(response.toString());
 
     if (response.statusCode == 200) {
-      return SearchResultList.fromJson(body['results']);
+      return RecipeCardInfoList.fromJson(body['results']);
     } else if (response.statusCode == 401) {
       throw Failure(code: 401, message: body['message']);
     } else {

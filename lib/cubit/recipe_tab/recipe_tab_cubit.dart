@@ -1,25 +1,25 @@
 import 'package:bloc/bloc.dart';
-import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
+import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_home_remote_repository.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:equatable/equatable.dart';
 
 part 'recipe_tab_state.dart';
 
-class SearchCubit extends Cubit<SearchState> {
-  final RemoteSearchRepository _searchRepository;
+class RecipeTabCubit extends Cubit<RecipeTabState> {
+  RecipeTabCubit(this._recipeHomeRepository) : super(RecipeTabInitial());
 
-  SearchCubit(this._searchRepository) : super(SearchInitial());
+  final RemoteHomeRecipe _recipeHomeRepository;
 
-  Future<void> fetchRecipesList(String query) async {
+  Future<void> fetchHomeRecipesList() async {
     try {
-      emit(SearchLoading());
+      emit(RecipeTabLoading());
 
-      final searchResults = await _searchRepository.getRecipesList(query);
+      final searchResults = await _recipeHomeRepository.getLatestRecipe();
 
-      emit(SearchLoaded(searchResults));
+      emit(RecipeTabLoaded(searchResults));
     } on Failure {
-      emit(SearchError('API error when fetching results'));
+      emit(RecipTabError('API error when fetching data'));
     }
   }
 }
