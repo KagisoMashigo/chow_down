@@ -85,8 +85,10 @@ class _SearchPageState extends State<SearchPage> {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            RecipeInfoPage(recipeId: recipe.id.toString()),
+                        builder: (context) => RecipeInfoPage(
+                          title: recipe.name,
+                          id: recipe.id,
+                        ),
                       ),
                     ),
                     child: RecipeCard(

@@ -9,36 +9,15 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
 abstract class RecipeRepository {
-  Future<Recipe> getRecipe();
-  Future<Recipe> getRecipeInformation();
+  Future<Recipe> getRecipeInformation(int id);
 }
 
 class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key'];
 
-  @override
-  Future<Recipe> getRecipe() async {
-    String requestString =
-        "https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true";
-
-    // final ingredientsString =
-    //     ingredients.map((ingredient) => ingredient + '%2C').toString();
-
-    // requestString = requestString + ingredientsString;
-    try {
-      final response = await Dio().get(requestString);
-      final body = Recipe.fromJson(response.data);
-      print("Data :" + body.toString());
-      print("Response: " + response.statusCode.toString());
-      return body;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<Recipe> getRecipeInformation() async {
+  Future<Recipe> getRecipeInformation(int id) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/716429/information?apiKey=$apiKey';
+        'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
 
     try {
       final response = await Dio().get(endpoint);
