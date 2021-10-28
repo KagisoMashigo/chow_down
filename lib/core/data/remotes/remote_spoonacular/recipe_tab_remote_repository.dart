@@ -8,19 +8,16 @@ import 'package:chow_down/core/models/spoonacular/similar_recipe.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
-abstract class RecipeRepository {
+abstract class RecipeTabRepository {
   Future<Recipe> getRecipe();
   Future<Recipe> getRecipeInformation();
 }
 
-class RemoteRecipe implements RecipeRepository {
-  // TODO: use dotenv
+class RemoteRecipeTab implements RecipeTabRepository {
   final String apiKey = dotenv.env['api_key'];
 
   @override
   Future<Recipe> getRecipe() async {
-    // List<String> ingredients = ['bananas', 'apples', 'cheese', 'crackers'];
-
     String requestString =
         "https://api.spoonacular.com/recipes/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true";
 
