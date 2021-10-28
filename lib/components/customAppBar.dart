@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({
     Key key,
-    @required this.imgUrl,
+    this.imgUrl,
     @required this.title,
     @required this.body,
     this.bottomNav,

@@ -1,4 +1,5 @@
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
+import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -37,10 +38,15 @@ class RecipeCardGrid extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Widget snackBar =
-                        SnackBar(content: Text(recipe.id.toString()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          RecipeInfoPage(recipeId: recipe.id.toString()),
+                      fullscreenDialog: true,
+                    ));
+                    // Widget snackBar =
+                    //     SnackBar(content: Text(recipe.id.toString()));
 
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Image.network(
                     recipe.image,

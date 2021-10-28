@@ -25,7 +25,7 @@ class _TabManagerState extends State<TabManager> {
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.home: (_) => HomePage(),
-      TabItem.recipes: (_) => RecipeHomePage(),
+      TabItem.recipes: (_) => RecipeTabPage(),
       TabItem.search: (context) => SearchPage(),
       TabItem.account: (_) => AccountPage()
     };

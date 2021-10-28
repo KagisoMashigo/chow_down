@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/customAppBar.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -19,9 +20,18 @@ class RecipeInfoPage extends StatefulWidget {
 
 class _RecipeInfoPageState extends State<RecipeInfoPage> {
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Text(widget.recipeId),
+  Widget build(BuildContext conxtext) {
+    return CustomLogoAppBar(
+      imgUrl: 'assets/images/chow_down.png',
+      title: 'recipe name',
+      body: ListView(
+        children: [
+          verticalDivider(factor: 2),
+          Center(
+            child: Text(widget.recipeId),
+          ),
+        ],
+      ),
     );
   }
 }
