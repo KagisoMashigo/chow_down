@@ -7,12 +7,12 @@ abstract class RecipeInfoState extends Equatable {
   List<Object> get props => [];
 }
 
-class RecipeTabInitial extends RecipeInfoState {
-  const RecipeTabInitial();
+class RecipeInfoInitial extends RecipeInfoState {
+  const RecipeInfoInitial();
 }
 
-class RecipeTabLoading extends RecipeInfoState {
-  const RecipeTabLoading();
+class RecipeInfoLoading extends RecipeInfoState {
+  const RecipeInfoLoading();
 }
 
 class RecipeInfoLoaded extends RecipeInfoState {

@@ -6,18 +6,18 @@ import 'package:equatable/equatable.dart';
 
 part 'recipe_info_state.dart';
 
-class RecipeTabCubit extends Cubit<RecipeInfoState> {
-  RecipeTabCubit(this._recipeRepository) : super(RecipeTabInitial());
+class RecipeInfoCubit extends Cubit<RecipeInfoState> {
+  RecipeInfoCubit(this._recipeRepository) : super(RecipeInfoInitial());
 
   final RemoteRecipe _recipeRepository;
 
-  Future<void> fetchHomeRecipesList() async {
+  Future<void> fetchRecipeInformation(id) async {
     try {
-      emit(RecipeTabLoading());
+      emit(RecipeInfoLoading());
 
-      final searchResults = await _recipeRepository.getRecipeInformation();
+      final recipe = await _recipeRepository.getRecipeInformation(id);
 
-      emit(RecipeInfoLoaded(searchResults));
+      emit(RecipeInfoLoaded(recipe));
     } on Failure {
       emit(RecipInfoError('API error when fetching data'));
     }
