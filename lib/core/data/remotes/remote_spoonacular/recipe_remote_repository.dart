@@ -8,12 +8,12 @@ import 'package:chow_down/core/models/spoonacular/similar_recipe.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:dio/dio.dart';
 
-abstract class RecipeTabRepository {
+abstract class RecipeRepository {
   Future<Recipe> getRecipe();
   Future<Recipe> getRecipeInformation();
 }
 
-class RemoteRecipeTab implements RecipeTabRepository {
+class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key'];
 
   @override
