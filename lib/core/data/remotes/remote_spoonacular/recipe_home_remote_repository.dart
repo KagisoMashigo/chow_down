@@ -20,7 +20,7 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   @override
   Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
-        '$baseUrl/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true';
+        '$baseUrl/complexSearch?query=chicken&apiKey=$apiKey&includeNutrition=true';
 
     // final ingredientsString =
     //     ingredients.map((ingredient) => ingredient + '%2C').toString();
