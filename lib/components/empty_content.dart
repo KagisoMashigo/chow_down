@@ -6,6 +6,7 @@ class EmptyContent extends StatelessWidget {
   final String title;
   final String message;
 
+// TODO implement empty card where necessary
   @override
   Widget build(BuildContext context) {
     return Center(
