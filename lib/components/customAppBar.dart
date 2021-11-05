@@ -26,9 +26,14 @@ class CustomLogoAppBar extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            horizontalDivider(factor: 2.5),
+            horizontalDivider(factor: 2),
             Expanded(
-              child: Text(title),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 5 * Responsive.ratioHorizontal,
+                ),
+              ),
             ),
             Image.asset(
               imgUrl,
