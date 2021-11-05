@@ -87,12 +87,16 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
 
   Widget _buildContents(Recipe recipe) => ListView(
         children: [
-          Expanded(
-            child: Image.network(
-              recipe.image,
-              // width: 3 * Responsive.ratioHorizontal,
-              fit: BoxFit.cover,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Image.network(
+                  recipe.image,
+                  // width: 3 * Responsive.ratioHorizontal,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -105,7 +109,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       child: Text(
                         recipe.title,
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 7 * Responsive.ratioHorizontal,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -117,21 +121,127 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        'By ${recipe.sourceName}',
+                        'By ${recipe.creditsText}',
                         style: TextStyle(
-                          fontSize: 20, fontStyle: FontStyle.italic,
+                          fontSize: 4 * Responsive.ratioHorizontal,
+                          fontStyle: FontStyle.italic,
                           // fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ],
                 ),
-                verticalDivider(factor: 2),
+                verticalDivider(factor: 2.5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // TODO create rating system
+                    const Icon(Icons.stars),
+                    horizontalDivider(factor: 2),
+                    Text(
+                      '564 ratings',
+                      style: TextStyle(
+                        fontSize: 5 * Responsive.ratioHorizontal,
+                        // fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    horizontalDivider(factor: 2),
+                    TextButton(
+                      onPressed: () => print('rated!'),
+                      child: Text(
+                        'rate this recipe',
+                        style: TextStyle(
+                          fontSize: 5 * Responsive.ratioHorizontal,
+                          // fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2.5),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () => print('saved!'),
+                      iconSize: 35,
+                      icon: const Icon(
+                        Icons.save_rounded,
+                      ),
+                    ),
+                    Text(
+                      'Save recipe',
+                      style: TextStyle(
+                        fontSize: 5 * Responsive.ratioHorizontal,
+                        // fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2.5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Servings: ${recipe.servings.toString()}',
+                            style: TextStyle(
+                              fontSize: 4 * Responsive.ratioHorizontal,
+                              // fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          verticalDivider(factor: 4),
+                          Text(
+                            'Ready In: ${recipe.readyInMinutes.toString()} minutes',
+                            style: TextStyle(
+                              fontSize: 4 * Responsive.ratioHorizontal,
+                              // fontStyle: FontStyle.italic,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    // horizontalDivider(factor: 4),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Gluten Free: ${recipe.glutenFree.toString()}',
+                            style: TextStyle(
+                              fontSize: 4 * Responsive.ratioHorizontal,
+                              // fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                          verticalDivider(factor: 4),
+                          Text(
+                            'Vegetarian: ${recipe.vegetarian.toString()}',
+                            style: TextStyle(
+                              fontSize: 4 * Responsive.ratioHorizontal,
+                              // fontStyle: FontStyle.italic,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2.5),
                 Center(
                   child: Text(
-                    recipe.summary,
+                    recipe.summary
+                        .replaceAll('</b>', '')
+                        .replaceAll('<b>', '')
+                        .replaceAll('<a href=', '')
+                        .replaceAll('</a>', '')
+                        .replaceAll('>', '')
+                        .replaceAll('"', ''),
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 4 * Responsive.ratioHorizontal,
                       // fontWeight: FontWeight.bold,
                     ),
                   ),
