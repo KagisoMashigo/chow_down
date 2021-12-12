@@ -31,8 +31,8 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
 
-      print("Data :" + body.toString());
-      print("Response: " + response.statusCode.toString());
+      // print("Data :" + body.toString());
+      // print("Response: " + response.statusCode.toString());
       // TODO: Actual error handling
       return RecipeCardInfoList.fromJson(body['results']);
     } catch (e) {
