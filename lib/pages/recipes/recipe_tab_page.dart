@@ -17,7 +17,8 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   void initState() {
     super.initState();
     // Will change this to a DB call once user can save recipes
-    // Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
+    // Toggle this on and off to save requests
+    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
 
   @override
