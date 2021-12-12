@@ -1,5 +1,4 @@
 import 'package:chow_down/components/customAppBar.dart';
-import 'package:chow_down/plugins/responsive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
