@@ -1,11 +1,17 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/plugins/responsive.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override
@@ -27,19 +33,19 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
       body: Container(
-        decoration: BoxDecoration(
+        /*decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
                 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
             fit: BoxFit.cover,
           ),
-        ),
+        ),*/
         padding: EdgeInsets.all(11.1),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
           listener: (context, state) {
             if (state is RecipTabError) {
-              ScaffoldMessenger.of(context).showSnackBar(
+              return ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
                 ),
@@ -72,8 +78,11 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         child: CircularProgressIndicator(),
       );
 
-  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) =>
-      RecipeCardGrid(
-        searchResultList: searchResultList,
-      );
+  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) {
+    searchResultList != null
+        ? RecipeCardGrid(
+            searchResultList: searchResultList,
+          )
+        : EmptyContent();
+  }
 }
