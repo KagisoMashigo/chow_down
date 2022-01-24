@@ -1,5 +1,10 @@
+// 🎯 Dart imports:
 import 'dart:async';
+
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/models/page/email_sign_in_model.dart';
 import 'package:chow_down/services/auth.dart';
 

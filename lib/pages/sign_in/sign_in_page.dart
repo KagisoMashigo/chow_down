@@ -1,12 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
-import 'package:chow_down/pages/sign_in/sign_in_manager.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/buttons/sign_in_button.dart';
 import 'package:chow_down/components/buttons/social_sign_in_button.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
+import 'package:chow_down/pages/sign_in/sign_in_manager.dart';
 import 'package:chow_down/services/auth.dart';
 
 class SignInPage extends StatelessWidget {

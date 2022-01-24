@@ -1,8 +1,13 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
 import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/builders/list_items_builder.dart';
 import 'package:chow_down/pages/entries/entries_bloc.dart';
 import 'package:chow_down/pages/entries/entries_list_tile.dart';
-import 'package:chow_down/components/builders/list_items_builder.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EntriesPage extends StatelessWidget {

@@ -1,4 +1,7 @@
+// 📦 Package imports:
 import 'package:meta/meta.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/services/firestore/firestore_api_path.dart';

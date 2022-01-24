@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Nutrient {
   final String calories;
   final String carbs;

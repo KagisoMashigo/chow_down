@@ -37,3 +37,8 @@ SizedBox verticalDivider({double factor = 1.0}) =>
 
 SizedBox horizontalDivider({double factor = 1.0}) =>
     SizedBox(width: factor * Responsive.ratioHorizontal);
+
+EdgeInsetsGeometry defaultPadding() => EdgeInsets.symmetric(
+      horizontal: 3 * Responsive.ratioHorizontal,
+      vertical: 0.5 * Responsive.ratioVertical,
+    );

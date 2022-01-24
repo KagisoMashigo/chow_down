@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext contet, T item);
