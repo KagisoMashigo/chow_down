@@ -1,3 +1,4 @@
+// 🌎 Project imports:
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
 

@@ -1,13 +1,15 @@
 // 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
-import 'package:flutter/material.dart';
-
-// 🌎 Project imports:
 import 'package:chow_down/plugins/responsive.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class RecipeInfoPage extends StatefulWidget {
   const RecipeInfoPage({

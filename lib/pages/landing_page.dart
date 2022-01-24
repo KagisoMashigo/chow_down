@@ -1,6 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/bottom_nav/tab_manager.dart';
 import 'package:chow_down/pages/sign_in/sign_in_page.dart';
 import 'package:chow_down/services/auth.dart';

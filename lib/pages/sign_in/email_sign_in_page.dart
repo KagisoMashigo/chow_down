@@ -1,5 +1,8 @@
+// 🐦 Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/pages/sign_in/email_sign_in_form_change_notifier.dart';
 
 class EmailSignInPage extends StatelessWidget {

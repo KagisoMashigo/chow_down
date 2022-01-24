@@ -1,7 +1,10 @@
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:chow_down/pages/jobs/job_entries/format.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
+import 'package:chow_down/pages/jobs/job_entries/format.dart';
 
 class EntryListItem extends StatelessWidget {
   const EntryListItem({

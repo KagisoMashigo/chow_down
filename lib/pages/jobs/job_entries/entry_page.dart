@@ -1,12 +1,17 @@
-import 'package:firebase_core/firebase_core.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:chow_down/pages/jobs/job_entries/date_time_picker.dart';
-import 'package:chow_down/pages/jobs/job_entries/format.dart';
+
+// 📦 Package imports:
+import 'package:firebase_core/firebase_core.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
-import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/pages/jobs/job_entries/date_time_picker.dart';
+import 'package:chow_down/pages/jobs/job_entries/format.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class EntryPage extends StatefulWidget {

@@ -1,9 +1,14 @@
-import 'package:chow_down/components/customAppBar.dart';
-import 'package:firebase_core/firebase_core.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/builders/list_items_builder.dart';
+import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/components/job_list_tile.dart';
 import 'package:chow_down/models/firestore/job.dart';

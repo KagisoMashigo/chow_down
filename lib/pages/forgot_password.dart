@@ -1,12 +1,17 @@
+// 🐦 Flutter imports:
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   ForgotPasswordPage({@required this.model});

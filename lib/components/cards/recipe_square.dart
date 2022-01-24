@@ -1,6 +1,9 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/plugins/responsive.dart';
-import 'package:flutter/material.dart';
 
 class RecipeSquare extends StatelessWidget {
   const RecipeSquare({

@@ -1,11 +1,16 @@
-import 'package:chow_down/plugins/responsive.dart';
-import 'package:chow_down/providers/providers.dart';
-import 'package:firebase_core/firebase_core.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:chow_down/pages/landing_page.dart';
-import 'package:provider/provider.dart';
+
+// 📦 Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/pages/landing_page.dart';
+import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/providers/providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

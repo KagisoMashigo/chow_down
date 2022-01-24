@@ -1,9 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:chow_down/pages/sign_in/validators.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/pages/sign_in/validators.dart';
 import 'package:chow_down/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
