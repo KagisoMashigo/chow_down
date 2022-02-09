@@ -87,8 +87,8 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   }
 
   Future<EquipmentList> getEquipments(String id) async {
-    final enpoint = '$baseUrl/$id/equipmentWidget.json?apiKey=$apiKey';
-    final response = await Dio().get(enpoint);
+    final endpoint = '$baseUrl/$id/equipmentWidget.json?apiKey=$apiKey';
+    final response = await Dio().get(endpoint);
     final body = json.decode(response.data);
 
     print("get Equipments food :" + response.statusCode.toString());
