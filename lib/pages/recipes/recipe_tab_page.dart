@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/empty_content.dart';
+import 'package:chow_down/components/scaffoldBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/plugins/responsive.dart';
@@ -26,6 +27,12 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
     // Toggle this on and off to save requests
     Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
+
+  void showSnackbar(
+    BuildContext context,
+    String errorMessage,
+  ) =>
+      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +85,12 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         child: CircularProgressIndicator(),
       );
 
-  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) {
+  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) =>
+      RecipeCardGrid(
+        searchResultList: searchResultList,
+      );
+
+  Widget _buildColumnWithData2(RecipeCardInfoList searchResultList) {
     searchResultList != null
         ? RecipeCardGrid(
             searchResultList: searchResultList,
