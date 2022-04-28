@@ -1,3 +1,4 @@
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/measures.dart';
 
 class ExtendedIngredients {

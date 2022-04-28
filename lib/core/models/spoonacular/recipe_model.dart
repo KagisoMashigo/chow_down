@@ -1,3 +1,4 @@
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 

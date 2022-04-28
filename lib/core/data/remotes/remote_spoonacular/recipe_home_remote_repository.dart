@@ -1,12 +1,17 @@
+// 🎯 Dart imports:
 import 'dart:convert';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
+
+// 📦 Package imports:
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/equipment.dart';
 import 'package:chow_down/core/models/spoonacular/nutrients.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/core/models/spoonacular/similar_recipe.dart';
 import 'package:chow_down/models/error/error.dart';
-import 'package:dio/dio.dart';
 
 abstract class RecipeHomeRepository {
   Future<RecipeCardInfoList> getLatestRecipe();
@@ -20,7 +25,7 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   @override
   Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
-        '$baseUrl/complexSearch?query=apple&apiKey=$apiKey&includeNutrition=true';
+        '$baseUrl/complexSearch?query=chicken&apiKey=$apiKey&includeNutrition=true';
 
     // final ingredientsString =
     //     ingredients.map((ingredient) => ingredient + '%2C').toString();
@@ -31,8 +36,8 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
 
-      print("Data :" + body.toString());
-      print("Response: " + response.statusCode.toString());
+      // print("Data :" + body.toString());
+      // print("Response: " + response.statusCode.toString());
       // TODO: Actual error handling
       return RecipeCardInfoList.fromJson(body['results']);
     } catch (e) {
@@ -82,8 +87,8 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   }
 
   Future<EquipmentList> getEquipments(String id) async {
-    final enpoint = '$baseUrl/$id/equipmentWidget.json?apiKey=$apiKey';
-    final response = await Dio().get(enpoint);
+    final endpoint = '$baseUrl/$id/equipmentWidget.json?apiKey=$apiKey';
+    final response = await Dio().get(endpoint);
     final body = json.decode(response.data);
 
     print("get Equipments food :" + response.statusCode.toString());

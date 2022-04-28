@@ -1,5 +1,8 @@
-import 'package:chow_down/plugins/responsive.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/plugins/responsive.dart';
 
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({
@@ -26,9 +29,14 @@ class CustomLogoAppBar extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            horizontalDivider(factor: 2.5),
+            horizontalDivider(factor: 2),
             Expanded(
-              child: Text(title),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 5 * Responsive.ratioHorizontal,
+                ),
+              ),
             ),
             Image.asset(
               imgUrl,

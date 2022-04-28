@@ -1,4 +1,7 @@
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/pages/entries/entry_job.dart';
 
 /// Temporary model class to store the time tracked and pay for a job

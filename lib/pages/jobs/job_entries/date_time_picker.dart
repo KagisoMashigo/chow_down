@@ -1,6 +1,10 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/pages/jobs/job_entries/format.dart';
 import 'package:chow_down/pages/jobs/job_entries/input_dropdown.dart';
 

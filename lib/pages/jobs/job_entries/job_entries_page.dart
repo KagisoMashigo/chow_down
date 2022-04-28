@@ -1,17 +1,23 @@
+// 🎯 Dart imports:
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+// 📦 Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'package:chow_down/pages/jobs/job_entries/entry_list_item.dart';
-import 'package:chow_down/pages/jobs/job_entries/entry_page.dart';
-import 'package:chow_down/pages/jobs/edit_job_page.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/builders/list_items_builder.dart';
+import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/models/firestore/job.dart';
-import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
+import 'package:chow_down/pages/jobs/edit_job_page.dart';
+import 'package:chow_down/pages/jobs/job_entries/entry_list_item.dart';
+import 'package:chow_down/pages/jobs/job_entries/entry_page.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class JobEntriesPage extends StatelessWidget {

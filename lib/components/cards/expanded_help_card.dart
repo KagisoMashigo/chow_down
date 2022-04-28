@@ -1,5 +1,8 @@
-import 'package:chow_down/plugins/responsive.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/plugins/responsive.dart';
 
 class HelpCard extends StatelessWidget {
   const HelpCard({

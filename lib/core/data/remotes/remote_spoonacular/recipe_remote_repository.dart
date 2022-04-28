@@ -1,12 +1,17 @@
+// 🎯 Dart imports:
 import 'dart:convert';
 import 'dart:math';
+
+// 📦 Package imports:
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/equipment.dart';
 import 'package:chow_down/core/models/spoonacular/nutrients.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/core/models/spoonacular/similar_recipe.dart';
 import 'package:chow_down/models/error/error.dart';
-import 'package:dio/dio.dart';
 
 abstract class RecipeRepository {
   Future<Recipe> getRecipeInformation(int id);

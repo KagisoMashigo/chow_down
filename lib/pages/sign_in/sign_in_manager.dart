@@ -1,6 +1,13 @@
+// 🎯 Dart imports:
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
+
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/services/auth.dart';
 
 class SignInManager {

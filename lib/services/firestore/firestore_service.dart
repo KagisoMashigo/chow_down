@@ -1,5 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   FirestoreService._();

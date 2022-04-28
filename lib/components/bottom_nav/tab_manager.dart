@@ -1,10 +1,13 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
+import 'package:chow_down/components/bottom_nav/tab_item.dart';
+import 'package:chow_down/pages/account/account_page.dart';
 import 'package:chow_down/pages/home/Body.dart';
 import 'package:chow_down/pages/recipes/recipe_tab_page.dart';
 import 'package:chow_down/pages/search/search_page.dart';
-import 'package:flutter/material.dart';
-import 'package:chow_down/pages/account/account_page.dart';
-import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
-import 'package:chow_down/components/bottom_nav/tab_item.dart';
 
 class TabManager extends StatefulWidget {
   @override
