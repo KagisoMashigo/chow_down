@@ -14,27 +14,50 @@ import 'package:chow_down/core/models/spoonacular/similar_recipe.dart';
 import 'package:chow_down/models/error/error.dart';
 
 abstract class RecipeRepository {
-  Future<Recipe> getRecipeInformation(int id);
+  Future<Recipe> getRecipeInformation(int id, String sourceUrl);
 }
 
 class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key'];
 
-  Future<Recipe> getRecipeInformation(int id) async {
-    final endpoint =
-        'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
-
-    try {
+  Future<Recipe> getRecipeInformation(int id, String sourceUrl) async {
+    if (id == -1) {
+      final endpoint =
+          'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&addRecipeInformation=true';
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
-
-      print("Data :" + body.toString());
-      print("Response: " + response.statusCode.toString());
-      // TODO: Actual error handling
+      print('endpoint recipe ${endpoint}');
       return Recipe.fromJson(body);
-    } catch (e) {
-      print(e);
+    } else {
+      final endpoint =
+          'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
+
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
+      return Recipe.fromJson(body);
     }
+
+    // if (response.statusCode == 200) {
+    //   print("Data : $body");
+    //   print("Data 2: $body");
+    //   // print("Response: " + response.statusCode.toString());
+    //   // TODO: Actual error handling and try catch blocks
+    //   return Recipe.fromJson(body);
+    // } else if (response.statusCode == 401) {
+    //   throw Failure(code: 401, message: body['message']);
+    // } else {
+    //   var msg = 'Something went wrong';
+    //   if (body.containsKey('message')) {
+    //     msg = body['message'];
+    //   }
+    //   throw Failure(code: response.statusCode, message: msg);
+    // }
+
+    // try {
+
+    // } catch (e) {
+    //   print(e);
+    // }
   }
 
   Future<SimilarList> getSimilarFood(String id) async {

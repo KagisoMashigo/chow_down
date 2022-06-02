@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:chow_down/cubit/home_page/extract_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -40,6 +41,11 @@ final _functionalityProviders = <SingleChildWidget>[
   ),
   BlocProvider<SearchCubit>(
     create: (context) => SearchCubit(
+      RemoteSearchRepository(),
+    ),
+  ),
+  BlocProvider<ExtractCubit>(
+    create: (context) => ExtractCubit(
       RemoteSearchRepository(),
     ),
   ),

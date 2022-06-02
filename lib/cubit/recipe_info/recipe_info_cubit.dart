@@ -14,11 +14,13 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
 
   final RemoteRecipe _recipeRepository;
 
-  Future<void> fetchRecipeInformation(id) async {
+  Future<void> fetchRecipeInformation(id, sourceUrl) async {
     try {
       emit(RecipeInfoLoading());
 
-      final recipe = await _recipeRepository.getRecipeInformation(id);
+      final Recipe recipe =
+          await _recipeRepository.getRecipeInformation(id, sourceUrl);
+      print('extracted recipe ${sourceUrl}');
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure {

@@ -11,6 +11,7 @@ class RecipeCard extends StatelessWidget {
     this.id,
     @required this.name,
     @required this.imageUrl,
+    this.url,
     this.imageType,
   }) : super(key: key);
 
@@ -22,6 +23,8 @@ class RecipeCard extends StatelessWidget {
 
   /// Recipe url
   final String imageUrl;
+
+  final String url;
 
   final String imageType;
 

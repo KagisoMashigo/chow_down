@@ -11,8 +11,9 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
 import 'package:chow_down/plugins/responsive.dart';
 
-class RecipeInfoPage extends StatefulWidget {
-  const RecipeInfoPage({Key key, @required this.title, this.id, this.sourceUrl})
+class ExtractedInfoPage extends StatefulWidget {
+  const ExtractedInfoPage(
+      {Key key, @required this.title, this.id, this.sourceUrl})
       : super(key: key);
 
   /// Recipe title
@@ -24,10 +25,10 @@ class RecipeInfoPage extends StatefulWidget {
   final String sourceUrl;
 
   @override
-  _RecipeInfoPageState createState() => _RecipeInfoPageState();
+  _ExtractedInfoPageState createState() => _ExtractedInfoPageState();
 }
 
-class _RecipeInfoPageState extends State<RecipeInfoPage> {
+class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
   void initState() {
     super.initState();
     // Will change this to a DB call once user can save recipes
@@ -235,20 +236,20 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 ),
                 verticalDivider(factor: 2.5),
                 Center(
-                  child: Text(
-                    recipe.summary
-                        .replaceAll('</b>', '')
-                        .replaceAll('<b>', '')
-                        .replaceAll('<a href=', '')
-                        .replaceAll('</a>', '')
-                        .replaceAll('>', '')
-                        .replaceAll('"', ''),
-                    style: TextStyle(
-                      fontSize: 4 * Responsive.ratioHorizontal,
-                      // fontWeight: FontWeight.bold,
+                    // child: Text(
+                    //   recipe.summary
+                    //       .replaceAll('</b>', '')
+                    //       .replaceAll('<b>', '')
+                    //       .replaceAll('<a href=', '')
+                    //       .replaceAll('</a>', '')
+                    //       .replaceAll('>', '')
+                    //       .replaceAll('"', ''),
+                    //   style: TextStyle(
+                    //     fontSize: 4 * Responsive.ratioHorizontal,
+                    //     // fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                     ),
-                  ),
-                ),
               ],
             ),
           ),

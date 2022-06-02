@@ -77,6 +77,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   Widget _buildInitialInput() => Padding(
         padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
         child: Column(
+          // Home page here
           children: [Container()],
         ),
       );

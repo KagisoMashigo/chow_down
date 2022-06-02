@@ -11,6 +11,7 @@ import 'package:chow_down/models/error/error.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);
+  Future<RecipeCardInfo> getExtractedRecipe(String url);
 }
 
 class RemoteSearchRepository implements SearchRepository {
@@ -35,6 +36,40 @@ class RemoteSearchRepository implements SearchRepository {
 
     if (response.statusCode == 200) {
       return RecipeCardInfoList.fromJson(body['results']);
+    } else if (response.statusCode == 401) {
+      throw Failure(code: 401, message: body['message']);
+    } else {
+      var msg = 'Something went wrong';
+      if (body.containsKey('message')) {
+        msg = body['message'];
+      }
+      throw Failure(code: response.statusCode, message: msg);
+    }
+  }
+
+  @override
+  Future<RecipeCardInfo> getExtractedRecipe(String url) async {
+    final endpoint =
+        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&addRecipeInformation=true';
+
+    // TODO do error handling
+    // try {
+    //   final response = await Dio().get(endpoint);
+    //   final body = json.decode(response.toString());
+    //   return RecipeCardInfoList.fromJson(body['results']);
+    // } on Failure {
+    //   throw Failure;
+    // }
+
+    final response = await Dio().get(endpoint);
+    final body = json.decode(response.toString());
+
+    if (response.statusCode == 200) {
+      print('reposnse: $body');
+      print('reposnse: ${body['title']}');
+      print('reposnse: ${body['sourceUrl']}');
+
+      return RecipeCardInfo.fromJson(body);
     } else if (response.statusCode == 401) {
       throw Failure(code: 401, message: body['message']);
     } else {

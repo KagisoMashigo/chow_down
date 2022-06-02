@@ -16,7 +16,7 @@ class Recipe {
   bool lowFodmap;
   int aggregateLikes;
   double spoonacularScore;
-  double healthScore;
+  int healthScore;
   String creditsText;
   String license;
   String sourceName;
@@ -91,7 +91,7 @@ class Recipe {
         lowFodmap: json['lowFodmap'] as bool,
         aggregateLikes: json['aggregateLikes'] as int,
         spoonacularScore: json['spoonacularScore'] as double,
-        healthScore: json['healthScore'] as double,
+        healthScore: json['healthScore'] as int,
         creditsText: json['creditsText'] as String,
         license: json['license'] as String,
         sourceName: json['sourceName'] as String,
