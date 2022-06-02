@@ -30,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
+                'https://images.unsplash.com/photo-1559703248-dcaaec9fab78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
         ),

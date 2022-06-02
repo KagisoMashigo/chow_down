@@ -6,7 +6,7 @@ import 'package:chow_down/components/bottom_nav/cupertino_home_scaffold.dart';
 import 'package:chow_down/components/bottom_nav/tab_item.dart';
 import 'package:chow_down/pages/account/account_page.dart';
 import 'package:chow_down/pages/home/Body.dart';
-import 'package:chow_down/pages/recipes/recipe_tab_page.dart';
+import 'package:chow_down/pages/recipes/saved_recipe_page.dart';
 import 'package:chow_down/pages/search/search_page.dart';
 
 class TabManager extends StatefulWidget {

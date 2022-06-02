@@ -10,6 +10,7 @@ import 'package:chow_down/models/error/error.dart';
 part 'extract_state.dart';
 
 class ExtractCubit extends Cubit<ExtractState> {
+  // TODO: move to recipe repo
   final RemoteSearchRepository _searchRepository;
 
   ExtractCubit(this._searchRepository) : super(ExtractInitial());

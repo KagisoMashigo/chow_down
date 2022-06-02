@@ -18,6 +18,8 @@ abstract class RecipeRepository {
 }
 
 class RemoteRecipe implements RecipeRepository {
+  // TODO: refactor this logic and maybe sperate/ also try catch
+  // TODO: Actual error handling and try catch blocks
   final String apiKey = dotenv.env['api_key'];
 
   Future<Recipe> getRecipeInformation(int id, String sourceUrl) async {
@@ -41,7 +43,6 @@ class RemoteRecipe implements RecipeRepository {
     //   print("Data : $body");
     //   print("Data 2: $body");
     //   // print("Response: " + response.statusCode.toString());
-    //   // TODO: Actual error handling and try catch blocks
     //   return Recipe.fromJson(body);
     // } else if (response.statusCode == 401) {
     //   throw Failure(code: 401, message: body['message']);

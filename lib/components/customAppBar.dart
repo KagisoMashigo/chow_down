@@ -25,7 +25,10 @@ class CustomLogoAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[900],
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Color.fromARGB(255, 246, 243, 243),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -34,6 +37,7 @@ class CustomLogoAppBar extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
+                  color: Colors.black,
                   fontSize: 5 * Responsive.ratioHorizontal,
                 ),
               ),

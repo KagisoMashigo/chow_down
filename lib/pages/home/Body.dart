@@ -1,14 +1,15 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/recipe_card.dart';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
-import 'package:chow_down/cubit/home_page/extract_cubit.dart';
-import 'package:chow_down/pages/recipes/extracted_info_page.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
-import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/cards/recipe_card.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
+import 'package:chow_down/cubit/home_page/extract_cubit.dart';
+import 'package:chow_down/pages/recipes/extracted_info_page.dart';
+import 'package:chow_down/plugins/responsive.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,10 +19,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    // TODO: page needs to be refreshable
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // title: Text('What are we eating?'),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
+                'https://images.unsplash.com/photo-1554521718-e87e96d67ca5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
         ),
@@ -84,6 +85,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildLoading() {
     return Center(
+      // TODO: Cooler loading bar, maybe with text too
       child: CircularProgressIndicator(),
     );
   }
@@ -144,12 +146,12 @@ class RecipeExtractInput extends StatelessWidget {
         decoration: InputDecoration(
             hintText: "Enter a url",
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white, width: 0.0),
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 0, 0, 0), width: 0.0),
               borderRadius: BorderRadius.circular(12),
             ),
             suffixIcon: Icon(Icons.search),
-            labelStyle: TextStyle(color: Colors.white),
-            hintStyle: TextStyle(color: Colors.white)),
+            hintStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
       ),
     );
   }

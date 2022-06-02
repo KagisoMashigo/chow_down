@@ -23,7 +23,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   @override
   void initState() {
     super.initState();
-    // Will change this to a DB call once user can save recipes
+    // TODO: Will change this to a DB call once user can save recipes
     // Toggle this on and off to save requests
     Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
@@ -40,13 +40,14 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
       body: Container(
-        /*decoration: BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
+              'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+            ),
             fit: BoxFit.cover,
           ),
-        ),*/
+        ),
         padding: EdgeInsets.all(11.1),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
