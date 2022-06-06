@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
         alignment: Alignment.center,
         child: BlocConsumer<ExtractCubit, ExtractState>(
           listener: (context, state) {

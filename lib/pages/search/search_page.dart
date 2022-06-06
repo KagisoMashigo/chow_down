@@ -34,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.only(top: 5 * Responsive.ratioVertical),
         alignment: Alignment.center,
         child: BlocConsumer<SearchCubit, SearchState>(
           listener: (context, state) {
@@ -100,6 +100,10 @@ class _SearchPageState extends State<SearchPage> {
                       id: recipe.id,
                       name: recipe.name,
                       imageUrl: recipe.image,
+                      url: recipe.sourceUrl,
+                      readyInMinutes: recipe.readyInMinutes,
+                      vegetarian: recipe.vegetarian,
+                      servings: recipe.servings,
                     ),
                   ))
               .toList(),
@@ -113,13 +117,13 @@ class SearchInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
       child: TextField(
         style: TextStyle(color: Colors.white),
         onSubmitted: (query) => _submitForm(context, query),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-            hintText: "Search a recipe",
+            hintText: "Search for a recipe",
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.white, width: 0.0),
               borderRadius: BorderRadius.circular(12),
