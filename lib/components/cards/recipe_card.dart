@@ -8,11 +8,14 @@ import 'package:chow_down/components/design/responsive.dart';
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
     Key key,
-    this.id,
+    @required this.id,
     @required this.name,
     @required this.imageUrl,
-    this.url,
+    @required this.url,
     this.imageType,
+    @required this.readyInMinutes,
+    @required this.vegetarian,
+    @required this.servings,
   }) : super(key: key);
 
   /// Recipe id
@@ -28,6 +31,12 @@ class RecipeCard extends StatelessWidget {
 
   final String imageType;
 
+  final int readyInMinutes;
+
+  final bool vegetarian;
+
+  final int servings;
+
   @override
   Widget build(BuildContext context) {
     return BaseCard(
@@ -42,9 +51,6 @@ class RecipeCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   name.toString(),
-                  // softWrap: false,
-                  // overflow: TextOverflow.fade,
-                  // textScaleFactor: 1,
                   style: TextStyle(
                     fontSize: 4 * Responsive.ratioHorizontal,
                     // fontWeight: FontWeight.bold,
@@ -66,23 +72,55 @@ class RecipeCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: GestureDetector(
-                    onTap: () => print(id),
-                    child: Image.network(
-                      imageUrl,
-                      width: 35 * Responsive.ratioHorizontal,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.network(
+                    imageUrl,
+                    width: 35 * Responsive.ratioHorizontal,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              horizontalDivider(factor: 3),
+              horizontalDivider(factor: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Placeholder: Rating'),
-                  verticalDivider(factor: 3),
-                  Text('Placeholder: Relevant info'),
+                  Row(
+                    children: [
+                      Icon(Icons.coffee_maker_outlined),
+                      horizontalDivider(),
+                      Text(
+                        '${readyInMinutes.toString()} mins',
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalDivider(factor: 1.5),
+                  Row(
+                    children: [
+                      Icon(Icons.soup_kitchen),
+                      horizontalDivider(),
+                      Text(
+                        '${servings.toString()} servings',
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalDivider(factor: 1.5),
+                  Row(
+                    children: [
+                      Icon(Icons.food_bank_outlined),
+                      horizontalDivider(),
+                      Text(
+                        '${vegetarian ? 'Vegetarian' : 'Omnivores'}',
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
