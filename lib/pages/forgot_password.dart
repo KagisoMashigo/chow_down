@@ -4,6 +4,7 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -77,6 +78,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 verticalDivider(factor: 15),
+                _showAlert(),
+                verticalDivider(),
                 Card(
                   color: Colors.transparent,
                   child: Padding(
@@ -128,13 +131,51 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     );
   }
 
+  // TODO: edit the actual email sent back
+  Widget _showAlert() {
+    if (_alert != null) {
+      return Container(
+        width: 1 * Responsive.ratioHorizontal,
+        padding: defaultPadding(),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: defaultPadding(),
+              child: Icon(Icons.error_outline),
+            ),
+            Expanded(
+              child: AutoSizeText(
+                _alert,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 2 * Responsive.ratioHorizontal),
+              child: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(() {
+                    _alert = null;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    return verticalDivider(
+      factor: 0,
+    );
+  }
+
   TextField _buildEmailTextField() {
     return TextField(
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(color: ChowColors.white),
+        labelStyle: TextStyle(color: Colors.white),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),
