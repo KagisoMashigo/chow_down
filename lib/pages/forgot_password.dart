@@ -134,7 +134,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: ChowColors.white),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),
