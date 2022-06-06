@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/design/color.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -9,7 +11,7 @@ import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/home_page/extract_cubit.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: page needs to be refreshable
+    // TODO: page needs to be refreshable, or does it?
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1554521718-e87e96d67ca5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
+                'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
         ),
@@ -66,15 +68,14 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildInitialInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
+      padding: EdgeInsets.only(top: 7.5 * Responsive.ratioVertical),
       child: Column(
         children: [
           Image.asset(
-            // TODO: Can make a better logo / reconsider padding or text size
             'assets/images/chow_down.png',
-            height: 200,
-            width: 200,
-            fit: BoxFit.fill,
+            height: 18.5 * Responsive.ratioVertical,
+            width: 18.5 * Responsive.ratioVertical,
+            fit: BoxFit.cover,
           ),
           verticalDivider(factor: 5),
           RecipeExtractInput()
@@ -86,49 +87,55 @@ class _HomePageState extends State<HomePage> {
   Widget _buildLoading() {
     return Center(
       // TODO: Cooler loading bar, maybe with text too
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: ChowColors.white,
+      ),
     );
   }
 
   Widget _buildColumnWithData(RecipeCardInfo searchResult) {
     final result = searchResult;
-    print('RESULT: ${result.sourceUrl}');
+
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
-            top: 12 * Responsive.ratioVertical,
-            left: 2 * Responsive.ratioVertical,
-            right: 2 * Responsive.ratioVertical),
-        child: Column(children: [
-          Image.asset(
-            // TODO: Can make a better logo / reconsider padding or text size
-            'assets/images/chow_down.png',
-            height: 200,
-            width: 200,
-            fit: BoxFit.fill,
-          ),
-          verticalDivider(factor: 2),
-          RecipeExtractInput(),
-          verticalDivider(),
-          GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ExtractedInfoPage(
-                  title: result.name,
+          top: 7.5 * Responsive.ratioVertical,
+        ),
+        child: Column(
+          children: [
+            Image.asset(
+              'assets/images/chow_down.png',
+              height: 18.5 * Responsive.ratioVertical,
+              width: 18.5 * Responsive.ratioVertical,
+              fit: BoxFit.fill,
+            ),
+            verticalDivider(factor: 2),
+            RecipeExtractInput(),
+            verticalDivider(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: 5 * Responsive.ratioHorizontal),
+              child: GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ExtractedInfoPage(
+                      title: result.name,
+                      id: result.id,
+                      sourceUrl: result.sourceUrl,
+                    ),
+                  ),
+                ),
+                child: RecipeCard(
                   id: result.id,
-                  sourceUrl: result.sourceUrl,
+                  name: result.name,
+                  imageUrl: result.image,
+                  url: result.sourceUrl,
                 ),
               ),
-            ),
-            child: RecipeCard(
-              id: result.id,
-              name: result.name,
-              imageUrl: result.image,
-              url: result.sourceUrl,
-            ),
-          )
-        ]),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -138,26 +145,45 @@ class RecipeExtractInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
       child: TextField(
+        keyboardType: TextInputType.url,
         style: TextStyle(color: Colors.white),
-        onSubmitted: (query) => _submitForm(context, query),
+        onSubmitted: (url) => _submitForm(context, url),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-            hintText: "Enter a url",
+            // TODO: error handling if url is not recipe
+            hintText: "Enter a recipe url here",
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                  color: Color.fromARGB(255, 0, 0, 0), width: 0.0),
+                color: ChowColors.white,
+                width: 0.0,
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
-            suffixIcon: Icon(Icons.search),
-            hintStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+            suffixIcon: Icon(
+              Icons.search,
+              color: Colors.white,
+            ),
+            hintStyle: TextStyle(
+              color: ChowColors.white,
+            )),
       ),
     );
   }
 
   void _submitForm(BuildContext context, String url) {
     final extractCubit = context.read<ExtractCubit>();
-    extractCubit.fetchExtractedResult(url);
+    try {
+      extractCubit.fetchExtractedResult(url);
+    } catch (e) {
+      // TODO: error handling with cubit
+      showAlertDialog(
+        context,
+        title: 'Error',
+        content: e,
+        defaultActionText: 'defaultActionText',
+      );
+    }
   }
 }
