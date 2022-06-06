@@ -25,19 +25,11 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   @override
   Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
-        '$baseUrl/complexSearch?query=chicken&apiKey=$apiKey&includeNutrition=true';
-
-    // final ingredientsString =
-    //     ingredients.map((ingredient) => ingredient + '%2C').toString();
-
-    // endpoint = endpoint + ingredientsString;
+        '$baseUrl/complexSearch?query=beef&apiKey=$apiKey&includeNutrition=true';
 
     try {
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
-
-      // print("Data :" + body.toString());
-      // print("Response: " + response.statusCode.toString());
       // TODO: Actual error handling
       return RecipeCardInfoList.fromJson(body['results']);
     } catch (e) {

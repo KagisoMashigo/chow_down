@@ -45,7 +45,9 @@ class ChowDown extends StatelessWidget {
     return MaterialApp(
       title: 'Chow Down',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
+        appBarTheme: AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
+        ),
         fontFamily: 'Lato',
       ),
       // TODO: make sure logged in goes to home
