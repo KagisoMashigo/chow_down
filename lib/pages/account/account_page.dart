@@ -1,4 +1,8 @@
 // 🐦 Flutter imports:
+import 'dart:math';
+
+import 'package:chow_down/components/chow_list_tile.dart';
+import 'package:chow_down/components/design/color.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,8 +12,18 @@ import 'package:provider/provider.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/services/auth.dart';
+
+const FLAVOURS = [
+  'Chocolate Chip',
+  'Hazelnut',
+  'Vanilla Swirl',
+  'Pistachio',
+  'Salted Caramel Crunch',
+  'Rum & Raisin',
+  'Chocolate Vanilla Swirl'
+];
 
 class AccountPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
@@ -20,6 +34,9 @@ class AccountPage extends StatelessWidget {
       print(e.toString());
     }
   }
+
+  // TODO: better name generator
+  Future<String> _anonGenerator(List names) {}
 
   Future<void> _confirmSignOut(BuildContext context) async {
     final confirmSignOut = await showAlertDialog(
@@ -35,22 +52,34 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _buildUserInfo(User user) {
-    // TODO: intl & raw string constants
     return Padding(
-      padding: const EdgeInsets.all(8.0 * 4),
+      padding: EdgeInsets.all(15 * Responsive.ratioSquare),
       child: Row(
         children: [
-          verticalDivider(factor: 5),
           Avatar(
-            radius: 50,
+            radius: 15 * Responsive.ratioHorizontal,
             photoUrl: user.photoURL,
           ),
           horizontalDivider(factor: 5),
-          if (user.displayName != null)
-            Text(
-              user.displayName,
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
+          user.displayName != null
+              ? Expanded(
+                  child: Text(
+                    user.displayName,
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                  ),
+                )
+              : Expanded(
+                  child: Text(
+                    'Anonymous ${FLAVOURS.elementAt(
+                      Random().nextInt(FLAVOURS.length),
+                    )}',
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                  ),
+                )
         ],
       ),
     );
@@ -59,7 +88,6 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
-    final _textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       body: Container(
@@ -72,61 +100,54 @@ class AccountPage extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: defaultPadding(),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: defaultPadding(),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildUserInfo(auth.currentUser),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    padding: defaultPadding(),
                     child: Text(
                       'Settings',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(
+                          color: ChowColors.white,
+                          fontSize: 5.25 * Responsive.ratioHorizontal),
                     ),
                   ),
                 ),
-                const ListTile(
-                  leading: Icon(Icons.language_outlined, color: Colors.white),
-                  title: Text(
-                    'Language',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                  ),
-                ),
-                const ListTile(
+                // TODO: add lang tile for intl & raw string constants
+                ChowListTile(
+                  onTap: () => {},
                   leading: Icon(
                     Icons.data_exploration_outlined,
-                    color: Colors.white,
+                    color: ChowColors.white,
                   ),
                   title: Text(
-                    'Clear all settings & data',
-                    style: TextStyle(color: Colors.white),
+                    'Delete Account',
+                    style: TextStyle(color: ChowColors.white),
                   ),
                   trailing: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
+                    Icons.chevron_right_outlined,
+                    color: ChowColors.white,
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0 * 3),
-                    primary: Color.fromRGBO(166, 163, 149, 1),
+                    minimumSize:
+                        Size.fromHeight(10 * Responsive.ratioHorizontal),
+                    padding: defaultPadding(),
+                    primary: ChowColors.beige200,
                   ),
                   onPressed: () => _confirmSignOut(context),
-                  child: const Text(
+                  child: Text(
                     'Logout',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 4.25 * Responsive.ratioHorizontal,
                     ),
                   ),
                 ),
