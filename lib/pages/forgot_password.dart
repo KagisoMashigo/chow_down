@@ -1,9 +1,9 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
+import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,6 @@ class ForgotPasswordPage extends StatefulWidget {
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-// TODO: this page really needs responsive designs
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
@@ -41,7 +40,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
-    // alertTrue =t
   }
 
   @override
@@ -58,13 +56,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       appBar: AppBar(
         title: Text(
           'Oopsie',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 7 * Responsive.ratioHorizontal),
         ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        height: 900,
+        height: 100 * Responsive.ratioVertical,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
@@ -73,38 +71,35 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: defaultPadding(),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 120.0),
+                verticalDivider(factor: 15),
                 Card(
-                  // color: Colors.transparent,
+                  color: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(6 * Responsive.ratioSquare),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _buildEmailTextField(),
-                        SizedBox(height: 8.0),
+                        verticalDivider(),
                         FormSubmitButton(
+                          color: ChowColors.beige100,
                           text: 'Reset Password',
                           onPressed: model.canReset ? _reset : null,
                         ),
-                        _return()
+                        _returnToLogin()
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 40.0),
-                _showAlert(),
               ]),
         ),
       ),
-      backgroundColor: Colors.grey[200],
     );
   }
 
@@ -123,79 +118,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
-  Widget _return() {
+  Widget _returnToLogin() {
     return TextButton(
-      child: Text('Return to Login'),
-      onPressed: () => Navigator.of(context).pop(),
-    );
-  }
-
-  /// Builds the header
-  Widget _buildHeader() {
-    if (model.isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return Container(
-      alignment: Alignment.center,
-      child: Image.asset(
-        // TODO: Can make a better logo
-        'assets/images/chow_down.png',
-        height: 150,
-        width: 150,
-        fit: BoxFit.cover,
+      child: Text(
+        'Return to Login',
+        style: TextStyle(color: ChowColors.white),
       ),
-    );
-  }
-
-  Widget _showAlert() {
-    if (_alert != null) {
-      return Container(
-        color: Colors.greenAccent,
-        width: double.infinity,
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.error_outline),
-            ),
-            Expanded(
-              child: AutoSizeText(
-                _alert,
-                maxLines: 3,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    _alert = null;
-                  });
-                },
-              ),
-            )
-          ],
-        ),
-      );
-    }
-    return SizedBox(
-      height: 0,
+      onPressed: () => Navigator.of(context).pop(),
     );
   }
 
   TextField _buildEmailTextField() {
     return TextField(
-      // TODO: style the form and card
-      // style: TextStyle(color: Colors.white),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
+        labelStyle: TextStyle(color: Colors.white),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),
