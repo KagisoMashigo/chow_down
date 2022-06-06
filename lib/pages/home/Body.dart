@@ -131,6 +131,9 @@ class _HomePageState extends State<HomePage> {
                   name: result.name,
                   imageUrl: result.image,
                   url: result.sourceUrl,
+                  readyInMinutes: result.readyInMinutes,
+                  vegetarian: result.vegetarian,
+                  servings: result.servings,
                 ),
               ),
             )
@@ -148,7 +151,7 @@ class RecipeExtractInput extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
       child: TextField(
         keyboardType: TextInputType.url,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: ChowColors.white),
         onSubmitted: (url) => _submitForm(context, url),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
@@ -163,7 +166,7 @@ class RecipeExtractInput extends StatelessWidget {
             ),
             suffixIcon: Icon(
               Icons.search,
-              color: Colors.white,
+              color: ChowColors.white,
             ),
             hintStyle: TextStyle(
               color: ChowColors.white,
@@ -173,17 +176,8 @@ class RecipeExtractInput extends StatelessWidget {
   }
 
   void _submitForm(BuildContext context, String url) {
+    // TODO: error handling with cubit
     final extractCubit = context.read<ExtractCubit>();
-    try {
-      extractCubit.fetchExtractedResult(url);
-    } catch (e) {
-      // TODO: error handling with cubit
-      showAlertDialog(
-        context,
-        title: 'Error',
-        content: e,
-        defaultActionText: 'defaultActionText',
-      );
-    }
+    extractCubit.fetchExtractedResult(url);
   }
 }

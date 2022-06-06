@@ -3,11 +3,17 @@ class RecipeCardInfo {
   final String name;
   final String image;
   final String sourceUrl;
+  final int readyInMinutes;
+  final bool vegetarian;
+  final int servings;
   RecipeCardInfo({
     this.id,
     this.name,
     this.image,
     this.sourceUrl,
+    this.readyInMinutes,
+    this.vegetarian,
+    this.servings,
   });
   factory RecipeCardInfo.fromJson(Map<String, dynamic> json) {
     return RecipeCardInfo(
@@ -15,6 +21,9 @@ class RecipeCardInfo {
       name: json['title'],
       image: json['image'],
       sourceUrl: json['sourceUrl'],
+      readyInMinutes: json['readyInMinutes'],
+      vegetarian: json['vegetarian'],
+      servings: json['servings'],
     );
   }
 }
