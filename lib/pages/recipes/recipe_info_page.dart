@@ -21,6 +21,7 @@ class RecipeInfoPage extends StatefulWidget {
   /// Recipe id
   final int id;
 
+  /// Recipe url
   final String sourceUrl;
 
   @override
@@ -44,7 +45,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1528458876861-544fd1761a91?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1388&q=80'),
+                'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
         ),
@@ -64,8 +65,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             if (state is RecipeInfoLoading) {
               return _buildLoading();
             } else if (state is RecipeInfoLoaded) {
-              print('state ${state}');
-              print('recipe ${state.recipe}');
               return _buildContents(state.recipe);
             } else {
               // error state snackbar
@@ -85,7 +84,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
       );
 
   Widget _buildLoading() => Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.black,
+        ),
       );
 
   Widget _buildContents(Recipe recipe) => ListView(
@@ -96,7 +97,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 child: Image.network(
                   recipe.image,
                   // width: 3 * Responsive.ratioHorizontal,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
             ],
@@ -117,6 +118,34 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                         ),
                       ),
                     ),
+                    IconButton(
+                      onPressed: () => print('saved!'),
+                      iconSize: 35,
+                      icon: const Icon(
+                        Icons.save_rounded,
+                      ),
+                    ),
+                  ],
+                ),
+                verticalDivider(factor: 2),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Ready In: ${recipe.readyInMinutes.toString()} minutes',
+                      style: TextStyle(
+                        fontSize: 4 * Responsive.ratioHorizontal,
+                        // fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    Text(
+                      'Servings: ${recipe.servings.toString()}',
+                      style: TextStyle(
+                        fontSize: 4 * Responsive.ratioHorizontal,
+                        // fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    verticalDivider(factor: 4),
                   ],
                 ),
                 verticalDivider(factor: 2),
@@ -136,48 +165,29 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                 ),
                 verticalDivider(factor: 2.5),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // TODO create rating system
-                    const Icon(Icons.stars),
-                    horizontalDivider(factor: 2),
-                    Text(
-                      '564 ratings',
-                      style: TextStyle(
-                        fontSize: 5 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    horizontalDivider(factor: 2),
-                    TextButton(
-                      onPressed: () => print('rated!'),
-                      child: Text(
-                        'rate this recipe',
-                        style: TextStyle(
-                          fontSize: 5 * Responsive.ratioHorizontal,
-                          // fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                verticalDivider(factor: 2.5),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => print('saved!'),
-                      iconSize: 35,
-                      icon: const Icon(
-                        Icons.save_rounded,
-                      ),
-                    ),
-                    Text(
-                      'Save recipe',
-                      style: TextStyle(
-                        fontSize: 5 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
-                    ),
+                    // const Icon(Icons.stars),
+                    // horizontalDivider(factor: 2),
+                    // Text(
+                    //   '564 ratings',
+                    //   style: TextStyle(
+                    //     fontSize: 5 * Responsive.ratioHorizontal,
+                    //     // fontStyle: FontStyle.italic,
+                    //   ),
+                    // ),
+                    // horizontalDivider(factor: 2),
+                    // TextButton(
+                    //   onPressed: () => print('rated!'),
+                    //   child: Text(
+                    //     'rate this recipe',
+                    //     style: TextStyle(
+                    //       fontSize: 5 * Responsive.ratioHorizontal,
+                    //       // fontStyle: FontStyle.italic,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 verticalDivider(factor: 2.5),
@@ -188,23 +198,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Servings: ${recipe.servings.toString()}',
-                            style: TextStyle(
-                              fontSize: 4 * Responsive.ratioHorizontal,
-                              // fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          verticalDivider(factor: 4),
-                          Text(
-                            'Ready In: ${recipe.readyInMinutes.toString()} minutes',
-                            style: TextStyle(
-                              fontSize: 4 * Responsive.ratioHorizontal,
-                              // fontStyle: FontStyle.italic,
-                            ),
-                          )
-                        ],
+                        children: [],
                       ),
                     ),
                     // horizontalDivider(factor: 4),
