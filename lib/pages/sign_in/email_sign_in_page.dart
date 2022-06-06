@@ -1,5 +1,5 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -14,7 +14,9 @@ class EmailSignInPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: Text(
           'Sign In',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(
+            fontSize: 6.5 * Responsive.ratioHorizontal,
+          ),
         ),
         elevation: 0.0,
       ),
@@ -27,20 +29,16 @@ class EmailSignInPage extends StatelessWidget {
           ),
         ),
         child: Column(children: [
-          SizedBox(
-            height: 100,
-          ),
+          verticalDivider(factor: 13),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: defaultPadding(),
             child: Card(
-              // TODO: play around with transparency
-              // color: Colors.transparent,
+              color: Colors.transparent,
               child: EmailSignInFormChangeNotifier.create(context),
             ),
           ),
         ]),
       ),
-      // backgroundColor: Colors.grey[200],
     );
   }
 }

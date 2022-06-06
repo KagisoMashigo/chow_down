@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,7 @@ class _EmailSignInFormChangeNotifierState
       _buildPasswordTextField(),
       verticalDivider(factor: 1),
       FormSubmitButton(
-        color: Color.fromARGB(255, 200, 196, 181),
+        color: ChowColors.beige100,
         text: model.primaryButtonText,
         onPressed: model.canSubmit ? _submit : null,
       ),
@@ -90,7 +91,7 @@ class _EmailSignInFormChangeNotifierState
       TextButton(
         child: Text(
           model.secondaryButtonText,
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: ChowColors.white),
         ),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
@@ -106,7 +107,7 @@ class _EmailSignInFormChangeNotifierState
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
         labelText: 'Password',
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: ChowColors.white),
         errorText: model.passwordErrorText,
         enabled: model.isLoading == false,
       ),
@@ -122,7 +123,7 @@ class _EmailSignInFormChangeNotifierState
       child: TextButton(
           child: Text(
             'Forgot your password?',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: ChowColors.white),
           ),
           onPressed: () => _forgotPassword(context)),
       visible: visible,
@@ -141,9 +142,9 @@ class _EmailSignInFormChangeNotifierState
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: ChowColors.white),
         labelText: 'Email',
-        hintStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: ChowColors.white),
         hintText: 'chow@down.com',
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
@@ -159,7 +160,7 @@ class _EmailSignInFormChangeNotifierState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: defaultPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
