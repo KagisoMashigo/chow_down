@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/pages/landing_page.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/providers/providers.dart';
 
 Future<void> main() async {
@@ -37,9 +38,6 @@ Future<void> main() async {
 // Main app call
 // TODO: Consider using cachedImage for network images
 class ChowDown extends StatelessWidget {
-  // TODO: make a theme file
-  final primaryColor = Color(0xFF151026);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +46,7 @@ class ChowDown extends StatelessWidget {
         appBarTheme: AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
-        fontFamily: 'Lato',
+        fontFamily: ChowFontFamilies.primary,
       ),
       // TODO: make sure logged in goes to home
       home: LandingPage(),
