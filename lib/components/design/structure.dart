@@ -1,5 +1,7 @@
+// 🎯 Dart imports:
 import 'dart:ui';
 
+// 🌎 Project imports:
 import 'package:chow_down/components/design/color.dart';
 
 class ChowStructure {

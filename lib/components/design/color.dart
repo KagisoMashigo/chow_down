@@ -1,3 +1,4 @@
+// 🎯 Dart imports:
 import 'dart:ui';
 
 class ChowColors {
@@ -30,6 +31,7 @@ class ChowColors {
   static const Color red700 = Color.fromRGBO(211, 32, 41, 1);
   //beige
   static const Color beige100 = Color.fromARGB(255, 200, 196, 181);
+  static const Color beige200 = Color.fromRGBO(166, 163, 149, 1);
 
   static Color getColorWithGivenOpacity(Color color, double opacity) {
     return Color.fromRGBO(color.green, color.green, color.blue, opacity);

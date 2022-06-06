@@ -1,8 +1,7 @@
-// 🐦 Flutter imports:
+// 🎯 Dart imports:
 import 'dart:math';
 
-import 'package:chow_down/components/chow_list_tile.dart';
-import 'package:chow_down/components/design/color.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -12,6 +11,8 @@ import 'package:provider/provider.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
+import 'package:chow_down/components/chow_list_tile.dart';
+import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/services/auth.dart';
 

@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/builders/list_items_builder.dart';
+import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/firestore/job.dart';
 import 'package:chow_down/pages/jobs/edit_job_page.dart';

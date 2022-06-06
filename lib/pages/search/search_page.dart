@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_card.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
-import 'package:chow_down/components/design/responsive.dart';
 
 class SearchPage extends StatefulWidget {
   @override

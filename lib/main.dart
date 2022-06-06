@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -9,8 +8,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/typography.dart';
+import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/providers/providers.dart';
 
 Future<void> main() async {

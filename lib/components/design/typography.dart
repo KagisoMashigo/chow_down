@@ -1,5 +1,8 @@
-import 'package:chow_down/components/design/color.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/design/color.dart';
 
 class ChowFontFamilies {
   static const String primary = 'Lato';
