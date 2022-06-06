@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/scaffoldBar.dart';
+import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override
@@ -84,7 +84,9 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       );
 
   Widget _buildLoading() => Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Color.fromARGB(255, 212, 147, 201),
+        ),
       );
 
   Widget _buildColumnWithData(RecipeCardInfoList searchResultList) =>
@@ -93,10 +95,13 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       );
 
   Widget _buildColumnWithData2(RecipeCardInfoList searchResultList) {
-    searchResultList != null
+    searchResultList == null
         ? RecipeCardGrid(
             searchResultList: searchResultList,
           )
-        : EmptyContent();
+        : EmptyContent(
+            message: 'No recipes saved',
+            title: 'A whole lotta Nothing',
+          );
   }
 }

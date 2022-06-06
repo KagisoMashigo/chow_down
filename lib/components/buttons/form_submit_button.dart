@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -9,6 +8,7 @@ class FormSubmitButton extends CustomElevatedButton {
   FormSubmitButton({
     @required String text,
     VoidCallback onPressed,
+    Color color,
   }) : super(
           child: Text(text,
               style: TextStyle(
@@ -16,7 +16,7 @@ class FormSubmitButton extends CustomElevatedButton {
                 fontSize: 20.0,
               )),
           height: 44.0,
-          color: Colors.indigo,
+          color: color,
           borderRadius: 4.0,
           onPressed: onPressed,
         );

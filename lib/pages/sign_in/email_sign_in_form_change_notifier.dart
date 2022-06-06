@@ -1,7 +1,6 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:firebase_auth/firebase_auth.dart';

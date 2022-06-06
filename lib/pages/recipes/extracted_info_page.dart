@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 
 class ExtractedInfoPage extends StatefulWidget {
   const ExtractedInfoPage(
