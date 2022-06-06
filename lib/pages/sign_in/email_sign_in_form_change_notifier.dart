@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/plugins/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -78,16 +79,20 @@ class _EmailSignInFormChangeNotifierState
   List<Widget> _buildChildren() {
     return [
       _buildEmailTextField(),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       _buildPasswordTextField(),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       FormSubmitButton(
+        color: Color.fromARGB(255, 200, 196, 181),
         text: model.primaryButtonText,
         onPressed: model.canSubmit ? _submit : null,
       ),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       TextButton(
-        child: Text(model.secondaryButtonText),
+        child: Text(
+          model.secondaryButtonText,
+          style: TextStyle(color: Colors.white),
+        ),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
       model.passwordForgotten
@@ -102,6 +107,7 @@ class _EmailSignInFormChangeNotifierState
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
         labelText: 'Password',
+        labelStyle: TextStyle(color: Colors.white),
         errorText: model.passwordErrorText,
         enabled: model.isLoading == false,
       ),
@@ -115,7 +121,10 @@ class _EmailSignInFormChangeNotifierState
   Visibility _showForgotPasswordButton(bool visible) {
     return Visibility(
       child: TextButton(
-          child: Text('Forgot your password?'),
+          child: Text(
+            'Forgot your password?',
+            style: TextStyle(color: Colors.white),
+          ),
           onPressed: () => _forgotPassword(context)),
       visible: visible,
     );
@@ -133,7 +142,9 @@ class _EmailSignInFormChangeNotifierState
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
+        labelStyle: TextStyle(color: Colors.white),
         labelText: 'Email',
+        hintStyle: TextStyle(color: Colors.white),
         hintText: 'chow@down.com',
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
