@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/cupertino.dart';
 
 // 🌎 Project imports:
@@ -14,7 +15,10 @@ class SignInButton extends CustomElevatedButton {
         super(
           child: Text(
             text,
-            style: TextStyle(color: textColor, fontSize: 15.0),
+            style: TextStyle(
+              color: textColor,
+              fontSize: 4 * Responsive.ratioHorizontal,
+            ),
           ),
           color: color,
           onPressed: onPressed,

@@ -120,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ExtractedInfoPage(
-                      title: result.name,
+                      title: result.title,
                       id: result.id,
                       sourceUrl: result.sourceUrl,
                     ),
@@ -128,11 +128,13 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: RecipeCard(
                   id: result.id,
-                  name: result.name,
+                  name: result.title,
                   imageUrl: result.image,
                   url: result.sourceUrl,
+                  glutenFree: result.glutenFree,
                   readyInMinutes: result.readyInMinutes,
                   vegetarian: result.vegetarian,
+                  vegan: result.vegan,
                   servings: result.servings,
                 ),
               ),

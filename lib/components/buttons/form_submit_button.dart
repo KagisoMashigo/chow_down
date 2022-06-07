@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -12,10 +14,10 @@ class FormSubmitButton extends CustomElevatedButton {
   }) : super(
           child: Text(text,
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
+                color: ChowColors.white,
+                fontSize: 6 * Responsive.ratioHorizontal,
               )),
-          height: 44.0,
+          height: 5 * Responsive.ratioVertical,
           color: color,
           borderRadius: 4.0,
           onPressed: onPressed,

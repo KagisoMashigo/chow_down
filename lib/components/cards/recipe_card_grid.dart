@@ -43,7 +43,7 @@ class RecipeCardGrid extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => RecipeInfoPage(
-                        title: recipe.name,
+                        title: recipe.title,
                         id: recipe.id,
                       ),
                       fullscreenDialog: true,
@@ -66,7 +66,7 @@ class RecipeCardGrid extends StatelessWidget {
             Column(
               children: [
                 verticalDivider(factor: 1),
-                Text(recipe.name),
+                Text(recipe.title),
                 verticalDivider(factor: 1),
                 Text('Rating'),
               ],
