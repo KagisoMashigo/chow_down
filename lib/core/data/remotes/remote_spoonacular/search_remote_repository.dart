@@ -20,7 +20,7 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&number=50&sort=popularity&sortDirection=desc';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=50&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     // TODO do error handling
     // try {
@@ -35,6 +35,8 @@ class RemoteSearchRepository implements SearchRepository {
     final body = json.decode(response.toString());
 
     if (response.statusCode == 200) {
+      print('BODY: ${body.toString()}');
+
       return RecipeCardInfoList.fromJson(body['results']);
     } else if (response.statusCode == 401) {
       throw Failure(code: 401, message: body['message']);
