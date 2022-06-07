@@ -1,4 +1,4 @@
-// 🐦 Flutter imports:
+import 'package:chow_down/components/design/color.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -79,35 +79,66 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget _buildColumnWithData(RecipeCardInfoList searchResultList) {
-    final results = searchResultList.list;
+    final recipes = searchResultList.list;
+    final mappedRecipes = recipes.asMap().entries;
 
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: ListView(
-          children: results
-              .map((recipe) => GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecipeInfoPage(
-                          title: recipe.name,
-                          id: recipe.id,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          verticalDivider(factor: 9),
+          SearchInputField(),
+          Padding(
+            padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
+            child: Row(
+              children: [
+                Text(
+                  'Results: ${recipes.length}',
+                  style: TextStyle(
+                    fontSize: 4 * Responsive.ratioHorizontal,
+                    color: ChowColors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+                child: Column(
+                  children: mappedRecipes.map((recipe) {
+                    // This is the index to be used to iterate
+                    int index = recipe.key;
+
+                    return GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RecipeInfoPage(
+                            title: recipes[index].title,
+                            id: recipes[index].id,
+                          ),
                         ),
                       ),
-                    ),
-                    child: RecipeCard(
-                      id: recipe.id,
-                      name: recipe.name,
-                      imageUrl: recipe.image,
-                      url: recipe.sourceUrl,
-                      readyInMinutes: recipe.readyInMinutes,
-                      vegetarian: recipe.vegetarian,
-                      servings: recipe.servings,
-                    ),
-                  ))
-              .toList(),
-        ),
+                      child: RecipeCard(
+                        id: recipes[index].id,
+                        name: recipes[index].title,
+                        imageUrl: recipes[index].image,
+                        url: recipes[index].sourceUrl,
+                        glutenFree: recipes[index].glutenFree,
+                        readyInMinutes: recipes[index].readyInMinutes,
+                        vegetarian: recipes[index].vegetarian,
+                        vegan: recipes[index].vegan,
+                        servings: recipes[index].servings,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+              verticalDivider(factor: 10)
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -119,18 +150,18 @@ class SearchInputField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
       child: TextField(
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: ChowColors.white),
         onSubmitted: (query) => _submitForm(context, query),
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
             hintText: "Search for a recipe",
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white, width: 0.0),
+              borderSide: const BorderSide(color: ChowColors.white, width: 0.0),
               borderRadius: BorderRadius.circular(12),
             ),
             suffixIcon: Icon(Icons.search),
-            labelStyle: TextStyle(color: Colors.white),
-            hintStyle: TextStyle(color: Colors.white)),
+            labelStyle: TextStyle(color: ChowColors.white),
+            hintStyle: TextStyle(color: ChowColors.white)),
       ),
     );
   }

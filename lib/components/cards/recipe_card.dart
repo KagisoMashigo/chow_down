@@ -15,7 +15,9 @@ class RecipeCard extends StatelessWidget {
     this.imageType,
     @required this.readyInMinutes,
     @required this.vegetarian,
+    @required this.vegan,
     @required this.servings,
+    @required this.glutenFree,
   }) : super(key: key);
 
   /// Recipe id
@@ -35,7 +37,13 @@ class RecipeCard extends StatelessWidget {
 
   final bool vegetarian;
 
+  final bool vegan;
+
+  final bool glutenFree;
+
   final int servings;
+
+  String _isVegetarian(bool veg) => veg ? 'Vegetarian' : 'Omnivore';
 
   @override
   Widget build(BuildContext context) {
@@ -114,13 +122,30 @@ class RecipeCard extends StatelessWidget {
                       Icon(Icons.food_bank_outlined),
                       horizontalDivider(),
                       Text(
-                        '${vegetarian ? 'Vegetarian' : 'Omnivores'}',
+                        '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
                         style: TextStyle(
                           fontSize: 3.75 * Responsive.ratioHorizontal,
                         ),
                       ),
                     ],
                   ),
+                  verticalDivider(factor: 1.5),
+
+                  /// GLUTEN FREE
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.food_bank_outlined),
+                  //     horizontalDivider(),
+                  //     glutenFree
+                  //         ? Text(
+                  //             'Gluten Free',
+                  //             style: TextStyle(
+                  //               fontSize: 3.75 * Responsive.ratioHorizontal,
+                  //             ),
+                  //           )
+                  //         : Container(),
+                  //   ],
+                  // ),
                 ],
               ),
             ],
