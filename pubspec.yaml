@@ -3,7 +3,7 @@ description: A practical Flutter application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -27,7 +27,7 @@ dependencies:
   bloc: ^8.0.2
   cloud_firestore: ^2.5.2
   dio: ^4.0.0
-  equatable: ^2.0.3  
+  equatable: ^2.0.3
   firebase_auth: ^3.1.1
   flutter_bloc: ^8.0.1
   firebase_core: ^1.6.0
@@ -37,6 +37,7 @@ dependencies:
   intl: 0.17.0
   provider: ^6.0.0
   rxdart: ^0.24.1
+  google_fonts: ^3.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,7 +50,7 @@ dev_dependencies:
   build_runner: ^2.1.4
   freezed: ^0.15.0+1
   freezed_annotation: ^0.15.0
-  
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -58,19 +59,19 @@ flutter:
   uses-material-design: true
 
   assets:
-   - .env
-   - assets/images/google-logo.png
-   - assets/images/facebook-logo.png
-   - assets/images/chow_down.png
-   - assets/images/chow_down2.png
-   - assets/images/home_img.jpg
-   - assets/images/spice_home.jpg
-   - assets/images/vege_home.jpg
-   - assets/images/bowl_home.jpg
-   - assets/images/fork_home.jpg
-   - assets/images/fire_home.jpg
-   - assets/images/mush_home.jpg
-   - assets/images/board_home.jpg
+    - .env
+    - assets/images/google-logo.png
+    - assets/images/facebook-logo.png
+    - assets/images/chow_down.png
+    - assets/images/chow_down2.png
+    - assets/images/home_img.jpg
+    - assets/images/spice_home.jpg
+    - assets/images/vege_home.jpg
+    - assets/images/bowl_home.jpg
+    - assets/images/fork_home.jpg
+    - assets/images/fire_home.jpg
+    - assets/images/mush_home.jpg
+    - assets/images/board_home.jpg
 
   fonts:
     - family: Lato
@@ -88,6 +89,5 @@ flutter:
 import_sorter:
   emojis: true
   comments: true
-  ignored_files: [
-      # sorter remove ignore implementation_imports
-    ]
+  ignored_files: []
+# sorter remove ignore implementation_imports
