@@ -35,44 +35,47 @@ class RecipeCardGrid extends StatelessWidget {
     return results.map((recipe) {
       return Container(
         child: Card(
-            child: Column(
-          children: <Widget>[
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => RecipeInfoPage(
-                        title: recipe.title,
-                        id: recipe.id,
-                      ),
-                      fullscreenDialog: true,
-                    ));
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => RecipeInfoPage(
+                            title: recipe.title,
+                            id: recipe.id,
+                          ),
+                          fullscreenDialog: true,
+                        ));
 
-                    /// TODO the below can be the SAVED pop up
-                    // Widget snackBar =
-                    //     SnackBar(content: Text(recipe.id.toString()));
+                        /// TODO the below can be the SAVED pop up
+                        // Widget snackBar =
+                        //     SnackBar(content: Text(recipe.id.toString()));
 
-                    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-                  child: Image.network(
-                    recipe.image,
-                    width: 20 * Responsive.ratioVertical,
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                verticalDivider(factor: 1),
-                Text(recipe.title),
-                verticalDivider(factor: 1),
-                Text('Rating'),
-              ],
-            )
-          ],
-        )),
+                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      child: Center(
+                        child: Image.network(
+                          recipe.image,
+                          width: 18 * Responsive.ratioVertical,
+                          fit: BoxFit.fill,
+                        ),
+                      )),
+                ],
+              ),
+              Column(
+                children: [
+                  verticalDivider(factor: 1),
+                  Text(recipe.title),
+                  verticalDivider(factor: 1),
+                  Text('Rating'),
+                ],
+              ),
+              verticalDivider(factor: 9)
+            ],
+          ),
+        ),
       );
     }).toList();
   }

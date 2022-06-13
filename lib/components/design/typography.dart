@@ -4,6 +4,30 @@ import 'package:flutter/material.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/design/color.dart';
 
+class ChowBaseText extends StatelessWidget {
+  final Widget child;
+  final String text;
+  final double fontSize;
+
+  ChowBaseText({
+    @required this.child,
+    @required this.text,
+    this.fontSize = 4,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: fontSize,
+        ),
+      ),
+    );
+  }
+}
+
 class ChowFontFamilies {
   static const String primary = 'Lato';
   static const String secondary = 'Helvetica Neue';
