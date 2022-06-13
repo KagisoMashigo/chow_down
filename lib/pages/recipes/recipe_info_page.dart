@@ -1,8 +1,11 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/cards/detail_card.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
@@ -89,7 +92,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
         ),
       );
 
-  Widget _buildContents(Recipe recipe) => ListView(
+  Widget _buildContents(Recipe recipe) {
+    return SingleChildScrollView(
+      child: Column(
         children: [
           Row(
             children: [
@@ -127,6 +132,102 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                     ),
                   ],
                 ),
+                // ListView(
+                //   scrollDirection: Axis.horizontal,
+                //   children: [
+                //     Row(
+                //       children: <Widget>[
+                //         // DetailCard(
+                //         //   child: Column(
+                //         //     children: <Widget>[
+                //         //       Text(
+                //         //         "Calories",
+                //         //         style: GoogleFonts.lato(color: Colors.grey),
+                //         //       ),
+                //         //       Text(
+                //         //         "174KCal",
+                //         //         style: GoogleFonts.lato(
+                //         //             color: Colors.grey[900],
+                //         //             fontWeight: FontWeight.bold),
+                //         //       ),
+                //         //     ],
+                //         //   ),
+                //         //   color: ChowColors.black,
+                //         // ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(10),
+                //             border: Border.all(
+                //               color: Color.fromARGB(255, 172, 25, 25),
+                //             ),
+                //           ),
+                //           padding: const EdgeInsets.symmetric(vertical: 16),
+                //           child: Column(
+                //             children: <Widget>[
+                //               Text(
+                //                 "Ingredients",
+                //                 style: GoogleFonts.lato(color: Colors.grey),
+                //               ),
+                //               Text(
+                //                 "06",
+                //                 style: GoogleFonts.lato(
+                //                     color: Colors.grey[900],
+                //                     fontWeight: FontWeight.bold),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         SizedBox(
+                //           width: 10,
+                //         ),
+                //         Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(10),
+                //             border: Border.all(
+                //               color: Color.fromARGB(255, 200, 37, 37),
+                //             ),
+                //           ),
+                //           padding: const EdgeInsets.symmetric(vertical: 16),
+                //           child: Column(
+                //             children: <Widget>[
+                //               Text(
+                //                 "Time",
+                //                 style: GoogleFonts.lato(color: Colors.grey),
+                //               ),
+                //               Text(
+                //                 "3 Hours",
+                //                 style: GoogleFonts.lato(
+                //                     color: Colors.grey[900],
+                //                     fontWeight: FontWeight.bold),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         verticalDivider(factor: 2),
+                //         DetailCard(
+                //           child: Column(
+                //             children: <Widget>[
+                //               Text(
+                //                 "Calories",
+                //                 style: GoogleFonts.lato(color: Colors.grey),
+                //               ),
+                //               Text(
+                //                 "174KCal",
+                //                 style: GoogleFonts.lato(
+                //                     color: Colors.grey[900],
+                //                     fontWeight: FontWeight.bold),
+                //               ),
+                //             ],
+                //           ),
+                //           color: ChowColors.black,
+                //         )
+                //       ],
+                //     ),
+                //   ],
+                // ),
                 verticalDivider(factor: 2),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,5 +348,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             ),
           ),
         ],
-      );
+      ),
+    );
+  }
 }
