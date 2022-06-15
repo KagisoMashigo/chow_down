@@ -1,5 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/cards/detail_card.dart';
+import 'package:chow_down/components/cards/recipe_dietry_card.dart';
+import 'package:chow_down/components/cards/recipe_tab_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,12 @@ import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
+
+const List<String> TAB_OPTIONS = [
+  'Description',
+  'Instructions',
+  'Dietry Info',
+];
 
 class RecipeInfoPage extends StatefulWidget {
   const RecipeInfoPage({Key key, @required this.title, this.id, this.sourceUrl})
@@ -32,11 +40,63 @@ class RecipeInfoPage extends StatefulWidget {
 }
 
 class _RecipeInfoPageState extends State<RecipeInfoPage> {
+  final List<bool> _isSelected = [];
+
+  /// Initial selected button
+  int _currentIndex = 0;
+
+  /// Handles how many buttons appear in nav and which is selected using bools
+  void _populateButtonList(List data, List<bool> isSelected) {
+    for (var i = 0; i < data.length; i++) {
+      if (i == 0) {
+        isSelected.add(true);
+      } else {
+        isSelected.add(false);
+      }
+    }
+  }
+
+  /// Determines which conditions to render on screen
+  Widget _whichCard(int index, Recipe recipe) {
+    // List desiredConditions = [];
+    switch (index) {
+      case 0:
+        return RecipeDescCard(
+          readyInMinutes: recipe.readyInMinutes,
+          servings: recipe.servings,
+          creditsText: recipe.creditsText,
+          glutenFree: recipe.glutenFree,
+          vegetarian: recipe.vegetarian,
+          summary: recipe.summary,
+        );
+        break;
+
+      case 1:
+        return RecipeDescCard(
+          readyInMinutes: recipe.readyInMinutes,
+          servings: recipe.servings,
+          creditsText: recipe.creditsText,
+          glutenFree: recipe.glutenFree,
+          vegetarian: recipe.vegetarian,
+          summary: recipe.summary,
+        );
+        break;
+      case 2:
+        return RecipeDietCard(
+          glutenFree: recipe.glutenFree,
+          vegetarian: recipe.vegetarian,
+        );
+        break;
+      default:
+    }
+  }
+
   void initState() {
     super.initState();
     // Will change this to a DB call once user can save recipes
     Provider.of<RecipeInfoCubit>(context, listen: false)
         .fetchRecipeInformation(widget.id, widget.sourceUrl);
+    _populateButtonList(TAB_OPTIONS, _isSelected);
   }
 
   @override
@@ -52,7 +112,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             fit: BoxFit.cover,
           ),
         ),
-        // padding: EdgeInsets.all(11.1),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
           listener: (context, state) {
@@ -101,17 +160,17 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
               Expanded(
                 child: Image.network(
                   recipe.image,
-                  // width: 3 * Responsive.ratioHorizontal,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
             ],
           ),
+          verticalDivider(factor: 2),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: 4.5 * Responsive.ratioHorizontal),
             child: Column(
               children: [
-                // verticalDivider(factor: 2),
                 Row(
                   children: [
                     Expanded(
@@ -132,218 +191,51 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                     ),
                   ],
                 ),
-                // ListView(
-                //   scrollDirection: Axis.horizontal,
-                //   children: [
-                //     Row(
-                //       children: <Widget>[
-                //         // DetailCard(
-                //         //   child: Column(
-                //         //     children: <Widget>[
-                //         //       Text(
-                //         //         "Calories",
-                //         //         style: GoogleFonts.lato(color: Colors.grey),
-                //         //       ),
-                //         //       Text(
-                //         //         "174KCal",
-                //         //         style: GoogleFonts.lato(
-                //         //             color: Colors.grey[900],
-                //         //             fontWeight: FontWeight.bold),
-                //         //       ),
-                //         //     ],
-                //         //   ),
-                //         //   color: ChowColors.black,
-                //         // ),
-                //         SizedBox(
-                //           width: 10,
-                //         ),
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(10),
-                //             border: Border.all(
-                //               color: Color.fromARGB(255, 172, 25, 25),
-                //             ),
-                //           ),
-                //           padding: const EdgeInsets.symmetric(vertical: 16),
-                //           child: Column(
-                //             children: <Widget>[
-                //               Text(
-                //                 "Ingredients",
-                //                 style: GoogleFonts.lato(color: Colors.grey),
-                //               ),
-                //               Text(
-                //                 "06",
-                //                 style: GoogleFonts.lato(
-                //                     color: Colors.grey[900],
-                //                     fontWeight: FontWeight.bold),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           width: 10,
-                //         ),
-                //         Container(
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(10),
-                //             border: Border.all(
-                //               color: Color.fromARGB(255, 200, 37, 37),
-                //             ),
-                //           ),
-                //           padding: const EdgeInsets.symmetric(vertical: 16),
-                //           child: Column(
-                //             children: <Widget>[
-                //               Text(
-                //                 "Time",
-                //                 style: GoogleFonts.lato(color: Colors.grey),
-                //               ),
-                //               Text(
-                //                 "3 Hours",
-                //                 style: GoogleFonts.lato(
-                //                     color: Colors.grey[900],
-                //                     fontWeight: FontWeight.bold),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         verticalDivider(factor: 2),
-                //         DetailCard(
-                //           child: Column(
-                //             children: <Widget>[
-                //               Text(
-                //                 "Calories",
-                //                 style: GoogleFonts.lato(color: Colors.grey),
-                //               ),
-                //               Text(
-                //                 "174KCal",
-                //                 style: GoogleFonts.lato(
-                //                     color: Colors.grey[900],
-                //                     fontWeight: FontWeight.bold),
-                //               ),
-                //             ],
-                //           ),
-                //           color: ChowColors.black,
-                //         )
-                //       ],
-                //     ),
-                //   ],
-                // ),
                 verticalDivider(factor: 2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Ready In: ${recipe.readyInMinutes.toString()} minutes',
-                      style: TextStyle(
-                        fontSize: 4 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: ChowColors.white,
+                      borderRadius: BorderRadius.circular(18.0),
                     ),
-                    Text(
-                      'Servings: ${recipe.servings.toString()}',
-                      style: TextStyle(
-                        fontSize: 4 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    verticalDivider(factor: 4),
-                  ],
-                ),
-                verticalDivider(factor: 2),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'By ${recipe.creditsText}',
-                        style: TextStyle(
-                          fontSize: 4 * Responsive.ratioHorizontal,
-                          fontStyle: FontStyle.italic,
-                          // fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                verticalDivider(factor: 2.5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // TODO create rating system
-                    // const Icon(Icons.stars),
-                    // horizontalDivider(factor: 2),
-                    // Text(
-                    //   '564 ratings',
-                    //   style: TextStyle(
-                    //     fontSize: 5 * Responsive.ratioHorizontal,
-                    //     // fontStyle: FontStyle.italic,
-                    //   ),
-                    // ),
-                    // horizontalDivider(factor: 2),
-                    // TextButton(
-                    //   onPressed: () => print('rated!'),
-                    //   child: Text(
-                    //     'rate this recipe',
-                    //     style: TextStyle(
-                    //       fontSize: 5 * Responsive.ratioHorizontal,
-                    //       // fontStyle: FontStyle.italic,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
-                ),
-                verticalDivider(factor: 2.5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [],
-                      ),
-                    ),
-                    // horizontalDivider(factor: 4),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Gluten Free: ${recipe.glutenFree.toString()}',
-                            style: TextStyle(
-                              fontSize: 4 * Responsive.ratioHorizontal,
-                              // fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                          verticalDivider(factor: 4),
-                          Text(
-                            'Vegetarian: ${recipe.vegetarian.toString()}',
-                            style: TextStyle(
-                              fontSize: 4 * Responsive.ratioHorizontal,
-                              // fontStyle: FontStyle.italic,
+                    child: ToggleButtons(
+                      renderBorder: false,
+                      borderRadius: BorderRadius.circular(18.0),
+                      borderWidth: 0,
+                      children: TAB_OPTIONS
+                          .map(
+                            (tabName) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Text(
+                                tabName,
+                                style: const TextStyle(fontSize: 15),
+                              ),
                             ),
                           )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                verticalDivider(factor: 2.5),
-                Center(
-                  child: Text(
-                    recipe.summary
-                        .replaceAll('</b>', '')
-                        .replaceAll('<b>', '')
-                        .replaceAll('<a href=', '')
-                        .replaceAll('</a>', '')
-                        .replaceAll('>', '')
-                        .replaceAll('"', ''),
-                    style: TextStyle(
-                      fontSize: 4 * Responsive.ratioHorizontal,
-                      // fontWeight: FontWeight.bold,
+                          .toList(),
+                      isSelected: _isSelected,
+                      onPressed: (int newIndex) {
+                        setState(
+                          () {
+                            for (int i = 0; i < _isSelected.length; i++) {
+                              if (i == newIndex) {
+                                _isSelected[i] = true;
+                                _currentIndex = i;
+                              } else {
+                                _isSelected[i] = false;
+                              }
+                            }
+                          },
+                        );
+                      },
                     ),
                   ),
                 ),
+                verticalDivider(factor: 2),
+                _whichCard(_currentIndex, recipe),
+                verticalDivider(factor: 15),
               ],
             ),
           ),
