@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 class BaseCard extends StatelessWidget {
@@ -10,7 +11,7 @@ class BaseCard extends StatelessWidget {
 
   BaseCard({
     @required this.child,
-    this.color = Colors.white,
+    this.color = ChowColors.white,
     this.borderRadius = 16,
     this.paddingHorizontal = 16,
     this.paddingVertical = 16,
