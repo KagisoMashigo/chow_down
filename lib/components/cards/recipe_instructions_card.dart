@@ -1,17 +1,18 @@
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:flutter/material.dart';
 
 class RecipeInstCard extends StatelessWidget {
   const RecipeInstCard({
     Key key,
-    @required this.glutenFree,
-    @required this.vegetarian,
+    this.analyzedInstructions,
+    @required this.instructions,
   }) : super(key: key);
 
-  final bool glutenFree;
+  final List<AnalyzedInstruction> analyzedInstructions;
 
-  final bool vegetarian;
+  final String instructions;
 
   @override
   Widget build(BuildContext context) {
@@ -19,41 +20,23 @@ class RecipeInstCard extends StatelessWidget {
       child: Column(
         children: [
           verticalDivider(factor: 2.5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [],
-                ),
-              ),
-              // horizontalDivider(factor: 4),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Gluten Free: ${glutenFree.toString()}',
-                      style: TextStyle(
-                        fontSize: 4 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Text(
+                    instructions.replaceAll('.', '. '),
+                    style: TextStyle(
+                      fontSize: 4 * Responsive.ratioHorizontal,
+                      // fontStyle: FontStyle.italic,
                     ),
-                    verticalDivider(factor: 4),
-                    Text(
-                      'Vegetarian: ${vegetarian.toString()}',
-                      style: TextStyle(
-                        fontSize: 4 * Responsive.ratioHorizontal,
-                        // fontStyle: FontStyle.italic,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                verticalDivider(factor: 4),
+              ],
+            ),
           ),
           verticalDivider(factor: 2.5),
         ],

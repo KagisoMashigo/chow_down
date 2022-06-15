@@ -12,24 +12,22 @@ class DetailCard extends StatelessWidget {
     @required this.color,
     this.padding,
     this.borderRadius = 10,
-    this.paddingVertical = 16,
+    this.paddingVertical = 10,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius),
-          border: Border.all(
-            color: color,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: color,
         ),
-        padding: EdgeInsets.symmetric(
-          vertical: paddingVertical,
-        ),
-        child: this.child,
       ),
+      padding: EdgeInsets.symmetric(
+        vertical: paddingVertical,
+      ),
+      child: this.child,
     );
   }
 }
