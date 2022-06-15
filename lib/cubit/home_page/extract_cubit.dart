@@ -19,7 +19,7 @@ class ExtractCubit extends Cubit<ExtractState> {
     try {
       emit(ExtractLoading());
 
-      final RecipeCardInfo searchResult =
+      final RecipeExtracted searchResult =
           await _searchRepository.getExtractedRecipe(url);
 
       emit(ExtractLoaded(searchResult));

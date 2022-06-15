@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
+import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -18,6 +20,8 @@ class RecipeCard extends StatelessWidget {
     @required this.vegan,
     @required this.servings,
     @required this.glutenFree,
+    this.extendedIngredients,
+    this.analyzedInstructions,
   }) : super(key: key);
 
   /// Recipe id
@@ -42,6 +46,10 @@ class RecipeCard extends StatelessWidget {
   final bool glutenFree;
 
   final int servings;
+
+  final List<ExtendedIngredients> extendedIngredients;
+
+  final List<AnalyzedInstruction> analyzedInstructions;
 
   String _isVegetarian(bool veg) => veg ? 'Vegetarian' : 'Omnivore';
 

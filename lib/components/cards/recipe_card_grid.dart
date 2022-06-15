@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -30,8 +31,7 @@ class RecipeCardGrid extends StatelessWidget {
     );
   }
 
-  List<Container> _getStructuredCardGrid(
-      List<RecipeCardInfo> results, context) {
+  List<Container> _getStructuredCardGrid(List<Recipe> results, context) {
     return results.map((recipe) {
       return Container(
         child: Card(

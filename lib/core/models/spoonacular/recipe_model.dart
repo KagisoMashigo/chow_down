@@ -95,10 +95,12 @@ class Recipe {
         creditsText: json['creditsText'] as String,
         license: json['license'] as String,
         sourceName: json['sourceName'] as String,
-        pricePerServing: (json['pricePerServing'] as num).toDouble(),
-        extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
-            .map((e) => ExtendedIngredients.fromJson(e))
-            .toList(),
+        pricePerServing: (json['pricePerServing'] ?? 0).toDouble(),
+        extendedIngredients:
+            (json['extendedIngredients'] as List<dynamic> ?? [])
+                    .map((e) => ExtendedIngredients.fromJson(e))
+                    .toList() ??
+                [],
         id: json['id'] as int,
         title: json['title'] as String,
         readyInMinutes: json['readyInMinutes'] as int,
@@ -112,9 +114,10 @@ class Recipe {
         diets: json['diets'] as List<dynamic>,
         occasions: json['occasions'] as List<dynamic>,
         instructions: json['instructions'] as String,
-        analyzedInstructions: (json['analyzedInstructions'] as List<dynamic>)
-            .map((e) => AnalyzedInstruction.fromJson(e))
-            .toList(),
+        analyzedInstructions:
+            (json['analyzedInstructions'] as List<dynamic> ?? [])
+                .map((e) => AnalyzedInstruction.fromJson(e))
+                .toList(),
         originalId: json['originalId'] as dynamic,
         spoonacularSourceUrl: json['spoonacularSourceUrl'] as String,
       );

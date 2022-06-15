@@ -11,7 +11,7 @@ import 'package:chow_down/models/error/error.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);
-  Future<RecipeCardInfo> getExtractedRecipe(String url);
+  Future<RecipeExtracted> getExtractedRecipe(String url);
 }
 
 class RemoteSearchRepository implements SearchRepository {
@@ -50,7 +50,7 @@ class RemoteSearchRepository implements SearchRepository {
   }
 
   @override
-  Future<RecipeCardInfo> getExtractedRecipe(String url) async {
+  Future<RecipeExtracted> getExtractedRecipe(String url) async {
     final endpoint =
         'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&addRecipeInformation=true';
 
@@ -71,7 +71,7 @@ class RemoteSearchRepository implements SearchRepository {
       print('reposnse: ${body['title']}');
       print('reposnse: ${body['sourceUrl']}');
 
-      return RecipeCardInfo.fromJson(body);
+      return RecipeExtracted.fromJson(body);
     } else if (response.statusCode == 401) {
       throw Failure(code: 401, message: body['message']);
     } else {

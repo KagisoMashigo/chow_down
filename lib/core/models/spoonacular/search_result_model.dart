@@ -1,4 +1,6 @@
-class RecipeCardInfo {
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+
+class RecipeExtracted {
   final int id;
   final String title;
   final String image;
@@ -8,7 +10,7 @@ class RecipeCardInfo {
   final bool vegan;
   final bool glutenFree;
   final int servings;
-  RecipeCardInfo({
+  RecipeExtracted({
     this.id,
     this.title,
     this.image,
@@ -19,8 +21,8 @@ class RecipeCardInfo {
     this.vegan,
     this.servings,
   });
-  factory RecipeCardInfo.fromJson(Map<String, dynamic> json) {
-    return RecipeCardInfo(
+  factory RecipeExtracted.fromJson(Map<String, dynamic> json) {
+    return RecipeExtracted(
       id: json['id'],
       title: json['title'],
       image: json['image'],
@@ -35,14 +37,14 @@ class RecipeCardInfo {
 }
 
 class RecipeCardInfoList {
-  final List<RecipeCardInfo> list;
+  final List<Recipe> list;
   RecipeCardInfoList({
     this.list,
   });
 
   factory RecipeCardInfoList.fromJson(List<dynamic> json) {
     return RecipeCardInfoList(
-      list: json.map((data) => RecipeCardInfo.fromJson(data)).toList(),
+      list: json.map((data) => Recipe.fromJson(data)).toList(),
     );
   }
 }
