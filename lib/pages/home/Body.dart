@@ -1,11 +1,11 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             } else if (state is ExtractLoading) {
               return _buildLoading();
             } else if (state is ExtractLoaded) {
-              print('STATE ${state.extractedResult.sourceUrl}');
+              // print('STATE ${state.extractedResult.sourceUrl}');
               return _buildColumnWithData(state.extractedResult);
             } else {
               // error state snackbar
@@ -78,7 +78,9 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.cover,
           ),
           verticalDivider(factor: 5),
-          RecipeExtractInput()
+          HelpCard(),
+          verticalDivider(factor: 2),
+          RecipeExtractInput(),
         ],
       ),
     );
@@ -93,8 +95,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildColumnWithData(RecipeCardInfo searchResult) {
+  Widget _buildColumnWithData(RecipeExtracted searchResult) {
     final result = searchResult;
+    // print('RESULT: ${result.image}');
 
     return Container(
       child: Padding(
@@ -109,6 +112,8 @@ class _HomePageState extends State<HomePage> {
               width: 18.5 * Responsive.ratioVertical,
               fit: BoxFit.fill,
             ),
+            verticalDivider(factor: 2),
+            HelpCard(),
             verticalDivider(factor: 2),
             RecipeExtractInput(),
             verticalDivider(),
@@ -138,7 +143,8 @@ class _HomePageState extends State<HomePage> {
                   servings: result.servings,
                 ),
               ),
-            )
+            ),
+            verticalDivider(),
           ],
         ),
       ),

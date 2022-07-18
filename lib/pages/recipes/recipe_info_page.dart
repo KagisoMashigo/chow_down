@@ -1,13 +1,12 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
-import 'package:chow_down/components/cards/recipe_tab_card.dart';
+import 'package:chow_down/components/cards/recipe_instructions_card.dart';
+import 'package:chow_down/components/cards/recipe_desc_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
@@ -72,19 +71,18 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
         break;
 
       case 1:
-        return RecipeDescCard(
-          readyInMinutes: recipe.readyInMinutes,
-          servings: recipe.servings,
-          creditsText: recipe.creditsText,
-          glutenFree: recipe.glutenFree,
-          vegetarian: recipe.vegetarian,
-          summary: recipe.summary,
+        return RecipeInstCard(
+          analyzedInstructions: recipe.analyzedInstructions,
+          instructions: recipe.instructions,
         );
         break;
       case 2:
         return RecipeDietCard(
+          dairyFree: recipe.dairyFree,
           glutenFree: recipe.glutenFree,
+          healthScore: recipe.healthScore,
           vegetarian: recipe.vegetarian,
+          vegan: recipe.vegan,
         );
         break;
       default:
