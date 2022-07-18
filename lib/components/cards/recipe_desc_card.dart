@@ -32,17 +32,28 @@ class RecipeDescCard extends StatelessWidget {
     return BaseCard(
       child: Column(
         children: [
+          verticalDivider(factor: 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              verticalDivider(factor: 4),
               DetailCard(
                 child: Column(
                   children: [
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 3 * Responsive.ratioHorizontal),
+                      child: Text('Ready In: '),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 3 * Responsive.ratioHorizontal),
                       child: Text(
-                          'Ready In: ${readyInMinutes.toString()} minutes'),
+                        '${cookTimeConverter(readyInMinutes)}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -73,16 +84,15 @@ class RecipeDescCard extends StatelessWidget {
               verticalDivider(factor: 4),
             ],
           ),
-          verticalDivider(factor: 2),
+          verticalDivider(factor: 4),
           Row(
             children: [
               Expanded(
                 child: Text(
-                  'By ${creditsText}',
+                  'By ${creditsText ?? 'Anonymous'}',
                   style: TextStyle(
                     fontSize: 4 * Responsive.ratioHorizontal,
                     fontStyle: FontStyle.italic,
-                    // fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -107,5 +117,25 @@ class RecipeDescCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // String exactTime(int cookTime){
+  //   if (cookTime > 59) {
+  //     return
+  //   }
+  // }
+
+  String cookTimeConverter(int cookTime) {
+    var duration = Duration(minutes: cookTime);
+    List<String> timeParts = duration.toString().split(':');
+    var hours =
+        '${timeParts[0].padLeft(2, '')} hours ${timeParts[1].padLeft(2, '0')} minutes';
+    var minutes = '${timeParts[1].padLeft(2, '0')} minutes';
+
+    if (cookTime > 59) {
+      return hours;
+    }
+
+    return minutes;
   }
 }

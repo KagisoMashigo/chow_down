@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
