@@ -25,7 +25,7 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   @override
   Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
-        '$baseUrl/complexSearch?query=beef&apiKey=$apiKey&includeNutrition=true';
+        '$baseUrl/complexSearch?apiKey=$apiKey&query=beef&instructionsRequired=true&addRecipeInformation=true&number=50&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
       final response = await Dio().get(endpoint);
