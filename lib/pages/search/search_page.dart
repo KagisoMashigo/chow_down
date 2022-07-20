@@ -22,7 +22,6 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text('What are we eating?'),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
@@ -34,7 +33,7 @@ class _SearchPageState extends State<SearchPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.only(top: 5 * Responsive.ratioVertical),
+        padding: EdgeInsets.only(top: 2.5 * Responsive.ratioVertical),
         alignment: Alignment.center,
         child: BlocConsumer<SearchCubit, SearchState>(
           listener: (context, state) {
@@ -85,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          verticalDivider(factor: 9),
+          verticalDivider(factor: 7),
           SearchInputField(),
           Padding(
             padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
@@ -135,7 +134,21 @@ class _SearchPageState extends State<SearchPage> {
                   }).toList(),
                 ),
               ),
-              verticalDivider(factor: 10)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => this.widget)),
+                  child: Icon(
+                    Icons.arrow_upward_outlined,
+                    color: ChowColors.black,
+                  ),
+                  backgroundColor: ChowColors.white,
+                ),
+              ),
+              verticalDivider(factor: 12)
             ],
           ),
         ],
