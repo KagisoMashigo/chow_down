@@ -2,6 +2,7 @@ import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/plugins/helpers.dart';
 import 'package:flutter/material.dart';
 
 class RecipeDescCard extends StatelessWidget {
@@ -117,25 +118,5 @@ class RecipeDescCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // String exactTime(int cookTime){
-  //   if (cookTime > 59) {
-  //     return
-  //   }
-  // }
-
-  String cookTimeConverter(int cookTime) {
-    var duration = Duration(minutes: cookTime);
-    List<String> timeParts = duration.toString().split(':');
-    var hours =
-        '${timeParts[0].padLeft(2, '')} hours ${timeParts[1].padLeft(2, '0')} minutes';
-    var minutes = '${timeParts[1].padLeft(2, '0')} minutes';
-
-    if (cookTime > 59) {
-      return hours;
-    }
-
-    return minutes;
   }
 }

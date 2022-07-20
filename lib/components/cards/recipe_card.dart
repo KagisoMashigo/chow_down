@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
+import 'package:chow_down/plugins/helpers.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -101,10 +102,10 @@ class RecipeCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.coffee_maker_outlined),
+                      Icon(Icons.timer_outlined),
                       horizontalDivider(),
                       Text(
-                        '${readyInMinutes.toString()} mins',
+                        cookTimeConverter(readyInMinutes),
                         style: TextStyle(
                           fontSize: 3.75 * Responsive.ratioHorizontal,
                         ),

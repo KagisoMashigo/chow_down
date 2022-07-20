@@ -21,21 +21,20 @@ class RecipeInstCard extends StatelessWidget {
     return BaseCard(
       child: Column(
         children: [
-          // verticalDivider(factor: 2.5),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: actualSteps
-                  .map((e) => ListTile(
+                  .map((instruction) => ListTile(
                         title: Text(
-                          e.step,
+                          instruction.step,
                           style: TextStyle(
                             fontSize: 4 * Responsive.ratioHorizontal,
                           ),
                         ),
                         leading: Text(
-                          e.number.toString(),
+                          instruction.number.toString(),
                           style: TextStyle(
                             fontSize: 4 * Responsive.ratioHorizontal,
                             fontWeight: FontWeight.bold,
@@ -49,15 +48,5 @@ class RecipeInstCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Text showSteps(List list) {
-    var counter = 0;
-    for (var i = 1; i <= list.length; i++) {
-      print(i);
-      counter++;
-      return Text(counter.toString());
-    }
-    // return;
   }
 }
