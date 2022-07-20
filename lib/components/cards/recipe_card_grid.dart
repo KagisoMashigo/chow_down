@@ -64,15 +64,23 @@ class RecipeCardGrid extends StatelessWidget {
                       )),
                 ],
               ),
-              Column(
-                children: [
-                  verticalDivider(factor: 1),
-                  Text(recipe.title),
-                  verticalDivider(factor: 1),
-                  Text('Rating'),
-                ],
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Expanded(
+                    child: Text(
+                      recipe.title,
+                      style: TextStyle(
+                        fontSize: 3.5 * Responsive.ratioHorizontal,
+                        // fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      // overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
               ),
-              verticalDivider(factor: 9)
+              // verticalDivider(factor: 9)
             ],
           ),
         ),
