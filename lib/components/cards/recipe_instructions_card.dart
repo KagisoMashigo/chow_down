@@ -22,7 +22,7 @@ class RecipeInstCard extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(4 * Responsive.ratioHorizontal),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: actualSteps

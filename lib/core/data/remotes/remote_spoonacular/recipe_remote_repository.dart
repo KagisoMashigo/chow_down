@@ -23,6 +23,7 @@ class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key'];
 
   Future<Recipe> getRecipeInformation(int id, String sourceUrl) async {
+    /// The first part of the algo finds extracted recipes
     if (id == -1) {
       final endpoint =
           'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&addRecipeInformation=true';
@@ -31,6 +32,7 @@ class RemoteRecipe implements RecipeRepository {
       print('endpoint recipe ${endpoint}');
       return Recipe.fromJson(body);
     } else {
+      /// This part is for searched recipes
       final endpoint =
           'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
 

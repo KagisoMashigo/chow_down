@@ -16,7 +16,7 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
 
 const List<String> TAB_OPTIONS = [
-  'Description',
+  'Ingredients',
   'Instructions',
   'Dietry Info',
 ];
@@ -67,6 +67,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           glutenFree: recipe.glutenFree,
           vegetarian: recipe.vegetarian,
           summary: recipe.summary,
+          ingredients: recipe.extendedIngredients,
+          sourceUrl: recipe.sourceUrl,
         );
         break;
 
