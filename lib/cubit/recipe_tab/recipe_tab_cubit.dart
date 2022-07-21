@@ -24,7 +24,7 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
       emit(RecipeTabLoaded(searchResults));
-    } on Exception catch (e) {
+    } on Failure catch (e) {
       print('${e} UI state');
 
       emit(RecipTabError(e.toString()));

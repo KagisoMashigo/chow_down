@@ -29,12 +29,12 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
         '$baseUrl/complexSearch?apiKey=$apiKey&query=beef&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
-      // throw SocketException('No Internet');
+      throw SocketException('No Internet');
       // throw HttpException('404');
-      final response = await Dio().get(endpoint);
-      final body = json.decode(response.toString());
-      // TODO: Actual error handling
-      return RecipeCardInfoList.fromJson(body['results']);
+      // final response = await Dio().get(endpoint);
+      // final body = json.decode(response.toString());
+      // // TODO: Actual error handling
+      // return RecipeCardInfoList.fromJson(body['results']);
     } on SocketException catch (e) {
       print(e);
       throw Failure(message: 'No Internet bruv');

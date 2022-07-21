@@ -58,7 +58,6 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
 
             if (state is RecipTabError) {
               print('${state.message} UI error');
-              // return Text('${state.message}');
               return ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -77,7 +76,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
               return _buildColumnWithData(state.recipeCardList);
             } else {
               // error state snackbar
-              return _buildInitialInput();
+              return _buildInitialInput(state);
             }
           },
         ),
@@ -85,17 +84,15 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
     );
   }
 
-  Widget _buildInitialInput() => Padding(
-        padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
-        child: Column(
-          // Home page here
-          children: [
-            Center(
-              child: Text('EMPTY'),
+  Widget _buildInitialInput(RecipeTabState state) => Padding(
+      padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
+      child: state is RecipeTabInitial
+          ? Center(
+              child: Text('INITIAL'),
             )
-          ],
-        ),
-      );
+          : Center(
+              child: Text('ERROR'),
+            ));
 
   Widget _buildLoading() => Center(
         child: CircularProgressIndicator(
