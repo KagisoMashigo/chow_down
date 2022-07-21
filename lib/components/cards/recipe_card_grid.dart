@@ -21,11 +21,14 @@ class RecipeCardGrid extends StatelessWidget {
 
     return GridView.count(
       primary: false,
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2.1),
+      padding: EdgeInsets.symmetric(
+        vertical: 2 * Responsive.ratioVertical,
+        horizontal: 2 * Responsive.ratioHorizontal,
+      ),
       crossAxisCount: 2,
-      childAspectRatio: 0.90,
-      mainAxisSpacing: 30.0,
-      crossAxisSpacing: 10.0,
+      childAspectRatio: 0.4 * Responsive.ratioSquare,
+      mainAxisSpacing: 4 * Responsive.ratioVertical,
+      crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
       children: _getStructuredCardGrid(results, context),
       shrinkWrap: true,
     );
@@ -55,12 +58,10 @@ class RecipeCardGrid extends StatelessWidget {
 
                         // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       },
-                      child: Center(
-                        child: Image.network(
-                          recipe.image,
-                          width: 18 * Responsive.ratioVertical,
-                          fit: BoxFit.fill,
-                        ),
+                      child: Image.network(
+                        recipe.image,
+                        width: 18.5 * Responsive.ratioVertical,
+                        fit: BoxFit.contain,
                       )),
                 ],
               ),
@@ -71,8 +72,8 @@ class RecipeCardGrid extends StatelessWidget {
                     child: Text(
                       recipe.title,
                       style: TextStyle(
-                        fontSize: 3.5 * Responsive.ratioHorizontal,
-                        // fontWeight: FontWeight.bold,
+                        fontSize: 3.25 * Responsive.ratioHorizontal,
+                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                       // overflow: TextOverflow.ellipsis,
