@@ -1,4 +1,6 @@
 // 📦 Package imports:
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -19,10 +21,13 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
       emit(RecipeTabLoading());
 
       final searchResults = await _recipeHomeRepository.getLatestRecipe();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
 
       emit(RecipeTabLoaded(searchResults));
-    } on Failure {
-      emit(RecipTabError('API error when fetching data'));
+    } on Exception catch (e) {
+      print('${e} UI state');
+
+      emit(RecipTabError(e.toString()));
     }
   }
 }
