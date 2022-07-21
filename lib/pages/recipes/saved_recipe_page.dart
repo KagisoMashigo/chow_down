@@ -41,58 +41,65 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       color: ChowColors.white,
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-              'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-            ),
-            fit: BoxFit.cover,
-          ),
-        ),
-        padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-        alignment: Alignment.center,
-        child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
-          listener: (context, state) {
-            print('${state} UI state');
-
-            if (state is RecipTabError) {
-              print('${state.message} UI error');
-              return ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
+      body: RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Container(
+            height: 80 * Responsive.ratioVertical,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(
+                  'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
                 ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state is RecipeTabLoading) {
-              print('${state} UI error laoding');
-
-              return _buildLoading();
-            } else if (state is RecipeTabLoaded) {
-              print('${state} UI error loaded');
-
-              return _buildColumnWithData(state.recipeCardList);
-            } else {
-              // error state snackbar
-              return _buildInitialInput(state);
-            }
-          },
+                fit: BoxFit.cover,
+              ),
+            ),
+            padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
+            alignment: Alignment.center,
+            child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
+              listener: (context, state) {
+                if (state is RecipTabError) {
+                  return ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is RecipeTabLoading) {
+                  return _buildLoading();
+                } else if (state is RecipeTabLoaded) {
+                  return _buildColumnWithData(state.recipeCardList);
+                } else {
+                  return _buildInitialInput(state);
+                }
+              },
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildInitialInput(RecipeTabState state) => Padding(
-      padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
-      child: state is RecipeTabInitial
-          ? Center(
-              child: Text('INITIAL'),
-            )
-          : Center(
-              child: Text('ERROR'),
-            ));
+  Future<void> _pullRefresh() async {
+    await Future.delayed(Duration(seconds: 1));
+    await Provider.of<RecipeTabCubit>(context, listen: false)
+        .fetchHomeRecipesList();
+  }
+
+  Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
+      ? EmptyContent(
+          message: 'It is as empty as your stomach...',
+          title: 'No recipes currently saved',
+          icon: Icons.hourglass_empty,
+        )
+      : EmptyContent(
+          message: 'If this persists please restart the application',
+          title: 'Something went wrong...',
+          icon: Icons.error_outline_sharp,
+        );
 
   Widget _buildLoading() => Center(
         child: CircularProgressIndicator(
@@ -122,19 +129,8 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
                 backgroundColor: ChowColors.white,
               ),
             ),
-            verticalDivider(factor: 11),
+            verticalDivider(factor: 4),
           ],
         ),
       );
-
-  Widget _buildColumnWithData2(RecipeCardInfoList searchResultList) {
-    searchResultList == null
-        ? RecipeCardGrid(
-            searchResultList: searchResultList,
-          )
-        : EmptyContent(
-            message: 'No recipes saved',
-            title: 'A whole lotta Nothing',
-          );
-  }
 }
