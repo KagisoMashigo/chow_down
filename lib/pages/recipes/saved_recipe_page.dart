@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/color.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -37,6 +38,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   @override
   Widget build(BuildContext context) {
     return CustomLogoAppBar(
+      color: ChowColors.white,
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
       body: Container(
@@ -48,11 +50,15 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.all(11.1),
+        padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
           listener: (context, state) {
+            print('${state} UI state');
+
             if (state is RecipTabError) {
+              print('${state.message} UI error');
+              // return Text('${state.message}');
               return ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -62,8 +68,12 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
           },
           builder: (context, state) {
             if (state is RecipeTabLoading) {
+              print('${state} UI error laoding');
+
               return _buildLoading();
             } else if (state is RecipeTabLoaded) {
+              print('${state} UI error loaded');
+
               return _buildColumnWithData(state.recipeCardList);
             } else {
               // error state snackbar
@@ -79,7 +89,11 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
         child: Column(
           // Home page here
-          children: [Container()],
+          children: [
+            Center(
+              child: Text('EMPTY'),
+            )
+          ],
         ),
       );
 
@@ -90,8 +104,30 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       );
 
   Widget _buildColumnWithData(RecipeCardInfoList searchResultList) =>
-      RecipeCardGrid(
-        searchResultList: searchResultList,
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            RecipeCardGrid(
+              searchResultList: searchResultList,
+            ),
+            verticalDivider(),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingActionButton(
+                onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => this.widget)),
+                child: Icon(
+                  Icons.arrow_upward_outlined,
+                  color: ChowColors.black,
+                ),
+                backgroundColor: ChowColors.white,
+              ),
+            ),
+            verticalDivider(factor: 11),
+          ],
+        ),
       );
 
   Widget _buildColumnWithData2(RecipeCardInfoList searchResultList) {

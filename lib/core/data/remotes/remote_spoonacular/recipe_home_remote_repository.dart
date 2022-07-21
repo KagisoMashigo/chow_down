@@ -1,5 +1,6 @@
 // 🎯 Dart imports:
 import 'dart:convert';
+import 'dart:io';
 
 // 📦 Package imports:
 import 'package:dio/dio.dart';
@@ -25,15 +26,21 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
   @override
   Future<RecipeCardInfoList> getLatestRecipe() async {
     String endpoint =
-        '$baseUrl/complexSearch?apiKey=$apiKey&query=beef&instructionsRequired=true&addRecipeInformation=true&number=50&sort=popularity&sortDirection=desc&addRecipeInformation';
+        '$baseUrl/complexSearch?apiKey=$apiKey&query=beef&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
+      // throw SocketException('No Internet');
+      // throw HttpException('404');
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
       // TODO: Actual error handling
       return RecipeCardInfoList.fromJson(body['results']);
-    } catch (e) {
+    } on SocketException catch (e) {
       print(e);
+      throw Failure(message: 'No Internet bruv');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'Not Found');
     }
   }
 
