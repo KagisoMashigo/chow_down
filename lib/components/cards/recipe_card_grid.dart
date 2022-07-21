@@ -40,48 +40,38 @@ class RecipeCardGrid extends StatelessWidget {
         child: Card(
           child: Column(
             children: <Widget>[
-              Row(
-                children: [
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RecipeInfoPage(
-                            title: recipe.title,
-                            id: recipe.id,
-                          ),
-                          fullscreenDialog: true,
-                        ));
-
-                        /// TODO the below can be the SAVED pop up
-                        // Widget snackBar =
-                        //     SnackBar(content: Text(recipe.id.toString()));
-
-                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      },
-                      child: Image.network(
-                        recipe.image,
-                        width: 18.5 * Responsive.ratioVertical,
-                        fit: BoxFit.contain,
-                      )),
-                ],
-              ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Expanded(
-                    child: Text(
-                      recipe.title,
-                      style: TextStyle(
-                        fontSize: 3.25 * Responsive.ratioHorizontal,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RecipeInfoPage(
+                        title: recipe.title,
+                        id: recipe.id,
                       ),
-                      // overflow: TextOverflow.ellipsis,
+                      fullscreenDialog: true,
+                    ));
+                  },
+                  child: Image.network(
+                    recipe.image,
+                    width: 18.5 * Responsive.ratioVertical,
+                    fit: BoxFit.contain,
+                  )),
+              Padding(
+                padding: EdgeInsets.all(2 * Responsive.ratioHorizontal),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        recipe.title,
+                        style: TextStyle(
+                          fontSize: 3.25 * Responsive.ratioHorizontal,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              // verticalDivider(factor: 9)
             ],
           ),
         ),

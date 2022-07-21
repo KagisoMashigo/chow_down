@@ -15,6 +15,7 @@ class ChowBaseText extends StatelessWidget {
     this.fontSize = 4,
   });
 
+  /// Always use in a col, row or flex
   @override
   Widget build(BuildContext context) {
     return Expanded(
