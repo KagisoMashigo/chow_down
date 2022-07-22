@@ -44,7 +44,7 @@ class RecipeCardInfoList {
 
   factory RecipeCardInfoList.fromJson(List<dynamic> json) {
     return RecipeCardInfoList(
-      list: json.map((data) => Recipe.fromJson(data)).toList(),
+      list: json.map((data) => Recipe.fromFirestore(data)).toList(),
     );
   }
 }

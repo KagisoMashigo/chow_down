@@ -30,7 +30,7 @@ class RemoteRecipe implements RecipeRepository {
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
       print('endpoint recipe ${endpoint}');
-      return Recipe.fromJson(body);
+      return Recipe.fromFirestore(body);
     } else {
       /// This part is for searched recipes
       final endpoint =
@@ -38,7 +38,7 @@ class RemoteRecipe implements RecipeRepository {
 
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
-      return Recipe.fromJson(body);
+      return Recipe.fromFirestore(body);
     }
 
     // if (response.statusCode == 200) {

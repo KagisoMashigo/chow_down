@@ -77,7 +77,7 @@ class Recipe {
     this.spoonacularSourceUrl,
   });
 
-  factory Recipe.fromJson(json) => Recipe(
+  factory Recipe.fromFirestore(json) => Recipe(
         vegetarian: json['vegetarian'] as bool,
         vegan: json['vegan'] as bool,
         glutenFree: json['glutenFree'] as bool,
@@ -122,7 +122,7 @@ class Recipe {
         spoonacularSourceUrl: json['spoonacularSourceUrl'] as String,
       );
 
-  toJson() => {
+  Map<String, dynamic> toFirestore() => {
         'vegetarian': vegetarian,
         'vegan': vegan,
         'glutenFree': glutenFree,
