@@ -1,5 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/services/auth.dart';
+import 'package:chow_down/services/firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -28,6 +30,11 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
     // Toggle this on and off to save requests
     Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
+
+  // Future getSavedRecipes() async {
+  //   final uid = Auth().currentUser?.uid;
+  //   var data = await FirestoreService.instance.
+  // }
 
   void showSnackbar(
     BuildContext context,

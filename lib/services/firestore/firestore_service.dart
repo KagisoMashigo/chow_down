@@ -23,6 +23,14 @@ class FirestoreService {
     await reference.delete();
   }
 
+  // Future<List> fetchAllContact({@required String path}) async {
+  //   List contactList = [];
+  //   DocumentSnapshot documentSnapshot =
+  //       await FirebaseFirestore.instance.collection(path);
+  //   contactList = documentSnapshot.data()['contacts'];
+  //   return contactList;
+  // }
+
   Stream<List<T>> collectionStream<T>({
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentId) builder,

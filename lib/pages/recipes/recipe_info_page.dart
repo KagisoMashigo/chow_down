@@ -3,7 +3,9 @@ import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/cards/recipe_desc_card.dart';
 import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,9 +93,21 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
     }
   }
 
+  // void _saveRecipe(Recipe recipe) async {
+  //   final db = FirebaseFirestore.instance;
+  //   final docRef = db
+  //       .collection('saved_recipes')
+  //       .withConverter(
+  //           // ignore: sdk_version_constructor_tearoffs
+  //           fromFirestore: Recipe.fromFirestore(),
+  //           toFirestore: (Recipe recipe, options) => recipe.toFirestore())
+  //       .add(recipe);
+
+  //   // await docRef.set(recipe);
+  // }
+
   void initState() {
     super.initState();
-    // Will change this to a DB call once user can save recipes
     Provider.of<RecipeInfoCubit>(context, listen: false)
         .fetchRecipeInformation(widget.id, widget.sourceUrl);
     _populateButtonList(TAB_OPTIONS, _isSelected);
@@ -183,8 +197,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () => print('saved!'),
-                      iconSize: 35,
+                      onPressed: (() => print('object')),
+                      iconSize: 7 * Responsive.ratioHorizontal,
                       icon: const Icon(
                         Icons.save_rounded,
                       ),

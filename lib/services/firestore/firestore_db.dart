@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:meta/meta.dart';
 
 // 🌎 Project imports:
@@ -11,7 +12,7 @@ abstract class Database {
   Future<void> setJob(Job job);
   Future<void> deleteJob(Job job);
   Stream<List<Job>> jobsStream();
-
+  // Stream<List<Recipe>> recipeStream();
   Future<void> setEntry(Entry entry);
   Future<void> deleteEntry(Entry entry);
   Stream<List<Entry>> entriesStream({Job job});
@@ -49,6 +50,10 @@ class FirestoreDatabase implements Database {
         path: APIPath.jobs(uid),
         builder: (data, documentId) => Job.fromMap(data, documentId),
       );
+
+  // @override
+  // List<Recipe> savedRecipes() =>
+  //     _service.collectionStream(path: path, builder: builder);
 
   @override
   Future<void> setEntry(Entry entry) => _service.setData(
