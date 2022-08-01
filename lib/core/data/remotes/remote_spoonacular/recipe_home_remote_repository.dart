@@ -43,6 +43,25 @@ class RemoteHomeRecipe implements RecipeHomeRepository {
     }
   }
 
+  Future<RecipeCardInfoList> getSavedRecipe() async {
+    String endpoint =
+        '$baseUrl/complexSearch?apiKey=$apiKey&query=beef&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
+
+    try {
+      // throw SocketException('No Internet');
+      // throw HttpException('404');
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
+      return RecipeCardInfoList.fromJson(body['results']);
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem retrieveing the data');
+    }
+  }
+
   // Future<SimilarList> getSimilarFood(String id) async {
   //   // This will be useful for simialr recs on the actual recipe page
   //   final enpoint = '$baseUrl/recipes/$id/similar?apiKey=$apiKey';

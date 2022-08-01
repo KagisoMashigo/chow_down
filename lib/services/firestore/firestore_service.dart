@@ -23,13 +23,15 @@ class FirestoreService {
     await reference.delete();
   }
 
-  // Future<List> fetchAllContact({@required String path}) async {
-  //   List contactList = [];
-  //   DocumentSnapshot documentSnapshot =
-  //       await FirebaseFirestore.instance.collection(path);
-  //   contactList = documentSnapshot.data()['contacts'];
-  //   return contactList;
-  // }
+  Future<List> fetchAllContent({@required String path}) async {
+    Query query = FirebaseFirestore.instance.collection(path);
+    print(query);
+    await query.get().then((event) {
+      for (var doc in event.docs) {
+        print("${doc.id} => ${doc.data()}");
+      }
+    });
+  }
 
   Stream<List<T>> collectionStream<T>({
     @required String path,

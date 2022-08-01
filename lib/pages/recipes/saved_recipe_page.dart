@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/services/auth.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:chow_down/services/firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 
@@ -23,12 +24,16 @@ class RecipeTabPage extends StatefulWidget {
 }
 
 class _RecipeTabPageState extends State<RecipeTabPage> {
+  // final Database database;
+
   @override
   void initState() {
     super.initState();
     // TODO: Will change this to a DB call once user can save recipes
     // Toggle this on and off to save requests
-    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
+    final database = Provider.of<Database>(context, listen: false);
+    database.savedRecipes();
+    // Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
 
   // Future getSavedRecipes() async {
