@@ -1,5 +1,6 @@
 // 📦 Package imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:meta/meta.dart';
 
 // 🌎 Project imports:
@@ -52,9 +53,9 @@ class FirestoreDatabase implements Database {
       );
 
   @override
-  savedRecipes() {
-    print(uid);
-    return _service.fetchAllContent(path: APIPath.saved_recipes(uid));
+  Future<List<Object>> savedRecipes() {
+    // print(uid);
+    return _service.fetchSavedRecipes(path: APIPath.saved_recipes(uid));
   }
 
   @override

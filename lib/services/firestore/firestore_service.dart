@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
@@ -23,14 +25,25 @@ class FirestoreService {
     await reference.delete();
   }
 
-  Future<List> fetchAllContent({@required String path}) async {
-    Query query = FirebaseFirestore.instance.collection(path);
-    print(query);
-    await query.get().then((event) {
-      for (var doc in event.docs) {
-        print("${doc.id} => ${doc.data()}");
-      }
-    });
+  Future<List<Object>> fetchSavedRecipes({@required String path}) async {
+    final CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection(path);
+
+    final CollectionReference convertedCollection =
+        _collectionRef.withConverter<Recipe>(
+      fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+      toFirestore: (recipe, _) => recipe.toJson(),
+    );
+
+    QuerySnapshot querySnapshot = await convertedCollection.get();
+
+    final recipeList = querySnapshot.docs.map((doc) => doc.data()).toList();
+    // final c = recipeList.map((e) => Recipe.fromJson(e)).toList();
+
+    // print(c);
+
+    print(recipeList);
+    return recipeList;
   }
 
   Stream<List<T>> collectionStream<T>({
