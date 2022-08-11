@@ -41,10 +41,8 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   Future<String> resetPassword() async {
     updateWith(submitted: true, isLoading: true);
     try {
-      // print('${this.email} is');
       await auth.sendPasswordResetEmail(this.email);
       alertText = true;
-      // print('reset');
       return this.email;
     } catch (e) {
       updateWith(isLoading: false);

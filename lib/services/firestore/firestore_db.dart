@@ -13,8 +13,9 @@ abstract class Database {
   Future<void> setJob(Job job);
   Future<void> deleteJob(Job job);
   Stream<List<Job>> jobsStream();
-  savedRecipes();
+  retrieveSavedRecipes();
   Future<void> setEntry(Entry entry);
+  Future<void> saveRecipes(Recipe recipe);
   Future<void> deleteEntry(Entry entry);
   Stream<List<Entry>> entriesStream({Job job});
 }
@@ -53,9 +54,14 @@ class FirestoreDatabase implements Database {
       );
 
   @override
-  Future<List<Object>> savedRecipes() {
-    // print(uid);
+  Future<List<Object>> retrieveSavedRecipes() {
     return _service.fetchSavedRecipes(path: APIPath.saved_recipes(uid));
+  }
+
+  @override
+  Future<void> saveRecipes(Recipe recipe) {
+    return _service.saveRecipe(
+        path: APIPath.saved_recipes(uid), recipe: recipe);
   }
 
   @override

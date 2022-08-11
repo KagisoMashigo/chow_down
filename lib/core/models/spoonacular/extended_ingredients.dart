@@ -66,6 +66,6 @@ class ExtendedIngredients {
         'unit': unit,
         'meta': meta,
         'metaInformation': metaInformation,
-        'measures': measures.toJson(),
+        'measures': measures?.toJson(),
       };
 }

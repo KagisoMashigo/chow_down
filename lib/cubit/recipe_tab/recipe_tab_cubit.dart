@@ -25,7 +25,7 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
 
       emit(RecipeTabLoaded(searchResults));
     } on Failure catch (e) {
-      print('${e} UI state');
+      // print('${e} UI state');
 
       emit(RecipTabError(e.toString()));
     }

@@ -29,7 +29,7 @@ class RemoteRecipe implements RecipeRepository {
           'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&addRecipeInformation=true';
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
-      print('endpoint recipe ${endpoint}');
+      // print('endpoint recipe ${endpoint}');
       return Recipe.fromJson(body);
     } else {
       /// This part is for searched recipes

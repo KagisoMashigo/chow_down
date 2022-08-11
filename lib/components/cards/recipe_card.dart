@@ -1,7 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
-import 'package:chow_down/plugins/helpers.dart';
+import 'package:chow_down/plugins/utils/helpers.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:

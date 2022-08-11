@@ -80,7 +80,7 @@ class Recipe {
 
   factory Recipe.fromFirestore(
     DocumentSnapshot<Map<String, dynamic>> snapshot,
-    SnapshotOptions options,
+    // SnapshotOptions options,
   ) {
     final data = snapshot.data();
     return Recipe(
@@ -128,7 +128,7 @@ class Recipe {
     );
   }
 
-  factory Recipe.fromJson(json) => Recipe(
+  factory Recipe.fromJson(Map<String, Object> json) => Recipe(
         vegetarian: json['vegetarian'] as bool,
         vegan: json['vegan'] as bool,
         glutenFree: json['glutenFree'] as bool,
@@ -146,7 +146,7 @@ class Recipe {
         creditsText: json['creditsText'] as String,
         license: json['license'] as String,
         sourceName: json['sourceName'] as String,
-        pricePerServing: (json['pricePerServing'] ?? 0).toDouble(),
+        pricePerServing: (json['pricePerServing'] ?? 0),
         extendedIngredients:
             (json['extendedIngredients'] as List<dynamic> ?? [])
                     .map((e) => ExtendedIngredients.fromJson(e))
@@ -173,47 +173,9 @@ class Recipe {
         spoonacularSourceUrl: json['spoonacularSourceUrl'] as String,
       );
 
-  Map<String, dynamic> toFirestore() => {
-        'vegetarian': vegetarian,
-        'vegan': vegan,
-        'glutenFree': glutenFree,
-        'dairyFree': dairyFree,
-        'veryHealthy': veryHealthy,
-        'cheap': cheap,
-        'veryPopular': veryPopular,
-        'sustainable': sustainable,
-        'weightWatcherSmartPoints': weightWatcherSmartPoints,
-        'gaps': gaps,
-        'lowFodmap': lowFodmap,
-        'aggregateLikes': aggregateLikes,
-        'spoonacularScore': spoonacularScore,
-        'healthScore': healthScore,
-        'creditsText': creditsText,
-        'license': license,
-        'sourceName': sourceName,
-        'pricePerServing': pricePerServing,
-        'extendedIngredients':
-            extendedIngredients.map((e) => e.toJson()).toList(),
-        'id': id,
-        'title': title,
-        'readyInMinutes': readyInMinutes,
-        'servings': servings,
-        'sourceUrl': sourceUrl,
-        'image': image,
-        'imageType': imageType,
-        'summary': summary,
-        'cuisines': cuisines,
-        'dishTypes': dishTypes,
-        'diets': diets,
-        'occasions': occasions,
-        'instructions': instructions,
-        'analyzedInstructions':
-            analyzedInstructions.map((e) => e.toJson()).toList(),
-        'originalId': originalId,
-        'spoonacularSourceUrl': spoonacularSourceUrl,
-      };
-
   Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
         'vegetarian': vegetarian,
         'vegan': vegan,
         'glutenFree': glutenFree,
@@ -232,10 +194,10 @@ class Recipe {
         'license': license,
         'sourceName': sourceName,
         'pricePerServing': pricePerServing,
-        'extendedIngredients':
-            extendedIngredients.map((e) => e.toJson()).toList(),
-        'id': id,
-        'title': title,
+        'extendedIngredients': extendedIngredients
+                ?.map((e) => e != null ? e?.toJson() : null)
+                ?.toList() ??
+            [],
         'readyInMinutes': readyInMinutes,
         'servings': servings,
         'sourceUrl': sourceUrl,
@@ -247,8 +209,10 @@ class Recipe {
         'diets': diets,
         'occasions': occasions,
         'instructions': instructions,
-        'analyzedInstructions':
-            analyzedInstructions.map((e) => e.toJson()).toList(),
+        'analyzedInstructions': analyzedInstructions
+                ?.map((e) => e != null ? e?.toJson() : null)
+                ?.toList() ??
+            [],
         'originalId': originalId,
         'spoonacularSourceUrl': spoonacularSourceUrl,
       };

@@ -31,9 +31,7 @@ class AccountPage extends StatelessWidget {
     final auth = Provider.of<AuthBase>(context, listen: false);
     try {
       await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
 
   // TODO: better name generator

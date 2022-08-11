@@ -20,7 +20,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
 
       final Recipe recipe =
           await _recipeRepository.getRecipeInformation(id, sourceUrl);
-      print('extracted recipe ${sourceUrl}');
+      // print('extracted recipe ${sourceUrl}');
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure {

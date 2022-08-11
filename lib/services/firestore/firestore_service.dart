@@ -15,14 +15,30 @@ class FirestoreService {
     @required Map<String, dynamic> data,
   }) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('$path: $data');
+    // print('$path: $data');
     await reference.set(data);
   }
 
   Future<void> deleteData({@required String path}) async {
     final reference = FirebaseFirestore.instance.doc(path);
-    print('delete: $path');
+    // print('delete: $path');
     await reference.delete();
+  }
+
+  Future<void> saveRecipe(
+      {@required String path, @required Recipe recipe}) async {
+    final CollectionReference _collectionRef =
+        FirebaseFirestore.instance.collection(path);
+
+    print('${recipe} IN FS serve');
+
+    final CollectionReference convertedCollection =
+        _collectionRef.withConverter<Recipe>(
+      fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+      toFirestore: (recipe, _) => recipe.toJson(),
+    );
+
+    await convertedCollection.add(recipe);
   }
 
   Future<List<Object>> fetchSavedRecipes({@required String path}) async {
@@ -35,6 +51,7 @@ class FirestoreService {
       toFirestore: (recipe, _) => recipe.toJson(),
     );
 
+    // print(convertedCollection);
     QuerySnapshot querySnapshot = await convertedCollection.get();
 
     final recipeList = querySnapshot.docs.map((doc) => doc.data()).toList();

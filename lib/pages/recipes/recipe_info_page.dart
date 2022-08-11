@@ -1,7 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
-import 'package:chow_down/components/cards/recipe_desc_card.dart';
+import 'package:chow_down/components/cards/recipe_ingre_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:flutter/material.dart';
@@ -42,9 +42,18 @@ class RecipeInfoPage extends StatefulWidget {
 
 class _RecipeInfoPageState extends State<RecipeInfoPage> {
   final List<bool> _isSelected = [];
+  Database _database;
 
   /// Initial selected button
   int _currentIndex = 0;
+
+  void initState() {
+    super.initState();
+    Provider.of<RecipeInfoCubit>(context, listen: false)
+        .fetchRecipeInformation(widget.id, widget.sourceUrl);
+    _populateButtonList(TAB_OPTIONS, _isSelected);
+    _database = Provider.of<Database>(context, listen: false);
+  }
 
   /// Handles how many buttons appear in nav and which is selected using bools
   void _populateButtonList(List data, List<bool> isSelected) {
@@ -91,26 +100,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
         break;
       default:
     }
-  }
-
-  // void _saveRecipe(Recipe recipe) async {
-  //   final db = FirebaseFirestore.instance;
-  //   final docRef = db
-  //       .collection('saved_recipes')
-  //       .withConverter(
-  //           // ignore: sdk_version_constructor_tearoffs
-  //           fromFirestore: Recipe.fromFirestore(),
-  //           toFirestore: (Recipe recipe, options) => recipe.toFirestore())
-  //       .add(recipe);
-
-  //   // await docRef.set(recipe);
-  // }
-
-  void initState() {
-    super.initState();
-    Provider.of<RecipeInfoCubit>(context, listen: false)
-        .fetchRecipeInformation(widget.id, widget.sourceUrl);
-    _populateButtonList(TAB_OPTIONS, _isSelected);
   }
 
   @override
@@ -197,7 +186,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: (() => print('object')),
+                      onPressed: (() => _database.saveRecipes(recipe)),
                       iconSize: 7 * Responsive.ratioHorizontal,
                       icon: const Icon(
                         Icons.save_rounded,

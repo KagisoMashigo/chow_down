@@ -24,22 +24,15 @@ class RecipeTabPage extends StatefulWidget {
 }
 
 class _RecipeTabPageState extends State<RecipeTabPage> {
-  // final Database database;
-
   @override
   void initState() {
     super.initState();
     // TODO: Will change this to a DB call once user can save recipes
     // Toggle this on and off to save requests
-    final database = Provider.of<Database>(context, listen: false);
-    database.savedRecipes();
-    // Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
+    // final database = Provider.of<Database>(context, listen: false);
+    // database.retrieveSavedRecipes();
+    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
-
-  // Future getSavedRecipes() async {
-  //   final uid = Auth().currentUser?.uid;
-  //   var data = await FirestoreService.instance.
-  // }
 
   void showSnackbar(
     BuildContext context,

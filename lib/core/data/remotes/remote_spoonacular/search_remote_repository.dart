@@ -35,7 +35,7 @@ class RemoteSearchRepository implements SearchRepository {
     final body = json.decode(response.toString());
 
     if (response.statusCode == 200) {
-      print('BODY: ${body.toString()}');
+      // print('BODY: ${body.toString()}');
 
       return RecipeCardInfoList.fromJson(body['results']);
     } else if (response.statusCode == 401) {
@@ -67,9 +67,9 @@ class RemoteSearchRepository implements SearchRepository {
     final body = json.decode(response.toString());
 
     if (response.statusCode == 200) {
-      print('reposnse: $body');
-      print('reposnse: ${body['title']}');
-      print('reposnse: ${body['sourceUrl']}');
+      // print('reposnse: $body');
+      // print('reposnse: ${body['title']}');
+      // print('reposnse: ${body['sourceUrl']}');
 
       return RecipeExtracted.fromJson(body);
     } else if (response.statusCode == 401) {

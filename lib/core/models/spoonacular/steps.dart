@@ -1,6 +1,5 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/ingredients.dart';
-import 'package:chow_down/core/models/spoonacular/length.dart';
 import 'equipment.dart';
 
 class Step {
@@ -8,14 +7,12 @@ class Step {
   String step;
   List<Ingredient> ingredients;
   List<Equipment> equipment;
-  Length length;
 
   Step({
     this.number,
     this.step,
     this.ingredients,
     this.equipment,
-    this.length,
   });
 
   factory Step.fromJson(json) => Step(
@@ -27,7 +24,6 @@ class Step {
         equipment: (json['equipment'] as List<dynamic>)
             .map((e) => Equipment.fromJson(e))
             .toList(),
-        length: json['length'] == null ? null : Length.fromJson(json['length']),
       );
 
   toJson() => {
@@ -35,6 +31,5 @@ class Step {
         'step': step,
         'ingredients': ingredients.map((e) => e.toJson()).toList(),
         'equipment': equipment.map((e) => e.toJson()).toList(),
-        'length': length.toJson(),
       };
 }
