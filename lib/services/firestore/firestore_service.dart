@@ -30,8 +30,6 @@ class FirestoreService {
     final CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection(path);
 
-    print('${recipe} IN FS serve');
-
     final CollectionReference convertedCollection =
         _collectionRef.withConverter<Recipe>(
       fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
@@ -47,19 +45,15 @@ class FirestoreService {
 
     final CollectionReference convertedCollection =
         _collectionRef.withConverter<Recipe>(
-      fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+      fromFirestore: (snapshot, _) => Recipe.fromFirestore(snapshot),
       toFirestore: (recipe, _) => recipe.toJson(),
     );
 
-    // print(convertedCollection);
     QuerySnapshot querySnapshot = await convertedCollection.get();
 
     final recipeList = querySnapshot.docs.map((doc) => doc.data()).toList();
-    // final c = recipeList.map((e) => Recipe.fromJson(e)).toList();
 
-    // print(c);
-
-    print(recipeList);
+    // print(recipeList);
     return recipeList;
   }
 

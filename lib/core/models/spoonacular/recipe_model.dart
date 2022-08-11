@@ -128,7 +128,7 @@ class Recipe {
     );
   }
 
-  factory Recipe.fromJson(Map<String, Object> json) => Recipe(
+  factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
         vegetarian: json['vegetarian'] as bool,
         vegan: json['vegan'] as bool,
         glutenFree: json['glutenFree'] as bool,

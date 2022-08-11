@@ -55,6 +55,7 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<List<Object>> retrieveSavedRecipes() {
+    print(uid);
     return _service.fetchSavedRecipes(path: APIPath.saved_recipes(uid));
   }
 

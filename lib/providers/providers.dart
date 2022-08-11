@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -37,6 +38,7 @@ final _functionalityProviders = <SingleChildWidget>[
   BlocProvider<RecipeTabCubit>(
     create: (context) => RecipeTabCubit(
       RemoteHomeRecipe(),
+      FirestoreDatabase(uid: Auth().currentUser.uid),
     ),
   ),
   BlocProvider<SearchCubit>(

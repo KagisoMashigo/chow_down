@@ -13,11 +13,11 @@ class RecipeCardGrid extends StatelessWidget {
     @required this.searchResultList,
   }) : super(key: key);
 
-  final RecipeCardInfoList searchResultList;
+  final List<Object> searchResultList;
 
   @override
   Widget build(BuildContext context) {
-    final results = searchResultList.list;
+    final results = searchResultList;
 
     return GridView.count(
       primary: false,
@@ -35,6 +35,7 @@ class RecipeCardGrid extends StatelessWidget {
   }
 
   List<Container> _getStructuredCardGrid(List<Recipe> results, context) {
+    print(results);
     return results.map((recipe) {
       return Container(
         child: Card(

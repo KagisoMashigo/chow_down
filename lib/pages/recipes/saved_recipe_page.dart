@@ -96,7 +96,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
 
   Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
       ? EmptyContent(
-          message: 'It is as empty as your stomach...',
+          message: 'It\'s as empty as your stomach...',
           title: 'No recipes currently saved',
           icon: Icons.hourglass_empty,
         )
@@ -112,7 +112,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         ),
       );
 
-  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) =>
+  Widget _buildColumnWithData(List<Object> searchResultList) =>
       SingleChildScrollView(
         child: Column(
           children: [
