@@ -1,6 +1,8 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/design/chow.dart';
 
 class BaseCard extends StatelessWidget {
   final Widget child;

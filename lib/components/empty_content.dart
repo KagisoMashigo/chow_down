@@ -1,6 +1,8 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/base_card.dart';
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/cards/base_card.dart';
 
 class EmptyContent extends StatelessWidget {
   const EmptyContent({Key key, this.title, this.message, this.icon})

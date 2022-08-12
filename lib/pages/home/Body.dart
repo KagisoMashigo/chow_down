@@ -1,11 +1,11 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';

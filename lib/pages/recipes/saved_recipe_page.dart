@@ -1,8 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/services/auth.dart';
-import 'package:chow_down/services/firestore/firestore_db.dart';
-import 'package:chow_down/services/firestore/firestore_service.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -12,11 +8,15 @@ import 'package:provider/provider.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
+import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/services/auth.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
+import 'package:chow_down/services/firestore/firestore_service.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override

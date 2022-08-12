@@ -1,10 +1,13 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
-import 'package:flutter/material.dart';
 
 class RecipeDescCard extends StatelessWidget {
   const RecipeDescCard({

@@ -1,7 +1,9 @@
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Recipe {
   bool vegetarian;
@@ -84,7 +86,7 @@ class Recipe {
   ) {
     final data = snapshot.data();
     return Recipe(
-      vegetarian: data['vegetarian'] as bool,
+      vegetarian: data['vegetarian'],
       vegan: data['vegan'] as bool,
       glutenFree: data['glutenFree'] as bool,
       dairyFree: data['dairyFree'] as bool,
