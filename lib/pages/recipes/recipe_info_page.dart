@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +23,12 @@ const List<String> TAB_OPTIONS = [
 ];
 
 class RecipeInfoPage extends StatefulWidget {
-  const RecipeInfoPage({Key key, @required this.title, this.id, this.sourceUrl})
-      : super(key: key);
+  const RecipeInfoPage({
+    Key key,
+    @required this.title,
+    this.id,
+    this.sourceUrl,
+  }) : super(key: key);
 
   /// Recipe title
   final String title;

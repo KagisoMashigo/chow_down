@@ -44,13 +44,9 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
 
     return GridView.count(
       primary: false,
-      padding: EdgeInsets.symmetric(
-          // vertical: 2 * Responsive.ratioVertical,
-          // horizontal: 2 * Responsive.ratioHorizontal,
-          ),
       crossAxisCount: 2,
-      childAspectRatio: 0.4 * Responsive.ratioSquare,
-      mainAxisSpacing: 4 * Responsive.ratioVertical,
+      childAspectRatio: 0.425 * Responsive.ratioSquare,
+      mainAxisSpacing: 3.5 * Responsive.ratioVertical,
       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
       children: _getStructuredCardGrid(results, context, _delete),
       shrinkWrap: true,
@@ -68,7 +64,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 2,
+                spreadRadius: 1,
                 blurRadius: 6.0,
                 offset: const Offset(7, 0),
               ),

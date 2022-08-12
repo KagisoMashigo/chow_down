@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/models/firestore/entry.dart';
 import 'package:chow_down/services/firestore/firestore_api_path.dart';
 import 'package:chow_down/services/firestore/firestore_service.dart';
 
@@ -23,14 +22,12 @@ class FirestoreDatabase implements Database {
 
   @override
   Future<List<Recipe>> retrieveSavedRecipes() {
-    print(uid);
-    return _service.fetchSavedRecipes(path: APIPath.saved_recipes(uid));
+    return _service.fetchSavedRecipes(path: APIPath.savedRecipes(uid));
   }
 
   @override
   Future<void> saveRecipes(Recipe recipe) {
-    return _service.saveRecipe(
-        path: APIPath.saved_recipes(uid), recipe: recipe);
+    return _service.saveRecipe(path: APIPath.savedRecipes(uid), recipe: recipe);
   }
 
   @override

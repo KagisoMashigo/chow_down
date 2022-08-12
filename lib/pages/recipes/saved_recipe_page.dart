@@ -21,14 +21,10 @@ class RecipeTabPage extends StatefulWidget {
 }
 
 class _RecipeTabPageState extends State<RecipeTabPage> {
-  var _delete;
   @override
   void initState() {
     super.initState();
-    // TODO: Will change this to a DB call once user can save recipes
-    // Toggle this on and off to save requests
-    // final database = Provider.of<Database>(context, listen: false);
-    // database.retrieveSavedRecipes();
+    // TODO: Reload page on tab change
     Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
 
@@ -45,6 +41,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
       body: RefreshIndicator(
+        color: Color.fromARGB(255, 234, 180, 225),
         onRefresh: _pullRefresh,
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),

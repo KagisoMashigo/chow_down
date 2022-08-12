@@ -11,8 +11,23 @@ class FirestoreService {
 
   Future<void> deleteData(
       {@required String path, @required String recipeId}) async {
-    final reference = FirebaseFirestore.instance.collection(path).doc(recipeId);
-    await reference.delete();
+    final reference = FirebaseFirestore.instance.collection(path);
+
+    // OG ref to delete
+    final originalId = reference.doc(recipeId);
+
+    // Generated ref to delete
+    final docId = reference.doc().id;
+
+    // print(originalId.id);
+    print(docId);
+    // RegExp(r'[a-z]').hasMatch(docId.id
+
+    if (docId.length > 6) {
+      await reference.doc().delete();
+    }
+
+    await originalId.delete();
   }
 
   Future<void> saveRecipe(
@@ -26,7 +41,11 @@ class FirestoreService {
       toFirestore: (recipe, _) => recipe.toJson(),
     );
 
-    await convertedCollection.doc(recipe.id.toString()).set(recipe);
+    if (recipe.id < 0) {
+      await convertedCollection.doc(UniqueKey().toString()).set(recipe);
+    } else {
+      await convertedCollection.doc(recipe.id.toString()).set(recipe);
+    }
   }
 
   Future<List<Recipe>> fetchSavedRecipes({@required String path}) async {
