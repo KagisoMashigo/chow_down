@@ -1,6 +1,5 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
@@ -10,18 +9,9 @@ class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
 
-  Future<void> setData({
-    @required String path,
-    @required Map<String, dynamic> data,
-  }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    // print('$path: $data');
-    await reference.set(data);
-  }
-
-  Future<void> deleteData({@required String path}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
-    // print('delete: $path');
+  Future<void> deleteData(
+      {@required String path, @required String recipeId}) async {
+    final reference = FirebaseFirestore.instance.collection(path).doc(recipeId);
     await reference.delete();
   }
 
@@ -36,7 +26,7 @@ class FirestoreService {
       toFirestore: (recipe, _) => recipe.toJson(),
     );
 
-    await convertedCollection.add(recipe);
+    await convertedCollection.doc(recipe.id.toString()).set(recipe);
   }
 
   Future<List<Recipe>> fetchSavedRecipes({@required String path}) async {
@@ -48,14 +38,15 @@ class FirestoreService {
     final CollectionReference<Recipe> covertedCollection =
         _collectionRef.withConverter<Recipe>(
       fromFirestore: (snapshot, _) {
+        /// This line colects the recipes as Recipes instead of Objects
         savedRecipes.add(Recipe.fromFirestore(snapshot));
         return Recipe.fromFirestore(snapshot);
       },
       toFirestore: (recipe, _) => recipe.toJson(),
     );
 
+    /// These two lines are necessary to perform the fetch
     QuerySnapshot finalSnapshot = await covertedCollection.get();
-
     final recipeList = finalSnapshot.docs.map((doc) => doc.data()).toList();
 
     return savedRecipes;

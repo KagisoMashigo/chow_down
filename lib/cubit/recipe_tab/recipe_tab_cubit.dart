@@ -9,7 +9,6 @@ import 'package:chow_down/services/firestore/firestore_db.dart';
 
 // 🌎 Project imports:
 
-
 part 'recipe_tab_state.dart';
 
 class RecipeTabCubit extends Cubit<RecipeTabState> {
@@ -26,10 +25,33 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
       await Future<void>.delayed(const Duration(milliseconds: 50));
 
-      emit(RecipeTabLoaded(searchResults));
+      if (searchResults.isEmpty) {
+        emit(RecipeTabInitial());
+      } else {
+        emit(RecipeTabLoaded(searchResults));
+      }
     } on Failure catch (e) {
-      // print('${e} UI state');
+      emit(RecipTabError(e.toString()));
+    }
+  }
 
+  Future<void> deleteRecipeFromCollection(Recipe recipe) async {
+    try {
+      emit(RecipeTabLoading());
+
+      await _database.deleteRecipe(recipe);
+
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+
+      if (searchResults.isEmpty) {
+        emit(RecipeTabInitial());
+      } else {
+        emit(RecipeTabLoaded(searchResults));
+      }
+    } on Failure catch (e) {
       emit(RecipTabError(e.toString()));
     }
   }

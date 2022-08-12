@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -12,11 +13,7 @@ import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
-import 'package:chow_down/services/auth.dart';
-import 'package:chow_down/services/firestore/firestore_db.dart';
-import 'package:chow_down/services/firestore/firestore_service.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override
@@ -24,6 +21,7 @@ class RecipeTabPage extends StatefulWidget {
 }
 
 class _RecipeTabPageState extends State<RecipeTabPage> {
+  var _delete;
   @override
   void initState() {
     super.initState();
@@ -112,7 +110,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         ),
       );
 
-  Widget _buildColumnWithData(List<Object> searchResultList) =>
+  Widget _buildColumnWithData(List<Recipe> searchResultList) =>
       SingleChildScrollView(
         child: Column(
           children: [
@@ -120,20 +118,22 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
               searchResultList: searchResultList,
             ),
             verticalDivider(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: FloatingActionButton(
-                onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => this.widget)),
-                child: Icon(
-                  Icons.arrow_upward_outlined,
-                  color: ChowColors.black,
-                ),
-                backgroundColor: ChowColors.white,
-              ),
-            ),
+            searchResultList.length > 6
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FloatingActionButton(
+                      onPressed: () => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => this.widget)),
+                      child: Icon(
+                        Icons.arrow_upward_outlined,
+                        color: ChowColors.black,
+                      ),
+                      backgroundColor: ChowColors.white,
+                    ),
+                  )
+                : Container(),
             verticalDivider(factor: 4),
           ],
         ),
