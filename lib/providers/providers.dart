@@ -33,6 +33,7 @@ final _functionalityProviders = <SingleChildWidget>[
   BlocProvider<RecipeInfoCubit>(
     create: (context) => RecipeInfoCubit(
       RemoteRecipe(),
+      FirestoreDatabase(uid: Auth().currentUser.uid),
     ),
   ),
   BlocProvider<RecipeTabCubit>(

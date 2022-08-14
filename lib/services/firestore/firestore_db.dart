@@ -31,6 +31,6 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteRecipe(Recipe recipe) => _service.deleteData(
-      path: APIPath.recipe(uid), recipeId: recipe.id.toString());
+  Future<void> deleteRecipe(Recipe recipe) =>
+      _service.deleteData(path: APIPath.recipe(uid), recipe: recipe);
 }

@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/empty_content.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -136,7 +137,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
               return _buildContents(state.recipe);
             } else {
               // error state snackbar
-              return _buildInitialInput();
+              return _buildInitialInput(state);
             }
           },
         ),
@@ -144,10 +145,18 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
     );
   }
 
-  Widget _buildInitialInput() => Padding(
-        padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
-        child: Column(
-          children: [Container()],
+  /// TODO implement refresh
+  //   Future<void> _pullRefresh() async {
+  //   await Future.delayed(Duration(seconds: 1));
+  //   await Provider.of<RecipeInfoCubit>(context, listen: false)
+  //       .fetchRecipeInformation();
+  // }
+
+  Widget _buildInitialInput(RecipeInfoState state) => Center(
+        child: EmptyContent(
+          message: 'If this persists please restart the application.',
+          title: 'Something went wrong...',
+          icon: Icons.error_outline_sharp,
         ),
       );
 
@@ -189,7 +198,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       ),
                     ),
                     IconButton(
-                      onPressed: (() => _database.saveRecipes(recipe)),
+                      onPressed: (() =>
+                          Provider.of<RecipeInfoCubit>(context, listen: false)
+                              .saveRecipe(recipe)),
                       iconSize: 7 * Responsive.ratioHorizontal,
                       icon: const Icon(
                         Icons.save_rounded,

@@ -3,6 +3,8 @@ import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingre_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/empty_content.dart';
+import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,12 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     _populateButtonList(TAB_OPTIONS, _isSelected);
     _database = Provider.of<Database>(context, listen: false);
   }
+
+  void showSnackbar(
+    BuildContext context,
+    String errorMessage,
+  ) =>
+      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
 
   /// Handles how many buttons appear in nav and which is selected using bools
   void _populateButtonList(List data, List<bool> isSelected) {
@@ -116,7 +124,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
         child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
           listener: (context, state) {
             if (state is RecipInfoError) {
-              ScaffoldMessenger.of(context).showSnackBar(
+              return ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
                 ),
@@ -130,7 +138,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
               return _buildContents(state.recipe);
             } else {
               // error state snackbar
-              return _buildInitialInput();
+              return _buildInitialInput(state);
             }
           },
         ),
@@ -138,11 +146,10 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     );
   }
 
-  Widget _buildInitialInput() => Padding(
-        padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
-        child: Column(
-          children: [Container()],
-        ),
+  Widget _buildInitialInput(RecipeInfoState state) => EmptyContent(
+        message: 'The was a problem saving this recipe. Please try again..',
+        title: 'Something went wrong...',
+        icon: Icons.error_outline_sharp,
       );
 
   Widget _buildLoading() => Center(

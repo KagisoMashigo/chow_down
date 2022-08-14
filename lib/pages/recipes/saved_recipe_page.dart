@@ -96,7 +96,8 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
           icon: Icons.hourglass_empty,
         )
       : EmptyContent(
-          message: 'If this persists please restart the application',
+          message:
+              'Please pull to refresh. If this persists please restart the application.',
           title: 'Something went wrong...',
           icon: Icons.error_outline_sharp,
         );

@@ -1,5 +1,9 @@
 // 🐦 Flutter imports:
+import 'dart:io';
+
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/models/error/error.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
@@ -9,65 +13,93 @@ class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
 
-  Future<void> deleteData(
-      {@required String path, @required String recipeId}) async {
-    final reference = FirebaseFirestore.instance.collection(path);
+  Future<void> deleteData({
+    @required String path,
+    @required Recipe recipe,
+  }) async {
+    try {
+      final reference = FirebaseFirestore.instance.collection(path);
 
-    // OG ref to delete
-    final originalId = reference.doc(recipeId);
+      // OG ref to delete
+      final originalId = reference.doc(recipe.id.toString());
 
-    // Generated ref to delete
-    final docId = reference.doc().id;
+      // Generated ref to delete
+      final customId = reference
+          .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''));
 
-    // print(originalId.id);
-    print(docId);
-    // RegExp(r'[a-z]').hasMatch(docId.id
+      if (recipe.id.toString().length < 6) {
+        print(recipe);
+        await customId.delete();
+      }
 
-    if (docId.length > 6) {
-      await reference.doc().delete();
+      await originalId.delete();
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem deleting the data');
     }
-
-    await originalId.delete();
   }
 
   Future<void> saveRecipe(
       {@required String path, @required Recipe recipe}) async {
-    final CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection(path);
+    try {
+      throw Failure(message: 'There was a problem saving the recipe');
 
-    final CollectionReference<Recipe> convertedCollection =
-        _collectionRef.withConverter<Recipe>(
-      fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
-      toFirestore: (recipe, _) => recipe.toJson(),
-    );
+      // final CollectionReference _collectionRef =
+      //     FirebaseFirestore.instance.collection(path);
 
-    if (recipe.id < 0) {
-      await convertedCollection.doc(UniqueKey().toString()).set(recipe);
-    } else {
-      await convertedCollection.doc(recipe.id.toString()).set(recipe);
+      // final CollectionReference<Recipe> convertedCollection =
+      //     _collectionRef.withConverter<Recipe>(
+      //   fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+      //   toFirestore: (recipe, _) => recipe.toJson(),
+      // );
+
+      // if (recipe.id < 0) {
+      //   await convertedCollection
+      //       .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
+      //       .set(recipe);
+      // } else {
+      //   await convertedCollection.doc(recipe.id.toString()).set(recipe);
+      // }
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem saving the recipe');
     }
   }
 
   Future<List<Recipe>> fetchSavedRecipes({@required String path}) async {
-    final CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection(path);
+    try {
+      final CollectionReference _collectionRef =
+          FirebaseFirestore.instance.collection(path);
 
-    final List<Recipe> savedRecipes = [];
+      final List<Recipe> savedRecipes = [];
 
-    final CollectionReference<Recipe> covertedCollection =
-        _collectionRef.withConverter<Recipe>(
-      fromFirestore: (snapshot, _) {
-        /// This line colects the recipes as Recipes instead of Objects
-        savedRecipes.add(Recipe.fromFirestore(snapshot));
-        return Recipe.fromFirestore(snapshot);
-      },
-      toFirestore: (recipe, _) => recipe.toJson(),
-    );
+      final CollectionReference<Recipe> covertedCollection =
+          _collectionRef.withConverter<Recipe>(
+        fromFirestore: (snapshot, _) {
+          /// This line colects the recipes as Recipes instead of Objects
+          savedRecipes.add(Recipe.fromFirestore(snapshot));
+          return Recipe.fromFirestore(snapshot);
+        },
+        toFirestore: (recipe, _) => recipe.toJson(),
+      );
 
-    /// These two lines are necessary to perform the fetch
-    QuerySnapshot finalSnapshot = await covertedCollection.get();
-    final recipeList = finalSnapshot.docs.map((doc) => doc.data()).toList();
+      /// These two lines are necessary to perform the fetch
+      QuerySnapshot finalSnapshot = await covertedCollection.get();
+      final recipeList = finalSnapshot.docs.map((doc) => doc.data()).toList();
 
-    return savedRecipes;
+      return savedRecipes;
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem fetching the recipes');
+    }
   }
 }

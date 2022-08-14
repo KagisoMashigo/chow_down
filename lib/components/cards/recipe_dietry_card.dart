@@ -103,7 +103,7 @@ class RecipeDietCard extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 3 * Responsive.ratioHorizontal),
-                        child: Text('Vegetarian:'),
+                        child: Text('Vegan:'),
                       ),
                       Icon(
                         vegan ? Icons.check : Icons.close,
