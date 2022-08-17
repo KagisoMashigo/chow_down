@@ -18,7 +18,7 @@ class ExtractLoading extends ExtractState {
 
 class ExtractLoaded extends ExtractState {
   const ExtractLoaded(this.extractedResult);
-  final RecipeExtracted extractedResult;
+  final Recipe extractedResult;
 
   // TODO: incorporate freezed later on as this is not prod viable
   @override
