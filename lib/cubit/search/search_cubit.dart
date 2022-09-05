@@ -21,8 +21,8 @@ class SearchCubit extends Cubit<SearchState> {
       final searchResults = await _searchRepository.getRecipesList(query);
 
       emit(SearchLoaded(searchResults));
-    } on Failure {
-      emit(SearchError('API error when fetching results'));
+    } on Failure catch (e) {
+      emit(SearchError(e.toString()));
     }
   }
 }

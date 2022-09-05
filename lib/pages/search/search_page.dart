@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/snackBar.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -18,6 +19,12 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  void showSnackbar(
+    BuildContext context,
+    String errorMessage,
+  ) =>
+      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
             fit: BoxFit.cover,
           ),
         ),
-        padding: EdgeInsets.only(top: 2.5 * Responsive.ratioVertical),
+        // padding: EdgeInsets.only(top: 2.5 * Responsive.ratioVertical),
         alignment: Alignment.center,
         child: BlocConsumer<SearchCubit, SearchState>(
           listener: (context, state) {
@@ -85,7 +92,7 @@ class _SearchPageState extends State<SearchPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          verticalDivider(factor: 7),
+          // verticalDivider(factor: 7),
           SearchInputField(),
           Padding(
             padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
@@ -136,20 +143,23 @@ class _SearchPageState extends State<SearchPage> {
                   }).toList(),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: FloatingActionButton(
-                  onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => this.widget)),
-                  child: Icon(
-                    Icons.arrow_upward_outlined,
-                    color: ChowColors.black,
-                  ),
-                  backgroundColor: ChowColors.white,
-                ),
-              ),
+              recipes.length < 4
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FloatingActionButton(
+                        onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    this.widget)),
+                        child: Icon(
+                          Icons.arrow_upward_outlined,
+                          color: ChowColors.black,
+                        ),
+                        backgroundColor: ChowColors.white,
+                      ),
+                    ),
               verticalDivider(factor: 12)
             ],
           ),
