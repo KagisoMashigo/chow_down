@@ -23,15 +23,46 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
       emit(RecipeInfoLoading());
 
       await _database.saveRecipes(recipe);
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-
-      emit(RecipeInfoLoaded(recipe));
-
+      // await Future<void>.delayed(const Duration(milliseconds: 50));
       // if (searchResults.isEmpty) {
       //   emit(RecipeInfoInitial());
       // } else {
       //   emit(RecipeInfoLoaded(recipe));
       // }
+
+      emit(RecipeInfoLoaded(recipe));
+    } on Failure catch (e) {
+      emit(RecipInfoError(e.toString()));
+    }
+  }
+
+  Future<void> fetchRecipe(int id, String url) async {
+    try {
+      emit(RecipeInfoLoading());
+      print('ID $id');
+      print('url $url');
+
+      // TODO: optimise so it isn't pulling the whole list
+      final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
+
+      if (searchResults.isEmpty) {
+        emit(RecipeInfoInitial());
+      }
+
+      if (searchResults.isNotEmpty) {
+        for (var savedRecipe in searchResults) {
+          if (savedRecipe.sourceUrl == url) {
+            final Recipe recipe =
+                searchResults.firstWhere((recipe) => recipe.sourceUrl == url);
+            emit(RecipeInfoLoaded(recipe));
+            return;
+          }
+        }
+      }
+
+      final Recipe recipe =
+          await _recipeRepository.getRecipeInformation(id, url);
+      emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {
       emit(RecipInfoError(e.toString()));
     }

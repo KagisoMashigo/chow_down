@@ -15,7 +15,6 @@ import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/services/firestore/firestore_db.dart';
 
 const List<String> TAB_OPTIONS = [
   'Ingredients',
@@ -27,8 +26,8 @@ class RecipeInfoPage extends StatefulWidget {
   const RecipeInfoPage({
     Key key,
     @required this.title,
-    this.id,
-    this.sourceUrl,
+    @required this.id,
+    @required this.sourceUrl,
   }) : super(key: key);
 
   /// Recipe title
@@ -46,7 +45,6 @@ class RecipeInfoPage extends StatefulWidget {
 
 class _RecipeInfoPageState extends State<RecipeInfoPage> {
   final List<bool> _isSelected = [];
-  Database _database;
 
   /// Initial selected button
   int _currentIndex = 0;
@@ -54,9 +52,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
   void initState() {
     super.initState();
     Provider.of<RecipeInfoCubit>(context, listen: false)
-        .fetchRecipeInformation(widget.id, widget.sourceUrl);
+        .fetchRecipe(widget.id, widget.sourceUrl);
     _populateButtonList(TAB_OPTIONS, _isSelected);
-    _database = Provider.of<Database>(context, listen: false);
   }
 
   /// Handles how many buttons appear in nav and which is selected using bools

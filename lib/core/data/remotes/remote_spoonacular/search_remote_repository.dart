@@ -41,7 +41,7 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<Recipe> getExtractedRecipe(String url) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=false&forceExtraction=true&addRecipeInformation=true';
+        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
 
     try {
       final response = await Dio().get(endpoint);

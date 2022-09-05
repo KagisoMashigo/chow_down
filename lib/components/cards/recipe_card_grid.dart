@@ -46,7 +46,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
       primary: false,
       crossAxisCount: 2,
       childAspectRatio: 0.425 * Responsive.ratioSquare,
-      mainAxisSpacing: 3.5 * Responsive.ratioVertical,
+      mainAxisSpacing: 3 * Responsive.ratioVertical,
       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
       children: _getStructuredCardGrid(results, context, _delete),
       shrinkWrap: true,
@@ -54,7 +54,10 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
   }
 
   List<Widget> _getStructuredCardGrid(
-      List<Recipe> results, context, RecipeTabCubit delete) {
+    List<Recipe> results,
+    context,
+    RecipeTabCubit delete,
+  ) {
     return results.map(
       (recipe) {
         return Container(
@@ -74,10 +77,12 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
             children: <Widget>[
               InkWell(
                 onTap: () {
+                  // TODO: check if extracted
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => RecipeInfoPage(
                       title: recipe.title,
                       id: recipe.id,
+                      sourceUrl: recipe.sourceUrl,
                     ),
                     fullscreenDialog: true,
                   ));
@@ -97,8 +102,9 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: 2 * Responsive.ratioHorizontal,
-                    vertical: 1.1 * Responsive.ratioHorizontal),
+                  horizontal: 2 * Responsive.ratioHorizontal,
+                  // vertical: 1.1 * Responsive.ratioHorizontal,
+                ),
                 child: Row(
                   children: [
                     Expanded(

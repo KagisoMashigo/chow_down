@@ -23,7 +23,6 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
       emit(RecipeTabLoading());
 
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
-      await Future<void>.delayed(const Duration(milliseconds: 50));
 
       if (searchResults.isEmpty) {
         emit(RecipeTabInitial());

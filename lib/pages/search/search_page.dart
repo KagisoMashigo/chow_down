@@ -117,6 +117,7 @@ class _SearchPageState extends State<SearchPage> {
                           builder: (context) => RecipeInfoPage(
                             title: recipes[index].title,
                             id: recipes[index].id,
+                            sourceUrl: recipes[index].sourceUrl,
                           ),
                         ),
                       ),

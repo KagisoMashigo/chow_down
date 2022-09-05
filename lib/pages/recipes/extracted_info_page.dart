@@ -160,6 +160,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
 
   Widget _buildContents(Recipe recipe) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         children: [
           Row(

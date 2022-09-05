@@ -44,9 +44,9 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         color: Color.fromARGB(255, 234, 180, 225),
         onRefresh: _pullRefresh,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: BouncingScrollPhysics(),
           child: Container(
-            height: 80 * Responsive.ratioVertical,
+            height: 83 * Responsive.ratioVertical,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
@@ -121,9 +121,10 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
                     alignment: Alignment.bottomCenter,
                     child: FloatingActionButton(
                       onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => this.widget)),
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => this.widget),
+                      ),
                       child: Icon(
                         Icons.arrow_upward_outlined,
                         color: ChowColors.black,
