@@ -34,6 +34,14 @@ class AccountPage extends StatelessWidget {
     } catch (e) {}
   }
 
+  Future<void> _deleteUser(BuildContext context) async {
+    final auth = Provider.of<AuthBase>(context, listen: false);
+    try {
+      await auth.deleteUser();
+      await auth.signOut();
+    } catch (e) {}
+  }
+
   // TODO: better name generator
   Future<String> _anonGenerator(List names) {}
 
@@ -47,6 +55,20 @@ class AccountPage extends StatelessWidget {
     );
     if (confirmSignOut == true) {
       _signOut(context);
+    }
+  }
+
+  Future<void> _confirmDelete(BuildContext context) async {
+    final confirmSignOut = await showAlertDialog(
+      context,
+      title: 'Logout',
+      content:
+          'Are you sure you want to delete your account? This is irreversible.',
+      defaultActionText: 'Chiao For Now',
+      cancelActionText: 'Cancel',
+    );
+    if (confirmSignOut == true) {
+      _deleteUser(context);
     }
   }
 
@@ -121,7 +143,9 @@ class AccountPage extends StatelessWidget {
                 ),
                 // TODO: add lang tile for intl & raw string constants
                 ChowListTile(
-                  onTap: () => {},
+                  onTap: () async {
+                    _confirmDelete(context);
+                  },
                   leading: Icon(
                     Icons.data_exploration_outlined,
                     color: ChowColors.white,
