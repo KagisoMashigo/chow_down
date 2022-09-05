@@ -29,7 +29,7 @@ class EmailSignInPage extends StatelessWidget {
           ),
         ),
         child: Column(children: [
-          verticalDivider(factor: 13),
+          verticalDivider(factor: 15),
           Padding(
             padding: defaultPadding(),
             child: Card(
