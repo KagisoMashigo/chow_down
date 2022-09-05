@@ -1,14 +1,16 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
-import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:provider/provider.dart';
+
 // 🌎 Project imports:
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
-import 'package:provider/provider.dart';
 
 class RecipeCardGrid extends StatefulWidget {
   const RecipeCardGrid({

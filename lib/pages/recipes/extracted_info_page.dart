@@ -1,12 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/recipe_dietry_card.dart';
-import 'package:chow_down/components/cards/recipe_ingre_card.dart';
-import 'package:chow_down/components/cards/recipe_instructions_card.dart';
-import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/snackBar.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
-import 'package:chow_down/services/firestore/firestore_db.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -14,10 +6,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/components/cards/recipe_dietry_card.dart';
+import 'package:chow_down/components/cards/recipe_ingre_card.dart';
+import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/customAppBar.dart';
+import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/empty_content.dart';
+import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class ExtractedInfoPage extends StatefulWidget {
   const ExtractedInfoPage({
