@@ -1,6 +1,6 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,7 +85,7 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        // brightness: Brightness.light,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
@@ -119,7 +119,7 @@ class SignInPage extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-              'https://images.unsplash.com/photo-1590005024862-6b67679a29fb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjk2fHxmb29kfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+              'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
           fit: BoxFit.cover,
         ),
       ),
@@ -134,7 +134,7 @@ class SignInPage extends StatelessWidget {
               child: _buildHeader(),
             ),
             // TODO: make sizes responsive
-            SizedBox(height: 48.0),
+            SizedBox(height: 188.0),
             SizedBox(height: 8.0),
             SocialSignInButton(
               assetName: 'assets/images/google-logo.png',

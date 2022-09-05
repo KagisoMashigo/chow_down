@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
 
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({
@@ -11,6 +11,7 @@ class CustomLogoAppBar extends StatelessWidget {
     @required this.title,
     @required this.body,
     this.bottomNav,
+    this.color,
   }) : super(key: key);
 
   final String imgUrl;
@@ -21,11 +22,16 @@ class CustomLogoAppBar extends StatelessWidget {
 
   final Widget bottomNav;
 
+  final Color color;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[900],
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: color ?? Color.fromARGB(236, 246, 243, 243),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -34,6 +40,7 @@ class CustomLogoAppBar extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
+                  color: Colors.black,
                   fontSize: 5 * Responsive.ratioHorizontal,
                 ),
               ),

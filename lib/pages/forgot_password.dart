@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -9,6 +8,8 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
+import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/services/auth.dart';
@@ -31,7 +32,6 @@ class ForgotPasswordPage extends StatefulWidget {
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-// TODO: this page really needs responsive designs
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
@@ -41,7 +41,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   void initState() {
     super.initState();
-    // alertTrue =t
   }
 
   @override
@@ -58,53 +57,52 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       appBar: AppBar(
         title: Text(
           'Oopsie',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 7 * Responsive.ratioHorizontal),
         ),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
       body: Container(
-        height: 900,
+        height: 100 * Responsive.ratioVertical,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzF8fGZvb2R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+                'https://images.unsplash.com/photo-1556682851-c4580670113a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: defaultPadding(),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              // mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(height: 120.0),
+                verticalDivider(factor: 15),
+                _showAlert(),
+                verticalDivider(),
                 Card(
-                  // color: Colors.transparent,
+                  color: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(6 * Responsive.ratioSquare),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _buildEmailTextField(),
-                        SizedBox(height: 8.0),
+                        verticalDivider(),
                         FormSubmitButton(
+                          color: ChowColors.beige100,
                           text: 'Reset Password',
                           onPressed: model.canReset ? _reset : null,
                         ),
-                        _return()
+                        _returnToLogin()
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 40.0),
-                _showAlert(),
               ]),
         ),
       ),
-      backgroundColor: Colors.grey[200],
     );
   }
 
@@ -123,43 +121,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
-  Widget _return() {
+  Widget _returnToLogin() {
     return TextButton(
-      child: Text('Return to Login'),
+      child: Text(
+        'Return to Login',
+        style: TextStyle(color: ChowColors.white),
+      ),
       onPressed: () => Navigator.of(context).pop(),
     );
   }
 
-  /// Builds the header
-  Widget _buildHeader() {
-    if (model.isLoading) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    return Container(
-      alignment: Alignment.center,
-      child: Image.asset(
-        // TODO: Can make a better logo
-        'assets/images/chow_down.png',
-        height: 150,
-        width: 150,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
+  // TODO: edit the actual email sent back
   Widget _showAlert() {
     if (_alert != null) {
       return Container(
-        color: Colors.greenAccent,
-        width: double.infinity,
-        padding: EdgeInsets.all(8.0),
+        width: 1 * Responsive.ratioHorizontal,
+        padding: defaultPadding(),
         child: Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: defaultPadding(),
               child: Icon(Icons.error_outline),
             ),
             Expanded(
@@ -169,7 +150,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: 2 * Responsive.ratioHorizontal),
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
@@ -183,19 +164,18 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
       );
     }
-    return SizedBox(
-      height: 0,
+    return verticalDivider(
+      factor: 0,
     );
   }
 
   TextField _buildEmailTextField() {
     return TextField(
-      // TODO: style the form and card
-      // style: TextStyle(color: Colors.white),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
+        labelStyle: TextStyle(color: Colors.white),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),

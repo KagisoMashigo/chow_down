@@ -1,3 +1,6 @@
+// 🎯 Dart imports:
+import 'dart:math';
+
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -8,18 +11,31 @@ import 'package:provider/provider.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/chow_list_tile.dart';
+import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/services/auth.dart';
+
+const FLAVOURS = [
+  'Chocolate Chip',
+  'Hazelnut',
+  'Vanilla Swirl',
+  'Pistachio',
+  'Salted Caramel Crunch',
+  'Rum & Raisin',
+  'Chocolate Vanilla Swirl'
+];
 
 class AccountPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     final auth = Provider.of<AuthBase>(context, listen: false);
     try {
       await auth.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
+    } catch (e) {}
   }
+
+  // TODO: better name generator
+  Future<String> _anonGenerator(List names) {}
 
   Future<void> _confirmSignOut(BuildContext context) async {
     final confirmSignOut = await showAlertDialog(
@@ -35,21 +51,34 @@ class AccountPage extends StatelessWidget {
   }
 
   Widget _buildUserInfo(User user) {
-    return Center(
-      child: Column(
+    return Padding(
+      padding: EdgeInsets.all(15 * Responsive.ratioSquare),
+      child: Row(
         children: [
-          verticalDivider(factor: 5),
           Avatar(
-            radius: 50,
+            radius: 15 * Responsive.ratioHorizontal,
             photoUrl: user.photoURL,
           ),
-          verticalDivider(factor: 2),
-          if (user.displayName != null)
-            Text(
-              user.displayName,
-              style: TextStyle(color: Colors.white),
-            ),
-          verticalDivider(factor: 9),
+          horizontalDivider(factor: 5),
+          user.displayName != null
+              ? Expanded(
+                  child: Text(
+                    user.displayName,
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                  ),
+                )
+              : Expanded(
+                  child: Text(
+                    'Anonymous ${FLAVOURS.elementAt(
+                      Random().nextInt(FLAVOURS.length),
+                    )}',
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                  ),
+                )
         ],
       ),
     );
@@ -58,69 +87,71 @@ class AccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthBase>(context, listen: false);
+
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        // title: Text('Account'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => _confirmSignOut(context),
-            child: Text(
-              'Logout',
-              style: TextStyle(
-                fontSize: 18.0,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-                'https://images.unsplash.com/photo-1609770231080-e321deccc34c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1365&q=80'),
+              'https://images.unsplash.com/photo-1614014077943-840960ce6694?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+            ),
             fit: BoxFit.cover,
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildUserInfo(auth.currentUser),
-              Text(
-                'Placeholder: options',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 2 * Responsive.ratioVertical),
-              ),
-              verticalDivider(factor: 4),
-              Text(
-                'Placeholder: more options? Lol',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 2 * Responsive.ratioVertical),
-              ),
-              verticalDivider(factor: 4),
-              Text(
-                'Placeholder: make these tiles',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 2 * Responsive.ratioVertical),
-              ),
-              verticalDivider(factor: 4),
-              Text(
-                'Placeholder: make logout more prominent',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 2 * Responsive.ratioVertical),
-              ),
-            ],
+          padding: defaultPadding(),
+          child: Padding(
+            padding: defaultPadding(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildUserInfo(auth.currentUser),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: defaultPadding(),
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(
+                          color: ChowColors.white,
+                          fontSize: 5.25 * Responsive.ratioHorizontal),
+                    ),
+                  ),
+                ),
+                // TODO: add lang tile for intl & raw string constants
+                ChowListTile(
+                  onTap: () => {},
+                  leading: Icon(
+                    Icons.data_exploration_outlined,
+                    color: ChowColors.white,
+                  ),
+                  title: Text(
+                    'Delete Account',
+                    style: TextStyle(color: ChowColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right_outlined,
+                    color: ChowColors.white,
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size.fromHeight(10 * Responsive.ratioHorizontal),
+                    padding: defaultPadding(),
+                    primary: ChowColors.beige200,
+                  ),
+                  onPressed: () => _confirmSignOut(context),
+                  child: Text(
+                    'Logout',
+                    style: TextStyle(
+                      fontSize: 4.25 * Responsive.ratioHorizontal,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

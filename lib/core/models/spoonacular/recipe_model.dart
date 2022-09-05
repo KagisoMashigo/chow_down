@@ -1,3 +1,6 @@
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
@@ -16,7 +19,7 @@ class Recipe {
   bool lowFodmap;
   int aggregateLikes;
   double spoonacularScore;
-  double healthScore;
+  int healthScore;
   String creditsText;
   String license;
   String sourceName;
@@ -77,7 +80,57 @@ class Recipe {
     this.spoonacularSourceUrl,
   });
 
-  factory Recipe.fromJson(json) => Recipe(
+  factory Recipe.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    // SnapshotOptions options,
+  ) {
+    final data = snapshot.data();
+    return Recipe(
+      vegetarian: data['vegetarian'],
+      vegan: data['vegan'] as bool,
+      glutenFree: data['glutenFree'] as bool,
+      dairyFree: data['dairyFree'] as bool,
+      veryHealthy: data['veryHealthy'] as bool,
+      cheap: data['cheap'] as bool,
+      veryPopular: data['veryPopular'] as bool,
+      sustainable: data['sustainable'] as bool,
+      weightWatcherSmartPoints: data['weightWatcherSmartPoints'] as int,
+      gaps: data['gaps'] as String,
+      lowFodmap: data['lowFodmap'] as bool,
+      aggregateLikes: data['aggregateLikes'] as int,
+      spoonacularScore: data['spoonacularScore'] as double,
+      healthScore: data['healthScore'] as int,
+      creditsText: data['creditsText'] as String,
+      license: data['license'] as String,
+      sourceName: data['sourceName'] as String,
+      pricePerServing: (data['pricePerServing'] ?? 0).toDouble(),
+      extendedIngredients: (data['extendedIngredients'] as List<dynamic> ?? [])
+              .map((e) => ExtendedIngredients.fromJson(e))
+              .toList() ??
+          [],
+      id: data['id'] as int,
+      title: data['title'] as String,
+      readyInMinutes: data['readyInMinutes'] as int,
+      servings: data['servings'] as int,
+      sourceUrl: data['sourceUrl'] as String,
+      image: data['image'] as String,
+      imageType: data['imageType'] as String,
+      summary: data['summary'] as String,
+      cuisines: data['cuisines'] as List<dynamic>,
+      dishTypes: data['dishTypes'] as List<dynamic>,
+      diets: data['diets'] as List<dynamic>,
+      occasions: data['occasions'] as List<dynamic>,
+      instructions: data['instructions'] as String,
+      analyzedInstructions:
+          (data['analyzedInstructions'] as List<dynamic> ?? [])
+              .map((e) => AnalyzedInstruction.fromJson(e))
+              .toList(),
+      originalId: data['originalId'] as dynamic,
+      spoonacularSourceUrl: data['spoonacularSourceUrl'] as String,
+    );
+  }
+
+  factory Recipe.fromJson(Map<String, dynamic> json) => Recipe(
         vegetarian: json['vegetarian'] as bool,
         vegan: json['vegan'] as bool,
         glutenFree: json['glutenFree'] as bool,
@@ -91,14 +144,16 @@ class Recipe {
         lowFodmap: json['lowFodmap'] as bool,
         aggregateLikes: json['aggregateLikes'] as int,
         spoonacularScore: json['spoonacularScore'] as double,
-        healthScore: json['healthScore'] as double,
+        healthScore: json['healthScore'] as int,
         creditsText: json['creditsText'] as String,
         license: json['license'] as String,
         sourceName: json['sourceName'] as String,
-        pricePerServing: (json['pricePerServing'] as num).toDouble(),
-        extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
-            .map((e) => ExtendedIngredients.fromJson(e))
-            .toList(),
+        pricePerServing: (json['pricePerServing'] ?? 0),
+        extendedIngredients:
+            (json['extendedIngredients'] as List<dynamic> ?? [])
+                    .map((e) => ExtendedIngredients.fromJson(e))
+                    .toList() ??
+                [],
         id: json['id'] as int,
         title: json['title'] as String,
         readyInMinutes: json['readyInMinutes'] as int,
@@ -112,14 +167,17 @@ class Recipe {
         diets: json['diets'] as List<dynamic>,
         occasions: json['occasions'] as List<dynamic>,
         instructions: json['instructions'] as String,
-        analyzedInstructions: (json['analyzedInstructions'] as List<dynamic>)
-            .map((e) => AnalyzedInstruction.fromJson(e))
-            .toList(),
+        analyzedInstructions:
+            (json['analyzedInstructions'] as List<dynamic> ?? [])
+                .map((e) => AnalyzedInstruction.fromJson(e))
+                .toList(),
         originalId: json['originalId'] as dynamic,
         spoonacularSourceUrl: json['spoonacularSourceUrl'] as String,
       );
 
-  toJson() => {
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
         'vegetarian': vegetarian,
         'vegan': vegan,
         'glutenFree': glutenFree,
@@ -138,10 +196,10 @@ class Recipe {
         'license': license,
         'sourceName': sourceName,
         'pricePerServing': pricePerServing,
-        'extendedIngredients':
-            extendedIngredients.map((e) => e.toJson()).toList(),
-        'id': id,
-        'title': title,
+        'extendedIngredients': extendedIngredients
+                ?.map((e) => e != null ? e?.toJson() : null)
+                ?.toList() ??
+            [],
         'readyInMinutes': readyInMinutes,
         'servings': servings,
         'sourceUrl': sourceUrl,
@@ -153,8 +211,10 @@ class Recipe {
         'diets': diets,
         'occasions': occasions,
         'instructions': instructions,
-        'analyzedInstructions':
-            analyzedInstructions.map((e) => e.toJson()).toList(),
+        'analyzedInstructions': analyzedInstructions
+                ?.map((e) => e != null ? e?.toJson() : null)
+                ?.toList() ??
+            [],
         'originalId': originalId,
         'spoonacularSourceUrl': spoonacularSourceUrl,
       };

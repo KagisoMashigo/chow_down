@@ -49,10 +49,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
         itemData.icon,
         color: color,
       ),
-      title: Text(
-        itemData.label,
-        style: TextStyle(color: color),
-      ),
+      label: itemData.label,
     );
   }
 }

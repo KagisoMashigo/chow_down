@@ -1,6 +1,5 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +7,8 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
+import 'package:chow_down/components/design/color.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/pages/forgot_password.dart';
@@ -78,16 +79,20 @@ class _EmailSignInFormChangeNotifierState
   List<Widget> _buildChildren() {
     return [
       _buildEmailTextField(),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       _buildPasswordTextField(),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       FormSubmitButton(
+        color: ChowColors.beige100,
         text: model.primaryButtonText,
         onPressed: model.canSubmit ? _submit : null,
       ),
-      SizedBox(height: 8.0),
+      verticalDivider(factor: 1),
       TextButton(
-        child: Text(model.secondaryButtonText),
+        child: Text(
+          model.secondaryButtonText,
+          style: TextStyle(color: ChowColors.white),
+        ),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
       model.passwordForgotten
@@ -102,6 +107,7 @@ class _EmailSignInFormChangeNotifierState
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
         labelText: 'Password',
+        labelStyle: TextStyle(color: ChowColors.white),
         errorText: model.passwordErrorText,
         enabled: model.isLoading == false,
       ),
@@ -115,7 +121,10 @@ class _EmailSignInFormChangeNotifierState
   Visibility _showForgotPasswordButton(bool visible) {
     return Visibility(
       child: TextButton(
-          child: Text('Forgot your password?'),
+          child: Text(
+            'Forgot your password?',
+            style: TextStyle(color: ChowColors.white),
+          ),
           onPressed: () => _forgotPassword(context)),
       visible: visible,
     );
@@ -133,7 +142,9 @@ class _EmailSignInFormChangeNotifierState
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
+        labelStyle: TextStyle(color: ChowColors.white),
         labelText: 'Email',
+        hintStyle: TextStyle(color: ChowColors.white),
         hintText: 'chow@down.com',
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
@@ -149,7 +160,7 @@ class _EmailSignInFormChangeNotifierState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: defaultPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,

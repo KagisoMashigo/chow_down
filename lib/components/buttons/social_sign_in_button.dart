@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
+import 'package:chow_down/components/design/responsive.dart';
 
 class SocialSignInButton extends CustomElevatedButton {
   SocialSignInButton({
@@ -21,7 +22,10 @@ class SocialSignInButton extends CustomElevatedButton {
               Image.asset(assetName),
               Text(
                 text,
-                style: TextStyle(color: textColor, fontSize: 15.0),
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 4 * Responsive.ratioHorizontal,
+                ),
               ),
               Opacity(
                 opacity: 0.0,

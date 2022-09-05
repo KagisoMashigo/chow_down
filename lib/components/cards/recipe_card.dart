@@ -3,15 +3,26 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
-import 'package:chow_down/plugins/responsive.dart';
+import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
+import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
+import 'package:chow_down/plugins/utils/helpers.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
     Key key,
-    this.id,
+    @required this.id,
     @required this.name,
     @required this.imageUrl,
+    @required this.url,
     this.imageType,
+    @required this.readyInMinutes,
+    @required this.vegetarian,
+    @required this.vegan,
+    @required this.servings,
+    @required this.glutenFree,
+    this.extendedIngredients,
+    this.analyzedInstructions,
   }) : super(key: key);
 
   /// Recipe id
@@ -23,7 +34,25 @@ class RecipeCard extends StatelessWidget {
   /// Recipe url
   final String imageUrl;
 
+  final String url;
+
   final String imageType;
+
+  final int readyInMinutes;
+
+  final bool vegetarian;
+
+  final bool vegan;
+
+  final bool glutenFree;
+
+  final int servings;
+
+  final List<ExtendedIngredients> extendedIngredients;
+
+  final List<AnalyzedInstruction> analyzedInstructions;
+
+  String _isVegetarian(bool veg) => veg ? 'Vegetarian' : 'Omnivore';
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +68,6 @@ class RecipeCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   name.toString(),
-                  // softWrap: false,
-                  // overflow: TextOverflow.fade,
-                  // textScaleFactor: 1,
                   style: TextStyle(
                     fontSize: 4 * Responsive.ratioHorizontal,
                     // fontWeight: FontWeight.bold,
@@ -63,23 +89,72 @@ class RecipeCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: GestureDetector(
-                    onTap: () => print(id),
-                    child: Image.network(
-                      imageUrl,
-                      width: 35 * Responsive.ratioHorizontal,
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.network(
+                    imageUrl,
+                    width: 35 * Responsive.ratioHorizontal,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              horizontalDivider(factor: 3),
+              horizontalDivider(factor: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Placeholder: Rating'),
-                  verticalDivider(factor: 3),
-                  Text('Placeholder: Relevant info'),
+                  Row(
+                    children: [
+                      Icon(Icons.timer_outlined),
+                      horizontalDivider(),
+                      Text(
+                        cookTimeConverter(readyInMinutes),
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalDivider(factor: 1.5),
+                  Row(
+                    children: [
+                      Icon(Icons.soup_kitchen),
+                      horizontalDivider(),
+                      Text(
+                        '${servings.toString()} servings',
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalDivider(factor: 1.5),
+                  Row(
+                    children: [
+                      Icon(Icons.food_bank_outlined),
+                      horizontalDivider(),
+                      Text(
+                        '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
+                        style: TextStyle(
+                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ),
+                      ),
+                    ],
+                  ),
+                  verticalDivider(factor: 1.5),
+
+                  /// GLUTEN FREE
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.food_bank_outlined),
+                  //     horizontalDivider(),
+                  //     glutenFree
+                  //         ? Text(
+                  //             'Gluten Free',
+                  //             style: TextStyle(
+                  //               fontSize: 3.75 * Responsive.ratioHorizontal,
+                  //             ),
+                  //           )
+                  //         : Container(),
+                  //   ],
+                  // ),
                 ],
               ),
             ],

@@ -1,7 +1,9 @@
 // 🎯 Dart imports:
 import 'dart:convert';
+import 'dart:io';
 
 // 📦 Package imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -11,6 +13,7 @@ import 'package:chow_down/models/error/error.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);
+  Future<Recipe> getExtractedRecipe(String url);
 }
 
 class RemoteSearchRepository implements SearchRepository {
@@ -19,30 +22,42 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&number=50&sort=popularity&sortDirection=desc';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
 
-    // TODO do error handling
-    // try {
-    //   final response = await Dio().get(endpoint);
-    //   final body = json.decode(response.toString());
-    //   return RecipeCardInfoList.fromJson(body['results']);
-    // } on Failure {
-    //   throw Failure;
-    // }
+    try {
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
 
-    final response = await Dio().get(endpoint);
-    final body = json.decode(response.toString());
-
-    if (response.statusCode == 200) {
       return RecipeCardInfoList.fromJson(body['results']);
-    } else if (response.statusCode == 401) {
-      throw Failure(code: 401, message: body['message']);
-    } else {
-      var msg = 'Something went wrong';
-      if (body.containsKey('message')) {
-        msg = body['message'];
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem extracting the recipe');
+    }
+  }
+
+  @override
+  Future<Recipe> getExtractedRecipe(String url) async {
+    final endpoint =
+        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
+
+    try {
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
+
+      if (response.data['image'] != null) {
+        return Recipe.fromJson(body);
       }
-      throw Failure(code: response.statusCode, message: msg);
+
+      throw Failure(message: 'No Data');
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem extracting the recipe');
     }
   }
 
