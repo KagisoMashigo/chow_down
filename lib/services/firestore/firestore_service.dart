@@ -1,15 +1,13 @@
 // 🎯 Dart imports:
 import 'dart:io';
 
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
-
-// 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+// 🐦 Flutter imports:
+import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -71,37 +69,6 @@ class FirestoreService {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem saving the recipe');
-    }
-  }
-
-  Future<List<Recipe>> fetchRecipeById({@required String path}) async {
-    try {
-      final CollectionReference _collectionRef =
-          FirebaseFirestore.instance.collection(path);
-
-      final List<Recipe> savedRecipes = [];
-
-      final CollectionReference<Recipe> covertedCollection =
-          _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) {
-          /// This line colects the recipes as Recipes instead of Objects
-          savedRecipes.add(Recipe.fromFirestore(snapshot));
-          return Recipe.fromFirestore(snapshot);
-        },
-        toFirestore: (recipe, _) => recipe.toJson(),
-      );
-
-      /// These two lines are necessary to perform the fetch
-      QuerySnapshot finalSnapshot = await covertedCollection.get();
-      final recipeList = finalSnapshot.docs.map((doc) => doc.data()).toList();
-
-      return savedRecipes;
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem fetching the recipes');
     }
   }
 

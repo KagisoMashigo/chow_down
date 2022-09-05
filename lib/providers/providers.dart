@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_home_remote_repository.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/cubit/home_page/extract_cubit.dart';
