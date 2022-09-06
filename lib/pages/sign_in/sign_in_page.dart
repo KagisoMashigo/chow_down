@@ -115,64 +115,67 @@ class SignInPage extends StatelessWidget {
 
   /// Builds the body
   Widget _buildContent(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(
-              'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
-          fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+                'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            SizedBox(
-              height: 150.0,
-              child: _buildHeader(),
-            ),
-            // TODO: make sizes responsive
-            SizedBox(height: 188.0),
-            SizedBox(height: 8.0),
-            SocialSignInButton(
-              assetName: 'assets/images/google-logo.png',
-              text: 'Sign in with Google',
-              textColor: Colors.black87,
-              color: Colors.white,
-              onPressed: () => isLoading ? null : _signInGoogle(context),
-            ),
-            SizedBox(height: 8.0),
-            SocialSignInButton(
-              assetName: 'assets/images/facebook-logo.png',
-              text: 'Sign in with Facebook',
-              // TODO: create theme file
-              textColor: Colors.white,
-              color: Color(0xFF334D92),
-              onPressed: () => isLoading ? null : _signInFacebook(context),
-            ),
-            SizedBox(height: 8.0),
-            SignInButton(
-              text: 'Sign in with email',
-              textColor: Colors.white,
-              color: Colors.green[900],
-              onPressed: () => isLoading ? null : _signInEmail(context),
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'or',
-              style: TextStyle(fontSize: 24.0, color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 8.0),
-            SignInButton(
-              text: 'Go anonymous',
-              textColor: Colors.black,
-              color: Colors.red[900],
-              onPressed: () => isLoading ? null : _signInAnon(context),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(height: 18.0),
+
+              SizedBox(
+                height: 150.0,
+                child: _buildHeader(),
+              ),
+              // TODO: make sizes responsive
+              SizedBox(height: 150.0),
+              SocialSignInButton(
+                assetName: 'assets/images/google-logo.png',
+                text: 'Sign in with Google',
+                textColor: Colors.black87,
+                color: Colors.white,
+                onPressed: () => isLoading ? null : _signInGoogle(context),
+              ),
+              SizedBox(height: 8.0),
+              SocialSignInButton(
+                assetName: 'assets/images/facebook-logo.png',
+                text: 'Sign in with Facebook',
+                // TODO: create theme file
+                textColor: Colors.white,
+                color: Color(0xFF334D92),
+                onPressed: () => isLoading ? null : _signInFacebook(context),
+              ),
+              SizedBox(height: 8.0),
+              SignInButton(
+                text: 'Sign in with email',
+                textColor: Colors.white,
+                color: Colors.green[900],
+                onPressed: () => isLoading ? null : _signInEmail(context),
+              ),
+              SizedBox(height: 8.0),
+              Text(
+                'or',
+                style: TextStyle(fontSize: 24.0, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8.0),
+              SignInButton(
+                text: 'Go anonymous',
+                textColor: Colors.black,
+                color: Colors.red[900],
+                onPressed: () => isLoading ? null : _signInAnon(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
