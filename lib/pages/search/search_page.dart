@@ -34,6 +34,9 @@ class _SearchPageState extends State<SearchPage> {
         elevation: 0.0,
       ),
       body: Container(
+        height: Responsive.isSmallScreen()
+            ? MediaQuery.of(context).size.height
+            : MediaQuery.of(context).size.height * 0.8,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
@@ -41,8 +44,6 @@ class _SearchPageState extends State<SearchPage> {
             fit: BoxFit.cover,
           ),
         ),
-        // padding: EdgeInsets.only(top: 2.5 * Responsive.ratioVertical),
-        alignment: Alignment.center,
         child: BlocConsumer<SearchCubit, SearchState>(
           listener: (context, state) {
             if (state is SearchError) {
@@ -72,10 +73,8 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildInitialInput() {
     return Padding(
-      padding: EdgeInsets.only(top: 12 * Responsive.ratioVertical),
-      child: Column(
-        children: [SearchInputField()],
-      ),
+      padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
+      child: SearchInputField(),
     );
   }
 
@@ -90,10 +89,13 @@ class _SearchPageState extends State<SearchPage> {
     final mappedRecipes = recipes.asMap().entries;
 
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         children: [
-          // verticalDivider(factor: 7),
-          SearchInputField(),
+          Padding(
+            padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
+            child: SearchInputField(),
+          ),
           Padding(
             padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
             child: Row(
@@ -108,61 +110,63 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
-                child: Column(
-                  children: mappedRecipes.map((recipe) {
-                    // This is the index to be used to iterate
-                    int index = recipe.key;
+          recipes.isNotEmpty
+              ? Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+                      child: Column(
+                        children: mappedRecipes.map((recipe) {
+                          // This is the index to be used to iterate
+                          int index = recipe.key;
 
-                    return GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecipeInfoPage(
-                            title: recipes[index].title,
-                            id: recipes[index].id,
-                            sourceUrl: recipes[index].sourceUrl,
-                          ),
-                        ),
-                      ),
-                      child: RecipeCard(
-                        id: recipes[index].id,
-                        name: recipes[index].title,
-                        imageUrl: recipes[index].image,
-                        url: recipes[index].sourceUrl,
-                        glutenFree: recipes[index].glutenFree,
-                        readyInMinutes: recipes[index].readyInMinutes,
-                        vegetarian: recipes[index].vegetarian,
-                        vegan: recipes[index].vegan,
-                        servings: recipes[index].servings,
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              recipes.length < 4
-                  ? Container()
-                  : Align(
-                      alignment: Alignment.bottomCenter,
-                      child: FloatingActionButton(
-                        onPressed: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    this.widget)),
-                        child: Icon(
-                          Icons.arrow_upward_outlined,
-                          color: ChowColors.black,
-                        ),
-                        backgroundColor: ChowColors.white,
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RecipeInfoPage(
+                                  title: recipes[index].title,
+                                  id: recipes[index].id,
+                                  sourceUrl: recipes[index].sourceUrl,
+                                ),
+                              ),
+                            ),
+                            child: RecipeCard(
+                              id: recipes[index].id,
+                              name: recipes[index].title,
+                              imageUrl: recipes[index].image,
+                              url: recipes[index].sourceUrl,
+                              glutenFree: recipes[index].glutenFree,
+                              readyInMinutes: recipes[index].readyInMinutes,
+                              vegetarian: recipes[index].vegetarian,
+                              vegan: recipes[index].vegan,
+                              servings: recipes[index].servings,
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-              verticalDivider(factor: 12)
-            ],
-          ),
+                    recipes.length < 4
+                        ? Container()
+                        : Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FloatingActionButton(
+                              onPressed: () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          this.widget)),
+                              child: Icon(
+                                Icons.arrow_upward_outlined,
+                                color: ChowColors.black,
+                              ),
+                              backgroundColor: ChowColors.white,
+                            ),
+                          ),
+                    verticalDivider(factor: 12)
+                  ],
+                )
+              : Container(),
         ],
       ),
     );

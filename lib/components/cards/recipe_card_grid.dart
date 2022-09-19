@@ -48,7 +48,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
     return GridView.count(
       primary: false,
       crossAxisCount: 2,
-      childAspectRatio: 0.425 * Responsive.ratioSquare,
+      childAspectRatio: .55 * Responsive.ratioSquare,
       mainAxisSpacing: 3 * Responsive.ratioVertical,
       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
       children: _getStructuredCardGrid(results, context, _delete),
@@ -64,7 +64,6 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
     return results
         .map(
           (recipe) => Container(
-            height: 10,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: ChowColors.offWhite,
@@ -101,8 +100,8 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                     child: CachedNetworkImage(
                       imageUrl: recipe.image,
                       height: 26 * Responsive.ratioHorizontal,
-                      width: 23 * Responsive.ratioVertical,
-                      fit: BoxFit.fill,
+                      width: 25.5 * Responsive.ratioVertical,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
