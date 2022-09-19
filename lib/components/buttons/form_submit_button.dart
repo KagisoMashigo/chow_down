@@ -12,11 +12,13 @@ class FormSubmitButton extends CustomElevatedButton {
     VoidCallback onPressed,
     Color color,
   }) : super(
-          child: Text(text,
-              style: TextStyle(
-                color: ChowColors.white,
-                fontSize: 6 * Responsive.ratioHorizontal,
-              )),
+          child: Text(
+            text,
+            style: TextStyle(
+              color: ChowColors.white,
+              fontSize: 5.25 * Responsive.ratioHorizontal,
+            ),
+          ),
           height: 5 * Responsive.ratioVertical,
           color: color,
           borderRadius: 4.0,
