@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -41,6 +42,7 @@ class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: ChowColors.black,
       title: 'Chow Down',
       theme: ThemeData(
         appBarTheme: AppBarTheme(

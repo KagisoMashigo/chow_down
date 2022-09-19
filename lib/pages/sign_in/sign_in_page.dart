@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/components/buttons/sign_in_button.dart';
 import 'package:chow_down/components/buttons/social_sign_in_button.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
@@ -49,13 +50,13 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Future<void> _signInAnon(BuildContext context) async {
-    try {
-      await manager.signInAnonymously();
-    } on Exception catch (e) {
-      _showSignInError(context, e);
-    }
-  }
+  // Future<void> _signInAnon(BuildContext context) async {
+  //   try {
+  //     await manager.signInAnonymously();
+  //   } on Exception catch (e) {
+  //     _showSignInError(context, e);
+  //   }
+  // }
 
   Future<void> _signInGoogle(BuildContext context) async {
     try {
@@ -117,62 +118,50 @@ class SignInPage extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        height: Responsive.isSmallScreen()
+            ? MediaQuery.of(context).size.height
+            : MediaQuery.of(context).size.height * 0.8,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
                 'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(Responsive.ratioHorizontal * 8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(height: 18.0),
-
-              SizedBox(
-                height: 150.0,
-                child: _buildHeader(),
-              ),
-              // TODO: make sizes responsive
-              SizedBox(height: 150.0),
+              _buildHeader(),
+              SizedBox(height: Responsive.ratioVertical * 18.0),
               SocialSignInButton(
-                assetName: 'assets/images/google-logo.png',
+                pictureWidget: Image.asset('assets/images/google-logo.png'),
                 text: 'Sign in with Google',
                 textColor: Colors.black87,
                 color: Colors.white,
                 onPressed: () => isLoading ? null : _signInGoogle(context),
               ),
-              SizedBox(height: 8.0),
+              SizedBox(height: Responsive.ratioHorizontal * 3.0),
               SocialSignInButton(
-                assetName: 'assets/images/facebook-logo.png',
+                pictureWidget: Image.asset('assets/images/facebook-logo.png'),
                 text: 'Sign in with Facebook',
-                // TODO: create theme file
                 textColor: Colors.white,
                 color: Color(0xFF334D92),
                 onPressed: () => isLoading ? null : _signInFacebook(context),
               ),
-              SizedBox(height: 8.0),
-              SignInButton(
+              SizedBox(height: Responsive.ratioHorizontal * 3.0),
+              SocialSignInButton(
+                pictureWidget: Icon(
+                  Icons.email,
+                  size: Responsive.ratioHorizontal * 9,
+                  color: ChowColors.white,
+                ),
                 text: 'Sign in with email',
                 textColor: Colors.white,
                 color: Colors.green[900],
                 onPressed: () => isLoading ? null : _signInEmail(context),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                'or',
-                style: TextStyle(fontSize: 24.0, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8.0),
-              SignInButton(
-                text: 'Go anonymous',
-                textColor: Colors.black,
-                color: Colors.red[900],
-                onPressed: () => isLoading ? null : _signInAnon(context),
               ),
             ],
           ),

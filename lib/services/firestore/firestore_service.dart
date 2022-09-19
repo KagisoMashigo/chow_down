@@ -45,24 +45,22 @@ class FirestoreService {
   Future<void> saveRecipe(
       {@required String path, @required Recipe recipe}) async {
     try {
-      throw Failure(message: 'There was a problem saving the recipe');
+      final CollectionReference _collectionRef =
+          FirebaseFirestore.instance.collection(path);
 
-      // final CollectionReference _collectionRef =
-      //     FirebaseFirestore.instance.collection(path);
+      final CollectionReference<Recipe> convertedCollection =
+          _collectionRef.withConverter<Recipe>(
+        fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+        toFirestore: (recipe, _) => recipe.toJson(),
+      );
 
-      // final CollectionReference<Recipe> convertedCollection =
-      //     _collectionRef.withConverter<Recipe>(
-      //   fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
-      //   toFirestore: (recipe, _) => recipe.toJson(),
-      // );
-
-      // if (recipe.id < 0) {
-      //   await convertedCollection
-      //       .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
-      //       .set(recipe);
-      // } else {
-      //   await convertedCollection.doc(recipe.id.toString()).set(recipe);
-      // }
+      if (recipe.id < 0) {
+        await convertedCollection
+            .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
+            .set(recipe);
+      } else {
+        await convertedCollection.doc(recipe.id.toString()).set(recipe);
+      }
     } on SocketException catch (e) {
       print(e);
       throw Failure(message: 'No Internet connection');
