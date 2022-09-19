@@ -81,7 +81,7 @@ class _EmailSignInFormChangeNotifierState
       _buildEmailTextField(),
       verticalDivider(factor: 1),
       _buildPasswordTextField(),
-      verticalDivider(factor: 1),
+      verticalDivider(factor: 3),
       FormSubmitButton(
         color: ChowColors.beige100,
         text: model.primaryButtonText,

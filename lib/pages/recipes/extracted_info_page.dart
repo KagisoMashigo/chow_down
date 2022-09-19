@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -115,8 +116,9 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
+            image: CachedNetworkImageProvider(
+              'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+            ),
             fit: BoxFit.cover,
           ),
         ),
@@ -166,8 +168,8 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
           Row(
             children: [
               Expanded(
-                child: Image.network(
-                  recipe.image,
+                child: CachedNetworkImage(
+                  imageUrl: recipe.image,
                   fit: BoxFit.cover,
                 ),
               ),

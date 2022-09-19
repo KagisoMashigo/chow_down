@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -60,89 +61,91 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
     context,
     RecipeTabCubit delete,
   ) {
-    return results.map(
-      (recipe) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: ChowColors.offWhite,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 1,
-                blurRadius: 6.0,
-                offset: const Offset(7, 0),
-              ),
-            ],
-          ),
-          child: Column(
-            children: <Widget>[
-              InkWell(
-                onTap: () {
-                  // TODO: check if extracted
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => RecipeInfoPage(
-                      title: recipe.title,
-                      id: recipe.id,
-                      sourceUrl: recipe.sourceUrl,
-                    ),
-                    fullscreenDialog: true,
-                  ));
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  child: Image.network(
-                    recipe.image,
-                    height: 26 * Responsive.ratioHorizontal,
-                    width: 23 * Responsive.ratioVertical,
-                    fit: BoxFit.fill,
-                  ),
+    return results
+        .map(
+          (recipe) => Container(
+            height: 10,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: ChowColors.offWhite,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 6.0,
+                  offset: const Offset(7, 0),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 2 * Responsive.ratioHorizontal,
-                  // vertical: 1.1 * Responsive.ratioHorizontal,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        recipe.title,
-                        style: TextStyle(
-                          fontSize: 3.75 * Responsive.ratioHorizontal,
-                          // fontWeight: FontWeight.bold,
-                          color: Colors.black,
+              ],
+            ),
+            child: Column(
+              children: <Widget>[
+                InkWell(
+                  onTap: () {
+                    // TODO: check if extracted
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => RecipeInfoPage(
+                          title: recipe.title,
+                          id: recipe.id,
+                          sourceUrl: recipe.sourceUrl,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        fullscreenDialog: true,
                       ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
                     ),
-                  ],
+                    child: CachedNetworkImage(
+                      imageUrl: recipe.image,
+                      height: 26 * Responsive.ratioHorizontal,
+                      width: 23 * Responsive.ratioVertical,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: (() => _confirmDelete(context, delete, recipe)),
-                child: Padding(
+                verticalDivider(),
+                Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: 2 * Responsive.ratioHorizontal),
+                    horizontal: 2 * Responsive.ratioHorizontal,
+                  ),
                   child: Row(
-                    textDirection: TextDirection.rtl,
                     children: [
-                      Icon(
-                        Icons.delete,
+                      Expanded(
+                        child: Text(
+                          recipe.title,
+                          style: TextStyle(
+                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                            color: Colors.black,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
                       ),
+                      InkWell(
+                        onTap: (() => _confirmDelete(context, delete, recipe)),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 2 * Responsive.ratioHorizontal),
+                          child: Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
-        );
-      },
-    ).toList();
+        )
+        .toList();
   }
 }

@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // TODO: page needs to be refreshable, or does it?
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -41,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         // height: 100 * Responsive.ratioVertical,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
+            image: CachedNetworkImageProvider(
                 'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
@@ -64,7 +66,6 @@ class _HomePageState extends State<HomePage> {
             } else if (state is ExtractLoading) {
               return _buildLoading();
             } else if (state is ExtractLoaded) {
-              // print('STATE ${state.extractedResult.sourceUrl}');
               return _buildColumnWithData(state.extractedResult);
             } else {
               // error state snackbar
@@ -87,8 +88,6 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.cover,
             ),
             verticalDivider(factor: 5),
-            HelpCard(),
-            verticalDivider(factor: 2),
             state is ExtractInitial
                 ? RecipeExtractInput()
                 : Column(
@@ -102,6 +101,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+            verticalDivider(factor: 2),
+            HelpCard(),
           ],
         ),
       );
@@ -117,56 +118,51 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildColumnWithData(Recipe searchResult) {
     final result = searchResult;
-    // print('RESULT: ${result.image}');
 
     return Container(
-      child: Padding(
-        padding: EdgeInsets.only(
-            // top: 7.5 * Responsive.ratioVertical,
+      child: Column(
+        children: [
+          Image.asset(
+            'assets/images/chow_down.png',
+            height: 18.5 * Responsive.ratioVertical,
+            width: 18.5 * Responsive.ratioVertical,
+            fit: BoxFit.fill,
+          ),
+          verticalDivider(factor: 2),
+          RecipeExtractInput(),
+          verticalDivider(factor: 2),
+          HelpCard(),
+          verticalDivider(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 5 * Responsive.ratioHorizontal,
             ),
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/chow_down.png',
-              height: 18.5 * Responsive.ratioVertical,
-              width: 18.5 * Responsive.ratioVertical,
-              fit: BoxFit.fill,
-            ),
-            verticalDivider(factor: 2),
-            HelpCard(),
-            verticalDivider(factor: 2),
-            RecipeExtractInput(),
-            verticalDivider(),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: 5 * Responsive.ratioHorizontal),
-              child: GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ExtractedInfoPage(
-                      title: result.title,
-                      id: result.id,
-                      sourceUrl: result.sourceUrl,
-                    ),
+            child: GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ExtractedInfoPage(
+                    title: result.title,
+                    id: result.id,
+                    sourceUrl: result.sourceUrl,
                   ),
                 ),
-                child: RecipeCard(
-                  id: result.id,
-                  name: result.title,
-                  imageUrl: result.image,
-                  url: result.sourceUrl,
-                  glutenFree: result.glutenFree,
-                  readyInMinutes: result.readyInMinutes,
-                  vegetarian: result.vegetarian,
-                  vegan: result.vegan,
-                  servings: result.servings,
-                ),
+              ),
+              child: RecipeCard(
+                id: result.id,
+                name: result.title,
+                imageUrl: result.image,
+                url: result.sourceUrl,
+                glutenFree: result.glutenFree,
+                readyInMinutes: result.readyInMinutes,
+                vegetarian: result.vegetarian,
+                vegan: result.vegan,
+                servings: result.servings,
               ),
             ),
-            verticalDivider(),
-          ],
-        ),
+          ),
+          verticalDivider(),
+        ],
       ),
     );
   }
@@ -178,7 +174,7 @@ class RecipeExtractInput extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
       child: TextField(
-        keyboardType: TextInputType.url,
+        keyboardType: TextInputType.visiblePassword,
         style: TextStyle(color: ChowColors.white),
         onSubmitted: (url) => _submitForm(context, url),
         textInputAction: TextInputAction.search,
@@ -192,10 +188,6 @@ class RecipeExtractInput extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            suffixIcon: Icon(
-              Icons.search,
-              color: ChowColors.white,
-            ),
             hintStyle: TextStyle(
               color: ChowColors.white,
             )),
@@ -204,7 +196,6 @@ class RecipeExtractInput extends StatelessWidget {
   }
 
   void _submitForm(BuildContext context, String url) {
-    // TODO: error handling with cubit
     final extractCubit = context.read<ExtractCubit>();
     extractCubit.fetchExtractedResult(url);
   }

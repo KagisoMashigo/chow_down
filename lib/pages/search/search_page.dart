@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 // 🌎 Project imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
@@ -26,6 +27,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -34,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
+            image: CachedNetworkImageProvider(
                 'https://images.unsplash.com/photo-1559703248-dcaaec9fab78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.cover,
           ),
@@ -182,7 +184,6 @@ class SearchInputField extends StatelessWidget {
               borderSide: const BorderSide(color: ChowColors.white, width: 0.0),
               borderRadius: BorderRadius.circular(12),
             ),
-            suffixIcon: Icon(Icons.search),
             labelStyle: TextStyle(color: ChowColors.white),
             hintStyle: TextStyle(color: ChowColors.white)),
       ),

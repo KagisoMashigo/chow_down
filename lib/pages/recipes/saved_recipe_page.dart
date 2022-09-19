@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -46,17 +47,19 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
-            height: 83 * Responsive.ratioVertical,
+            height: Responsive.isSmallScreen()
+                ? MediaQuery.of(context).size.height
+                : MediaQuery.of(context).size.height * 0.8,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+                  // maxHeight: 2000,
                 ),
                 fit: BoxFit.cover,
               ),
             ),
             padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            alignment: Alignment.center,
             child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
               listener: (context, state) {
                 if (state is RecipTabError) {
@@ -108,33 +111,30 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         ),
       );
 
-  Widget _buildColumnWithData(List<Recipe> searchResultList) =>
-      SingleChildScrollView(
-        child: Column(
-          children: [
-            RecipeCardGrid(
-              searchResultList: searchResultList,
-            ),
-            verticalDivider(),
-            searchResultList.length > 6
-                ? Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FloatingActionButton(
-                      onPressed: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => this.widget),
-                      ),
-                      child: Icon(
-                        Icons.arrow_upward_outlined,
-                        color: ChowColors.black,
-                      ),
-                      backgroundColor: ChowColors.white,
+  Widget _buildColumnWithData(List<Recipe> searchResultList) => Column(
+        children: [
+          RecipeCardGrid(
+            searchResultList: searchResultList,
+          ),
+          verticalDivider(),
+          searchResultList.length > 6
+              ? Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
+                    onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => this.widget),
                     ),
-                  )
-                : Container(),
-            verticalDivider(factor: 4),
-          ],
-        ),
+                    child: Icon(
+                      Icons.arrow_upward_outlined,
+                      color: ChowColors.black,
+                    ),
+                    backgroundColor: ChowColors.white,
+                  ),
+                )
+              : Container(),
+          verticalDivider(factor: 4),
+        ],
       );
 }
