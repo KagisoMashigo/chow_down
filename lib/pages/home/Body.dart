@@ -93,16 +93,20 @@ class _HomePageState extends State<HomePage> {
                 : Column(
                     children: [
                       RecipeExtractInput(),
-                      EmptyContent(
-                        message:
-                            'If this persists please restart the application',
-                        title: 'Something went wrong...',
-                        icon: Icons.error_outline_sharp,
+                      verticalDivider(factor: 2),
+                      HelpCard(),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5 * Responsive.ratioHorizontal),
+                        child: EmptyContent(
+                          message:
+                              'If this persists please restart the application.',
+                          title: 'Something went wrong...',
+                          icon: Icons.error_outline_sharp,
+                        ),
                       ),
                     ],
                   ),
-            verticalDivider(factor: 2),
-            HelpCard(),
           ],
         ),
       );

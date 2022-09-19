@@ -39,8 +39,6 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
   Future<void> fetchRecipe(int id, String url) async {
     try {
       emit(RecipeInfoLoading());
-      print('ID $id');
-      print('url $url');
 
       // TODO: optimise so it isn't pulling the whole list
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();

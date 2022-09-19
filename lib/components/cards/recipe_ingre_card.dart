@@ -8,6 +8,7 @@ import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RecipeDescCard extends StatelessWidget {
   const RecipeDescCard({
@@ -121,12 +122,9 @@ class RecipeDescCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(
-                        'Source: ${sourceUrl ?? 'Unknown'}',
-                        style: TextStyle(
-                          fontSize: 4 * Responsive.ratioHorizontal,
-                          // fontStyle: FontStyle.italic,
-                        ),
+                      child: TextButton(
+                        onPressed: _launchUrl,
+                        child: Text('Source: ${sourceUrl ?? 'Unknown'}'),
                       ),
                     ),
                   ],
@@ -153,5 +151,11 @@ class RecipeDescCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(Uri.parse(sourceUrl))) {
+      throw 'Could not launch ${Uri.parse(sourceUrl)}';
+    }
   }
 }
