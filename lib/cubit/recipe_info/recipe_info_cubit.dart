@@ -20,15 +20,9 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
 
   Future<void> saveRecipe(Recipe recipe) async {
     try {
-      emit(RecipeInfoLoading());
+      // emit(RecipeInfoLoading());
 
       await _database.saveRecipes(recipe);
-      // await Future<void>.delayed(const Duration(milliseconds: 50));
-      // if (searchResults.isEmpty) {
-      //   emit(RecipeInfoInitial());
-      // } else {
-      //   emit(RecipeInfoLoaded(recipe));
-      // }
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {

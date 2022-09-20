@@ -49,6 +49,7 @@ class AccountPage extends StatelessWidget {
   Future<void> _confirmSignOut(BuildContext context) async {
     final confirmSignOut = await showAlertDialog(
       context,
+      isSave: false,
       title: 'Logout',
       content: 'Are you sure you want to log out?',
       defaultActionText: 'Logout',
@@ -62,6 +63,7 @@ class AccountPage extends StatelessWidget {
   Future<void> _confirmDelete(BuildContext context) async {
     final confirmSignOut = await showAlertDialog(
       context,
+      isSave: false,
       title: 'Logout',
       content:
           'Are you sure you want to delete your account? This is irreversible.',

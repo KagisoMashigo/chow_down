@@ -16,6 +16,7 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/home_page/extract_cubit.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -39,77 +40,94 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: Container(
-        // height: 100 * Responsive.ratioVertical,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-                'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
-            fit: BoxFit.cover,
+      body: RefreshIndicator(
+        onRefresh: _pullRefresh,
+        color: ChowColors.white,
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            // height: 100 * Responsive.ratioVertical,
+            height: Responsive.isSmallScreen()
+                ? MediaQuery.of(context).size.height
+                : MediaQuery.of(context).size.height * 0.8,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                    'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
+            child: BlocConsumer<ExtractCubit, ExtractState>(
+              listener: (context, state) {
+                if (state is ExtractError) {
+                  return ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is ExtractLoading) {
+                  return _buildLoading();
+                } else if (state is ExtractLoaded) {
+                  return _buildColumnWithData(state.extractedResult);
+                } else {
+                  // error state snackbar
+                  return _buildInitialInput(state);
+                }
+              },
+            ),
           ),
-        ),
-        padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
-        alignment: Alignment.center,
-        child: BlocConsumer<ExtractCubit, ExtractState>(
-          listener: (context, state) {
-            if (state is ExtractError) {
-              return ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state is ExtractInitial) {
-              return _buildInitialInput(state);
-            } else if (state is ExtractLoading) {
-              return _buildLoading();
-            } else if (state is ExtractLoaded) {
-              return _buildColumnWithData(state.extractedResult);
-            } else {
-              // error state snackbar
-              return _buildInitialInput(state);
-            }
-          },
         ),
       ),
     );
   }
 
-  Widget _buildInitialInput(ExtractState state) => Padding(
-        padding: EdgeInsets.only(top: 7.5 * Responsive.ratioVertical),
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/images/chow_down.png',
-              height: 18.5 * Responsive.ratioVertical,
-              width: 18.5 * Responsive.ratioVertical,
-              fit: BoxFit.cover,
-            ),
-            verticalDivider(factor: 5),
-            state is ExtractInitial
-                ? RecipeExtractInput()
-                : Column(
-                    children: [
-                      RecipeExtractInput(),
-                      verticalDivider(factor: 2),
-                      HelpCard(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5 * Responsive.ratioHorizontal),
-                        child: EmptyContent(
-                          message:
-                              'If this persists please restart the application.',
-                          title: 'Something went wrong...',
-                          icon: Icons.error_outline_sharp,
-                        ),
+  Widget _buildInitialInput(ExtractState state) => Column(
+        children: [
+          verticalDivider(factor: 5),
+          Image.asset(
+            'assets/images/chow_down.png',
+            height: 18.5 * Responsive.ratioVertical,
+            width: 18.5 * Responsive.ratioVertical,
+            fit: BoxFit.cover,
+          ),
+          verticalDivider(factor: 5),
+          state is ExtractInitial
+              ? Column(
+                  children: [
+                    RecipeExtractInput(),
+                    verticalDivider(factor: 1),
+                    HelpCard(),
+                  ],
+                )
+              : Column(
+                  children: [
+                    RecipeExtractInput(),
+                    verticalDivider(factor: 2),
+                    HelpCard(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5 * Responsive.ratioHorizontal),
+                      child: EmptyContent(
+                        message:
+                            'If this persists please restart the application.',
+                        title: 'Something went wrong...',
+                        icon: Icons.error_outline_sharp,
                       ),
-                    ],
-                  ),
-          ],
-        ),
+                    ),
+                  ],
+                ),
+        ],
       );
+
+  Future<void> _pullRefresh() async {
+    await Future.delayed(Duration(seconds: 1));
+    await Provider.of<ExtractCubit>(context, listen: false)
+        .fetchExtractedResult('url');
+  }
 
   Widget _buildLoading() {
     return Center(
@@ -123,51 +141,49 @@ class _HomePageState extends State<HomePage> {
   Widget _buildColumnWithData(Recipe searchResult) {
     final result = searchResult;
 
-    return Container(
-      child: Column(
-        children: [
-          Image.asset(
-            'assets/images/chow_down.png',
-            height: 18.5 * Responsive.ratioVertical,
-            width: 18.5 * Responsive.ratioVertical,
-            fit: BoxFit.fill,
+    return Column(
+      children: [
+        Image.asset(
+          'assets/images/chow_down.png',
+          height: 18.5 * Responsive.ratioVertical,
+          width: 18.5 * Responsive.ratioVertical,
+          fit: BoxFit.fill,
+        ),
+        verticalDivider(factor: 2),
+        RecipeExtractInput(),
+        verticalDivider(factor: 2),
+        HelpCard(),
+        verticalDivider(),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 5 * Responsive.ratioHorizontal,
           ),
-          verticalDivider(factor: 2),
-          RecipeExtractInput(),
-          verticalDivider(factor: 2),
-          HelpCard(),
-          verticalDivider(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 5 * Responsive.ratioHorizontal,
-            ),
-            child: GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ExtractedInfoPage(
-                    title: result.title,
-                    id: result.id,
-                    sourceUrl: result.sourceUrl,
-                  ),
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ExtractedInfoPage(
+                  title: result.title,
+                  id: result.id,
+                  sourceUrl: result.sourceUrl,
                 ),
               ),
-              child: RecipeCard(
-                id: result.id,
-                name: result.title,
-                imageUrl: result.image,
-                url: result.sourceUrl,
-                glutenFree: result.glutenFree,
-                readyInMinutes: result.readyInMinutes,
-                vegetarian: result.vegetarian,
-                vegan: result.vegan,
-                servings: result.servings,
-              ),
+            ),
+            child: RecipeCard(
+              id: result.id,
+              name: result.title,
+              imageUrl: result.image,
+              url: result.sourceUrl,
+              glutenFree: result.glutenFree,
+              readyInMinutes: result.readyInMinutes,
+              vegetarian: result.vegetarian,
+              vegan: result.vegan,
+              servings: result.servings,
             ),
           ),
-          verticalDivider(),
-        ],
-      ),
+        ),
+        verticalDivider(),
+      ],
     );
   }
 }

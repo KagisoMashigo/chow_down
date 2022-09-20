@@ -14,6 +14,7 @@ Future<void> showExceptionAlertDialog(
 }) =>
     showAlertDialog(
       context,
+      isSave: false,
       title: title,
       content: _message(exception),
       defaultActionText: 'OK',

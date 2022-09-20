@@ -30,6 +30,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
       BuildContext context, RecipeTabCubit delete, Recipe recipe) async {
     final confirmDelete = await showAlertDialog(
       context,
+      isSave: false,
       title: 'Delete Recipe?',
       content: 'This will remove the recipe',
       defaultActionText: 'Delete',
@@ -124,17 +125,14 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                         ),
                       ),
                       InkWell(
+                        splashColor: ChowColors.black,
                         onTap: (() => _confirmDelete(context, delete, recipe)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 2 * Responsive.ratioHorizontal),
-                          child: Row(
-                            textDirection: TextDirection.rtl,
-                            children: [
-                              Icon(
-                                Icons.delete,
-                              ),
-                            ],
+                            horizontal: 2 * Responsive.ratioHorizontal,
+                          ),
+                          child: Icon(
+                            Icons.delete,
                           ),
                         ),
                       )
