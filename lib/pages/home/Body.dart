@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           onRefresh: () => _pullRefresh(),
           color: ChowColors.red700,
           child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            // physics: BouncingScrollPhysics(),
             child: Container(
               height: Responsive.isSmallScreen()
                   ? MediaQuery.of(context).size.height

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 // 🌎 Project imports:
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 // 📦 Package imports:
@@ -35,18 +34,21 @@ class RemoteSearchRepository implements SearchRepository {
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioError catch (e) {
       print(e);
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
+      }
 
       if (e.response.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
-          code: 503,
+          code: e.response.statusCode,
         );
-      } else {
+      } else if (e.response.statusCode == 400) {
         throw Failure(
           message:
               'Please enter a valid URL. Error code: ${e.response.statusCode}.',
-          code: 400,
+          code: e.response.statusCode,
         );
       }
     }

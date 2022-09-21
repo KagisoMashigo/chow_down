@@ -45,14 +45,16 @@ class RemoteRecipe implements RecipeRepository {
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioError catch (e) {
       print(e);
-
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
+      }
       if (e.response.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
-      } else {
+      } else if (e.response.statusCode == 400) {
         throw Failure(
           message:
               'Please enter a valid URL. Error code: ${e.response.statusCode}.',
@@ -84,13 +86,16 @@ class RemoteRecipe implements RecipeRepository {
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioError catch (e) {
       print(e);
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
+      }
       if (e.response.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
-      } else {
+      } else if (e.response.statusCode == 400) {
         throw Failure(
           message:
               'Please enter a valid URL. Error code: ${e.response.statusCode}.',

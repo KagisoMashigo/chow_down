@@ -25,4 +25,16 @@ class SearchCubit extends Cubit<SearchState> {
       emit(SearchError(e.toString()));
     }
   }
+
+  Future<void> refresh() async {
+    try {
+      emit(SearchLoading());
+
+      Future.delayed(Duration(seconds: 2));
+
+      emit(SearchInitial());
+    } on Failure catch (e) {
+      emit(SearchError(e.toString()));
+    }
+  }
 }

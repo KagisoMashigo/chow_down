@@ -223,7 +223,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                     ChowSaveButton(
                       onTap: () {
                         _buttonTapped();
-                        _database.saveRecipes(recipe);
+                        _database.saveRecipe(recipe);
                         // showAlertDialog(
                         //   context,
                         //   isSave: false,

@@ -12,6 +12,7 @@ import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -25,48 +26,59 @@ class _SearchPageState extends State<SearchPage> {
   ) =>
       ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
 
+  Future<void> _pullRefresh() async {
+    await Future.delayed(Duration(seconds: 1));
+    await Provider.of<SearchCubit>(context, listen: false).refresh();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: Container(
-        height: Responsive.isSmallScreen()
-            ? MediaQuery.of(context).size.height
-            : MediaQuery.of(context).size.height * 0.91,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-                'https://images.unsplash.com/photo-1559703248-dcaaec9fab78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
-            fit: BoxFit.cover,
-          ),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
         ),
-        child: BlocConsumer<SearchCubit, SearchState>(
-          listener: (context, state) {
-            if (state is SearchError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state is SearchInitial) {
-              return _buildInitialInput();
-            } else if (state is SearchLoading) {
-              return _buildLoading();
-            } else if (state is SearchLoaded) {
-              return _buildColumnWithData(state.searchResultList);
-            } else {
-              // error state snackbar
-              return _buildInitialInput();
-            }
-          },
+        body: RefreshIndicator(
+          color: ChowColors.blue300,
+          onRefresh: () => _pullRefresh(),
+          child: Container(
+            height: Responsive.isSmallScreen()
+                ? MediaQuery.of(context).size.height
+                : MediaQuery.of(context).size.height * 0.91,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                    'https://images.unsplash.com/photo-1559703248-dcaaec9fab78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: BlocConsumer<SearchCubit, SearchState>(
+              listener: (context, state) {
+                if (state is SearchError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is SearchInitial) {
+                  return _buildInitialInput();
+                } else if (state is SearchLoading) {
+                  return _buildLoading();
+                } else if (state is SearchLoaded) {
+                  return _buildColumnWithData(state.searchResultList);
+                } else {
+                  // error state snackbar
+                  return _buildInitialInput();
+                }
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -99,7 +111,6 @@ class _SearchPageState extends State<SearchPage> {
             padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
             child: SearchInputField(),
           ),
-
           // Padding(
           //   padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
           //   child: Row(
@@ -202,7 +213,7 @@ class _SearchPageState extends State<SearchPage> {
                               backgroundColor: ChowColors.white,
                             ),
                           ),
-                    verticalDivider(factor: 11)
+                    verticalDivider(factor: 4)
                   ],
                 )
               : Padding(

@@ -22,7 +22,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
     try {
       // emit(RecipeInfoLoading());
 
-      await _database.saveRecipes(recipe);
+      await _database.saveRecipe(recipe);
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {
