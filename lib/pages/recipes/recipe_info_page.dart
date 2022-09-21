@@ -101,6 +101,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
     switch (index) {
       case 0:
         return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy,
           readyInMinutes: recipe.readyInMinutes,
           servings: recipe.servings,
           creditsText: recipe.creditsText,

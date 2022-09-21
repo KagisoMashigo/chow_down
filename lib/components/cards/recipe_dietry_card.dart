@@ -32,6 +32,7 @@ class RecipeDietCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(dairyFree);
     return BaseCard(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -49,11 +50,22 @@ class RecipeDietCard extends StatelessWidget {
                             horizontal: 3 * Responsive.ratioHorizontal),
                         child: Text('Gluten Free:'),
                       ),
-                      Icon(
-                        glutenFree ? Icons.check : Icons.close,
-                        color:
-                            glutenFree ? ChowColors.green700 : ChowColors.red,
-                      ),
+                      if (glutenFree)
+                        Icon(
+                          Icons.check,
+                          color: ChowColors.green700,
+                        )
+                      else if (!glutenFree)
+                        Icon(
+                          Icons.close,
+                          color: ChowColors.red,
+                        )
+                      else
+                        Icon(
+                          Icons.question_mark,
+                          color: ChowColors.black,
+                          size: 20,
+                        ),
                     ],
                   ),
                   color: ChowColors.black,
@@ -66,10 +78,22 @@ class RecipeDietCard extends StatelessWidget {
                             horizontal: 3 * Responsive.ratioHorizontal),
                         child: Text('Dairy Free:'),
                       ),
-                      Icon(
-                        dairyFree ? Icons.check : Icons.close,
-                        color: dairyFree ? ChowColors.green700 : ChowColors.red,
-                      ),
+                      if (dairyFree)
+                        Icon(
+                          Icons.check,
+                          color: ChowColors.green700,
+                        )
+                      else if (!dairyFree)
+                        Icon(
+                          Icons.close,
+                          color: ChowColors.red,
+                        )
+                      else
+                        Icon(
+                          Icons.question_mark,
+                          color: ChowColors.black,
+                          size: 20,
+                        ),
                     ],
                   ),
                   color: ChowColors.black,
@@ -85,14 +109,26 @@ class RecipeDietCard extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 3 * Responsive.ratioHorizontal),
+                          horizontal: 3 * Responsive.ratioHorizontal,
+                        ),
                         child: Text('Vegetarian:'),
                       ),
-                      Icon(
-                        vegetarian ? Icons.check : Icons.close,
-                        color:
-                            vegetarian ? ChowColors.green700 : ChowColors.red,
-                      ),
+                      if (vegetarian)
+                        Icon(
+                          Icons.check,
+                          color: ChowColors.green700,
+                        )
+                      else if (!vegetarian)
+                        Icon(
+                          Icons.close,
+                          color: ChowColors.red,
+                        )
+                      else
+                        Icon(
+                          Icons.question_mark,
+                          color: ChowColors.black,
+                          size: 20,
+                        ),
                     ],
                   ),
                   color: ChowColors.black,
@@ -105,10 +141,22 @@ class RecipeDietCard extends StatelessWidget {
                             horizontal: 3 * Responsive.ratioHorizontal),
                         child: Text('Vegan:'),
                       ),
-                      Icon(
-                        vegan ? Icons.check : Icons.close,
-                        color: vegan ? ChowColors.green700 : ChowColors.red,
-                      ),
+                      if (vegan)
+                        Icon(
+                          Icons.check,
+                          color: ChowColors.green700,
+                        )
+                      else if (!vegan)
+                        Icon(
+                          Icons.close,
+                          color: ChowColors.red,
+                        )
+                      else
+                        Icon(
+                          Icons.question_mark,
+                          color: ChowColors.black,
+                          size: 20,
+                        ),
                     ],
                   ),
                   color: ChowColors.black,

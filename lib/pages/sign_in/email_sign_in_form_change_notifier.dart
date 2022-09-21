@@ -103,6 +103,7 @@ class _EmailSignInFormChangeNotifierState
 
   TextField _buildPasswordTextField() {
     return TextField(
+      style: TextStyle(color: ChowColors.white, fontSize: 18),
       controller: _passwordController,
       focusNode: _passwordFocusNode,
       decoration: InputDecoration(
@@ -139,12 +140,13 @@ class _EmailSignInFormChangeNotifierState
 
   TextField _buildEmailTextField() {
     return TextField(
+      style: TextStyle(color: ChowColors.white, fontSize: 18),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelStyle: TextStyle(color: ChowColors.white),
         labelText: 'Email',
-        hintStyle: TextStyle(color: ChowColors.white),
+        hintStyle: TextStyle(color: ChowColors.grey500),
         hintText: 'chow@down.com',
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,

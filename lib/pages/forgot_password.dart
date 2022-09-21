@@ -177,11 +177,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   TextField _buildEmailTextField() {
     return TextField(
+      style: TextStyle(color: ChowColors.white),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Colors.white, fontSize: 18),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),

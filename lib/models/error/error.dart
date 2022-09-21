@@ -1,3 +1,15 @@
+enum ErrorType {
+  unknown,
+  network,
+  server,
+  unauthorized,
+  forbidden,
+  notFound,
+  validation,
+  cancelled,
+  timeout,
+}
+
 class ApiErrorResponse {
   final int code;
   final String message;

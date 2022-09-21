@@ -26,6 +26,7 @@ class RecipeCard extends StatelessWidget {
     @required this.glutenFree,
     this.extendedIngredients,
     this.analyzedInstructions,
+    @required this.loadingColor,
   }) : super(key: key);
 
   /// Recipe id
@@ -48,6 +49,8 @@ class RecipeCard extends StatelessWidget {
   final bool vegan;
 
   final bool glutenFree;
+
+  final Color loadingColor;
 
   final int servings;
 
@@ -97,9 +100,9 @@ class RecipeCard extends StatelessWidget {
                         (context, url, downloadProgress) => SizedBox(
                       height: 55,
                       width: 5,
-                      child: SpinKitWave(
-                        color: ChowColors.red700,
-                        size: 30.0,
+                      child: SpinKitThreeBounce(
+                        color: loadingColor,
+                        size: 20.0,
                       ),
                     ),
                     imageUrl: imageUrl,
@@ -111,6 +114,7 @@ class RecipeCard extends StatelessWidget {
               horizontalDivider(factor: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -151,22 +155,6 @@ class RecipeCard extends StatelessWidget {
                     ],
                   ),
                   verticalDivider(factor: 1.5),
-
-                  /// GLUTEN FREE
-                  // Row(
-                  //   children: [
-                  //     Icon(Icons.food_bank_outlined),
-                  //     horizontalDivider(),
-                  //     glutenFree
-                  //         ? Text(
-                  //             'Gluten Free',
-                  //             style: TextStyle(
-                  //               fontSize: 3.75 * Responsive.ratioHorizontal,
-                  //             ),
-                  //           )
-                  //         : Container(),
-                  //   ],
-                  // ),
                 ],
               ),
             ],

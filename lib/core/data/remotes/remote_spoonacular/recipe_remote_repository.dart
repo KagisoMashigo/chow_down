@@ -23,7 +23,7 @@ class RemoteRecipe implements RecipeRepository {
     try {
       if (id == -1) {
         final endpoint =
-            'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&addRecipeInformation=true';
+            'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
         final response = await Dio().get(endpoint);
         final body = json.decode(response.toString());
         // print('endpoint recipe ${endpoint}');
@@ -41,6 +41,9 @@ class RemoteRecipe implements RecipeRepository {
       print(e);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem extracting the recipe');
+    } on DioError catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
     }

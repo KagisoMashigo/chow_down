@@ -105,6 +105,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     switch (index) {
       case 0:
         return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy,
           readyInMinutes: recipe.readyInMinutes,
           servings: recipe.servings,
           creditsText: recipe.creditsText,
@@ -223,14 +224,14 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                       onTap: () {
                         _buttonTapped();
                         _database.saveRecipes(recipe);
-                        showAlertDialog(
-                          context,
-                          isSave: false,
-                          title: 'Saved!',
-                          content:
-                              'You can find this recipe in your saved list.',
-                          defaultActionText: 'Gotcha!',
-                        );
+                        // showAlertDialog(
+                        //   context,
+                        //   isSave: false,
+                        //   title: 'Saved!',
+                        //   content:
+                        //       'You can find this recipe in your saved list.',
+                        //   defaultActionText: 'Gotcha!',
+                        // );
                       },
                       isButtonTapped: _isButtonTapped,
                     ),

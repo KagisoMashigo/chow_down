@@ -21,6 +21,7 @@ class RecipeDescCard extends StatelessWidget {
     @required this.summary,
     @required this.ingredients,
     @required this.sourceUrl,
+    @required this.veryHealthy,
   }) : super(key: key);
 
   final int readyInMinutes;
@@ -30,6 +31,8 @@ class RecipeDescCard extends StatelessWidget {
   final String creditsText;
 
   final bool glutenFree;
+
+  final bool veryHealthy;
 
   final bool vegetarian;
 
@@ -105,6 +108,26 @@ class RecipeDescCard extends StatelessWidget {
                 horizontal: 4 * Responsive.ratioHorizontal),
             child: Column(
               children: [
+                veryHealthy
+                    ? Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            size: 25,
+                          ),
+                          Expanded(
+                            child: Text(
+                              'Very Healthy!',
+                              style: TextStyle(
+                                fontSize: 4 * Responsive.ratioHorizontal,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : SizedBox.shrink(),
+                verticalDivider(),
                 Row(
                   children: [
                     Expanded(

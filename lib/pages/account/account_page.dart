@@ -132,6 +132,7 @@ class AccountPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                verticalDivider(factor: 4),
                 _buildUserInfo(auth.currentUser),
                 Align(
                   alignment: Alignment.centerLeft,

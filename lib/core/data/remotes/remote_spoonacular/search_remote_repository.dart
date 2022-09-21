@@ -21,7 +21,7 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=20&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
       final response = await Dio().get(endpoint);
@@ -34,6 +34,12 @@ class RemoteSearchRepository implements SearchRepository {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
+    } on DioError catch (e) {
+      print(e);
+      throw Failure(
+        message: 'Please enter a valid URL',
+        code: 400,
+      );
     }
   }
 
@@ -57,27 +63,12 @@ class RemoteSearchRepository implements SearchRepository {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
+    } on DioError catch (e) {
+      print(e);
+      throw Failure(
+        message: 'Please enter a valid URL',
+        code: 400,
+      );
     }
   }
-
-  // Future<SearchAutoCompleteList> getAutoCompleteList(String searchText) async {
-  //   final endpoint =
-  //       'https://api.spoonacular.com/recipes/autocomplete?number=100&query=$searchText&apiKey=$apiKey';
-  //   final response = await Dio().get(endpoint);
-  //   final body = json.decode(response.data);
-  //   print("get random food: " + response.statusCode.toString());
-
-  //   if (response.statusCode == 200) {
-  //     return SearchAutoCompleteList.fromJson(body);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     var msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
-
 }

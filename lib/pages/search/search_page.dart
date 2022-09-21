@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/search/search_cubit.dart';
@@ -36,7 +37,7 @@ class _SearchPageState extends State<SearchPage> {
       body: Container(
         height: Responsive.isSmallScreen()
             ? MediaQuery.of(context).size.height
-            : MediaQuery.of(context).size.height * 0.8,
+            : MediaQuery.of(context).size.height * 0.91,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
@@ -80,7 +81,9 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildLoading() {
     return Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: ChowColors.blue300,
+      ),
     );
   }
 
@@ -96,54 +99,90 @@ class _SearchPageState extends State<SearchPage> {
             padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
             child: SearchInputField(),
           ),
-          Padding(
-            padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
-            child: Row(
-              children: [
-                Text(
-                  'Results: ${recipes.length}',
-                  style: TextStyle(
-                    fontSize: 4 * Responsive.ratioHorizontal,
-                    color: ChowColors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+
+          // Padding(
+          //   padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         'Results: ${recipes.length}',
+          //         style: TextStyle(
+          //           fontSize: 4.5 * Responsive.ratioHorizontal,
+          //           color: ChowColors.white,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           recipes.isNotEmpty
               ? Column(
                   children: [
+                    //     ListView.builder(
+                    //       physics: AlwaysScrollableScrollPhysics(),
+                    //       shrinkWrap: true,
+                    //       itemCount: recipes.length,
+                    //       itemBuilder: (context, index) {
+                    //         final recipe = recipes[index];
+                    //         return GestureDetector(
+                    //                                  onTap: () => Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => RecipeInfoPage(
+                    //                   title: recipes[index].title,
+                    //                   id: recipes[index].id,
+                    //                   sourceUrl: recipes[index].sourceUrl,
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           child: RecipeCard(
+                    // loadingColor: ChowColors.blue300,
+                    //               id: recipes[index].id,
+                    //               name: recipes[index].title,
+                    //               imageUrl: recipes[index].image,
+                    //               url: recipes[index].sourceUrl,
+                    //               glutenFree: recipes[index].glutenFree,
+                    //               readyInMinutes: recipes[index].readyInMinutes,
+                    //               vegetarian: recipes[index].vegetarian,
+                    //               vegan: recipes[index].vegan,
+                    //               servings: recipes[index].servings,
+                    //           ),
+                    //         );
+                    //       },
+                    //     ),
                     Padding(
                       padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
                       child: Column(
-                        children: mappedRecipes.map((recipe) {
-                          // This is the index to be used to iterate
-                          int index = recipe.key;
+                        children: mappedRecipes.map(
+                          (recipe) {
+                            // This is the index to be used to iterate
+                            int index = recipe.key;
 
-                          return GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RecipeInfoPage(
-                                  title: recipes[index].title,
-                                  id: recipes[index].id,
-                                  sourceUrl: recipes[index].sourceUrl,
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RecipeInfoPage(
+                                    title: recipes[index].title,
+                                    id: recipes[index].id,
+                                    sourceUrl: recipes[index].sourceUrl,
+                                  ),
                                 ),
                               ),
-                            ),
-                            child: RecipeCard(
-                              id: recipes[index].id,
-                              name: recipes[index].title,
-                              imageUrl: recipes[index].image,
-                              url: recipes[index].sourceUrl,
-                              glutenFree: recipes[index].glutenFree,
-                              readyInMinutes: recipes[index].readyInMinutes,
-                              vegetarian: recipes[index].vegetarian,
-                              vegan: recipes[index].vegan,
-                              servings: recipes[index].servings,
-                            ),
-                          );
-                        }).toList(),
+                              child: RecipeCard(
+                                loadingColor: ChowColors.blue300,
+                                id: recipes[index].id,
+                                name: recipes[index].title,
+                                imageUrl: recipes[index].image,
+                                url: recipes[index].sourceUrl,
+                                glutenFree: recipes[index].glutenFree,
+                                readyInMinutes: recipes[index].readyInMinutes,
+                                vegetarian: recipes[index].vegetarian,
+                                vegan: recipes[index].vegan,
+                                servings: recipes[index].servings,
+                              ),
+                            );
+                          },
+                        ).toList(),
                       ),
                     ),
                     recipes.length < 4
@@ -163,10 +202,17 @@ class _SearchPageState extends State<SearchPage> {
                               backgroundColor: ChowColors.white,
                             ),
                           ),
-                    verticalDivider(factor: 12)
+                    verticalDivider(factor: 11)
                   ],
                 )
-              : Container(),
+              : Padding(
+                  padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+                  child: EmptyContent(
+                    icon: Icons.question_mark,
+                    title: 'Oof no results...',
+                    message: 'Try a different search term',
+                  ),
+                ),
         ],
       ),
     );

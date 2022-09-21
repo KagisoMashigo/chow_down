@@ -43,7 +43,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       title: 'Saved Recipes',
       body: RefreshIndicator(
         color: Color.fromARGB(255, 234, 180, 225),
-        onRefresh: _pullRefresh,
+        onRefresh: () => _pullRefresh(),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
@@ -93,16 +93,20 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   }
 
   Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
-      ? EmptyContent(
-          message: 'It\'s as empty as your stomach...',
-          title: 'No recipes currently saved',
-          icon: Icons.hourglass_empty,
+      ? Center(
+          child: EmptyContent(
+            message: 'It\'s as empty as your stomach...',
+            title: 'No recipes currently saved',
+            icon: Icons.hourglass_empty,
+          ),
         )
-      : EmptyContent(
-          message:
-              'Please pull to refresh. If this persists please restart the application.',
-          title: 'Something went wrong...',
-          icon: Icons.error_outline_sharp,
+      : Center(
+          child: EmptyContent(
+            message:
+                'Please pull to refresh. If this persists please restart the application.',
+            title: 'Something went wrong...',
+            icon: Icons.error_outline_sharp,
+          ),
         );
 
   Widget _buildLoading() => Center(

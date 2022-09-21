@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -30,54 +32,65 @@ class _HomePageState extends State<HomePage> {
   ) =>
       ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
 
+  final _formUrl = TextEditingController();
+  bool _validate = false;
+
+  @override
+  void dispose() {
+    _formUrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: page needs to be refreshable, or does it?
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
-      body: RefreshIndicator(
-        onRefresh: _pullRefresh,
-        color: ChowColors.white,
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            // height: 100 * Responsive.ratioVertical,
-            height: Responsive.isSmallScreen()
-                ? MediaQuery.of(context).size.height
-                : MediaQuery.of(context).size.height * 0.8,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                    'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
-                fit: BoxFit.cover,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
+        body: RefreshIndicator(
+          onRefresh: () => _pullRefresh(),
+          color: ChowColors.red700,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Container(
+              height: Responsive.isSmallScreen()
+                  ? MediaQuery.of(context).size.height
+                  : MediaQuery.of(context).size.height * 0.91,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: CachedNetworkImageProvider(
+                      'https://images.unsplash.com/photo-1558855410-3112e253d755?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGljZSUyMGNyZWFtfGVufDB8MXwwfHw%3D&auto=format&fit=crop&w=800&q=60'),
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
-            child: BlocConsumer<ExtractCubit, ExtractState>(
-              listener: (context, state) {
-                if (state is ExtractError) {
-                  return ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is ExtractLoading) {
-                  return _buildLoading();
-                } else if (state is ExtractLoaded) {
-                  return _buildColumnWithData(state.extractedResult);
-                } else {
-                  // error state snackbar
-                  return _buildInitialInput(state);
-                }
-              },
+              padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
+              child: BlocConsumer<ExtractCubit, ExtractState>(
+                listener: (context, state) {
+                  if (state is ExtractError) {
+                    return ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is ExtractLoading) {
+                    return _buildLoading();
+                  } else if (state is ExtractLoaded) {
+                    return _buildColumnWithData(state.extractedResult);
+                  } else {
+                    print(state);
+                    // error state snackbar
+                    return _buildInitialInput(state);
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -87,7 +100,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildInitialInput(ExtractState state) => Column(
         children: [
-          verticalDivider(factor: 5),
+          verticalDivider(factor: 3.5),
           Image.asset(
             'assets/images/chow_down.png',
             height: 18.5 * Responsive.ratioVertical,
@@ -98,22 +111,87 @@ class _HomePageState extends State<HomePage> {
           state is ExtractInitial
               ? Column(
                   children: [
-                    RecipeExtractInput(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5 * Responsive.ratioHorizontal),
+                      child: TextField(
+                        controller: _formUrl,
+                        keyboardType: TextInputType.url,
+                        style: TextStyle(color: ChowColors.white),
+                        onSubmitted: (url) {
+                          if (url.isNotEmpty) {
+                            _submitForm(context, url);
+                            setState(() => _validate = false);
+                          } else {
+                            setState(() => _validate = true);
+                          }
+                        },
+                        textInputAction: TextInputAction.search,
+                        decoration: InputDecoration(
+                          errorStyle: TextStyle(color: ChowColors.offWhite),
+                          errorText: _validate ? 'Value Can\'t Be Empty' : null,
+                          // TODO: error handling if url is not recipe
+                          hintText: "Enter a recipe url here",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: ChowColors.white,
+                              width: 0.0,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintStyle: TextStyle(
+                            color: ChowColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     verticalDivider(factor: 1),
                     HelpCard(),
                   ],
                 )
               : Column(
                   children: [
-                    RecipeExtractInput(),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5 * Responsive.ratioHorizontal),
+                      child: TextField(
+                        controller: _formUrl,
+                        keyboardType: TextInputType.url,
+                        style: TextStyle(color: ChowColors.white),
+                        onSubmitted: (url) {
+                          if (url.isNotEmpty) {
+                            _submitForm(context, url);
+                            setState(() => _validate = false);
+                          } else {
+                            setState(() => _validate = true);
+                          }
+                        },
+                        textInputAction: TextInputAction.search,
+                        decoration: InputDecoration(
+                          errorStyle: TextStyle(color: ChowColors.offWhite),
+                          errorText: _validate ? 'Value Can\'t Be Empty' : null,
+                          // TODO: error handling if url is not recipe
+                          hintText: "Enter a recipe url here",
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: ChowColors.white,
+                              width: 0.0,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          hintStyle: TextStyle(
+                            color: ChowColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     verticalDivider(factor: 2),
                     HelpCard(),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 5 * Responsive.ratioHorizontal),
                       child: EmptyContent(
-                        message:
-                            'If this persists please restart the application.',
+                        message: 'Try refreshing the page.',
                         title: 'Something went wrong...',
                         icon: Icons.error_outline_sharp,
                       ),
@@ -124,14 +202,12 @@ class _HomePageState extends State<HomePage> {
       );
 
   Future<void> _pullRefresh() async {
-    await Future.delayed(Duration(seconds: 1));
-    await Provider.of<ExtractCubit>(context, listen: false)
-        .fetchExtractedResult('url');
+    final extractCubit = context.read<ExtractCubit>();
+    extractCubit.refresh();
   }
 
   Widget _buildLoading() {
     return Center(
-      // TODO: Cooler loading bar, maybe with text too
       child: CircularProgressIndicator(
         color: ChowColors.white,
       ),
@@ -140,9 +216,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildColumnWithData(Recipe searchResult) {
     final result = searchResult;
-
+    print(result);
     return Column(
       children: [
+        verticalDivider(factor: 2),
         Image.asset(
           'assets/images/chow_down.png',
           height: 18.5 * Responsive.ratioVertical,
@@ -150,7 +227,39 @@ class _HomePageState extends State<HomePage> {
           fit: BoxFit.fill,
         ),
         verticalDivider(factor: 2),
-        RecipeExtractInput(),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
+          child: TextField(
+            controller: _formUrl,
+            keyboardType: TextInputType.url,
+            style: TextStyle(color: ChowColors.white),
+            onSubmitted: (url) {
+              if (url.isNotEmpty) {
+                _submitForm(context, url);
+                setState(() => _validate = false);
+              } else {
+                setState(() => _validate = true);
+              }
+            },
+            textInputAction: TextInputAction.search,
+            decoration: InputDecoration(
+              errorText: _validate ? 'Value Can\'t Be Empty' : null,
+              errorStyle: TextStyle(color: ChowColors.offWhite),
+              hintText: "Enter a recipe url here",
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: ChowColors.white,
+                  width: 0.0,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              hintStyle: TextStyle(
+                color: ChowColors.white,
+              ),
+            ),
+          ),
+        ),
         verticalDivider(factor: 2),
         HelpCard(),
         verticalDivider(),
@@ -170,6 +279,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             child: RecipeCard(
+              loadingColor: ChowColors.red700,
               id: result.id,
               name: result.title,
               imageUrl: result.image,
@@ -182,36 +292,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        verticalDivider(),
+        verticalDivider(factor: 4),
       ],
-    );
-  }
-}
-
-class RecipeExtractInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
-      child: TextField(
-        keyboardType: TextInputType.visiblePassword,
-        style: TextStyle(color: ChowColors.white),
-        onSubmitted: (url) => _submitForm(context, url),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-            // TODO: error handling if url is not recipe
-            hintText: "Enter a recipe url here",
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: ChowColors.white,
-                width: 0.0,
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            hintStyle: TextStyle(
-              color: ChowColors.white,
-            )),
-      ),
     );
   }
 
@@ -220,3 +302,44 @@ class RecipeExtractInput extends StatelessWidget {
     extractCubit.fetchExtractedResult(url);
   }
 }
+
+// class RecipeExtractInput extends StatelessWidget {
+//   const RecipeExtractInput({@required this.validate, @required this.formUrl});
+
+//   final bool validate;
+//   final TextEditingController formUrl;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
+//       child: TextField(
+//         controller: formUrl,
+//         keyboardType: TextInputType.url,
+//         style: TextStyle(color: ChowColors.white),
+//         onSubmitted: (url) => _submitForm(context, url),
+//         textInputAction: TextInputAction.search,
+//         decoration: InputDecoration(
+//           errorText: validate ? 'Value Can\'t Be Empty' : null,
+//           // TODO: error handling if url is not recipe
+//           hintText: "Enter a recipe url here",
+//           enabledBorder: OutlineInputBorder(
+//             borderSide: const BorderSide(
+//               color: ChowColors.white,
+//               width: 0.0,
+//             ),
+//             borderRadius: BorderRadius.circular(12),
+//           ),
+//           hintStyle: TextStyle(
+//             color: ChowColors.white,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   void _submitForm(BuildContext context, String url) {
+//     final extractCubit = context.read<ExtractCubit>();
+//     extractCubit.fetchExtractedResult(url);
+//   }
+// }
