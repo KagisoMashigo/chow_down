@@ -52,8 +52,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
         }
       }
 
-      final Recipe recipe =
-          await _recipeRepository.getRecipeInformation(id, url);
+      final Recipe recipe = await _recipeRepository.getExistingRecipe(id, url);
       emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {
       emit(RecipInfoError(e.toString()));
@@ -65,7 +64,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
       emit(RecipeInfoLoading());
 
       final Recipe recipe =
-          await _recipeRepository.getRecipeInformation(id, sourceUrl);
+          await _recipeRepository.getExistingRecipe(id, sourceUrl);
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure {

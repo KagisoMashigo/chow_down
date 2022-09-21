@@ -12,7 +12,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);
-  Future<Recipe> getExtractedRecipe(String url);
 }
 
 class RemoteSearchRepository implements SearchRepository {
@@ -36,39 +35,20 @@ class RemoteSearchRepository implements SearchRepository {
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioError catch (e) {
       print(e);
-      throw Failure(
-        message: 'Please enter a valid URL',
-        code: 400,
-      );
-    }
-  }
 
-  @override
-  Future<Recipe> getExtractedRecipe(String url) async {
-    final endpoint =
-        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
-
-    try {
-      final response = await Dio().get(endpoint);
-      final body = json.decode(response.toString());
-
-      if (response.data['image'] != null) {
-        return Recipe.fromJson(body);
+      if (e.response.statusCode == 503) {
+        throw Failure(
+          message:
+              'There\'s a problem with the recipe server. Please try again later. Error code: ${e.response.statusCode}.',
+          code: 503,
+        );
+      } else {
+        throw Failure(
+          message:
+              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+          code: 400,
+        );
       }
-
-      throw Failure(message: 'No Data');
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem extracting the recipe');
-    } on DioError catch (e) {
-      print(e);
-      throw Failure(
-        message: 'Please enter a valid URL',
-        code: 400,
-      );
     }
   }
 }

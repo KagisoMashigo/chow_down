@@ -75,6 +75,10 @@ class AccountPage extends StatelessWidget {
     }
   }
 
+  final String _name = FLAVOURS.elementAt(
+    Random().nextInt(FLAVOURS.length),
+  );
+
   Widget _buildUserInfo(User user) {
     return Padding(
       padding: EdgeInsets.all(15 * Responsive.ratioSquare),
@@ -96,9 +100,7 @@ class AccountPage extends StatelessWidget {
                 )
               : Expanded(
                   child: Text(
-                    'Anonymous ${FLAVOURS.elementAt(
-                      Random().nextInt(FLAVOURS.length),
-                    )}',
+                    'Anonymous $_name',
                     style: TextStyle(
                         color: ChowColors.white,
                         fontSize: 5.5 * Responsive.ratioHorizontal),
@@ -132,8 +134,8 @@ class AccountPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                verticalDivider(factor: 4),
-                _buildUserInfo(auth.currentUser),
+                verticalDivider(factor: 6),
+                // _buildUserInfo(auth.currentUser),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -146,6 +148,7 @@ class AccountPage extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 // TODO: add lang tile for intl & raw string constants
                 ChowListTile(
                   onTap: () async {
@@ -156,7 +159,25 @@ class AccountPage extends StatelessWidget {
                     color: ChowColors.white,
                   ),
                   title: Text(
-                    'Delete Account',
+                    'Delete account',
+                    style: TextStyle(color: ChowColors.white),
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right_outlined,
+                    color: ChowColors.white,
+                  ),
+                ),
+                verticalDivider(),
+                ChowListTile(
+                  onTap: () async {
+                    _confirmDelete(context);
+                  },
+                  leading: Icon(
+                    Icons.clear,
+                    color: ChowColors.white,
+                  ),
+                  title: Text(
+                    'Clear recipes',
                     style: TextStyle(color: ChowColors.white),
                   ),
                   trailing: Icon(
