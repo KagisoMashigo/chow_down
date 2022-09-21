@@ -49,7 +49,7 @@ class RemoteRecipe implements RecipeRepository {
       if (e.response.statusCode == 503) {
         throw Failure(
           message:
-              'There\'s a problem with the recipe server. Please try again later. Error code: ${e.response.statusCode}.',
+              'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
       } else {
@@ -87,7 +87,7 @@ class RemoteRecipe implements RecipeRepository {
       if (e.response.statusCode == 503) {
         throw Failure(
           message:
-              'There\'s a problem with the recipe server. Please try again later. Error code: ${e.response.statusCode}.',
+              'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
       } else {
