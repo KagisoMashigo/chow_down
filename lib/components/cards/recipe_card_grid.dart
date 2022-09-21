@@ -49,7 +49,9 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
     return GridView.count(
       primary: false,
       crossAxisCount: 2,
-      childAspectRatio: .55 * Responsive.ratioSquare,
+      childAspectRatio: Responsive.isSmallScreen()
+          ? MediaQuery.of(context).size.aspectRatio * 1.55
+          : MediaQuery.of(context).size.aspectRatio * 2,
       mainAxisSpacing: 3 * Responsive.ratioVertical,
       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
       children: _getStructuredCardGrid(results, context, _delete),
