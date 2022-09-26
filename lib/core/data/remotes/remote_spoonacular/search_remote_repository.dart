@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 // 🌎 Project imports:
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
 // 📦 Package imports:
@@ -12,7 +11,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);
-  Future<Recipe> getExtractedRecipe(String url);
 }
 
 class RemoteSearchRepository implements SearchRepository {
@@ -21,7 +19,7 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=10&sort=popularity&sortDirection=desc&addRecipeInformation';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=20&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
       final response = await Dio().get(endpoint);
@@ -34,50 +32,25 @@ class RemoteSearchRepository implements SearchRepository {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
-    }
-  }
-
-  @override
-  Future<Recipe> getExtractedRecipe(String url) async {
-    final endpoint =
-        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
-
-    try {
-      final response = await Dio().get(endpoint);
-      final body = json.decode(response.toString());
-
-      if (response.data['image'] != null) {
-        return Recipe.fromJson(body);
+    } on DioError catch (e) {
+      print(e);
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
       }
 
-      throw Failure(message: 'No Data');
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem extracting the recipe');
+      if (e.response.statusCode == 503) {
+        throw Failure(
+          message:
+              'Looks like the server is under maintenance. Please try again later.',
+          code: e.response.statusCode,
+        );
+      } else if (e.response.statusCode == 400) {
+        throw Failure(
+          message:
+              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+          code: e.response.statusCode,
+        );
+      }
     }
   }
-
-  // Future<SearchAutoCompleteList> getAutoCompleteList(String searchText) async {
-  //   final endpoint =
-  //       'https://api.spoonacular.com/recipes/autocomplete?number=100&query=$searchText&apiKey=$apiKey';
-  //   final response = await Dio().get(endpoint);
-  //   final body = json.decode(response.data);
-  //   print("get random food: " + response.statusCode.toString());
-
-  //   if (response.statusCode == 200) {
-  //     return SearchAutoCompleteList.fromJson(body);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     var msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
-
 }

@@ -34,7 +34,8 @@ class ExtractLoaded extends ExtractState {
 
 class ExtractError extends ExtractState {
   final String message;
-  const ExtractError(this.message);
+  final int code;
+  const ExtractError(this.message, this.code);
 
   @override
   bool operator ==(Object other) {

@@ -122,7 +122,7 @@ class SignInPage extends StatelessWidget {
       child: Container(
         height: Responsive.isSmallScreen()
             ? MediaQuery.of(context).size.height
-            : MediaQuery.of(context).size.height * 0.8,
+            : MediaQuery.of(context).size.height * 0.91,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(

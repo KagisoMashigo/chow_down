@@ -10,6 +10,7 @@
 .history
 .svn/
 .dart_tool/
+.notes.txt
 
 # IntelliJ related
 *.iml

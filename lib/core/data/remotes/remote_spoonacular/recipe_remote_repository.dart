@@ -11,22 +11,22 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
 
 abstract class RecipeRepository {
-  Future<Recipe> getRecipeInformation(int id, String sourceUrl);
+  Future<Recipe> getExistingRecipe(int id, String sourceUrl);
+  Future<Recipe> getExtractedRecipe(String url);
 }
 
 class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key'];
 
-  Future<Recipe> getRecipeInformation(int id, String sourceUrl) async {
-    /// The first part of the algo finds extracted recipes
+  Future<Recipe> getExistingRecipe(int id, String sourceUrl) async {
+    /// The first part of the function finds extracted recipes
 
     try {
       if (id == -1) {
         final endpoint =
-            'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&addRecipeInformation=true';
+            'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
         final response = await Dio().get(endpoint);
         final body = json.decode(response.toString());
-        // print('endpoint recipe ${endpoint}');
         return Recipe.fromJson(body);
       } else {
         /// This part is for searched recipes
@@ -43,66 +43,65 @@ class RemoteRecipe implements RecipeRepository {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
+    } on DioError catch (e) {
+      print(e);
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
+      }
+      if (e.response.statusCode == 503) {
+        throw Failure(
+          message:
+              'Looks like the server is under maintenance. Please try again later.',
+          code: 503,
+        );
+      } else if (e.response.statusCode == 400) {
+        throw Failure(
+          message:
+              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+          code: 400,
+        );
+      }
     }
   }
 
-  // Future<SimilarList> getSimilarFood(String id) async {
-  //   final url =
-  //       'https://api.spoonacular.com/recipes/$id/similar?apiKey=${apiKey[Random().nextInt(14)]}';
-  //   final response = await Dio().get(url);
-  //   final body = json.decode(response.data);
-  //   print("get similar food :" + response.statusCode.toString());
+  @override
+  Future<Recipe> getExtractedRecipe(String url) async {
+    final endpoint =
+        'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
 
-  //   if (response.statusCode == 200) {
-  //     return SimilarList.fromJson(body);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     final msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       String msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
+    try {
+      final response = await Dio().get(endpoint);
+      final body = json.decode(response.toString());
 
-  // Future<EquipmentList> getEquipments(String id) async {
-  //   final url =
-  //       'https://api.spoonacular.com/recipes/$id/equipmentWidget.json?apiKey=${apiKey[Random().nextInt(14)]}';
-  //   final response = await Dio().get(url);
-  //   final body = json.decode(response.data);
-  //   print("get Equipments food :" + response.statusCode.toString());
+      if (response.data['image'] != null) {
+        return Recipe.fromJson(body);
+      }
 
-  //   if (response.statusCode == 200) {
-  //     return EquipmentList.fromJson(body['equipment']);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     final msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       String msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
-
-  // Future<Nutrient> getNutrient(String id) async {
-  //   final url =
-  //       'https://api.spoonacular.com/recipes/$id/nutritionWidget.json?apiKey=${apiKey[Random().nextInt(14)]}';
-  //   final response = await Dio().get(url);
-  //   final body = json.decode(response.data);
-  //   print("get Equipments food :" + response.statusCode.toString());
-
-  //   if (response.statusCode == 200) {
-  //     return Nutrient.fromJson(body);
-  //   } else if (response.statusCode == 401) {
-  //     throw Failure(code: 401, message: body['message']);
-  //   } else {
-  //     final msg = 'Something went wrong';
-  //     if (body.containsKey('message')) {
-  //       String msg = body['message'];
-  //     }
-  //     throw Failure(code: response.statusCode, message: msg);
-  //   }
-  // }
+      throw Failure(message: 'No Data');
+    } on SocketException catch (e) {
+      print(e);
+      throw Failure(message: 'No Internet connection');
+    } on HttpException catch (e) {
+      print(e);
+      throw Failure(message: 'There was a problem extracting the recipe');
+    } on DioError catch (e) {
+      print(e);
+      if (e.type == DioErrorType.connectTimeout) {
+        throw Failure(message: "Connection  Timeout Exception");
+      }
+      if (e.response.statusCode == 503) {
+        throw Failure(
+          message:
+              'Looks like the server is under maintenance. Please try again later.',
+          code: 503,
+        );
+      } else if (e.response.statusCode == 400) {
+        throw Failure(
+          message:
+              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+          code: 400,
+        );
+      }
+    }
+  }
 }

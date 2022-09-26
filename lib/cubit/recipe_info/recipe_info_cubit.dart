@@ -20,15 +20,9 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
 
   Future<void> saveRecipe(Recipe recipe) async {
     try {
-      emit(RecipeInfoLoading());
+      // emit(RecipeInfoLoading());
 
-      await _database.saveRecipes(recipe);
-      // await Future<void>.delayed(const Duration(milliseconds: 50));
-      // if (searchResults.isEmpty) {
-      //   emit(RecipeInfoInitial());
-      // } else {
-      //   emit(RecipeInfoLoaded(recipe));
-      // }
+      await _database.saveRecipe(recipe);
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {
@@ -39,8 +33,6 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
   Future<void> fetchRecipe(int id, String url) async {
     try {
       emit(RecipeInfoLoading());
-      print('ID $id');
-      print('url $url');
 
       // TODO: optimise so it isn't pulling the whole list
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
@@ -60,8 +52,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
         }
       }
 
-      final Recipe recipe =
-          await _recipeRepository.getRecipeInformation(id, url);
+      final Recipe recipe = await _recipeRepository.getExistingRecipe(id, url);
       emit(RecipeInfoLoaded(recipe));
     } on Failure catch (e) {
       emit(RecipInfoError(e.toString()));
@@ -73,7 +64,7 @@ class RecipeInfoCubit extends Cubit<RecipeInfoState> {
       emit(RecipeInfoLoading());
 
       final Recipe recipe =
-          await _recipeRepository.getRecipeInformation(id, sourceUrl);
+          await _recipeRepository.getExistingRecipe(id, sourceUrl);
 
       emit(RecipeInfoLoaded(recipe));
     } on Failure {

@@ -54,4 +54,14 @@ class RecipeTabCubit extends Cubit<RecipeTabState> {
       emit(RecipTabError(e.toString()));
     }
   }
+
+  Future<void> deleteEntireCollection() async {
+    try {
+      emit(RecipeTabLoading());
+
+      await _database.deleteAllRecipes();
+    } on Failure catch (e) {
+      emit(RecipTabError(e.toString()));
+    }
+  }
 }
