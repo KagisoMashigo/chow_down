@@ -28,7 +28,6 @@ class FirestoreService {
           .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''));
 
       if (recipe.id.toString().length < 6) {
-        print(recipe);
         await customId.delete();
       }
 

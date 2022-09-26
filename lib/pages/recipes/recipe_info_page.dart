@@ -1,4 +1,7 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -49,11 +52,36 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
   /// Initial selected button
   int _currentIndex = 0;
 
+  bool _isButtonTapped = false;
+
   void initState() {
     super.initState();
     Provider.of<RecipeInfoCubit>(context, listen: false)
         .fetchRecipe(widget.id, widget.sourceUrl);
     _populateButtonList(TAB_OPTIONS, _isSelected);
+  }
+
+  void _buttonTapped() {
+    setState(
+      () {
+        if (_isButtonTapped == false) {
+          _isButtonTapped = true;
+          Future.delayed(Duration(milliseconds: 1200), () {
+            setState(() {
+              _isButtonTapped = false;
+            });
+          });
+          // isButtonTapped = false;
+        } else if (_isButtonTapped == true) {
+          _isButtonTapped = false;
+          Future.delayed(Duration(milliseconds: 1200), () {
+            setState(() {
+              _isButtonTapped = true;
+            });
+          });
+        }
+      },
+    );
   }
 
   /// Handles how many buttons appear in nav and which is selected using bools
@@ -73,6 +101,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
     switch (index) {
       case 0:
         return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy,
           readyInMinutes: recipe.readyInMinutes,
           servings: recipe.servings,
           creditsText: recipe.creditsText,
@@ -111,8 +140,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
+            image: CachedNetworkImageProvider(
+              'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+            ),
             fit: BoxFit.cover,
           ),
         ),
@@ -142,13 +172,6 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
     );
   }
 
-  /// TODO implement refresh
-  //   Future<void> _pullRefresh() async {
-  //   await Future.delayed(Duration(seconds: 1));
-  //   await Provider.of<RecipeInfoCubit>(context, listen: false)
-  //       .fetchRecipeInformation();
-  // }
-
   Widget _buildInitialInput(RecipeInfoState state) => Center(
         child: EmptyContent(
           message: 'If this persists please restart the application.',
@@ -170,8 +193,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           Row(
             children: [
               Expanded(
-                child: Image.network(
-                  recipe.image,
+                child: CachedNetworkImage(
+                  imageUrl: recipe.image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -189,19 +212,27 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                       child: Text(
                         recipe.title,
                         style: TextStyle(
-                          fontSize: 7 * Responsive.ratioHorizontal,
+                          fontSize: 6 * Responsive.ratioHorizontal,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: (() =>
-                          Provider.of<RecipeInfoCubit>(context, listen: false)
-                              .saveRecipe(recipe)),
-                      iconSize: 7 * Responsive.ratioHorizontal,
-                      icon: const Icon(
-                        Icons.save_rounded,
-                      ),
+                    horizontalDivider(factor: 1.9),
+                    ChowSaveButton(
+                      onTap: () {
+                        _buttonTapped();
+                        Provider.of<RecipeInfoCubit>(context, listen: false)
+                            .saveRecipe(recipe);
+                        // showAlertDialog(
+                        //   context,
+                        //   isSave: true,
+                        //   title: 'Saved!',
+                        //   content:
+                        //       'You can find this recipe in your saved list.',
+                        //   defaultActionText: 'Gotcha!',
+                        // );
+                      },
+                      isButtonTapped: _isButtonTapped,
                     ),
                   ],
                 ),

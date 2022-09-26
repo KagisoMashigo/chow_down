@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -24,7 +25,6 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   @override
   void initState() {
     super.initState();
-    // TODO: Reload page on tab change
     Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
   }
 
@@ -40,44 +40,38 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       color: ChowColors.white,
       imgUrl: 'assets/images/chow_down.png',
       title: 'Saved Recipes',
-      body: RefreshIndicator(
-        color: Color.fromARGB(255, 234, 180, 225),
-        onRefresh: _pullRefresh,
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            height: 83 * Responsive.ratioVertical,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
-                ),
-                fit: BoxFit.cover,
-              ),
+      body: Container(
+        height: Responsive.isSmallScreen()
+            ? MediaQuery.of(context).size.height
+            : MediaQuery.of(context).size.height * 0.91,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+              'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
             ),
-            padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            alignment: Alignment.center,
-            child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
-              listener: (context, state) {
-                if (state is RecipTabError) {
-                  return ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is RecipeTabLoading) {
-                  return _buildLoading();
-                } else if (state is RecipeTabLoaded) {
-                  return _buildColumnWithData(state.recipeCardList);
-                } else {
-                  return _buildInitialInput(state);
-                }
-              },
-            ),
+            fit: BoxFit.cover,
           ),
+        ),
+        padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
+        child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
+          listener: (context, state) {
+            if (state is RecipTabError) {
+              return ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is RecipeTabLoading) {
+              return _buildLoading();
+            } else if (state is RecipeTabLoaded) {
+              return _buildColumnWithData(state.recipeCardList);
+            } else {
+              return _buildInitialInput(state);
+            }
+          },
         ),
       ),
     );
@@ -90,16 +84,20 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   }
 
   Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
-      ? EmptyContent(
-          message: 'It\'s as empty as your stomach...',
-          title: 'No recipes currently saved',
-          icon: Icons.hourglass_empty,
+      ? Center(
+          child: EmptyContent(
+            message: 'It\'s as empty as your stomach...',
+            title: 'No recipes currently saved',
+            icon: Icons.hourglass_empty,
+          ),
         )
-      : EmptyContent(
-          message:
-              'Please pull to refresh. If this persists please restart the application.',
-          title: 'Something went wrong...',
-          icon: Icons.error_outline_sharp,
+      : Center(
+          child: EmptyContent(
+            message:
+                'Please pull to refresh. If this persists please restart the application.',
+            title: 'Something went wrong...',
+            icon: Icons.error_outline_sharp,
+          ),
         );
 
   Widget _buildLoading() => Center(
@@ -108,10 +106,40 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         ),
       );
 
-  Widget _buildColumnWithData(List<Recipe> searchResultList) =>
-      SingleChildScrollView(
+  Widget _buildColumnWithData(List<Recipe> searchResultList) {
+    // final orientation = MediaQuery.of(context).orientation;
+
+    return RefreshIndicator(
+      color: Color.fromARGB(255, 234, 180, 225),
+      onRefresh: () => _pullRefresh(),
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
+            // GridView.builder(
+            //   shrinkWrap: true,
+            //   itemCount: searchResultList.length,
+            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //       childAspectRatio: Responsive.isSmallScreen()
+            //           ? MediaQuery.of(context).size.aspectRatio * 1.55
+            //           : MediaQuery.of(context).size.aspectRatio * 2,
+            //       mainAxisSpacing: 3 * Responsive.ratioVertical,
+            //       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
+            //       crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3),
+            //   itemBuilder: (BuildContext context, int index) {
+            //     return Card(
+            //       child: GridTile(
+            //         footer: Text(searchResultList[index].title),
+            //         child: CachedNetworkImage(
+            //           imageUrl: searchResultList[index].image,
+            //           height: 26 * Responsive.ratioHorizontal,
+            //           width: 25.5 * Responsive.ratioVertical,
+            //           fit: BoxFit.cover,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
             RecipeCardGrid(
               searchResultList: searchResultList,
             ),
@@ -132,9 +160,11 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
                       backgroundColor: ChowColors.white,
                     ),
                   )
-                : Container(),
-            verticalDivider(factor: 4),
+                : SizedBox.shrink(),
+            verticalDivider(factor: 2),
           ],
         ),
-      );
+      ),
+    );
+  }
 }

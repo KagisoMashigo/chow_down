@@ -9,8 +9,10 @@ class ChowColors {
   static const Color offWhite = Color.fromRGBO(255, 255, 255, 1);
   //blue
   static const Color blue100 = Color.fromRGBO(229, 241, 246, 1);
+  static const Color blue300 = Color.fromARGB(255, 28, 202, 255);
   static const Color blue600 = Color.fromRGBO(48, 113, 169, 1);
   static const Color blue700 = Color.fromRGBO(0, 93, 170, 1);
+
   //white
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);

@@ -2,10 +2,13 @@
 String cookTimeConverter(int cookTime) {
   final duration = Duration(minutes: cookTime);
   List<String> timeParts = duration.toString().split(':');
-  final hours =
-      '${timeParts[0].padLeft(2, '')} hrs ${timeParts[1].padLeft(2, '0')} mins';
+  final hours = timeParts[1] == '00'
+      ? '${timeParts[0].padLeft(2, '')} hrs'
+      : '${timeParts[0].padLeft(2, '')} hrs ${timeParts[1].padLeft(2, '0')} mins';
 
-  final minutes = '${timeParts[1].padLeft(2, '0')} mins';
+  final minutes = timeParts[1].startsWith('0')
+      ? '${timeParts[1].padLeft(2, '').split('0')[1]} mins'
+      : '${timeParts[1].padLeft(0, '')} mins';
 
   final hour = '${timeParts[0].padLeft(2, '')} hour';
 

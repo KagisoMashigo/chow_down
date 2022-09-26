@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -53,6 +54,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
@@ -66,41 +68,43 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         height: 100 * Responsive.ratioVertical,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1556682851-c4580670113a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
+            image: CachedNetworkImageProvider(
+              'https://images.unsplash.com/photo-1556682851-c4580670113a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
+            ),
             fit: BoxFit.cover,
           ),
         ),
         child: Padding(
           padding: defaultPadding(),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                verticalDivider(factor: 15),
-                _showAlert(),
-                verticalDivider(),
-                Card(
-                  color: Colors.transparent,
-                  child: Padding(
-                    padding: EdgeInsets.all(6 * Responsive.ratioSquare),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildEmailTextField(),
-                        verticalDivider(),
-                        FormSubmitButton(
-                          color: ChowColors.beige100,
-                          text: 'Reset Password',
-                          onPressed: model.canReset ? _reset : null,
-                        ),
-                        _returnToLogin()
-                      ],
-                    ),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              verticalDivider(factor: 15),
+              _showAlert(),
+              verticalDivider(),
+              Card(
+                color: Colors.transparent,
+                child: Padding(
+                  padding: EdgeInsets.all(Responsive.ratioSquare * 9),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildEmailTextField(),
+                      verticalDivider(factor: 3),
+                      FormSubmitButton(
+                        color: ChowColors.beige100,
+                        text: 'Reset Password',
+                        onPressed: model.canReset ? _reset : null,
+                      ),
+                      _returnToLogin()
+                    ],
                   ),
                 ),
-              ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -154,9 +158,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () {
-                  setState(() {
-                    _alert = null;
-                  });
+                  setState(
+                    () {
+                      _alert = null;
+                    },
+                  );
                 },
               ),
             )
@@ -171,11 +177,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   TextField _buildEmailTextField() {
     return TextField(
+      style: TextStyle(color: ChowColors.white),
       controller: _emailController,
       focusNode: _emailFocusNode,
       decoration: InputDecoration(
         labelText: 'Email',
-        labelStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Colors.white, fontSize: 18),
         errorText: model.emailErrorText,
         enabled: model.isLoading == false,
       ),

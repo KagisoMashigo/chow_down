@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
@@ -7,6 +9,7 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
@@ -23,6 +26,7 @@ class RecipeCard extends StatelessWidget {
     @required this.glutenFree,
     this.extendedIngredients,
     this.analyzedInstructions,
+    @required this.loadingColor,
   }) : super(key: key);
 
   /// Recipe id
@@ -45,6 +49,8 @@ class RecipeCard extends StatelessWidget {
   final bool vegan;
 
   final bool glutenFree;
+
+  final Color loadingColor;
 
   final int servings;
 
@@ -89,8 +95,17 @@ class RecipeCard extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Image.network(
-                    imageUrl,
+                  child: CachedNetworkImage(
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => SizedBox(
+                      height: 55,
+                      width: 5,
+                      child: SpinKitThreeBounce(
+                        color: loadingColor,
+                        size: 20.0,
+                      ),
+                    ),
+                    imageUrl: imageUrl,
                     width: 35 * Responsive.ratioHorizontal,
                     fit: BoxFit.cover,
                   ),
@@ -99,6 +114,7 @@ class RecipeCard extends StatelessWidget {
               horizontalDivider(factor: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -139,22 +155,6 @@ class RecipeCard extends StatelessWidget {
                     ],
                   ),
                   verticalDivider(factor: 1.5),
-
-                  /// GLUTEN FREE
-                  // Row(
-                  //   children: [
-                  //     Icon(Icons.food_bank_outlined),
-                  //     horizontalDivider(),
-                  //     glutenFree
-                  //         ? Text(
-                  //             'Gluten Free',
-                  //             style: TextStyle(
-                  //               fontSize: 3.75 * Responsive.ratioHorizontal,
-                  //             ),
-                  //           )
-                  //         : Container(),
-                  //   ],
-                  // ),
                 ],
               ),
             ],

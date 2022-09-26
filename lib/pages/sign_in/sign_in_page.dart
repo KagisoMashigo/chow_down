@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
@@ -120,10 +122,10 @@ class SignInPage extends StatelessWidget {
       child: Container(
         height: Responsive.isSmallScreen()
             ? MediaQuery.of(context).size.height
-            : MediaQuery.of(context).size.height * 0.8,
+            : MediaQuery.of(context).size.height * 0.91,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
+            image: CachedNetworkImageProvider(
                 'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
             fit: BoxFit.fill,
           ),

@@ -1,4 +1,7 @@
 // 🐦 Flutter imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -46,12 +49,37 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
   /// Initial selected button
   int _currentIndex = 0;
 
+  bool _isButtonTapped = false;
+
   void initState() {
     super.initState();
     Provider.of<RecipeInfoCubit>(context, listen: false)
         .fetchRecipeInformation(widget.id, widget.sourceUrl);
     _populateButtonList(TAB_OPTIONS, _isSelected);
     _database = Provider.of<Database>(context, listen: false);
+  }
+
+  void _buttonTapped() {
+    setState(
+      () {
+        if (_isButtonTapped == false) {
+          _isButtonTapped = true;
+          Future.delayed(Duration(milliseconds: 1200), () {
+            setState(() {
+              _isButtonTapped = false;
+            });
+          });
+          // isButtonTapped = false;
+        } else if (_isButtonTapped == true) {
+          _isButtonTapped = false;
+          Future.delayed(Duration(milliseconds: 1200), () {
+            setState(() {
+              _isButtonTapped = true;
+            });
+          });
+        }
+      },
+    );
   }
 
   void showSnackbar(
@@ -77,6 +105,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     switch (index) {
       case 0:
         return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy,
           readyInMinutes: recipe.readyInMinutes,
           servings: recipe.servings,
           creditsText: recipe.creditsText,
@@ -115,8 +144,9 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(
-                'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
+            image: CachedNetworkImageProvider(
+              'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+            ),
             fit: BoxFit.cover,
           ),
         ),
@@ -166,8 +196,8 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
           Row(
             children: [
               Expanded(
-                child: Image.network(
-                  recipe.image,
+                child: CachedNetworkImage(
+                  imageUrl: recipe.image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -190,12 +220,20 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: (() => _database.saveRecipes(recipe)),
-                      iconSize: 7 * Responsive.ratioHorizontal,
-                      icon: const Icon(
-                        Icons.save_rounded,
-                      ),
+                    ChowSaveButton(
+                      onTap: () {
+                        _buttonTapped();
+                        _database.saveRecipe(recipe);
+                        // showAlertDialog(
+                        //   context,
+                        //   isSave: false,
+                        //   title: 'Saved!',
+                        //   content:
+                        //       'You can find this recipe in your saved list.',
+                        //   defaultActionText: 'Gotcha!',
+                        // );
+                      },
+                      isButtonTapped: _isButtonTapped,
                     ),
                   ],
                 ),

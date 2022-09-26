@@ -47,7 +47,7 @@ final _functionalityProviders = <SingleChildWidget>[
   ),
   BlocProvider<ExtractCubit>(
     create: (context) => ExtractCubit(
-      RemoteSearchRepository(),
+      RemoteRecipe(),
     ),
   ),
 ];

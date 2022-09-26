@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 Future<bool> showAlertDialog(
   BuildContext context, {
+  @required bool isSave,
   @required String title,
   @required String content,
   @required String defaultActionText,
@@ -18,18 +19,20 @@ Future<bool> showAlertDialog(
         builder: (context) {
           return AlertDialog(
             title: Text(title),
-            content: Text(content),
-            actions: <Widget>[
-              if (cancelActionText != null)
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(false),
-                  child: Text(cancelActionText),
-                ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(defaultActionText),
-              ),
-            ],
+            content: isSave ? null : Text(content),
+            actions: isSave
+                ? null
+                : <Widget>[
+                    if (cancelActionText != null)
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text(cancelActionText),
+                      ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text(defaultActionText),
+                    ),
+                  ],
           );
         });
   }
