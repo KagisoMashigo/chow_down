@@ -143,7 +143,6 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
             RecipeCardGrid(
               searchResultList: searchResultList,
             ),
-            verticalDivider(),
             searchResultList.length > 6
                 ? Align(
                     alignment: Alignment.bottomCenter,
@@ -161,7 +160,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
                     ),
                   )
                 : SizedBox.shrink(),
-            verticalDivider(factor: 2),
+            verticalDivider(factor: 8),
           ],
         ),
       ),

@@ -78,7 +78,7 @@ class AccountPage extends StatelessWidget {
       cancelActionText: 'Cancel',
     );
     if (confirmSignOut == true) {
-      _deleteUser(context);
+      _deleteAllData(context);
     }
   }
 
@@ -86,14 +86,14 @@ class AccountPage extends StatelessWidget {
     final confirmSignOut = await showAlertDialog(
       context,
       isSave: false,
-      title: 'Logout',
+      title: 'Delete Account',
       content:
           'Are you sure you want to delete your account? This is irreversible.',
       defaultActionText: 'Chiao for now',
       cancelActionText: 'Cancel',
     );
     if (confirmSignOut == true) {
-      _deleteAllData(context);
+      _deleteUser(context);
     }
   }
 
