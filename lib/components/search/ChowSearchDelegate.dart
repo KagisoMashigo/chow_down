@@ -52,7 +52,6 @@ class CostcoSearchDelegate extends SearchDelegate {
         : ListView.builder(
             itemCount: products.length,
             itemBuilder: (context, index) {
-              final product = products[index];
               return Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 // child: CoreHorizontalCard(

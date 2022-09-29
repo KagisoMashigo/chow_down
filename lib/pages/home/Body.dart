@@ -1,6 +1,3 @@
-// 🐦 Flutter imports:
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +12,8 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/cubit/home_page/extract_cubit.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override

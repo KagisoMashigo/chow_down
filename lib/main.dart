@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/responsive.dart';
-import 'package:chow_down/components/design/typography.dart';
 import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/providers/providers.dart';
 

@@ -1,6 +1,5 @@
 // 🐦 Flutter imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:

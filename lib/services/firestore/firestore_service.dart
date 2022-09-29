@@ -88,7 +88,6 @@ class FirestoreService {
 
       /// These two lines are necessary to perform the fetch
       QuerySnapshot finalSnapshot = await covertedCollection.get();
-      final recipeList = finalSnapshot.docs.map((doc) => doc.data()).toList();
 
       return savedRecipes;
     } on SocketException catch (e) {
