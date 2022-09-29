@@ -26,6 +26,10 @@ Future<void> main() async {
           return OrientationBuilder(
             builder: (context, orientation) {
               Responsive().init(constraints, orientation);
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.portraitDown,
+              ]);
               return ChowDown();
             },
           );
@@ -36,7 +40,6 @@ Future<void> main() async {
 }
 
 // Main app call
-// TODO: Consider using cachedImage for network images
 class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,6 @@ class ChowDown extends StatelessWidget {
         ),
         fontFamily: ChowFontFamilies.primary,
       ),
-      // TODO: make sure logged in goes to home
       home: LandingPage(),
     );
   }
