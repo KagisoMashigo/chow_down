@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/design/chow.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +17,7 @@ import 'package:chow_down/providers/providers.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   await dotenv.load(fileName: ".env");
 
   runApp(

@@ -272,7 +272,7 @@ class AccountPage extends StatelessWidget {
                     minimumSize:
                         Size.fromHeight(10 * Responsive.ratioHorizontal),
                     padding: defaultPadding(),
-                    backgroundColor: ChowColors.beige200,
+                    primary: ChowColors.beige200,
                   ),
                   onPressed: () => _confirmSignOut(context),
                   child: Text(
