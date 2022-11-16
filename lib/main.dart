@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/design/chow.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -16,6 +17,7 @@ import 'package:chow_down/providers/providers.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   await dotenv.load(fileName: ".env");
 
   runApp(
@@ -26,6 +28,10 @@ Future<void> main() async {
           return OrientationBuilder(
             builder: (context, orientation) {
               Responsive().init(constraints, orientation);
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp,
+                DeviceOrientation.portraitDown,
+              ]);
               return ChowDown();
             },
           );
@@ -36,7 +42,6 @@ Future<void> main() async {
 }
 
 // Main app call
-// TODO: Consider using cachedImage for network images
 class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -49,7 +54,6 @@ class ChowDown extends StatelessWidget {
         ),
         fontFamily: ChowFontFamilies.primary,
       ),
-      // TODO: make sure logged in goes to home
       home: LandingPage(),
     );
   }

@@ -45,7 +45,7 @@ class RecipeDescCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// This replaces all floating 0s
-    RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+    RegExp regex = RegExp(r'([.]*0)(?!.*\d)', unicode: true);
 
     return BaseCard(
       child: Column(
