@@ -20,6 +20,9 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.10.0 <3.0.0"
 
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
+
 dependencies:
   flutter:
     sdk: flutter
