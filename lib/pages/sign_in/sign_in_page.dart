@@ -51,25 +51,9 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  // Future<void> _signInAnon(BuildContext context) async {
-  //   try {
-  //     await manager.signInAnonymously();
-  //   } on Exception catch (e) {
-  //     _showSignInError(context, e);
-  //   }
-  // }
-
   Future<void> _signInGoogle(BuildContext context) async {
     try {
       await manager.signInWithGoogle();
-    } on Exception catch (e) {
-      _showSignInError(context, e);
-    }
-  }
-
-  Future<void> _signInFacebook(BuildContext context) async {
-    try {
-      await manager.signInWithFacebook();
     } on Exception catch (e) {
       _showSignInError(context, e);
     }
@@ -104,14 +88,22 @@ class SignInPage extends StatelessWidget {
       );
     }
 
-    return Container(
-      alignment: Alignment.center,
-      child: Image.asset(
-        'assets/images/chow_down.png',
-        height: 150,
-        width: 150,
-        fit: BoxFit.cover,
-      ),
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        double imageSize = 150;
+        if (constraints.maxWidth < 150) {
+          imageSize = constraints.maxWidth;
+        }
+        return Container(
+          alignment: Alignment.center,
+          child: Image.asset(
+            'assets/images/chow_down.png',
+            height: imageSize,
+            width: imageSize,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
     );
   }
 
@@ -121,12 +113,12 @@ class SignInPage extends StatelessWidget {
       child: Container(
         height: Responsive.isSmallScreen()
             ? MediaQuery.of(context).size.height
-            : MediaQuery.of(context).size.height * 0.91,
+            : MediaQuery.of(context).size.height * 1,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
                 'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60'),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
         child: Padding(
@@ -136,7 +128,7 @@ class SignInPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildHeader(),
-              SizedBox(height: Responsive.ratioVertical * 18.0),
+              SizedBox(height: Responsive.ratioVertical * 12.0),
               SocialSignInButton(
                 pictureWidget: Image.asset('assets/images/google-logo.png'),
                 text: 'Sign in with Google',
@@ -144,15 +136,7 @@ class SignInPage extends StatelessWidget {
                 color: Colors.white,
                 onPressed: () => isLoading ? null : _signInGoogle(context),
               ),
-              SizedBox(height: Responsive.ratioHorizontal * 3.0),
-              SocialSignInButton(
-                pictureWidget: Image.asset('assets/images/facebook-logo.png'),
-                text: 'Sign in with Facebook',
-                textColor: Colors.white,
-                color: Color(0xFF334D92),
-                onPressed: () => isLoading ? null : _signInFacebook(context),
-              ),
-              SizedBox(height: Responsive.ratioHorizontal * 3.0),
+              SizedBox(height: Responsive.ratioHorizontal * 6.0),
               SocialSignInButton(
                 pictureWidget: Icon(
                   Icons.email,
