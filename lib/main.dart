@@ -45,6 +45,10 @@ Future<void> main() async {
 class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       color: ChowColors.black,
       title: 'Chow Down',

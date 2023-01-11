@@ -113,30 +113,32 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       );
 
   Widget _buildColumnWithData(List<Recipe> searchResultList) {
-    return Column(
-      children: [
-        RecipeCardGrid(
-          searchResultList: searchResultList,
-        ),
-        searchResultList.length > 6
-            ? Align(
-                alignment: Alignment.bottomCenter,
-                child: FloatingActionButton(
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => this.widget),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          RecipeCardGrid(
+            searchResultList: searchResultList,
+          ),
+          searchResultList.length > 10
+              ? Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
+                    onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => this.widget),
+                    ),
+                    child: Icon(
+                      Icons.arrow_upward_outlined,
+                      color: ChowColors.black,
+                    ),
+                    backgroundColor: ChowColors.white,
                   ),
-                  child: Icon(
-                    Icons.arrow_upward_outlined,
-                    color: ChowColors.black,
-                  ),
-                  backgroundColor: ChowColors.white,
-                ),
-              )
-            : SizedBox.shrink(),
-        verticalDivider(factor: 8),
-      ],
+                )
+              : SizedBox.shrink(),
+          verticalDivider(factor: 12),
+        ],
+      ),
     );
   }
 }

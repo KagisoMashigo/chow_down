@@ -77,7 +77,9 @@ class RemoteRecipe implements RecipeRepository {
         return Recipe.fromJson(body);
       }
 
-      throw Failure(message: 'No Data');
+      throw Failure(
+          message:
+              'There was a problem extracting the data, please try again later');
     } on SocketException catch (e) {
       print(e);
       throw Failure(message: 'No Internet connection');
