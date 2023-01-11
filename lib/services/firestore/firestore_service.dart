@@ -73,22 +73,12 @@ class FirestoreService {
     try {
       final CollectionReference _collectionRef =
           FirebaseFirestore.instance.collection(path);
-
       final List<Recipe> savedRecipes = [];
-
-      final CollectionReference<Recipe> covertedCollection =
-          _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) {
-          /// This line colects the recipes as Recipes instead of Objects
-          savedRecipes.add(Recipe.fromFirestore(snapshot));
-          return Recipe.fromFirestore(snapshot);
-        },
-        toFirestore: (recipe, _) => recipe.toJson(),
-      );
-
-      /// These two lines are necessary to perform the fetch
-      QuerySnapshot finalSnapshot = await covertedCollection.get();
-
+      final QuerySnapshot finalSnapshot = await _collectionRef.get();
+      final List<DocumentSnapshot> documents = finalSnapshot.docs;
+      for (var document in documents) {
+        savedRecipes.add(Recipe.fromFirestore(document));
+      }
       return savedRecipes;
     } on SocketException catch (e) {
       print(e);
