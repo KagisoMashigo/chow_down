@@ -113,8 +113,6 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       );
 
   Widget _buildColumnWithData(List<Recipe> searchResultList) {
-    // final orientation = MediaQuery.of(context).orientation;
-
     return Column(
       children: [
         RecipeCardGrid(

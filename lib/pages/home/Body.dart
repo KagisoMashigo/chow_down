@@ -80,7 +80,6 @@ class _HomePageState extends State<HomePage> {
                   } else if (state is ExtractLoaded) {
                     return _buildColumnWithData(state.extractedResult);
                   } else {
-                    print(state);
                     // error state snackbar
                     return _buildInitialInput(state);
                   }
@@ -211,7 +210,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildColumnWithData(Recipe searchResult) {
     final result = searchResult;
-    print(result);
     return Column(
       children: [
         verticalDivider(factor: 2),
