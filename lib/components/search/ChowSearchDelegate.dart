@@ -1,5 +1,8 @@
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 class CostcoSearchDelegate extends SearchDelegate {
   CostcoSearchDelegate({

@@ -32,7 +32,6 @@ class RecipeDietCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(dairyFree);
     return BaseCard(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

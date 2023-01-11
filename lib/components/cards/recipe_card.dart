@@ -1,6 +1,9 @@
 // 🐦 Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
@@ -8,7 +11,6 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({

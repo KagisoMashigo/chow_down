@@ -1,13 +1,15 @@
 // 🎯 Dart imports:
 import 'dart:io';
 
+// 🐦 Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
-// 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
 
 class FirestoreService {
   FirestoreService._();
@@ -73,22 +75,12 @@ class FirestoreService {
     try {
       final CollectionReference _collectionRef =
           FirebaseFirestore.instance.collection(path);
-
       final List<Recipe> savedRecipes = [];
-
-      final CollectionReference<Recipe> covertedCollection =
-          _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) {
-          /// This line colects the recipes as Recipes instead of Objects
-          savedRecipes.add(Recipe.fromFirestore(snapshot));
-          return Recipe.fromFirestore(snapshot);
-        },
-        toFirestore: (recipe, _) => recipe.toJson(),
-      );
-
-      /// These two lines are necessary to perform the fetch
-      QuerySnapshot finalSnapshot = await covertedCollection.get();
-
+      final QuerySnapshot finalSnapshot = await _collectionRef.get();
+      final List<DocumentSnapshot> documents = finalSnapshot.docs;
+      for (var document in documents) {
+        savedRecipes.add(Recipe.fromFirestore(document));
+      }
       return savedRecipes;
     } on SocketException catch (e) {
       print(e);

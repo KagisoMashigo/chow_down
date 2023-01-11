@@ -1,13 +1,13 @@
 // 🐦 Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingre_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';

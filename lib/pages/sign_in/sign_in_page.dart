@@ -1,16 +1,16 @@
 // 🐦 Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/social_sign_in_button.dart';
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
 import 'package:chow_down/pages/sign_in/sign_in_manager.dart';

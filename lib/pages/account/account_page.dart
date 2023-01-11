@@ -1,17 +1,19 @@
 // 🐦 Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
@@ -125,41 +127,41 @@ class AccountPage extends StatelessWidget {
     }
   }
 
-  // Widget _buildUserInfo(User user) {
-  //   return Padding(
-  //     padding: EdgeInsets.all(15 * Responsive.ratioSquare),
-  //     child: Row(
-  //       children: [
-  //         Avatar(
-  //           radius: 15 * Responsive.ratioHorizontal,
-  //           photoUrl: user.photoURL,
-  //         ),
-  //         horizontalDivider(factor: 5),
-  //         user.displayName != null
-  //             ? Expanded(
-  //                 child: Text(
-  //                   user.displayName,
-  //                   style: TextStyle(
-  //                       color: ChowColors.white,
-  //                       fontSize: 5.5 * Responsive.ratioHorizontal),
-  //                 ),
-  //               )
-  //             : Expanded(
-  //                 child: Text(
-  //                   'Anonymous $_name',
-  //                   style: TextStyle(
-  //                       color: ChowColors.white,
-  //                       fontSize: 5.5 * Responsive.ratioHorizontal),
-  //                 ),
-  //               )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _buildUserInfo(User user) {
+    return Padding(
+      padding: EdgeInsets.all(15 * Responsive.ratioSquare),
+      child: Row(
+        children: [
+          Avatar(
+            radius: 8 * Responsive.ratioHorizontal,
+            photoUrl: user.photoURL,
+          ),
+          horizontalDivider(factor: 5),
+          user.displayName != null
+              ? Expanded(
+                  child: Text(
+                    user.displayName,
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                  ),
+                )
+              : Expanded(
+                  child: Text(
+                    '${user.email}',
+                    style: TextStyle(
+                        color: ChowColors.white,
+                        fontSize: 4 * Responsive.ratioHorizontal),
+                  ),
+                )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final auth = Provider.of<AuthBase>(context, listen: false);
+    final auth = Provider.of<AuthBase>(context, listen: false);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -194,8 +196,8 @@ class AccountPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                verticalDivider(factor: 2),
-
+                // verticalDivider(factor: 2),
+                _buildUserInfo(auth.currentUser),
                 // TODO: add lang tile for intl & raw string constants
                 ChowListTile(
                   onTap: () async {
@@ -272,7 +274,7 @@ class AccountPage extends StatelessWidget {
                     minimumSize:
                         Size.fromHeight(10 * Responsive.ratioHorizontal),
                     padding: defaultPadding(),
-                    primary: ChowColors.beige200,
+                    backgroundColor: ChowColors.beige200,
                   ),
                   onPressed: () => _confirmSignOut(context),
                   child: Text(

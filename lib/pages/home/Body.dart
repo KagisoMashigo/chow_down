@@ -1,7 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -80,7 +81,6 @@ class _HomePageState extends State<HomePage> {
                   } else if (state is ExtractLoaded) {
                     return _buildColumnWithData(state.extractedResult);
                   } else {
-                    print(state);
                     // error state snackbar
                     return _buildInitialInput(state);
                   }
@@ -211,7 +211,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildColumnWithData(Recipe searchResult) {
     final result = searchResult;
-    print(result);
     return Column(
       children: [
         verticalDivider(factor: 2),
