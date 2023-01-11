@@ -1,19 +1,19 @@
 // 🐦 Flutter imports:
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chow_down/components/avatar.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
