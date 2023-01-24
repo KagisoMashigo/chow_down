@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "873973766406-1ck5se5vpprgbeaq2f39p6qtvlnct2db.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.code_with_kakes.chow_down",
+            "certificate_hash": "e7287afc046e1e55c9ff7ff5d45afe2505f7f282"
+          }
+        },
+        {
           "client_id": "873973766406-84l9knq5ro99obl2g6io8n4q6bc9iae7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
