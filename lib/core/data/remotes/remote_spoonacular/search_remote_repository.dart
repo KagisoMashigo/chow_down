@@ -16,11 +16,12 @@ abstract class SearchRepository {
 
 class RemoteSearchRepository implements SearchRepository {
   final String apiKey = dotenv.env['api_key'];
+  final int results = 50;
 
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=20&sort=popularity&sortDirection=desc&addRecipeInformation';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=$results&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
       final response = await Dio().get(endpoint);
