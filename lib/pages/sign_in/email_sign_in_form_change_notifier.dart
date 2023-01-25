@@ -91,7 +91,10 @@ class _EmailSignInFormChangeNotifierState
       TextButton(
         child: Text(
           model.secondaryButtonText,
-          style: TextStyle(color: ChowColors.white),
+          style: TextStyle(
+            color: ChowColors.white,
+            fontSize: Responsive.ratioHorizontal * 4,
+          ),
         ),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
@@ -124,7 +127,10 @@ class _EmailSignInFormChangeNotifierState
       child: TextButton(
           child: Text(
             'Forgot your password?',
-            style: TextStyle(color: ChowColors.white),
+            style: TextStyle(
+              color: ChowColors.white,
+              fontSize: Responsive.ratioHorizontal * 4,
+            ),
           ),
           onPressed: () => _forgotPassword(context)),
       visible: visible,
