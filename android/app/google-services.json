@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "873973766406-d9j1mi5ff06me7to7080bpnflbnqsb3t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.code_with_kakes.chow_down",
+            "certificate_hash": "87d486f33537e6a3127f5a0f677c1dd3f5e86100"
+          }
+        },
+        {
           "client_id": "873973766406-phd850se9l4o0375md3bfbilbsn8sslv.apps.googleusercontent.com",
           "client_type": 3
         }
