@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -43,14 +45,16 @@ class CupertinoHomeScaffold extends StatelessWidget {
   }
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
+    final iconSize = Responsive.ratioHorizontal * 8;
     final itemData = TabItemData.allTabs[tabItem];
-    final color = currentTab == tabItem ? Colors.indigo : Colors.grey;
+    final color =
+        currentTab == tabItem ? Color.fromARGB(255, 0, 0, 0) : Colors.grey;
     return BottomNavigationBarItem(
       icon: Icon(
         itemData.icon,
         color: color,
+        size: iconSize,
       ),
-      label: itemData.label,
     );
   }
 }
