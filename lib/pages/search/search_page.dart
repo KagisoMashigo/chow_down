@@ -112,58 +112,30 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
+            padding: EdgeInsets.only(
+              top: Responsive.ratioVertical * 6.0,
+              bottom: Responsive.ratioVertical * 2.0,
+            ),
             child: SearchInputField(),
           ),
-          // Padding(
-          //   padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         'Results: ${recipes.length}',
-          //         style: TextStyle(
-          //           fontSize: 4.5 * Responsive.ratioHorizontal,
-          //           color: ChowColors.white,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: Responsive.ratioHorizontal * 6.0),
+            child: Row(
+              children: [
+                Text(
+                  '${recipes.length} recipes found:',
+                  style: TextStyle(
+                    fontSize: 3.75 * Responsive.ratioHorizontal,
+                    color: ChowColors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
           recipes.isNotEmpty
               ? Column(
                   children: [
-                    //     ListView.builder(
-                    //       physics: AlwaysScrollableScrollPhysics(),
-                    //       shrinkWrap: true,
-                    //       itemCount: recipes.length,
-                    //       itemBuilder: (context, index) {
-                    //         final recipe = recipes[index];
-                    //         return GestureDetector(
-                    //                                  onTap: () => Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                 builder: (context) => RecipeInfoPage(
-                    //                   title: recipes[index].title,
-                    //                   id: recipes[index].id,
-                    //                   sourceUrl: recipes[index].sourceUrl,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           child: RecipeCard(
-                    // loadingColor: ChowColors.blue300,
-                    //               id: recipes[index].id,
-                    //               name: recipes[index].title,
-                    //               imageUrl: recipes[index].image,
-                    //               url: recipes[index].sourceUrl,
-                    //               glutenFree: recipes[index].glutenFree,
-                    //               readyInMinutes: recipes[index].readyInMinutes,
-                    //               vegetarian: recipes[index].vegetarian,
-                    //               vegan: recipes[index].vegan,
-                    //               servings: recipes[index].servings,
-                    //           ),
-                    //         );
-                    //       },
-                    //     ),
                     Padding(
                       padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
                       child: Column(
