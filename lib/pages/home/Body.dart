@@ -28,12 +28,12 @@ class _HomePageState extends State<HomePage> {
   ) =>
       ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
 
-  final _formUrl = TextEditingController();
+  final _controller = TextEditingController();
   bool _validate = false;
 
   @override
   void dispose() {
-    _formUrl.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 5 * Responsive.ratioHorizontal),
                       child: TextField(
-                        controller: _formUrl,
+                        controller: _controller,
                         keyboardType: TextInputType.url,
                         style: TextStyle(color: ChowColors.white),
                         onSubmitted: (url) {
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 5 * Responsive.ratioHorizontal),
                       child: TextField(
-                        controller: _formUrl,
+                        controller: _controller,
                         keyboardType: TextInputType.url,
                         style: TextStyle(color: ChowColors.white),
                         onSubmitted: (url) {
@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
           padding:
               EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
           child: TextField(
-            controller: _formUrl,
+            controller: _controller,
             keyboardType: TextInputType.url,
             style: TextStyle(color: ChowColors.white),
             onSubmitted: (url) {
@@ -294,5 +294,6 @@ class _HomePageState extends State<HomePage> {
   void _submitForm(BuildContext context, String url) {
     final extractCubit = context.read<ExtractCubit>();
     extractCubit.fetchExtractedResult(url);
+    _controller.clear();
   }
 }
