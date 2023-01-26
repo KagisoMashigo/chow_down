@@ -24,8 +24,11 @@ class BaseCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.only(top: 12),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(this.borderRadius),
+        borderRadius: BorderRadius.all(
+          Radius.circular(borderRadius),
+        ),
       ),
+      elevation: 4.0,
       color: color,
       child: Container(
         width: double.infinity,

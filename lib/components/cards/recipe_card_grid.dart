@@ -66,19 +66,13 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
   ) {
     return results
         .map(
-          (recipe) => Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: ChowColors.offWhite,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 6.0,
-                  offset: const Offset(7, 0),
-                ),
-              ],
+          (recipe) => Card(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(16.0),
+              ),
             ),
+            elevation: 4.0,
             child: Column(
               children: <Widget>[
                 InkWell(

@@ -77,7 +77,6 @@ class RecipeCard extends StatelessWidget {
                   name.toString(),
                   style: TextStyle(
                     fontSize: 4 * Responsive.ratioHorizontal,
-                    // fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
@@ -89,11 +88,7 @@ class RecipeCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Card(
-                elevation: 2,
                 clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: CachedNetworkImage(
