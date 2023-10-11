@@ -5,13 +5,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> showAlertDialog(
+Future<dynamic> showAlertDialog(
   BuildContext context, {
-  @required bool isSave,
-  @required String title,
-  @required String content,
-  @required String defaultActionText,
-  String cancelActionText,
+  required bool isSave,
+  required String title,
+  required String content,
+  required String defaultActionText,
+  String? cancelActionText,
 }) {
   if (!Platform.isIOS) {
     return showDialog(
@@ -23,11 +23,10 @@ Future<bool> showAlertDialog(
             actions: isSave
                 ? null
                 : <Widget>[
-                    if (cancelActionText != null)
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(false),
-                        child: Text(cancelActionText),
-                      ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text(cancelActionText!),
+                    ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
                       child: Text(defaultActionText),
@@ -43,11 +42,10 @@ Future<bool> showAlertDialog(
           title: Text(title),
           content: Text(content),
           actions: <Widget>[
-            if (cancelActionText != null)
-              CupertinoDialogAction(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(cancelActionText),
-              ),
+            CupertinoDialogAction(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: Text(cancelActionText!),
+            ),
             CupertinoDialogAction(
               onPressed: () => Navigator.of(context).pop(true),
               child: Text(defaultActionText),

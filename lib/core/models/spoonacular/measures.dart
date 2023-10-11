@@ -16,7 +16,7 @@ class Measures {
   }
 
   toJson() => {
-        'us': us?.toJson(),
-        'metric': metric?.toJson(),
+        'us': us.toJson(),
+        'metric': metric.toJson(),
       };
 }

@@ -16,7 +16,7 @@ abstract class Database {
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
 
 class FirestoreDatabase implements Database {
-  FirestoreDatabase({@required this.uid}) : assert(uid != null);
+  FirestoreDatabase({required this.uid});
   final String uid;
 
   final _service = FirestoreService.instance;

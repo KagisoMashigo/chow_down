@@ -12,7 +12,7 @@ class BaseCard extends StatelessWidget {
   final double borderRadius;
 
   BaseCard({
-    @required this.child,
+    required this.child,
     this.color = ChowColors.white,
     this.borderRadius = 16,
     this.paddingHorizontal = 16,

@@ -23,9 +23,9 @@ import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class ExtractedInfoPage extends StatefulWidget {
   const ExtractedInfoPage({
-    Key key,
-    @required this.title,
-    this.id,
+    Key? key,
+    required this.title,
+    required this.id,
     this.sourceUrl,
   }) : super(key: key);
 
@@ -35,7 +35,7 @@ class ExtractedInfoPage extends StatefulWidget {
   /// Recipe id
   final int id;
 
-  final String sourceUrl;
+  final String? sourceUrl;
 
   @override
   _ExtractedInfoPageState createState() => _ExtractedInfoPageState();
@@ -43,7 +43,7 @@ class ExtractedInfoPage extends StatefulWidget {
 
 class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
   final List<bool> _isSelected = [];
-  Database _database;
+  late Database _database;
 
   /// Initial selected button
   int _currentIndex = 0;
@@ -99,7 +99,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
   }
 
   /// Determines which conditions to render on screen
-  Widget _whichCard(int index, Recipe recipe) {
+  Widget? _whichCard(int index, Recipe recipe) {
     // List desiredConditions = [];
     switch (index) {
       case 0:
@@ -153,7 +153,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
         child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
           listener: (context, state) {
             if (state is RecipInfoError) {
-              return ScaffoldMessenger.of(context).showSnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
                 ),
@@ -279,7 +279,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                   ),
                 ),
                 verticalDivider(factor: 2),
-                _whichCard(_currentIndex, recipe),
+                _whichCard(_currentIndex, recipe)!,
                 verticalDivider(factor: 15),
               ],
             ),

@@ -60,7 +60,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
             child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
               listener: (context, state) {
                 if (state is RecipTabError) {
-                  return ScaffoldMessenger.of(context).showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message),
                     ),

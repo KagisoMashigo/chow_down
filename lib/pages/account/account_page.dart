@@ -134,13 +134,13 @@ class AccountPage extends StatelessWidget {
         children: [
           Avatar(
             radius: 8 * Responsive.ratioHorizontal,
-            photoUrl: user.photoURL,
+            photoUrl: user.photoURL!,
           ),
           horizontalDivider(factor: 5),
           user.displayName != null
               ? Expanded(
                   child: Text(
-                    user.displayName,
+                    user.displayName!,
                     style: TextStyle(
                         color: ChowColors.white,
                         fontSize: 5.5 * Responsive.ratioHorizontal),

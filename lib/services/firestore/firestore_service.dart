@@ -51,7 +51,7 @@ class FirestoreService {
 
       final CollectionReference<Recipe> convertedCollection =
           _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
+        fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()!),
         toFirestore: (recipe, _) => recipe.toJson(),
       );
 
@@ -71,7 +71,7 @@ class FirestoreService {
     }
   }
 
-  Future<List<Recipe>> fetchSavedRecipes({@required String path}) async {
+  Future<List<Recipe>> fetchSavedRecipes({required String path}) async {
     try {
       final CollectionReference _collectionRef =
           FirebaseFirestore.instance.collection(path);

@@ -19,6 +19,6 @@ class AnalyzedInstruction {
   toJson() => {
         'name': name,
         'steps':
-            steps?.map((e) => e != null ? e?.toJson() : '')?.toList() ?? [],
+            steps.map((e) => e != null ? e.toJson() : '').toList() ?? [],
       };
 }

@@ -137,40 +137,38 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   // TODO: edit the actual email sent back
   Widget _showAlert() {
-    if (_alert != null) {
-      return Container(
-        width: 1 * Responsive.ratioHorizontal,
-        padding: defaultPadding(),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: defaultPadding(),
-              child: Icon(Icons.error_outline),
+    return Container(
+      width: 1 * Responsive.ratioHorizontal,
+      padding: defaultPadding(),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: defaultPadding(),
+            child: Icon(Icons.error_outline),
+          ),
+          Expanded(
+            child: AutoSizeText(
+              _alert,
+              maxLines: 3,
             ),
-            Expanded(
-              child: AutoSizeText(
-                _alert,
-                maxLines: 3,
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 2 * Responsive.ratioHorizontal),
+            child: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                setState(
+                  () {
+                    _alert = null;
+                  },
+                );
+              },
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 2 * Responsive.ratioHorizontal),
-              child: IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(
-                    () {
-                      _alert = null;
-                    },
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      );
-    }
-    return verticalDivider(
+          )
+        ],
+      ),
+    );
+      return verticalDivider(
       factor: 0,
     );
   }

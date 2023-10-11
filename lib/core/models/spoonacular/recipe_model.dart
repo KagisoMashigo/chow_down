@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class Recipe {
   bool vegetarian;
   bool vegan;
@@ -197,8 +199,8 @@ class Recipe {
         'sourceName': sourceName,
         'pricePerServing': pricePerServing,
         'extendedIngredients': extendedIngredients
-                ?.map((e) => e != null ? e?.toJson() : null)
-                ?.toList() ??
+                .map((e) => e != null ? e.toJson() : null)
+                .toList() ??
             [],
         'readyInMinutes': readyInMinutes,
         'servings': servings,
@@ -212,8 +214,8 @@ class Recipe {
         'occasions': occasions,
         'instructions': instructions,
         'analyzedInstructions': analyzedInstructions
-                ?.map((e) => e != null ? e?.toJson() : null)
-                ?.toList() ??
+                .map((e) => e != null ? e.toJson() : null)
+                .toList() ??
             [],
         'originalId': originalId,
         'spoonacularSourceUrl': spoonacularSourceUrl,

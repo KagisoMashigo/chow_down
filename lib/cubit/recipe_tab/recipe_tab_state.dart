@@ -17,7 +17,7 @@ class RecipeTabLoading extends RecipeTabState {
 
 class RecipeTabLoaded extends RecipeTabState {
   const RecipeTabLoaded(this.recipeCardList);
-  final List<Object> recipeCardList;
+  final List<Recipe> recipeCardList;
 
   // TODO: incorporate freezed later on as this is not prod viable
   @override

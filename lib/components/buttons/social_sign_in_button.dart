@@ -12,9 +12,7 @@ class SocialSignInButton extends CustomElevatedButton {
     Color color,
     Color textColor,
     VoidCallback onPressed,
-  })  : assert(pictureWidget != null),
-        assert(text != null),
-        super(
+  })  : super(
           child: Row(
             // The below is a great hack when spacing two children evenly
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

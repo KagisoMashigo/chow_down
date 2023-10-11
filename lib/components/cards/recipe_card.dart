@@ -14,20 +14,20 @@ import 'package:chow_down/plugins/utils/helpers.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({
-    Key key,
-    @required this.id,
-    @required this.name,
-    @required this.imageUrl,
-    @required this.url,
+    Key? key,
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+    required this.url,
     this.imageType,
-    @required this.readyInMinutes,
-    @required this.vegetarian,
-    @required this.vegan,
-    @required this.servings,
-    @required this.glutenFree,
+    required this.readyInMinutes,
+    required this.vegetarian,
+    required this.vegan,
+    required this.servings,
+    required this.glutenFree,
     this.extendedIngredients,
     this.analyzedInstructions,
-    @required this.loadingColor,
+    required this.loadingColor,
   }) : super(key: key);
 
   /// Recipe id
@@ -41,7 +41,7 @@ class RecipeCard extends StatelessWidget {
 
   final String url;
 
-  final String imageType;
+  final String? imageType;
 
   final int readyInMinutes;
 
@@ -55,9 +55,9 @@ class RecipeCard extends StatelessWidget {
 
   final int servings;
 
-  final List<ExtendedIngredients> extendedIngredients;
+  final List<ExtendedIngredients>? extendedIngredients;
 
-  final List<AnalyzedInstruction> analyzedInstructions;
+  final List<AnalyzedInstruction>? analyzedInstructions;
 
   String _isVegetarian(bool veg) => veg ? 'Vegetarian' : 'Omnivore';
 

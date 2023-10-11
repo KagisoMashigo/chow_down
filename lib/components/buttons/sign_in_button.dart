@@ -11,8 +11,7 @@ class SignInButton extends CustomElevatedButton {
     Color color,
     Color textColor,
     VoidCallback onPressed,
-  })  : assert(text != null),
-        super(
+  })  : super(
           child: Text(
             text,
             style: TextStyle(

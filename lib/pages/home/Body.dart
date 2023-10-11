@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
               child: BlocConsumer<ExtractCubit, ExtractState>(
                 listener: (context, state) {
                   if (state is ExtractError) {
-                    return ScaffoldMessenger.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(state.message),
                       ),

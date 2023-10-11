@@ -84,6 +84,6 @@ class Auth implements AuthBase {
 
   @override
   Future<void> deleteUser() async {
-    await _firebaseAuth.currentUser.delete();
+    await _firebaseAuth.currentUser?.delete();
   }
 }

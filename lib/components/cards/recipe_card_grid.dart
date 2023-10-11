@@ -15,8 +15,8 @@ import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
 class RecipeCardGrid extends StatefulWidget {
   const RecipeCardGrid({
-    Key key,
-    @required this.searchResultList,
+    Key? key,
+    required this.searchResultList,
   }) : super(key: key);
 
   final List<Recipe> searchResultList;
