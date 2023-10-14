@@ -7,41 +7,41 @@ part 'recipe_model.g.dart';
 
 @JsonSerializable()
 class Recipe {
-  bool? vegetarian;
-  bool? vegan;
-  bool? glutenFree;
-  bool? dairyFree;
-  bool? veryHealthy;
-  bool? cheap;
-  bool? veryPopular;
-  bool? sustainable;
-  int? weightWatcherSmartPoints;
-  String? gaps;
-  bool? lowFodmap;
-  int? aggregateLikes;
-  double? spoonacularScore;
-  int? healthScore;
-  String? creditsText;
-  String? license;
-  String? sourceName;
-  double? pricePerServing;
-  List<ExtendedIngredients>? extendedIngredients;
-  int? id;
-  String? title;
-  int? readyInMinutes;
-  int? servings;
-  String? sourceUrl;
-  String? image;
-  String? imageType;
-  String? summary;
-  List<dynamic>? cuisines;
-  List<dynamic>? dishTypes;
-  List<dynamic>? diets;
-  List<dynamic>? occasions;
-  String instructions;
-  List<AnalyzedInstruction>? analyzedInstructions;
-  dynamic originalId;
-  String? spoonacularSourceUrl;
+  final bool? vegetarian;
+  final bool? vegan;
+  final bool? glutenFree;
+  final bool? dairyFree;
+  final bool? veryHealthy;
+  final bool? cheap;
+  final bool? veryPopular;
+  final bool? sustainable;
+  final int? weightWatcherSmartPoints;
+  final String? gaps;
+  final bool? lowFodmap;
+  final int? aggregateLikes;
+  final double? spoonacularScore;
+  final int? healthScore;
+  final String? creditsText;
+  final String? license;
+  final String? sourceName;
+  final double? pricePerServing;
+  final List<ExtendedIngredients>? extendedIngredients;
+  final int id;
+  final String title;
+  final int? readyInMinutes;
+  final int? servings;
+  final String? sourceUrl;
+  final String image;
+  final String? imageType;
+  final String? summary;
+  final List<dynamic>? cuisines;
+  final List<dynamic>? dishTypes;
+  final List<dynamic>? diets;
+  final List<dynamic>? occasions;
+  final String instructions;
+  final List<AnalyzedInstruction>? analyzedInstructions;
+  final dynamic originalId;
+  final String? spoonacularSourceUrl;
 
   Recipe({
     this.vegetarian,
@@ -63,12 +63,12 @@ class Recipe {
     this.sourceName,
     this.pricePerServing,
     this.extendedIngredients,
-    this.id,
-    this.title,
+    required this.id,
+    required this.title,
     this.readyInMinutes,
     this.servings,
     this.sourceUrl,
-    this.image,
+    required this.image,
     this.imageType,
     this.summary,
     this.cuisines,

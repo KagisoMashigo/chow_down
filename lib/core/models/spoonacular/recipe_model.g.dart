@@ -28,12 +28,12 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       extendedIngredients: (json['extendedIngredients'] as List<dynamic>?)
           ?.map((e) => ExtendedIngredients.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as int?,
-      title: json['title'] as String?,
+      id: json['id'] as int,
+      title: json['title'] as String,
       readyInMinutes: json['readyInMinutes'] as int?,
       servings: json['servings'] as int?,
       sourceUrl: json['sourceUrl'] as String?,
-      image: json['image'] as String?,
+      image: json['image'] as String,
       imageType: json['imageType'] as String?,
       summary: json['summary'] as String?,
       cuisines: json['cuisines'] as List<dynamic>?,
