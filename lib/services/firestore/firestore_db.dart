@@ -1,6 +1,3 @@
-// 📦 Package imports:
-import 'package:meta/meta.dart';
-
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/services/firestore/firestore_api_path.dart';
