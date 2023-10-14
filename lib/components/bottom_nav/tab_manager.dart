@@ -37,7 +37,7 @@ class _TabManagerState extends State<TabManager> {
     // This allows you to pop back to (the home) of the currently selected tab
     if (tabItem == _currentTab) {
       // TODO: review now that there is a new tab
-      navigatorKeys[tabItem].currentState.popUntil(
+      navigatorKeys[tabItem]!.currentState!.popUntil(
             (route) => route.isFirst,
           );
     } else {
@@ -49,7 +49,7 @@ class _TabManagerState extends State<TabManager> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async =>
-          !await navigatorKeys[_currentTab].currentState.maybePop(),
+          !await navigatorKeys[_currentTab]!.currentState!.maybePop(),
       child: CupertinoHomeScaffold(
         navigatorKeys: navigatorKeys,
         currentTab: _currentTab,

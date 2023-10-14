@@ -14,16 +14,16 @@ import 'package:chow_down/plugins/utils/helpers.dart';
 
 class RecipeDescCard extends StatelessWidget {
   const RecipeDescCard({
-    Key key,
-    @required this.readyInMinutes,
-    @required this.servings,
-    @required this.creditsText,
-    @required this.glutenFree,
-    @required this.vegetarian,
-    @required this.summary,
-    @required this.ingredients,
-    @required this.sourceUrl,
-    @required this.veryHealthy,
+    Key? key,
+    required this.readyInMinutes,
+    required this.servings,
+    required this.creditsText,
+    required this.glutenFree,
+    required this.vegetarian,
+    required this.summary,
+    required this.ingredients,
+    required this.sourceUrl,
+    required this.veryHealthy,
   }) : super(key: key);
 
   final int readyInMinutes;

@@ -8,18 +8,18 @@ import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 
 class RecipeInstCard extends StatelessWidget {
   const RecipeInstCard({
-    Key key,
+    Key? key,
     this.analyzedInstructions,
-    @required this.instructions,
+    required this.instructions,
   }) : super(key: key);
 
-  final List<AnalyzedInstruction> analyzedInstructions;
+  final List<AnalyzedInstruction>? analyzedInstructions;
 
   final String instructions;
 
   @override
   Widget build(BuildContext context) {
-    final actualSteps = analyzedInstructions[0].steps;
+    final actualSteps = analyzedInstructions![0].steps;
 
     return BaseCard(
       child: Column(

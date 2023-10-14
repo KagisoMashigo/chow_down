@@ -10,8 +10,8 @@ class ChowBaseText extends StatelessWidget {
   final double fontSize;
 
   ChowBaseText({
-    @required this.child,
-    @required this.text,
+    required this.child,
+    required this.text,
     this.fontSize = 4,
   });
 

@@ -9,13 +9,13 @@ import 'package:chow_down/components/design/responsive.dart';
 
 class RecipeDietCard extends StatelessWidget {
   const RecipeDietCard({
-    Key key,
-    @required this.glutenFree,
-    @required this.vegetarian,
-    this.dairyFree,
+    Key? key,
+    required this.glutenFree,
+    required this.vegetarian,
+    required this.dairyFree,
     this.veryHealthy,
-    this.vegan,
-    this.healthScore,
+    required this.vegan,
+    required this.healthScore,
   }) : super(key: key);
 
   final bool glutenFree;
@@ -28,7 +28,7 @@ class RecipeDietCard extends StatelessWidget {
 
   final bool dairyFree;
 
-  final bool veryHealthy;
+  final bool? veryHealthy;
 
   @override
   Widget build(BuildContext context) {

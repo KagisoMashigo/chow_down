@@ -6,7 +6,7 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 class CostcoSearchDelegate extends SearchDelegate {
   CostcoSearchDelegate({
-    @required this.searchResults,
+    required this.searchResults,
     this.enableSuggestions = true,
   });
   List<Recipe> searchResults;

@@ -89,7 +89,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                         builder: (context) => RecipeInfoPage(
                           title: recipe.title,
                           id: recipe.id,
-                          sourceUrl: recipe.sourceUrl,
+                          sourceUrl: recipe.sourceUrl!,
                         ),
                         fullscreenDialog: true,
                       ),

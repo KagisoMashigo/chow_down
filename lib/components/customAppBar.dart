@@ -6,23 +6,23 @@ import 'package:chow_down/components/design/responsive.dart';
 
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({
-    Key key,
+    Key? key,
     this.imgUrl,
-    @required this.title,
-    @required this.body,
+    required this.title,
+    required this.body,
     this.bottomNav,
     this.color,
   }) : super(key: key);
 
-  final String imgUrl;
+  final String? imgUrl;
 
   final String title;
 
   final Widget body;
 
-  final Widget bottomNav;
+  final Widget? bottomNav;
 
-  final Color color;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class CustomLogoAppBar extends StatelessWidget {
               ),
             ),
             Image.asset(
-              imgUrl,
+              imgUrl!,
               height: 10 * Responsive.ratioHorizontal,
               width: 10 * Responsive.ratioHorizontal,
               fit: BoxFit.cover,

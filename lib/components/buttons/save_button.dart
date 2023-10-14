@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class ChowSaveButton extends StatelessWidget {
   ChowSaveButton({
-    Key key,
+    Key? key,
     this.onTap,
-    @required this.isButtonTapped,
+    required this.isButtonTapped,
   }) : super(key: key);
 
   final onTap;

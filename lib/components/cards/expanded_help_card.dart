@@ -7,7 +7,7 @@ import 'package:chow_down/components/design/responsive.dart';
 
 class HelpCard extends StatelessWidget {
   const HelpCard({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

@@ -8,22 +8,22 @@ import 'package:chow_down/components/design/responsive.dart';
 
 /// Creates a [Snackbar] with an error notification to be given to a [ScaffoldMessengerState.showSnackBar].
 /// The text is the with the key for the [I18n.error] topic.
-SnackBar errorNotification(
-  String key, {
-  String value,
-  @required StackTrace stack,
-}) {
-  // TODO: i18n package
-  // String errorMessage =
-  // value == null ? i18n(I18n.error, key) : i18n(I18n.error, key, value);
+// SnackBar errorNotification(
+//   String? key, {
+//   String? value,
+//   required StackTrace stack,
+// }) {
+//   // TODO: i18n package
+//   // String errorMessage =
+//   // value == null ? i18n(I18n.error, key) : i18n(I18n.error, key, value);
 
-  // if (errorMessage == null) {
-  //   reportTranslationError('key $key is not existing', stack);
-  //   errorMessage = i18n(I18n.error, 'default');
-  // }
+//   // if (errorMessage == null) {
+//   //   reportTranslationError('key $key is not existing', stack);
+//   //   errorMessage = i18n(I18n.error, 'default');
+//   // }
 
-  // return warningSnackBar(errorMessage);
-}
+//   // return warningSnackBar(errorMessage);
+// }
 
 /// A [SnackBar] with a text that cannot be null, to be given to a [ScaffoldMessengerState.showSnackBar]
 ///

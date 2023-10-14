@@ -7,12 +7,12 @@ import 'package:chow_down/components/design/responsive.dart';
 
 class SocialSignInButton extends CustomElevatedButton {
   SocialSignInButton({
-    @required Widget pictureWidget,
-    @required String text,
-    Color color,
-    Color textColor,
-    VoidCallback onPressed,
-  })  : super(
+    required Widget pictureWidget,
+    required String text,
+    Color? color,
+    Color? textColor,
+    required VoidCallback onPressed,
+  }) : super(
           child: Row(
             // The below is a great hack when spacing two children evenly
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
