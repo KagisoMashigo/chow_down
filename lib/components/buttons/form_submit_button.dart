@@ -8,9 +8,9 @@ import 'package:chow_down/components/design/responsive.dart';
 
 class FormSubmitButton extends CustomElevatedButton {
   FormSubmitButton({
-    @required String text,
-    VoidCallback onPressed,
-    Color color,
+    required String text,
+    final VoidCallback? onPressed,
+    final Color? color,
   }) : super(
           child: Text(
             text,
@@ -20,8 +20,8 @@ class FormSubmitButton extends CustomElevatedButton {
             ),
           ),
           height: 6 * Responsive.ratioVertical,
-          color: color,
+          color: color!,
           borderRadius: 4.0,
-          onPressed: onPressed,
+          onPressed: onPressed!,
         );
 }

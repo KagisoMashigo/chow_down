@@ -16,7 +16,7 @@ import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/services/auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
-  ForgotPasswordPage({@required this.model});
+  ForgotPasswordPage({required this.model});
   final EmailSignInChangeModel model;
 
   static Widget create(BuildContext context) {
@@ -37,7 +37,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final FocusNode _emailFocusNode = FocusNode();
   EmailSignInChangeModel get model => widget.model;
-  String _alert;
+  String? _alert;
 
   @override
   void initState() {
@@ -148,7 +148,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           Expanded(
             child: AutoSizeText(
-              _alert,
+              _alert!,
               maxLines: 3,
             ),
           ),
@@ -167,9 +167,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           )
         ],
       ),
-    );
-      return verticalDivider(
-      factor: 0,
     );
   }
 

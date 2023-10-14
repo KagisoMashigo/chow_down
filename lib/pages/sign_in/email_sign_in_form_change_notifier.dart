@@ -15,7 +15,7 @@ import 'package:chow_down/pages/forgot_password.dart';
 import 'package:chow_down/services/auth.dart';
 
 class EmailSignInFormChangeNotifier extends StatefulWidget {
-  EmailSignInFormChangeNotifier({@required this.model});
+  EmailSignInFormChangeNotifier({required this.model});
   final EmailSignInChangeModel model;
 
   static Widget create(BuildContext context) {

@@ -202,7 +202,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: recipe.image!,
+                  imageUrl: recipe.image,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -218,7 +218,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        recipe.title!,
+                        recipe.title,
                         style: TextStyle(
                           fontSize: 7 * Responsive.ratioHorizontal,
                           fontWeight: FontWeight.bold,
