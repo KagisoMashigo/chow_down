@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'nutrients.g.dart';
+
 @JsonSerializable()
 class Nutrient {
   final String calories;
@@ -16,16 +18,6 @@ class Nutrient {
     this.bad,
     this.protein,
   });
-  factory Nutrient.fromJson(Map<String, dynamic> json) {
-    return Nutrient(
-      calories: json['calories'],
-      carbs: json['carbs'],
-      fat: json['fat'],
-      protein: json['protein'],
-      bad: (json['bad'] as List).map((hmm) => Needs.formJson(hmm)).toList(),
-      good: (json['good'] as List).map((hmm) => Needs.formJson(hmm)).toList(),
-    );
-  }
 }
 
 @JsonSerializable()
@@ -38,11 +30,8 @@ class Needs {
     this.amount,
     this.percentOfDailyNeeds,
   });
-  factory Needs.formJson(Map<String, dynamic> json) {
-    return Needs(
-      name: json.containsKey('title') ? json['title'] : json['name'],
-      amount: json['amount'],
-      percentOfDailyNeeds: json['percentOfDailyNeeds'].toString(),
-    );
-  }
+
+  factory Needs.fromJson(Map<String, dynamic> json) => _$NeedsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NeedsToJson(this);
 }

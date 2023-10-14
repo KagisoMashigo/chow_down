@@ -3,6 +3,8 @@ import 'package:chow_down/core/models/spoonacular/metric.dart';
 import 'package:chow_down/core/models/spoonacular/us.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'measures.g.dart';
+
 @JsonSerializable()
 class Measures {
   final Us? us;
@@ -13,15 +15,8 @@ class Measures {
     this.metric,
   });
 
-  factory Measures.fromJson(Map<String, dynamic> json) {
-    return Measures(
-      us: Us.fromJson(json['us']),
-      metric: Metric.fromJson(json['metric']),
-    );
-  }
+  factory Measures.fromJson(Map<String, dynamic> json) =>
+      _$MeasuresFromJson(json);
 
-  toJson() => {
-        'us': us?.toJson(),
-        'metric': metric?.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$MeasuresToJson(this);
 }

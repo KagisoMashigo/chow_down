@@ -3,6 +3,8 @@ import 'package:chow_down/core/models/spoonacular/ingredients.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'equipment.dart';
 
+part 'steps.g.dart';
+
 @JsonSerializable()
 class Step {
   final int number;
@@ -17,21 +19,7 @@ class Step {
     this.equipment,
   });
 
-  factory Step.fromJson(json) => Step(
-        number: json['number'] as int,
-        step: json['step'] as String,
-        ingredients: (json['ingredients'] as List<dynamic>)
-            .map((e) => Ingredient.fromJson(e))
-            .toList(),
-        equipment: (json['equipment'] as List<dynamic>)
-            .map((e) => Equipment.fromJson(e))
-            .toList(),
-      );
+  factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
 
-  toJson() => {
-        'number': number,
-        'step': step,
-        'ingredients': ingredients?.map((e) => e.toJson()).toList(),
-        'equipment': equipment?.map((e) => e.toJson()).toList(),
-      };
+  Map<String, dynamic> toJson() => _$StepToJson(this);
 }

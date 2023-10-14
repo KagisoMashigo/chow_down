@@ -42,7 +42,7 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       occasions: json['occasions'] as List<dynamic>?,
       instructions: json['instructions'] as String,
       analyzedInstructions: (json['analyzedInstructions'] as List<dynamic>?)
-          ?.map(AnalyzedInstruction.fromJson)
+          ?.map((e) => AnalyzedInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
       originalId: json['originalId'],
       spoonacularSourceUrl: json['spoonacularSourceUrl'] as String?,

@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'metric.g.dart';
+
 @JsonSerializable()
 class Metric {
   final double? amount;
@@ -12,15 +14,7 @@ class Metric {
     this.unitLong,
   });
 
-  factory Metric.fromJson(json) => Metric(
-        amount: (json['amount'] as num).toDouble(),
-        unitShort: json['unitShort'] as String,
-        unitLong: json['unitLong'] as String,
-      );
+  factory Metric.fromJson(Map<String, dynamic> json) => _$MetricFromJson(json);
 
-  toJson() => {
-        'amount': amount,
-        'unitShort': unitShort,
-        'unitLong': unitLong,
-      };
+  Map<String, dynamic> toJson() => _$MetricToJson(this);
 }

@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'ingredients.g.dart';
+
 @JsonSerializable()
 class Ingredient {
   final int id;
@@ -14,17 +16,8 @@ class Ingredient {
     this.image,
   });
 
-  factory Ingredient.fromJson(json) => Ingredient(
-        id: json['id'] as int,
-        name: json['name'] as String,
-        localizedName: json['localizedName'] as String,
-        image: json['image'] as String,
-      );
+  factory Ingredient.fromJson(Map<String, dynamic> json) =>
+      _$IngredientFromJson(json);
 
-  toJson() => {
-        'id': id,
-        'name': name,
-        'localizedName': localizedName,
-        'image': image,
-      };
+  Map<String, dynamic> toJson() => _$IngredientToJson(this);
 }

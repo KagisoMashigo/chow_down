@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'equipment.g.dart';
+
 @JsonSerializable()
 class Equipment {
   final String name;
@@ -13,20 +15,10 @@ class Equipment {
     this.image,
   });
 
-  factory Equipment.fromJson(Map<String, dynamic> json) {
-    return Equipment(
-        image: "https://spoonacular.com/cdn/equipment_100x100/${json['image']}",
-        name: json['name'],
-        localizedName: json['localizedName'],
-        id: json['id']);
-  }
+  factory Equipment.fromJson(Map<String, dynamic> json) =>
+      _$EquipmentFromJson(json);
 
-  toJson() => {
-        'id': id,
-        'name': name,
-        'localizedName': localizedName,
-        'image': image,
-      };
+  Map<String, dynamic> toJson() => _$EquipmentToJson(this);
 }
 
 @JsonSerializable()
@@ -35,9 +27,9 @@ class EquipmentList {
   EquipmentList({
     required this.items,
   });
-  factory EquipmentList.fromJson(List<dynamic> list) {
-    return new EquipmentList(
-      items: list.map((data) => Equipment.fromJson(data)).toList(),
-    );
-  }
+
+  factory EquipmentList.fromJson(Map<String, dynamic> json) =>
+      _$EquipmentListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EquipmentListToJson(this);
 }

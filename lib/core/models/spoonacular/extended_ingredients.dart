@@ -2,6 +2,8 @@
 import 'package:chow_down/core/models/spoonacular/measures.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'extended_ingredients.g.dart';
+
 @JsonSerializable()
 class ExtendedIngredients {
   final int id;
@@ -36,39 +38,8 @@ class ExtendedIngredients {
     this.measures,
   });
 
-  factory ExtendedIngredients.fromJson(Map<String, dynamic> json) {
-    return ExtendedIngredients(
-      id: json['id'],
-      aisle: json['aisle'],
-      image: json['image'],
-      consistency: json['consistency'],
-      name: json['name'],
-      nameClean: json['nameClean'],
-      original: json['original'],
-      originalString: json['originalString'],
-      originalName: json['originalName'],
-      amount: json['amount'],
-      unit: json['unit'],
-      meta: json['meta'],
-      metaInformation: json['metaInformation'],
-      measures: Measures.fromJson(json['measures']),
-    );
-  }
+  factory ExtendedIngredients.fromJson(Map<String, dynamic> json) =>
+      _$ExtendedIngredientsFromJson(json);
 
-  toJson() => {
-        'id': id,
-        'aisle': aisle,
-        'image': image,
-        'consistency': consistency,
-        'name': name,
-        'nameClean': nameClean,
-        'original': original,
-        'originalString': originalString,
-        'originalName': originalName,
-        'amount': amount,
-        'unit': unit,
-        'meta': meta,
-        'metaInformation': metaInformation,
-        'measures': measures?.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$ExtendedIngredientsToJson(this);
 }

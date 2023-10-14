@@ -2,6 +2,8 @@
 import 'package:chow_down/core/models/spoonacular/steps.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'analysed_instructions.g.dart';
+
 @JsonSerializable()
 class AnalyzedInstruction {
   final String name;
@@ -9,17 +11,8 @@ class AnalyzedInstruction {
 
   AnalyzedInstruction({required this.name, required this.steps});
 
-  factory AnalyzedInstruction.fromJson(json) {
-    return AnalyzedInstruction(
-      name: json['name'] as String,
-      steps: (json['steps'] as List<dynamic>)
-          .map((e) => Step.fromJson(e))
-          .toList(),
-    );
-  }
+  factory AnalyzedInstruction.fromJson(Map<String, dynamic> json) =>
+      _$AnalyzedInstructionFromJson(json);
 
-  toJson() => {
-        'name': name,
-        'steps': steps.map((e) => e != null ? e.toJson() : '').toList() ?? [],
-      };
+  Map<String, dynamic> toJson() => _$AnalyzedInstructionToJson(this);
 }

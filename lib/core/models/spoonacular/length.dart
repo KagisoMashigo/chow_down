@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'length.g.dart';
+
 @JsonSerializable()
 class Length {
   final int? number;
@@ -10,13 +12,7 @@ class Length {
     this.unit,
   });
 
-  factory Length.fromJson(json) => Length(
-        number: json['number'] as int,
-        unit: json['unit'] as String,
-      );
+  factory Length.fromJson(Map<String, dynamic> json) => _$LengthFromJson(json);
 
-  toJson() => {
-        'number': number,
-        'unit': unit,
-      };
+  Map<String, dynamic> toJson() => _$LengthToJson(this);
 }

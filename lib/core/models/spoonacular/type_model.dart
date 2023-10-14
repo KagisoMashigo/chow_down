@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+part 'type_model.g.dart';
+
 @JsonSerializable()
 class FoodType {
   final String id;
@@ -14,15 +16,11 @@ class FoodType {
     this.readyInMinutes,
     this.servings,
   });
-  factory FoodType.fromJson(Map<String, dynamic> json) {
-    return FoodType(
-      id: json['id'].toString(),
-      name: json['title'],
-      image: json['image'],
-      readyInMinutes: json['readyInMinutes'].toString(),
-      servings: json['servings'].toString(),
-    );
-  }
+
+  factory FoodType.fromJson(Map<String, dynamic> json) =>
+      _$FoodTypeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FoodTypeToJson(this);
 }
 
 @JsonSerializable()
@@ -32,9 +30,8 @@ class FoodTypeList {
     required this.list,
   });
 
-  factory FoodTypeList.fromJson(List<dynamic> json) {
-    return FoodTypeList(
-      list: json.map((data) => FoodType.fromJson(data)).toList(),
-    );
-  }
+  factory FoodTypeList.fromJson(Map<String, dynamic> json) =>
+      _$FoodTypeListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FoodTypeListToJson(this);
 }
