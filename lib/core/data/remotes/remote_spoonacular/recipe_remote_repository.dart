@@ -1,5 +1,6 @@
 // 🎯 Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
@@ -16,7 +17,8 @@ abstract class RecipeRepository {
 }
 
 class RemoteRecipe implements RecipeRepository {
-  final String apiKey = dotenv.env['api_key'];
+  final String apiKey = dotenv.env['api_key']!;
+  final dioClient = Dio();
 
   Future<Recipe> getExistingRecipe(int id, String sourceUrl) async {
     /// The first part of the function finds extracted recipes
@@ -25,7 +27,7 @@ class RemoteRecipe implements RecipeRepository {
       if (id == -1) {
         final endpoint =
             'https://api.spoonacular.com/recipes/extract?url=$sourceUrl&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
-        final response = await Dio().get(endpoint);
+        final response = await dioClient.get(endpoint);
         final body = json.decode(response.toString());
         return Recipe.fromJson(body);
       } else {
@@ -33,32 +35,38 @@ class RemoteRecipe implements RecipeRepository {
         final endpoint =
             'https://api.spoonacular.com/recipes/$id/information?apiKey=$apiKey';
 
-        final response = await Dio().get(endpoint);
+        final response = await dioClient.get(endpoint);
         final body = json.decode(response.toString());
         return Recipe.fromJson(body);
       }
     } on SocketException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'There was a problem extracting the recipe');
-    } on DioError catch (e) {
-      print(e);
-      if (e.type == DioErrorType.connectTimeout) {
+    } on DioException catch (e) {
+      log(e.message!);
+      if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: "Connection  Timeout Exception");
       }
-      if (e.response.statusCode == 503) {
+      if (e.response?.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
-      } else if (e.response.statusCode == 400) {
+      } else if (e.response?.statusCode == 400) {
         throw Failure(
           message:
-              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
           code: 400,
+        );
+      } else {
+        throw Failure(
+          message:
+              'There was a problem extracting the recipe. Error code: ${e.response?.statusCode}.',
+          code: e.response?.statusCode,
         );
       }
     }
@@ -70,38 +78,44 @@ class RemoteRecipe implements RecipeRepository {
         'https://api.spoonacular.com/recipes/extract?url=$url/&apiKey=$apiKey&analyze=true&forceExtraction=true&addRecipeInformation=true';
 
     try {
-      final response = await Dio().get(endpoint);
+      final response = await dioClient.get(endpoint);
       final body = json.decode(response.toString());
 
       if (response.data['image'] != null) {
         return Recipe.fromJson(body);
+      } else {
+        throw Failure(
+            message:
+                'There was a problem extracting the data, please try again later');
       }
-
-      throw Failure(
-          message:
-              'There was a problem extracting the data, please try again later');
     } on SocketException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'There was a problem extracting the recipe');
-    } on DioError catch (e) {
-      print(e);
-      if (e.type == DioErrorType.connectTimeout) {
+    } on DioException catch (e) {
+      log(e.message!);
+      if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: "Connection  Timeout Exception");
       }
-      if (e.response.statusCode == 503) {
+      if (e.response?.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
-      } else if (e.response.statusCode == 400) {
+      } else if (e.response?.statusCode == 400) {
         throw Failure(
           message:
-              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
+              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
           code: 400,
+        );
+      } else {
+        throw Failure(
+          message:
+              'There was a problem extracting the recipe. Error code: ${e.response?.statusCode}.',
+          code: e.response?.statusCode,
         );
       }
     }

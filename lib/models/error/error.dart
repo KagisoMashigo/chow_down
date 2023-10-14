@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'error.g.dart';
+
 enum ErrorType {
   unknown,
   network,
@@ -10,15 +14,16 @@ enum ErrorType {
   timeout,
 }
 
+@JsonSerializable()
 class ApiErrorResponse {
   final int code;
   final String message;
-  final String type;
-  final String subtype;
+  final String? type;
+  final String? subtype;
 
   ApiErrorResponse({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.type,
     this.subtype,
   });
@@ -30,39 +35,36 @@ class ApiErrorResponse {
   }
 
   factory ApiErrorResponse.fromJson(Map<String, dynamic> json) =>
-      ApiErrorResponse(
-        code: json['code'],
-        message: json['message'],
-        type: json['type'],
-        subtype: json['subtype'],
-      );
+      _$ApiErrorResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApiErrorResponseToJson(this);
 }
 
 class ApiException implements Exception {
   final int code;
   final String message;
-  final String subtype;
-  final String url;
+  final String? subtype;
+  final String? url;
 
   @override
   String toString() => message;
 
   /// The subtype, if any
-  String toSubtype() => subtype;
+  String toSubtype() => subtype!;
 
   /// Copy of the HTTP Code returned
   int toCode() => code;
 
   ApiException._({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.subtype,
     this.url,
   });
 
-  factory ApiException({String url, ApiErrorResponse response}) =>
+  factory ApiException({String? url, ApiErrorResponse? response}) =>
       ApiException._(
-        code: response.code,
+        code: response!.code,
         message: 'ApiException code ${response.code} on $url',
         subtype: response.subtype,
         url: url,
@@ -70,12 +72,12 @@ class ApiException implements Exception {
 }
 
 class Failure {
-  final int code;
+  final int? code;
   final String message;
 
   Failure({
     this.code,
-    this.message,
+    required this.message,
   });
 
   @override

@@ -15,7 +15,8 @@ abstract class SearchRepository {
 }
 
 class RemoteSearchRepository implements SearchRepository {
-  final String apiKey = dotenv.env['api_key'];
+  final String apiKey = dotenv.env['api_key']!;
+  final dioClient = Dio();
 
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
@@ -33,23 +34,28 @@ class RemoteSearchRepository implements SearchRepository {
     } on HttpException catch (e) {
       print(e);
       throw Failure(message: 'There was a problem extracting the recipe');
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print(e);
-      if (e.type == DioErrorType.connectTimeout) {
+      if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: "Connection  Timeout Exception");
       }
 
-      if (e.response.statusCode == 503) {
+      if (e.response?.statusCode == 503) {
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
-          code: e.response.statusCode,
+          code: e.response?.statusCode,
         );
-      } else if (e.response.statusCode == 400) {
+      } else if (e.response?.statusCode == 400) {
         throw Failure(
           message:
-              'Please enter a valid URL. Error code: ${e.response.statusCode}.',
-          code: e.response.statusCode,
+              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
+          code: e.response?.statusCode,
+        );
+      } else {
+        throw Failure(
+          message: 'There was a problem extracting the recipe',
+          code: e.response?.statusCode,
         );
       }
     }
