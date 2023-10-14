@@ -26,10 +26,10 @@ const List<String> TAB_OPTIONS = [
 
 class RecipeInfoPage extends StatefulWidget {
   const RecipeInfoPage({
-    Key key,
-    @required this.title,
-    @required this.id,
-    @required this.sourceUrl,
+    Key? key,
+    required this.title,
+    required this.id,
+    required this.sourceUrl,
   }) : super(key: key);
 
   /// Recipe title
@@ -96,38 +96,44 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
 
   /// Determines which conditions to render on screen
   Widget _whichCard(int index, Recipe recipe) {
-    // List desiredConditions = [];
     switch (index) {
       case 0:
         return RecipeDescCard(
-          veryHealthy: recipe.veryHealthy,
-          readyInMinutes: recipe.readyInMinutes,
-          servings: recipe.servings,
-          creditsText: recipe.creditsText,
-          glutenFree: recipe.glutenFree,
-          vegetarian: recipe.vegetarian,
-          summary: recipe.summary,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl,
+          veryHealthy: recipe.veryHealthy!,
+          readyInMinutes: recipe.readyInMinutes!,
+          servings: recipe.servings!,
+          creditsText: recipe.creditsText!,
+          glutenFree: recipe.glutenFree!,
+          vegetarian: recipe.vegetarian!,
+          summary: recipe.summary!,
+          ingredients: recipe.extendedIngredients!,
+          sourceUrl: recipe.sourceUrl!,
         );
-        break;
-
       case 1:
         return RecipeInstCard(
-          analyzedInstructions: recipe.analyzedInstructions,
+          analyzedInstructions: recipe.analyzedInstructions!,
           instructions: recipe.instructions,
         );
-        break;
       case 2:
         return RecipeDietCard(
-          dairyFree: recipe.dairyFree,
-          glutenFree: recipe.glutenFree,
-          healthScore: recipe.healthScore,
-          vegetarian: recipe.vegetarian,
-          vegan: recipe.vegan,
+          dairyFree: recipe.dairyFree!,
+          glutenFree: recipe.glutenFree!,
+          healthScore: recipe.healthScore!,
+          vegetarian: recipe.vegetarian!,
+          vegan: recipe.vegan!,
         );
-        break;
       default:
+        return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy!,
+          readyInMinutes: recipe.readyInMinutes!,
+          servings: recipe.servings!,
+          creditsText: recipe.creditsText!,
+          glutenFree: recipe.glutenFree!,
+          vegetarian: recipe.vegetarian!,
+          summary: recipe.summary!,
+          ingredients: recipe.extendedIngredients!,
+          sourceUrl: recipe.sourceUrl!,
+        );
     }
   }
 
@@ -193,7 +199,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: recipe.image,
+                  imageUrl: recipe.image!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -209,7 +215,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        recipe.title,
+                        recipe.title!,
                         style: TextStyle(
                           fontSize: 6 * Responsive.ratioHorizontal,
                           fontWeight: FontWeight.bold,

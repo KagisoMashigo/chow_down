@@ -99,39 +99,45 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
   }
 
   /// Determines which conditions to render on screen
-  Widget? _whichCard(int index, Recipe recipe) {
-    // List desiredConditions = [];
+  Widget _whichCard(int index, Recipe recipe) {
     switch (index) {
       case 0:
         return RecipeDescCard(
-          veryHealthy: recipe.veryHealthy,
-          readyInMinutes: recipe.readyInMinutes,
-          servings: recipe.servings,
-          creditsText: recipe.creditsText,
-          glutenFree: recipe.glutenFree,
-          vegetarian: recipe.vegetarian,
-          summary: recipe.summary,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl,
+          veryHealthy: recipe.veryHealthy!,
+          readyInMinutes: recipe.readyInMinutes!,
+          servings: recipe.servings!,
+          creditsText: recipe.creditsText!,
+          glutenFree: recipe.glutenFree!,
+          vegetarian: recipe.vegetarian!,
+          summary: recipe.summary!,
+          ingredients: recipe.extendedIngredients!,
+          sourceUrl: recipe.sourceUrl!,
         );
-        break;
-
       case 1:
         return RecipeInstCard(
-          analyzedInstructions: recipe.analyzedInstructions,
+          analyzedInstructions: recipe.analyzedInstructions!,
           instructions: recipe.instructions,
         );
-        break;
       case 2:
         return RecipeDietCard(
-          dairyFree: recipe.dairyFree,
-          glutenFree: recipe.glutenFree,
-          healthScore: recipe.healthScore,
-          vegetarian: recipe.vegetarian,
-          vegan: recipe.vegan,
+          dairyFree: recipe.dairyFree!,
+          glutenFree: recipe.glutenFree!,
+          healthScore: recipe.healthScore!,
+          vegetarian: recipe.vegetarian!,
+          vegan: recipe.vegan!,
         );
-        break;
       default:
+        return RecipeDescCard(
+          veryHealthy: recipe.veryHealthy!,
+          readyInMinutes: recipe.readyInMinutes!,
+          servings: recipe.servings!,
+          creditsText: recipe.creditsText!,
+          glutenFree: recipe.glutenFree!,
+          vegetarian: recipe.vegetarian!,
+          summary: recipe.summary!,
+          ingredients: recipe.extendedIngredients!,
+          sourceUrl: recipe.sourceUrl!,
+        );
     }
   }
 
@@ -196,7 +202,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
             children: [
               Expanded(
                 child: CachedNetworkImage(
-                  imageUrl: recipe.image,
+                  imageUrl: recipe.image!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -212,7 +218,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                   children: [
                     Expanded(
                       child: Text(
-                        recipe.title,
+                        recipe.title!,
                         style: TextStyle(
                           fontSize: 7 * Responsive.ratioHorizontal,
                           fontWeight: FontWeight.bold,
@@ -279,7 +285,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                   ),
                 ),
                 verticalDivider(factor: 2),
-                _whichCard(_currentIndex, recipe)!,
+                _whichCard(_currentIndex, recipe),
                 verticalDivider(factor: 15),
               ],
             ),
