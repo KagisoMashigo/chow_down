@@ -1,9 +1,13 @@
 class Us {
-  double amount;
-  String unitShort;
-  String unitLong;
+  final double amount;
+  final String? unitShort;
+  final String? unitLong;
 
-  Us({this.amount, this.unitShort, this.unitLong});
+  Us({
+    required this.amount,
+    this.unitShort,
+    this.unitLong,
+  });
 
   factory Us.fromJson(json) => Us(
         amount: (json['amount'] as num).toDouble(),

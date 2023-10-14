@@ -1,9 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class SearchAutoComplete {
   final String id;
-  final String name;
-  final String image;
+  final String? name;
+  final String? image;
   SearchAutoComplete({
-    this.id,
+    required this.id,
     this.name,
     this.image,
   });
@@ -17,8 +20,9 @@ class SearchAutoComplete {
   }
 }
 
+@JsonSerializable()
 class SearchAutoCompleteList {
-  final List<SearchAutoComplete> list;
+  final List<SearchAutoComplete>? list;
   SearchAutoCompleteList({
     this.list,
   });

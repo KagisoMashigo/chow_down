@@ -1,16 +1,18 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/ingredients.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'equipment.dart';
 
+@JsonSerializable()
 class Step {
-  int number;
-  String step;
-  List<Ingredient> ingredients;
-  List<Equipment> equipment;
+  final int number;
+  final String step;
+  final List<Ingredient>? ingredients;
+  final List<Equipment>? equipment;
 
   Step({
-    this.number,
-    this.step,
+    required this.number,
+    required this.step,
     this.ingredients,
     this.equipment,
   });
@@ -29,7 +31,7 @@ class Step {
   toJson() => {
         'number': number,
         'step': step,
-        'ingredients': ingredients.map((e) => e.toJson()).toList(),
-        'equipment': equipment.map((e) => e.toJson()).toList(),
+        'ingredients': ingredients?.map((e) => e.toJson()).toList(),
+        'equipment': equipment?.map((e) => e.toJson()).toList(),
       };
 }

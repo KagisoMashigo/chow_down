@@ -1,9 +1,16 @@
-class Metric {
-  double amount;
-  String unitShort;
-  String unitLong;
+import 'package:json_annotation/json_annotation.dart';
 
-  Metric({this.amount, this.unitShort, this.unitLong});
+@JsonSerializable()
+class Metric {
+  final double? amount;
+  final String? unitShort;
+  final String? unitLong;
+
+  Metric({
+    this.amount,
+    this.unitShort,
+    this.unitLong,
+  });
 
   factory Metric.fromJson(json) => Metric(
         amount: (json['amount'] as num).toDouble(),

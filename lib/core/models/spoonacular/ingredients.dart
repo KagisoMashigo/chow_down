@@ -1,10 +1,18 @@
-class Ingredient {
-  int id;
-  String name;
-  String localizedName;
-  String image;
+import 'package:json_annotation/json_annotation.dart';
 
-  Ingredient({this.id, this.name, this.localizedName, this.image});
+@JsonSerializable()
+class Ingredient {
+  final int id;
+  final String name;
+  final String? localizedName;
+  final String? image;
+
+  Ingredient({
+    required this.id,
+    required this.name,
+    this.localizedName,
+    this.image,
+  });
 
   factory Ingredient.fromJson(json) => Ingredient(
         id: json['id'] as int,

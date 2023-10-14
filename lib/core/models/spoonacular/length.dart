@@ -1,8 +1,14 @@
-class Length {
-  int number;
-  String unit;
+import 'package:json_annotation/json_annotation.dart';
 
-  Length({this.number, this.unit});
+@JsonSerializable()
+class Length {
+  final int? number;
+  final String? unit;
+
+  Length({
+    this.number,
+    this.unit,
+  });
 
   factory Length.fromJson(json) => Length(
         number: json['number'] as int,

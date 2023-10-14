@@ -1,12 +1,15 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class Nutrient {
   final String calories;
-  final String carbs;
-  final String fat;
-  final String protein;
-  final List<Needs> good;
-  final List<Needs> bad;
+  final String? carbs;
+  final String? fat;
+  final String? protein;
+  final List<Needs>? good;
+  final List<Needs>? bad;
   Nutrient({
-    this.calories,
+    required this.calories,
     this.carbs,
     this.fat,
     this.good,
@@ -25,12 +28,13 @@ class Nutrient {
   }
 }
 
+@JsonSerializable()
 class Needs {
   final String name;
-  final String amount;
-  final String percentOfDailyNeeds;
+  final String? amount;
+  final String? percentOfDailyNeeds;
   Needs({
-    this.name,
+    required this.name,
     this.amount,
     this.percentOfDailyNeeds,
   });

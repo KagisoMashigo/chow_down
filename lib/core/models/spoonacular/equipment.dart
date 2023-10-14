@@ -1,12 +1,15 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class Equipment {
   final String name;
-  final String image;
+  final String? image;
   final int id;
-  final String localizedName;
+  final String? localizedName;
   Equipment({
-    this.id,
+    required this.id,
     this.localizedName,
-    this.name,
+    required this.name,
     this.image,
   });
 
@@ -26,10 +29,11 @@ class Equipment {
       };
 }
 
+@JsonSerializable()
 class EquipmentList {
   final List<Equipment> items;
   EquipmentList({
-    this.items,
+    required this.items,
   });
   factory EquipmentList.fromJson(List<dynamic> list) {
     return new EquipmentList(

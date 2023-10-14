@@ -1,12 +1,15 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class FoodType {
   final String id;
   final String name;
-  final String image;
-  final String readyInMinutes;
-  final String servings;
+  final String? image;
+  final String? readyInMinutes;
+  final String? servings;
   FoodType({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.image,
     this.readyInMinutes,
     this.servings,
@@ -22,10 +25,11 @@ class FoodType {
   }
 }
 
+@JsonSerializable()
 class FoodTypeList {
   final List<FoodType> list;
   FoodTypeList({
-    this.list,
+    required this.list,
   });
 
   factory FoodTypeList.fromJson(List<dynamic> json) {

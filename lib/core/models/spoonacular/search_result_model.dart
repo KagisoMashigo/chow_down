@@ -1,26 +1,28 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class RecipeExtracted {
   final int id;
   final String title;
   final String image;
-  final String sourceUrl;
+  final String? sourceUrl;
   final int readyInMinutes;
-  final bool vegetarian;
-  final bool vegan;
-  final bool glutenFree;
+  final bool? vegetarian;
+  final bool? vegan;
+  final bool? glutenFree;
   final int servings;
   RecipeExtracted({
-    this.id,
-    this.title,
-    this.image,
+    required this.id,
+    required this.title,
+    required this.image,
     this.sourceUrl,
-    this.readyInMinutes,
+    required this.readyInMinutes,
     this.vegetarian,
     this.glutenFree,
     this.vegan,
-    this.servings,
+    required this.servings,
   });
   factory RecipeExtracted.fromJson(Map<String, dynamic> json) {
     return RecipeExtracted(
@@ -37,10 +39,11 @@ class RecipeExtracted {
   }
 }
 
+@JsonSerializable()
 class RecipeCardInfoList {
   final List<Recipe> list;
   RecipeCardInfoList({
-    this.list,
+    required this.list,
   });
 
   factory RecipeCardInfoList.fromJson(List<dynamic> json) {

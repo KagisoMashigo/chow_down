@@ -1,12 +1,15 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable()
 class Similar {
   final String id;
   final String name;
-  final String image;
-  final String readyInMinutes;
-  final String servings;
+  final String? image;
+  final String? readyInMinutes;
+  final String? servings;
   Similar({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.image,
     this.readyInMinutes,
     this.servings,
@@ -23,10 +26,11 @@ class Similar {
   }
 }
 
+@JsonSerializable()
 class SimilarList {
   final List<Similar> list;
   SimilarList({
-    this.list,
+    required this.list,
   });
 
   factory SimilarList.fromJson(List<dynamic> json) {
