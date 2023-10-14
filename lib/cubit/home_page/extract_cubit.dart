@@ -22,7 +22,7 @@ class ExtractCubit extends Cubit<ExtractState> {
 
       emit(ExtractInitial());
     } on Failure catch (e) {
-      emit(ExtractError(e.toString(), e.code));
+      emit(ExtractError(e.toString(), e.code!));
     }
   }
 
@@ -35,7 +35,7 @@ class ExtractCubit extends Cubit<ExtractState> {
 
       emit(ExtractLoaded(extractedResult));
     } on Failure catch (e) {
-      emit(ExtractError(e.toString(), e.code));
+      emit(ExtractError(e.toString(), e.code!));
     }
   }
 }

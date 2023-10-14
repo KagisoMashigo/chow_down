@@ -17,8 +17,11 @@ import 'package:chow_down/pages/sign_in/sign_in_manager.dart';
 import 'package:chow_down/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key key, @required this.manager, @required this.isLoading})
-      : super(key: key);
+  const SignInPage({
+    Key? key,
+    required this.manager,
+    required this.isLoading,
+  }) : super(key: key);
   final SignInManager manager;
   final bool isLoading;
 
@@ -145,7 +148,7 @@ class SignInPage extends StatelessWidget {
                 ),
                 text: 'Sign in with email',
                 textColor: Colors.white,
-                color: Colors.green[900],
+                color: Colors.green[900]!,
                 onPressed: () => isLoading ? null : _signInEmail(context),
               ),
             ],

@@ -11,7 +11,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chow_down/services/auth.dart';
 
 class SignInManager {
-  SignInManager({@required this.auth, @required this.isLoading});
+  SignInManager({
+    required this.auth,
+    required this.isLoading,
+  });
 
   final AuthBase auth;
   final ValueNotifier<bool> isLoading;

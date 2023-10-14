@@ -54,7 +54,7 @@ class FirestoreService {
         toFirestore: (recipe, _) => recipe.toJson(),
       );
 
-      if (recipe.id! < 0) {
+      if (recipe.id < 0) {
         await convertedCollection
             .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
             .set(recipe);
