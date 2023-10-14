@@ -1,9 +1,6 @@
 // 🎯 Dart imports:
 import 'dart:io';
 
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -16,8 +13,8 @@ class FirestoreService {
   static final instance = FirestoreService._();
 
   Future<void> deleteData({
-    @required String path,
-    @required Recipe recipe,
+    required String path,
+    required Recipe recipe,
   }) async {
     try {
       final reference = FirebaseFirestore.instance.collection(path);
@@ -43,8 +40,10 @@ class FirestoreService {
     }
   }
 
-  Future<void> saveRecipe(
-      {@required String path, @required Recipe recipe}) async {
+  Future<void> saveRecipe({
+    required String path,
+    required Recipe recipe,
+  }) async {
     try {
       final CollectionReference _collectionRef =
           FirebaseFirestore.instance.collection(path);
@@ -55,7 +54,7 @@ class FirestoreService {
         toFirestore: (recipe, _) => recipe.toJson(),
       );
 
-      if (recipe.id < 0) {
+      if (recipe.id! < 0) {
         await convertedCollection
             .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
             .set(recipe);
@@ -72,22 +71,22 @@ class FirestoreService {
   }
 
   Future<List<Recipe>> fetchSavedRecipes({required String path}) async {
+    final _collectionRef = FirebaseFirestore.instance.collection(path);
+
     try {
-      final CollectionReference _collectionRef =
-          FirebaseFirestore.instance.collection(path);
-      final List<Recipe> savedRecipes = [];
       final QuerySnapshot finalSnapshot = await _collectionRef.get();
       final List<DocumentSnapshot> documents = finalSnapshot.docs;
-      for (var document in documents) {
-        savedRecipes.add(Recipe.fromFirestore(document));
-      }
+
+      // Convert documents to recipes
+      final List<Recipe> savedRecipes = documents.map((document) {
+        return Recipe.fromFirestore(document.data() as Map<String, dynamic>);
+      }).toList();
+
       return savedRecipes;
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem fetching the recipes');
+    } catch (e) {
+      print(e.toString());
+      throw Failure(
+          message: 'Failed to fetch saved recipes. Error: ${e.toString()}');
     }
   }
 }

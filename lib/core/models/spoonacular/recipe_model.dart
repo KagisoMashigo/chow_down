@@ -1,6 +1,3 @@
-// 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
@@ -85,50 +82,48 @@ class Recipe {
   });
 
   factory Recipe.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-    // SnapshotOptions options,
+    Map<String, dynamic> snapshot,
   ) {
-    final data = snapshot.data()!;
     return Recipe(
-      vegetarian: data['vegetarian'],
-      vegan: data['vegan'] as bool,
-      glutenFree: data['glutenFree'] as bool,
-      dairyFree: data['dairyFree'] as bool,
-      veryHealthy: data['veryHealthy'] as bool,
-      cheap: data['cheap'] as bool,
-      veryPopular: data['veryPopular'] as bool,
-      sustainable: data['sustainable'] as bool,
-      weightWatcherSmartPoints: data['weightWatcherSmartPoints'] as int,
-      gaps: data['gaps'] as String,
-      lowFodmap: data['lowFodmap'] as bool,
-      aggregateLikes: data['aggregateLikes'] as int,
-      spoonacularScore: data['spoonacularScore'] as double,
-      healthScore: data['healthScore'] as int,
-      creditsText: data['creditsText'] as String,
-      license: data['license'] as String,
-      sourceName: data['sourceName'] as String,
-      pricePerServing: (data['pricePerServing'] ?? 0).toDouble(),
-      extendedIngredients: (data['extendedIngredients'] as List<dynamic>)
+      vegetarian: snapshot['vegetarian'],
+      vegan: snapshot['vegan'] as bool,
+      glutenFree: snapshot['glutenFree'] as bool,
+      dairyFree: snapshot['dairyFree'] as bool,
+      veryHealthy: snapshot['veryHealthy'] as bool,
+      cheap: snapshot['cheap'] as bool,
+      veryPopular: snapshot['veryPopular'] as bool,
+      sustainable: snapshot['sustainable'] as bool,
+      weightWatcherSmartPoints: snapshot['weightWatcherSmartPoints'] as int,
+      gaps: snapshot['gaps'] as String,
+      lowFodmap: snapshot['lowFodmap'] as bool,
+      aggregateLikes: snapshot['aggregateLikes'] as int,
+      spoonacularScore: snapshot['spoonacularScore'] as double,
+      healthScore: snapshot['healthScore'] as int,
+      creditsText: snapshot['creditsText'] as String,
+      license: snapshot['license'] as String,
+      sourceName: snapshot['sourceName'] as String,
+      pricePerServing: (snapshot['pricePerServing'] ?? 0).toDouble(),
+      extendedIngredients: (snapshot['extendedIngredients'] as List<dynamic>)
           .map((e) => ExtendedIngredients.fromJson(e))
           .toList(),
-      id: data['id'] as int,
-      title: data['title'] as String,
-      readyInMinutes: data['readyInMinutes'] as int,
-      servings: data['servings'] as int,
-      sourceUrl: data['sourceUrl'] as String,
-      image: data['image'] as String,
-      imageType: data['imageType'] as String,
-      summary: data['summary'] as String,
-      cuisines: data['cuisines'] as List<dynamic>,
-      dishTypes: data['dishTypes'] as List<dynamic>,
-      diets: data['diets'] as List<dynamic>,
-      occasions: data['occasions'] as List<dynamic>,
-      instructions: data['instructions'] as String,
-      analyzedInstructions: (data['analyzedInstructions'] as List<dynamic>)
+      id: snapshot['id'] as int,
+      title: snapshot['title'] as String,
+      readyInMinutes: snapshot['readyInMinutes'] as int,
+      servings: snapshot['servings'] as int,
+      sourceUrl: snapshot['sourceUrl'] as String,
+      image: snapshot['image'] as String,
+      imageType: snapshot['imageType'] as String,
+      summary: snapshot['summary'] as String,
+      cuisines: snapshot['cuisines'] as List<dynamic>,
+      dishTypes: snapshot['dishTypes'] as List<dynamic>,
+      diets: snapshot['diets'] as List<dynamic>,
+      occasions: snapshot['occasions'] as List<dynamic>,
+      instructions: snapshot['instructions'] as String,
+      analyzedInstructions: (snapshot['analyzedInstructions'] as List<dynamic>)
           .map((e) => AnalyzedInstruction.fromJson(e))
           .toList(),
-      originalId: data['originalId'] as dynamic,
-      spoonacularSourceUrl: data['spoonacularSourceUrl'] as String,
+      originalId: snapshot['originalId'] as dynamic,
+      spoonacularSourceUrl: snapshot['spoonacularSourceUrl'] as String,
     );
   }
 
