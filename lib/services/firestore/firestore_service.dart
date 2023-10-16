@@ -1,4 +1,5 @@
 // 🎯 Dart imports:
+import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
@@ -32,10 +33,10 @@ class FirestoreService {
 
       await originalId.delete();
     } on SocketException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'There was a problem deleting the data');
     }
   }
@@ -62,10 +63,10 @@ class FirestoreService {
         await convertedCollection.doc(recipe.id.toString()).set(recipe);
       }
     } on SocketException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      print(e);
+      log(e.message);
       throw Failure(message: 'There was a problem saving the recipe');
     }
   }
@@ -84,9 +85,8 @@ class FirestoreService {
 
       return savedRecipes;
     } catch (e) {
-      print(e.toString());
-      throw Failure(
-          message: 'Failed to fetch saved recipes. Error: ${e.toString()}');
+      log(e.toString());
+      throw Failure(message: 'Failed to fetch saved recipes. Please try again');
     }
   }
 }
