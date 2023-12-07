@@ -20,7 +20,7 @@ class RecipeDescCard extends StatelessWidget {
     required this.creditsText,
     required this.glutenFree,
     required this.vegetarian,
-    required this.summary,
+    this.summary,
     required this.ingredients,
     required this.sourceUrl,
     required this.veryHealthy,
@@ -38,11 +38,11 @@ class RecipeDescCard extends StatelessWidget {
 
   final bool vegetarian;
 
-  final String summary;
+  final String? summary;
 
   final String sourceUrl;
 
-  final List<ExtendedIngredients> ingredients;
+  final List<ExtendedIngredients>? ingredients;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class RecipeDescCard extends StatelessWidget {
           verticalDivider(factor: 2.5),
           Center(
             child: Column(
-              children: ingredients
+              children: ingredients!
                   .map((ingredient) => ListTile(
                         title: Text(
                           '${ingredient.amount.toString().replaceAll(regex, '')} ${ingredient.unit == 'servings' ? '' : ingredient.unit} ${ingredient.name}',

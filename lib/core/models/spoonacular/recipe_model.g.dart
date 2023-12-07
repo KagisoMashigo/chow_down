@@ -25,8 +25,8 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       license: json['license'] as String?,
       sourceName: json['sourceName'] as String?,
       pricePerServing: (json['pricePerServing'] as num?)?.toDouble(),
-      extendedIngredients: (json['extendedIngredients'] as List<dynamic>?)
-          ?.map((e) => ExtendedIngredients.fromJson(e as Map<String, dynamic>))
+      extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
+          .map((e) => ExtendedIngredients.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: json['id'] as int,
       title: json['title'] as String,

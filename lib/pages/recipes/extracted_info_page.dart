@@ -58,7 +58,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     _database = Provider.of<Database>(context, listen: false);
   }
 
-  void _buttonTapped() {
+  void _buttonAnimation() {
     setState(
       () {
         if (_isButtonTapped == false) {
@@ -109,8 +109,8 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
           creditsText: recipe.creditsText!,
           glutenFree: recipe.glutenFree!,
           vegetarian: recipe.vegetarian!,
-          summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients!,
+          summary: recipe.summary,
+          ingredients: recipe.extendedIngredients,
           sourceUrl: recipe.sourceUrl!,
         );
       case 1:
@@ -135,7 +135,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
           glutenFree: recipe.glutenFree!,
           vegetarian: recipe.vegetarian!,
           summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients!,
+          ingredients: recipe.extendedIngredients,
           sourceUrl: recipe.sourceUrl!,
         );
     }
@@ -227,7 +227,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                     ),
                     ChowSaveButton(
                       onTap: () {
-                        _buttonTapped();
+                        _buttonAnimation();
                         _database.saveRecipe(recipe);
                         // showAlertDialog(
                         //   context,

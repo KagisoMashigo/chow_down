@@ -22,6 +22,6 @@ class FormSubmitButton extends CustomElevatedButton {
           height: 6 * Responsive.ratioVertical,
           color: color!,
           borderRadius: 4.0,
-          onPressed: onPressed!,
+          onPressed: onPressed,
         );
 }

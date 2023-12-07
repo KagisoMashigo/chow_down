@@ -25,7 +25,7 @@ class Recipe {
   final String? license;
   final String? sourceName;
   final double? pricePerServing;
-  final List<ExtendedIngredients>? extendedIngredients;
+  final List<ExtendedIngredients> extendedIngredients;
   final int id;
   final String title;
   final int? readyInMinutes;
@@ -62,7 +62,7 @@ class Recipe {
     this.license,
     this.sourceName,
     this.pricePerServing,
-    this.extendedIngredients,
+    required this.extendedIngredients,
     required this.id,
     required this.title,
     this.readyInMinutes,
@@ -101,8 +101,8 @@ class Recipe {
       license: snapshot['license'] as String?,
       sourceName: snapshot['sourceName'] as String?,
       pricePerServing: (snapshot['pricePerServing'] as double?) ?? 0.0,
-      extendedIngredients: (snapshot['extendedIngredients'] as List<dynamic>?)
-          ?.map((e) => ExtendedIngredients.fromJson(e))
+      extendedIngredients: (snapshot['extendedIngredients'] as List<dynamic>)
+          .map((e) => ExtendedIngredients.fromJson(e))
           .toList(),
       id: snapshot['id'] as int,
       title: snapshot['title'] as String,

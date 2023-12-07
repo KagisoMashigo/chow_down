@@ -105,8 +105,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           creditsText: recipe.creditsText!,
           glutenFree: recipe.glutenFree!,
           vegetarian: recipe.vegetarian!,
-          summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients!,
+          ingredients: recipe.extendedIngredients,
           sourceUrl: recipe.sourceUrl!,
         );
       case 1:
@@ -131,7 +130,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           glutenFree: recipe.glutenFree!,
           vegetarian: recipe.vegetarian!,
           summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients!,
+          ingredients: recipe.extendedIngredients,
           sourceUrl: recipe.sourceUrl!,
         );
     }
