@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
@@ -46,23 +47,24 @@ class FirestoreService {
     required Recipe recipe,
   }) async {
     try {
-      final CollectionReference _collectionRef =
+      final CollectionReference<Map<String, dynamic>> _collectionRef =
           FirebaseFirestore.instance.collection(path);
 
-      final CollectionReference<Recipe> convertedCollection =
-          _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()!),
-        toFirestore: (recipe, _) => recipe.toJson(),
-      );
-
       if (recipe.id < 0) {
-        await convertedCollection
-            .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
-            .set(recipe);
+        // If the recipe has no ID, generate a document ID based on sourceUrl
+        final documentId =
+            recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), '');
+        await _collectionRef.doc(documentId).set(recipe.toJson());
       } else {
-        await convertedCollection.doc(recipe.id.toString()).set(recipe);
+        // If the recipe has an ID, use it as the document ID
+        await _collectionRef.doc(recipe.id.toString()).set(recipe.toJson());
       }
+    } on FirebaseException catch (e) {
+      printDebug('Firestore error:${e.message}', colour: DebugColour.red);
+
+      throw Exception('Error while saving the recipe');
     } on SocketException catch (e) {
+      printDebug('Socket error:${e.message}', colour: DebugColour.red);
       log(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
