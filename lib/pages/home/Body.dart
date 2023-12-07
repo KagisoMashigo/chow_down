@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/cubit/home_page/extract_bloc.dart';
+import 'package:chow_down/cubit/home_page/extract_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -13,7 +15,6 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/cubit/home_page/extract_cubit.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
-              child: BlocConsumer<ExtractCubit, ExtractState>(
+              child: BlocConsumer<ExtractBloc, ExtractState>(
                 listener: (context, state) {
                   if (state is ExtractError) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is ExtractLoading) {
+                  if (state is ExtractPending) {
                     return _buildLoading();
                   } else if (state is ExtractLoaded) {
                     return _buildColumnWithData(state.extractedResult);
@@ -197,8 +198,8 @@ class _HomePageState extends State<HomePage> {
       );
 
   Future<void> _pullRefresh() async {
-    final extractCubit = context.read<ExtractCubit>();
-    extractCubit.refresh();
+    final extractCubit = context.read<ExtractBloc>();
+    extractCubit.add(Refresh());
   }
 
   Widget _buildLoading() {
@@ -292,7 +293,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _submitForm(BuildContext context, String url) {
-    final extractCubit = context.read<ExtractCubit>();
-    extractCubit.fetchExtractedResult(url);
+    final extractCubit = context.read<ExtractBloc>();
+    extractCubit.add(ExtractRecipe(url: url));
   }
 }

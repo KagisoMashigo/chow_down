@@ -1,10 +1,7 @@
-part of 'extract_cubit.dart';
+part of 'extract_bloc.dart';
 
-abstract class ExtractState extends Equatable {
+abstract class ExtractState {
   const ExtractState();
-
-  @override
-  List<Object> get props => [];
 }
 
 // The initial search bar
@@ -12,8 +9,8 @@ class ExtractInitial extends ExtractState {
   const ExtractInitial();
 }
 
-class ExtractLoading extends ExtractState {
-  const ExtractLoading();
+class ExtractPending extends ExtractState {
+  const ExtractPending();
 }
 
 class ExtractLoaded extends ExtractState {
