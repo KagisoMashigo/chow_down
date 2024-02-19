@@ -13,6 +13,7 @@ Future<dynamic> showAlertDialog(
   required String defaultActionText,
   String? cancelActionText,
 }) {
+  // TODO: sign in is too abrupt, need to add a transition
   if (!Platform.isIOS) {
     return showDialog(
         context: context,
@@ -38,12 +39,14 @@ Future<dynamic> showAlertDialog(
   return showCupertinoDialog(
       context: context,
       builder: (context) {
+        // Need to clear form on failure
         return CupertinoAlertDialog(
           title: Text(title),
           content: Text(content),
           actions: <Widget>[
             CupertinoDialogAction(
               onPressed: () => Navigator.of(context).pop(false),
+              // huh?? need to investigate
               child: Text(cancelActionText!),
             ),
             CupertinoDialogAction(

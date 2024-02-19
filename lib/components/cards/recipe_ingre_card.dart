@@ -134,7 +134,7 @@ class RecipeDescCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'By ${creditsText ?? 'Anonymous'}',
+                        'By $creditsText',
                         style: TextStyle(
                           fontSize: 4 * Responsive.ratioHorizontal,
                           fontStyle: FontStyle.italic,
@@ -149,7 +149,7 @@ class RecipeDescCard extends StatelessWidget {
                     Expanded(
                       child: TextButton(
                         onPressed: _launchUrl,
-                        child: Text('Source: ${sourceUrl ?? 'Unknown'}'),
+                        child: Text('Source: $sourceUrl'),
                       ),
                     ),
                   ],
