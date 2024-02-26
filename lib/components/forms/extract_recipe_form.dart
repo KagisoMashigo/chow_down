@@ -16,7 +16,17 @@ class ExtractRecipeForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final TextEditingController _formUrl = TextEditingController();
-    final validUrl = Uri.parse(_formUrl.text).isAbsolute;
+
+    String urlValidator(String url) {
+      if (url.startsWith('https://')) {
+        return url;
+      }
+      if (url.startsWith('http://')) {
+        return url.replaceFirst('http://', 'https://');
+      }
+
+      return 'https://$url';
+    }
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Spacing.md),
@@ -36,7 +46,9 @@ class ExtractRecipeForm extends StatelessWidget {
                     style: FloatingFeedbackStyle.alert,
                     duration: Duration(seconds: 2),
                   ).show(context);
-                } else if (!validUrl) {
+
+                  return 'Please enter a URL';
+                } else if (!Uri.parse(url).isAbsolute) {
                   FloatingFeedback(
                     message: 'Please enter a valid URL',
                     style: FloatingFeedbackStyle.alert,
@@ -44,16 +56,21 @@ class ExtractRecipeForm extends StatelessWidget {
                   ).show(context);
 
                   _formUrl.clear();
+
+                  return 'Please enter a valid URL';
                 }
                 return null;
               },
               onFieldSubmitted: (url) {
-                if (_formKey.currentState!.validate() && validUrl) {
-                  _submitForm(context, url);
+                if (_formKey.currentState!.validate()) {
+                  _submitForm(context, urlValidator(url));
                 }
               },
               decoration: InputDecoration(
-                errorStyle: TextStyle(color: ChowColors.offWhite),
+                errorStyle: TextStyle(
+                  color: ChowColors.offWhite,
+                  fontSize: Spacing.sm,
+                ),
                 hintText: "Enter a recipe url here",
                 focusColor: ChowColors.white,
                 hintStyle: TextStyle(
