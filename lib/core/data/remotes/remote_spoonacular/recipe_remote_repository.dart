@@ -86,12 +86,13 @@ class RemoteRecipe implements RecipeRepository {
       final response = await dioClient.get(endpoint);
       final body = json.decode(response.toString());
 
-      if (response.data['image'] != null) {
+      if (response.data['analyzedInstructions'] != null &&
+          response.data['extendedIngredients'] != null) {
         return Recipe.fromJson(body);
       } else {
         throw Failure(
             message:
-                'There was a problem extracting the data, please try again later');
+                'We were unable to extract the recipe from the provided URL');
       }
     } on SocketException catch (e) {
       log(e.message);
