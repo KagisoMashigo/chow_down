@@ -49,6 +49,7 @@ dependencies:
   firebase_crashlytics: ^3.3.7
   firebase_analytics: ^10.5.1
   json_annotation: ^4.8.1
+  another_flushbar: ^1.12.30
 
 dev_dependencies:
   import_sorter: ^4.6.0
