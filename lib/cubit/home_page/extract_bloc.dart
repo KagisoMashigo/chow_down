@@ -28,7 +28,7 @@ class ExtractBloc extends Bloc<ExtractEvent, ExtractState> {
 
       emit(ExtractLoaded(extractedResult));
     } on Failure catch (e) {
-      emit(ExtractError(e.toString(), e.code!));
+      emit(ExtractError(e.toString(), e.code));
     }
   }
 

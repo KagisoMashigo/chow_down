@@ -31,7 +31,8 @@ class ExtractLoaded extends ExtractState {
 
 class ExtractError extends ExtractState {
   final String message;
-  final int code;
+  final int? code;
+
   const ExtractError(this.message, this.code);
 
   @override

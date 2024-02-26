@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 import 'dart:developer';
 
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/extract_recipe_form.dart';
 import 'package:chow_down/cubit/home_page/extract_bloc.dart';
 import 'package:chow_down/cubit/home_page/extract_event.dart';
@@ -32,6 +33,7 @@ class HomePage extends StatelessWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () => _pullRefresh(context),
+          color: ChowColors.black,
           child: SingleChildScrollView(
             child: Container(
               height: Responsive.isSmallScreen()
@@ -77,21 +79,23 @@ class HomePage extends StatelessWidget {
   Widget _buildInitialInput(BuildContext context, ExtractState state) {
     return Column(
       children: [
-        verticalDivider(factor: 3.5),
+        SizedBox(height: Spacing.md),
         Image.asset(
           'assets/images/chow_down.png',
-          height: 18.5 * Responsive.ratioVertical,
-          width: 18.5 * Responsive.ratioVertical,
-          fit: BoxFit.cover,
+          height: Spacing.massive,
+          width: Spacing.massive,
+          fit: BoxFit.fill,
         ),
-        verticalDivider(factor: 5),
+        SizedBox(height: Spacing.md),
         ExtractRecipeForm(),
-        verticalDivider(factor: 1),
+        SizedBox(height: Spacing.sm),
         HelpCard(),
+        SizedBox(height: Spacing.xsm),
         if (state is! ExtractInitial)
           Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: 5 * Responsive.ratioHorizontal),
+              horizontal: Spacing.sm,
+            ),
             child: EmptyContent(
               message: 'Try refreshing the page.',
               title: 'Something went wrong...',
@@ -111,18 +115,19 @@ class HomePage extends StatelessWidget {
   Widget _buildColumnWithData(Recipe searchResult, BuildContext context) {
     return Column(
       children: [
-        verticalDivider(factor: 2),
+        SizedBox(height: Spacing.md),
         Image.asset(
           'assets/images/chow_down.png',
-          height: 18.5 * Responsive.ratioVertical,
-          width: 18.5 * Responsive.ratioVertical,
+          height: Spacing.massive,
+          width: Spacing.massive,
           fit: BoxFit.fill,
         ),
-        verticalDivider(factor: 2),
+        SizedBox(height: Spacing.md),
         ExtractRecipeForm(),
-        verticalDivider(factor: 2),
+        SizedBox(height: Spacing.sm),
         HelpCard(),
-        verticalDivider(),
+        SizedBox(height: Spacing.xsm),
+
         // This is the recipe card that is displayed after the user has submitted a URL
         Padding(
           padding:
@@ -152,13 +157,13 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        verticalDivider(factor: 4),
+        SizedBox(height: Spacing.lg),
       ],
     );
   }
 
-  Future<void> _pullRefresh(BuildContext context) async {
-    final extractCubit = context.read<ExtractBloc>();
-    extractCubit.add(Refresh());
-  }
+  Future<void> _pullRefresh(BuildContext context) async =>
+      Future.delayed(Duration(milliseconds: 1500), () {
+        context.read<ExtractBloc>().add(Refresh());
+      });
 }

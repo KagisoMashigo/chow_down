@@ -1,9 +1,11 @@
 // 🎯 Dart imports:
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -18,7 +20,10 @@ abstract class RecipeRepository {
 
 class RemoteRecipe implements RecipeRepository {
   final String apiKey = dotenv.env['api_key']!;
-  final dioClient = Dio();
+  final dioClient = Dio(BaseOptions(
+    connectTimeout: CONNECTION_TIMEOUT_TIME,
+    receiveTimeout: RECEIVE_TIMEOUT_TIME,
+  ));
 
   Future<Recipe> getExistingRecipe(int id, String sourceUrl) async {
     /// The first part of the function finds extracted recipes
@@ -39,6 +44,9 @@ class RemoteRecipe implements RecipeRepository {
         final body = json.decode(response.toString());
         return Recipe.fromJson(body);
       }
+    } on TimeoutException catch (e) {
+      log(e.message!);
+      throw Failure(message: 'The request took too long to complete');
     } on SocketException catch (e) {
       log(e.message);
       throw Failure(message: 'No Internet connection');
@@ -97,7 +105,7 @@ class RemoteRecipe implements RecipeRepository {
     } on DioException catch (e) {
       log(e.message!);
       if (e.type == DioExceptionType.receiveTimeout) {
-        throw Failure(message: "Connection  Timeout Exception");
+        throw Failure(message: 'The request took too long to complete');
       }
       if (e.response?.statusCode == 503) {
         throw Failure(
