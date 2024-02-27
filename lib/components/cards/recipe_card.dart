@@ -122,7 +122,7 @@ class RecipeCard extends StatelessWidget {
                       Icon(Icons.timer_outlined),
                       horizontalDivider(),
                       Text(
-                        cookTimeConverter(readyInMinutes),
+                        StringHelper.cookTimeConverter(readyInMinutes),
                         style: TextStyle(
                           fontSize: 3.75 * Responsive.ratioHorizontal,
                         ),

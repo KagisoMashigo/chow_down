@@ -69,7 +69,7 @@ class RecipeDescCard extends StatelessWidget {
                       padding: EdgeInsets.symmetric(
                           horizontal: 3 * Responsive.ratioHorizontal),
                       child: Text(
-                        '${cookTimeConverter(readyInMinutes)}',
+                        '${StringHelper.cookTimeConverter(readyInMinutes)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
