@@ -76,7 +76,11 @@ class HomePage extends StatelessWidget {
                         fit: BoxFit.fill,
                       ),
                       SizedBox(height: Spacing.md),
-                      ChowForm(),
+                      ChowForm(
+                        submitForm: (context, url) => context
+                            .read<ExtractBloc>()
+                            .add(ExtractRecipe(url: url)),
+                      ),
                       SizedBox(height: Spacing.sm),
                       if (state is! ExtractPending) HelpCard(),
                       SizedBox(height: Spacing.xsm),

@@ -1,22 +1,15 @@
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 // 🌎 Project imports:
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
-import 'package:chow_down/cubit/home_page/extract_bloc.dart';
-import 'package:chow_down/cubit/home_page/extract_event.dart';
 
 class ChowForm extends StatelessWidget {
-  ChowForm({Key? key}) : super(key: key);
-
-  void _submitForm(BuildContext context, String url) =>
-      context.read<ExtractBloc>().add(ExtractRecipe(url: url));
-
+  final void Function(BuildContext context, String url) submitForm;
   final TextEditingController _formUrl = TextEditingController();
+
+  ChowForm({Key? key, required this.submitForm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +22,7 @@ class ChowForm extends StatelessWidget {
             keyboardType: TextInputType.url,
             style: TextStyle(color: ChowColors.white),
             onSubmitted: (url) {
-              _submitForm(context, url);
+              submitForm(context, url);
               _formUrl.clear();
             },
             textInputAction: TextInputAction.search,
