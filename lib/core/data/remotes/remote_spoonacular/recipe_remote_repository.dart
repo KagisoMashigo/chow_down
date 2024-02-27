@@ -5,13 +5,13 @@ import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 abstract class RecipeRepository {
   Future<Recipe> getExistingRecipe(int id, String sourceUrl);
@@ -62,15 +62,17 @@ class RemoteRecipe implements RecipeRepository {
           code: 503,
         );
       } else if (e.response?.statusCode == 400) {
+        log('Error code: ${e.response?.statusCode}.');
+
         throw Failure(
-          message:
-              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
+          message: 'The URL provided is invalid or empty',
           code: 400,
         );
       } else {
+        log('Error code: ${e.response?.statusCode}.');
+
         throw Failure(
-          message:
-              'There was a problem extracting the recipe. Error code: ${e.response?.statusCode}.',
+          message: 'There was a problem fetching the recipe. Please try again.',
           code: e.response?.statusCode,
         );
       }
@@ -112,15 +114,18 @@ class RemoteRecipe implements RecipeRepository {
           code: 503,
         );
       } else if (e.response?.statusCode == 400) {
+        log('Error code: ${e.response?.statusCode}.');
+
         throw Failure(
-          message:
-              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
+          message: 'The URL provided is invalid or empty',
           code: 400,
         );
       } else {
+        log('Error code: ${e.response?.statusCode}.');
+
         throw Failure(
           message:
-              'There was a problem extracting the recipe. Error code: ${e.response?.statusCode}.',
+              'There was a problem extracting the recipe. Please try again.',
           code: e.response?.statusCode,
         );
       }

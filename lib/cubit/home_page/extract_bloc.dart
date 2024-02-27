@@ -1,8 +1,12 @@
+// 📦 Package imports:
 import 'package:bloc/bloc.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/cubit/home_page/extract_event.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/utils/helpers.dart';
 
 part 'extract_state.dart';
 
@@ -23,10 +27,14 @@ class ExtractBloc extends Bloc<ExtractEvent, ExtractState> {
     try {
       emit(ExtractPending());
 
-      final Recipe extractedResult =
-          await _recipeRepository.getExtractedRecipe(event.url);
+      if (StringHelper.isUrlValid(event.url)) {
+        final Recipe extractedResult =
+            await _recipeRepository.getExtractedRecipe(event.url);
 
-      emit(ExtractLoaded(extractedResult));
+        emit(ExtractLoaded(extractedResult));
+      } else {
+        emit(ExtractError('The URL provided is invalid or empty', null));
+      }
     } on Failure catch (e) {
       emit(ExtractError(e.toString(), e.code));
     }

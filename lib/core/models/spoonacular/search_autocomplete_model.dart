@@ -1,3 +1,4 @@
+// 📦 Package imports:
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_autocomplete_model.g.dart';

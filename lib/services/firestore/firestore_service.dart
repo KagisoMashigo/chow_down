@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
-import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 
 class FirestoreService {
   FirestoreService._();

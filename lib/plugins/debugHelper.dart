@@ -1,7 +1,11 @@
+// 🎯 Dart imports:
 import 'dart:convert';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// 📦 Package imports:
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 enum DebugColour {
   black,

@@ -1,6 +1,11 @@
-import 'package:another_flushbar/flushbar.dart';
-import 'package:chow_down/components/design/chow.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:another_flushbar/flushbar.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/design/chow.dart';
 
 class FloatingFeedbackStyle {
   final Color textColor;
@@ -101,10 +106,10 @@ class FloatingFeedback {
         ),
       ],
       padding:
-          EdgeInsets.symmetric(vertical: Spacing.sm, horizontal: Spacing.md),
+          EdgeInsets.symmetric(vertical: Spacing.sm, horizontal: Spacing.sm),
       dismissDirection: FlushbarDismissDirection.VERTICAL,
       animationDuration: Duration(milliseconds: 500),
-      margin: EdgeInsets.all(Spacing.sm),
+      margin: EdgeInsets.all(Spacing.xsm),
       duration: duration,
       icon: style.icon,
       shouldIconPulse: false,

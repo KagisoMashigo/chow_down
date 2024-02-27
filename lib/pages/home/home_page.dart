@@ -1,10 +1,4 @@
 // 🐦 Flutter imports:
-import 'dart:developer';
-
-import 'package:chow_down/components/design/spacing.dart';
-import 'package:chow_down/components/forms/extract_recipe_form.dart';
-import 'package:chow_down/cubit/home_page/extract_bloc.dart';
-import 'package:chow_down/cubit/home_page/extract_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -12,15 +6,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
-import 'package:chow_down/components/empty_content.dart';
+import 'package:chow_down/components/design/spacing.dart';
+import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/cubit/home_page/extract_bloc.dart';
+import 'package:chow_down/cubit/home_page/extract_event.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
 
 class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,23 +50,40 @@ class HomePage extends StatelessWidget {
               child: BlocConsumer<ExtractBloc, ExtractState>(
                 listener: (context, state) {
                   if (state is ExtractError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                      ),
-                    );
+                    FloatingFeedback(
+                      message: state.message,
+                      style: FloatingFeedbackStyle.alert,
+                      duration: Duration(seconds: 3),
+                    ).show(context);
                   }
                 },
                 builder: (context, state) {
-                  log('Current state: $state');
                   if (state is ExtractPending) {
-                    return _buildLoading();
-                  } else if (state is ExtractLoaded) {
-                    return _buildColumnWithData(state.extractedResult, context);
-                  } else {
-                    // error state snackbar
-                    return _buildInitialInput(context, state);
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ChowColors.white,
+                      ),
+                    );
                   }
+
+                  return Column(
+                    children: [
+                      SizedBox(height: Spacing.md),
+                      Image.asset(
+                        'assets/images/chow_down.png',
+                        height: Spacing.massive,
+                        width: Spacing.massive,
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(height: Spacing.md),
+                      ChowForm(),
+                      SizedBox(height: Spacing.sm),
+                      if (state is! ExtractPending) HelpCard(),
+                      SizedBox(height: Spacing.xsm),
+                      if (state is ExtractLoaded)
+                        _buildColumnWithData(state.extractedResult, context),
+                    ],
+                  );
                 },
               ),
             ),
@@ -76,62 +93,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildInitialInput(BuildContext context, ExtractState state) {
-    return Column(
-      children: [
-        SizedBox(height: Spacing.md),
-        Image.asset(
-          'assets/images/chow_down.png',
-          height: Spacing.massive,
-          width: Spacing.massive,
-          fit: BoxFit.fill,
-        ),
-        SizedBox(height: Spacing.md),
-        ExtractRecipeForm(),
-        SizedBox(height: Spacing.sm),
-        HelpCard(),
-        SizedBox(height: Spacing.xsm),
-        if (state is! ExtractInitial)
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Spacing.sm,
-            ),
-            child: EmptyContent(
-              message: 'Try refreshing the page.',
-              title: 'Something went wrong...',
-              icon: Icons.error_outline_sharp,
-            ),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildLoading() => Center(
-        child: CircularProgressIndicator(
-          color: ChowColors.white,
-        ),
-      );
-
   Widget _buildColumnWithData(Recipe searchResult, BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: Spacing.md),
-        Image.asset(
-          'assets/images/chow_down.png',
-          height: Spacing.massive,
-          width: Spacing.massive,
-          fit: BoxFit.fill,
-        ),
-        SizedBox(height: Spacing.md),
-        ExtractRecipeForm(),
-        SizedBox(height: Spacing.sm),
-        HelpCard(),
-        SizedBox(height: Spacing.xsm),
-
         // This is the recipe card that is displayed after the user has submitted a URL
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
+          padding: EdgeInsets.symmetric(horizontal: Spacing.sm),
           child: GestureDetector(
             onTap: () => Navigator.push(
               context,

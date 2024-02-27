@@ -1,6 +1,8 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/measures.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'extended_ingredients.g.dart';
 
