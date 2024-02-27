@@ -32,9 +32,9 @@ class RecipeExtracted {
 
 @JsonSerializable()
 class RecipeCardInfoList {
-  final List<Recipe> list;
+  final List<Recipe> results;
   RecipeCardInfoList({
-    required this.list,
+    required this.results,
   });
 
   factory RecipeCardInfoList.fromJson(Map<String, dynamic> json) =>

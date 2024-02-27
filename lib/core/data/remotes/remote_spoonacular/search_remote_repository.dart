@@ -27,7 +27,7 @@ class RemoteSearchRepository implements SearchRepository {
       final response = await Dio().get(endpoint);
       final body = json.decode(response.toString());
 
-      return RecipeCardInfoList.fromJson(body['results']);
+      return RecipeCardInfoList.fromJson(body);
     } on SocketException catch (e) {
       print(e);
       throw Failure(message: 'No Internet connection');

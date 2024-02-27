@@ -1,5 +1,6 @@
 // 📦 Package imports:
 import 'package:bloc/bloc.dart';
+import 'package:chow_down/cubit/search/search_event.dart';
 import 'package:equatable/equatable.dart';
 
 // 🌎 Project imports:
@@ -9,16 +10,22 @@ import 'package:chow_down/models/error/error.dart';
 
 part 'search_state.dart';
 
-class SearchCubit extends Cubit<SearchState> {
+class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final RemoteSearchRepository _searchRepository;
 
-  SearchCubit(this._searchRepository) : super(SearchInitial());
+  SearchBloc(this._searchRepository) : super(SearchInitial()) {
+    on<SearchRecipes>(_handleSearchRecipes);
+    on<Refresh>(_handleRefresh);
+  }
 
-  Future<void> fetchSearchResults(String query) async {
+  Future<void> _handleSearchRecipes(
+    SearchRecipes event,
+    Emitter<SearchState> emit,
+  ) async {
     try {
       emit(SearchLoading());
 
-      final searchResults = await _searchRepository.getRecipesList(query);
+      final searchResults = await _searchRepository.getRecipesList(event.query);
 
       emit(SearchLoaded(searchResults));
     } on Failure catch (e) {
@@ -26,7 +33,10 @@ class SearchCubit extends Cubit<SearchState> {
     }
   }
 
-  Future<void> refresh() async {
+  Future<void> _handleRefresh(
+    Refresh event,
+    Emitter<SearchState> emit,
+  ) async {
     try {
       emit(SearchLoading());
 

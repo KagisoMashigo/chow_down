@@ -1,39 +1,26 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/forms/chow_form.dart';
+import 'package:chow_down/cubit/search/search_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
-import 'package:chow_down/cubit/search/search_cubit.dart';
+import 'package:chow_down/cubit/search/search_bloc.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
-class SearchPage extends StatefulWidget {
-  @override
-  _SearchPageState createState() => _SearchPageState();
-}
-
-class _SearchPageState extends State<SearchPage> {
-  void showSnackbar(
-    BuildContext context,
-    String errorMessage,
-  ) =>
-      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
-
-  Future<void> _pullRefresh() async {
-    await Future.delayed(Duration(seconds: 1));
-    await Provider.of<SearchCubit>(context, listen: false).refresh();
-  }
+class SearchPage extends StatelessWidget {
+  const SearchPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
         body: RefreshIndicator(
           color: ChowColors.blue300,
-          onRefresh: () => _pullRefresh(),
+          onRefresh: () => _pullRefresh(context),
           child: Container(
             height: Responsive.isSmallScreen()
                 ? MediaQuery.of(context).size.height
@@ -59,27 +46,44 @@ class _SearchPageState extends State<SearchPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: BlocConsumer<SearchCubit, SearchState>(
+            child: BlocConsumer<SearchBloc, SearchState>(
               listener: (context, state) {
                 if (state is SearchError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
+                  FloatingFeedback(
+                    message: state.message,
+                    style: FloatingFeedbackStyle.alert,
+                    duration: Duration(seconds: 3),
+                  ).show(context);
                 }
               },
               builder: (context, state) {
-                if (state is SearchInitial) {
-                  return _buildInitialInput();
-                } else if (state is SearchLoading) {
-                  return _buildLoading();
-                } else if (state is SearchLoaded) {
-                  return _buildColumnWithData(state.searchResultList);
-                } else {
-                  // error state snackbar
-                  return _buildInitialInput();
+                if (state is SearchLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: ChowColors.white,
+                    ),
+                  );
                 }
+
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: Responsive.ratioVertical * 10.0),
+                        child: ChowForm(
+                          submitForm: (context, url) => context
+                              .read<SearchBloc>()
+                              .add(SearchRecipes(query: url)),
+                          borderColor: ChowColors.white,
+                        ),
+                      ),
+                      if (state is SearchLoaded)
+                        _buildColumnWithData(state.searchResultList, context),
+                    ],
+                  ),
+                  physics: BouncingScrollPhysics(),
+                );
               },
             ),
           ),
@@ -88,175 +92,82 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildInitialInput() {
-    return Padding(
-      padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
-      child: SearchInputField(),
-    );
-  }
-
-  Widget _buildLoading() {
-    return Center(
-      child: CircularProgressIndicator(
-        color: ChowColors.blue300,
-      ),
-    );
-  }
-
-  Widget _buildColumnWithData(RecipeCardInfoList searchResultList) {
-    final recipes = searchResultList.list;
+  Widget _buildColumnWithData(
+      RecipeCardInfoList searchResultList, BuildContext context) {
+    final recipes = searchResultList.results;
     final mappedRecipes = recipes.asMap().entries;
 
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
-            child: SearchInputField(),
-          ),
-          // Padding(
-          //   padding: EdgeInsets.all(8 * Responsive.ratioHorizontal),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         'Results: ${recipes.length}',
-          //         style: TextStyle(
-          //           fontSize: 4.5 * Responsive.ratioHorizontal,
-          //           color: ChowColors.white,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          recipes.isNotEmpty
-              ? Column(
-                  children: [
-                    //     ListView.builder(
-                    //       physics: AlwaysScrollableScrollPhysics(),
-                    //       shrinkWrap: true,
-                    //       itemCount: recipes.length,
-                    //       itemBuilder: (context, index) {
-                    //         final recipe = recipes[index];
-                    //         return GestureDetector(
-                    //                                  onTap: () => Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                 builder: (context) => RecipeInfoPage(
-                    //                   title: recipes[index].title,
-                    //                   id: recipes[index].id,
-                    //                   sourceUrl: recipes[index].sourceUrl,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           child: RecipeCard(
-                    // loadingColor: ChowColors.blue300,
-                    //               id: recipes[index].id,
-                    //               name: recipes[index].title,
-                    //               imageUrl: recipes[index].image,
-                    //               url: recipes[index].sourceUrl,
-                    //               glutenFree: recipes[index].glutenFree,
-                    //               readyInMinutes: recipes[index].readyInMinutes,
-                    //               vegetarian: recipes[index].vegetarian,
-                    //               vegan: recipes[index].vegan,
-                    //               servings: recipes[index].servings,
-                    //           ),
-                    //         );
-                    //       },
-                    //     ),
-                    Padding(
-                      padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
-                      child: Column(
-                        children: mappedRecipes.map(
-                          (recipe) {
-                            // This is the index to be used to iterate
-                            int index = recipe.key;
+    return recipes.isNotEmpty
+        ? Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+                child: Column(
+                  children: mappedRecipes.map(
+                    (recipe) {
+                      // This is the index to be used to iterate
+                      int index = recipe.key;
 
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => RecipeInfoPage(
-                                    title: recipes[index].title,
-                                    id: recipes[index].id,
-                                    sourceUrl: recipes[index].sourceUrl!,
-                                  ),
-                                ),
-                              ),
-                              child: RecipeCard(
-                                loadingColor: ChowColors.blue300,
-                                id: recipes[index].id,
-                                name: recipes[index].title,
-                                imageUrl: recipes[index].image,
-                                url: recipes[index].sourceUrl!,
-                                glutenFree: recipes[index].glutenFree!,
-                                readyInMinutes: recipes[index].readyInMinutes!,
-                                vegetarian: recipes[index].vegetarian!,
-                                vegan: recipes[index].vegan!,
-                                servings: recipes[index].servings!,
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                    ),
-                    recipes.length < 4
-                        ? Container()
-                        : Align(
-                            alignment: Alignment.bottomCenter,
-                            child: FloatingActionButton(
-                              onPressed: () => Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          this.widget)),
-                              child: Icon(
-                                Icons.arrow_upward_outlined,
-                                color: ChowColors.black,
-                              ),
-                              backgroundColor: ChowColors.white,
+                      return GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RecipeInfoPage(
+                              title: recipes[index].title,
+                              id: recipes[index].id,
+                              sourceUrl: recipes[index].sourceUrl!,
                             ),
                           ),
-                    verticalDivider(factor: 4)
-                  ],
-                )
-              : Padding(
-                  padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
-                  child: EmptyContent(
-                    icon: Icons.question_mark,
-                    title: 'Oof no results...',
-                    message: 'Try a different search term',
-                  ),
+                        ),
+                        child: RecipeCard(
+                          loadingColor: ChowColors.blue300,
+                          id: recipes[index].id,
+                          name: recipes[index].title,
+                          imageUrl: recipes[index].image,
+                          url: recipes[index].sourceUrl!,
+                          glutenFree: recipes[index].glutenFree!,
+                          readyInMinutes: recipes[index].readyInMinutes!,
+                          vegetarian: recipes[index].vegetarian!,
+                          vegan: recipes[index].vegan!,
+                          servings: recipes[index].servings!,
+                        ),
+                      );
+                    },
+                  ).toList(),
                 ),
-        ],
-      ),
-    );
-  }
-}
-
-class SearchInputField extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5 * Responsive.ratioHorizontal),
-      child: TextField(
-        style: TextStyle(color: ChowColors.white),
-        onSubmitted: (query) => _submitForm(context, query),
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-            hintText: "Search for a recipe",
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: ChowColors.white, width: 0.0),
-              borderRadius: BorderRadius.circular(12),
+              ),
+              recipes.length < 4
+                  ? Container()
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FloatingActionButton(
+                        onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    SearchPage())),
+                        child: Icon(
+                          Icons.arrow_upward_outlined,
+                          color: ChowColors.black,
+                        ),
+                        backgroundColor: ChowColors.white,
+                      ),
+                    ),
+              verticalDivider(factor: 4)
+            ],
+          )
+        : Padding(
+            padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+            child: EmptyContent(
+              icon: Icons.question_mark,
+              title: 'Oof no results...',
+              message: 'Try a different search term',
             ),
-            labelStyle: TextStyle(color: ChowColors.white),
-            hintStyle: TextStyle(color: ChowColors.white)),
-      ),
-    );
+          );
   }
 
-  void _submitForm(BuildContext context, String query) {
-    final searchCubit = context.read<SearchCubit>();
-    searchCubit.fetchSearchResults(query);
-  }
+  Future<void> _pullRefresh(BuildContext context) async =>
+      await Future.delayed(Duration(seconds: 1), () {
+        context.read<SearchBloc>().add(Refresh());
+      });
 }

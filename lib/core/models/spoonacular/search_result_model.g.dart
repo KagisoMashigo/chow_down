@@ -34,12 +34,12 @@ Map<String, dynamic> _$RecipeExtractedToJson(RecipeExtracted instance) =>
 
 RecipeCardInfoList _$RecipeCardInfoListFromJson(Map<String, dynamic> json) =>
     RecipeCardInfoList(
-      list: (json['list'] as List<dynamic>)
+      results: (json['results'] as List<dynamic>)
           .map((e) => Recipe.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$RecipeCardInfoListToJson(RecipeCardInfoList instance) =>
     <String, dynamic>{
-      'list': instance.list,
+      'results': instance.results,
     };
