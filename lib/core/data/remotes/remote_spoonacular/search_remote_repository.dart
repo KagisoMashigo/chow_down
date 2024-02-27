@@ -1,5 +1,6 @@
 // 🎯 Dart imports:
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
@@ -33,11 +34,11 @@ class RemoteSearchRepository implements SearchRepository {
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
       print(e);
-      throw Failure(message: 'There was a problem extracting the recipe');
+      throw Failure(message: 'There was a problem fetching the recipes');
     } on DioException catch (e) {
-      print(e);
+      log(e.message!);
       if (e.type == DioExceptionType.receiveTimeout) {
-        throw Failure(message: "Connection  Timeout Exception");
+        throw Failure(message: 'The request took too long to complete');
       }
 
       if (e.response?.statusCode == 503) {
@@ -47,14 +48,15 @@ class RemoteSearchRepository implements SearchRepository {
           code: e.response?.statusCode,
         );
       } else if (e.response?.statusCode == 400) {
+        log('Error code: ${e.response?.statusCode}.');
+
         throw Failure(
-          message:
-              'Please enter a valid URL. Error code: ${e.response?.statusCode}.',
-          code: e.response?.statusCode,
+          message: 'The query provided is invalid or empty',
+          code: 400,
         );
       } else {
         throw Failure(
-          message: 'There was a problem extracting the recipe',
+          message: 'There was a problem with your search',
           code: e.response?.statusCode,
         );
       }

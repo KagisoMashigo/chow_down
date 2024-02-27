@@ -25,9 +25,13 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       emit(SearchLoading());
 
-      final searchResults = await _searchRepository.getRecipesList(event.query);
-
-      emit(SearchLoaded(searchResults));
+      if (event.query.isNotEmpty) {
+        final searchResults =
+            await _searchRepository.getRecipesList(event.query);
+        emit(SearchLoaded(searchResults));
+      } else {
+        emit(SearchError('The query provided is invalid or empty'));
+      }
     } on Failure catch (e) {
       emit(SearchError(e.toString()));
     }
