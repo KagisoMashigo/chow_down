@@ -111,7 +111,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
       case 1:
         return RecipeInstCard(
           analyzedInstructions: recipe.analyzedInstructions!,
-          instructions: recipe.instructions,
+          instructions: recipe.instructions!,
         );
       case 2:
         return RecipeDietCard(

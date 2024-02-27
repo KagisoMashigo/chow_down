@@ -27,7 +27,7 @@ class Recipe {
   final String? license;
   final String? sourceName;
   final double? pricePerServing;
-  final List<ExtendedIngredients> extendedIngredients;
+  final List<ExtendedIngredients>? extendedIngredients;
   final int id;
   final String title;
   final int? readyInMinutes;
@@ -40,7 +40,7 @@ class Recipe {
   final List<dynamic>? dishTypes;
   final List<dynamic>? diets;
   final List<dynamic>? occasions;
-  final String instructions;
+  final String? instructions;
   final List<AnalyzedInstruction>? analyzedInstructions;
   final dynamic originalId;
   final String? spoonacularSourceUrl;
@@ -64,7 +64,7 @@ class Recipe {
     this.license,
     this.sourceName,
     this.pricePerServing,
-    required this.extendedIngredients,
+    this.extendedIngredients,
     required this.id,
     required this.title,
     this.readyInMinutes,
@@ -77,7 +77,7 @@ class Recipe {
     this.dishTypes,
     this.diets,
     this.occasions,
-    required this.instructions,
+    this.instructions,
     this.analyzedInstructions,
     required this.originalId,
     this.spoonacularSourceUrl,

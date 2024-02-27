@@ -6,10 +6,15 @@ import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
 
 class ChowForm extends StatelessWidget {
-  final void Function(BuildContext context, String url) submitForm;
+  final void Function(BuildContext context, String text) submitForm;
+  final Color? borderColor;
   final TextEditingController _formUrl = TextEditingController();
 
-  ChowForm({Key? key, required this.submitForm}) : super(key: key);
+  ChowForm({
+    Key? key,
+    required this.submitForm,
+    this.borderColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +52,7 @@ class ChowForm extends StatelessWidget {
               ),
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(
-                  color: ChowColors.grey500,
+                  color: borderColor ?? ChowColors.grey500,
                 ),
               ),
             ),
