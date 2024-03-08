@@ -6,7 +6,7 @@ import 'package:chow_down/core/models/spoonacular/measures.dart';
 
 part 'extended_ingredients.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ExtendedIngredients {
   final int id;
   final String? aisle;

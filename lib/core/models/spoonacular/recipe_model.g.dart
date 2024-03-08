@@ -36,15 +36,22 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       image: json['image'] as String,
       imageType: json['imageType'] as String?,
       summary: json['summary'] as String?,
-      cuisines: json['cuisines'] as List<dynamic>?,
-      dishTypes: json['dishTypes'] as List<dynamic>?,
-      diets: json['diets'] as List<dynamic>?,
-      occasions: json['occasions'] as List<dynamic>?,
+      cuisines: (json['cuisines'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      dishTypes: (json['dishTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      diets:
+          (json['diets'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      occasions: (json['occasions'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       instructions: json['instructions'] as String?,
       analyzedInstructions: (json['analyzedInstructions'] as List<dynamic>?)
           ?.map((e) => AnalyzedInstruction.fromJson(e as Map<String, dynamic>))
           .toList(),
-      originalId: json['originalId'],
+      originalId: json['originalId'] as String?,
       spoonacularSourceUrl: json['spoonacularSourceUrl'] as String?,
     );
 
@@ -67,7 +74,8 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'license': instance.license,
       'sourceName': instance.sourceName,
       'pricePerServing': instance.pricePerServing,
-      'extendedIngredients': instance.extendedIngredients,
+      'extendedIngredients':
+          instance.extendedIngredients?.map((e) => e.toJson()).toList(),
       'id': instance.id,
       'title': instance.title,
       'readyInMinutes': instance.readyInMinutes,
@@ -81,7 +89,8 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'diets': instance.diets,
       'occasions': instance.occasions,
       'instructions': instance.instructions,
-      'analyzedInstructions': instance.analyzedInstructions,
+      'analyzedInstructions':
+          instance.analyzedInstructions?.map((e) => e.toJson()).toList(),
       'originalId': instance.originalId,
       'spoonacularSourceUrl': instance.spoonacularSourceUrl,
     };

@@ -7,7 +7,7 @@ import 'equipment.dart';
 
 part 'steps.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Step {
   final int number;
   final String step;

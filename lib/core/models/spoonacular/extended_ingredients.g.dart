@@ -42,5 +42,5 @@ Map<String, dynamic> _$ExtendedIngredientsToJson(
       'unit': instance.unit,
       'meta': instance.meta,
       'metaInformation': instance.metaInformation,
-      'measures': instance.measures,
+      'measures': instance.measures?.toJson(),
     };

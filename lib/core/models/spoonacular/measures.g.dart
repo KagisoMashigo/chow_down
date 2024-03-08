@@ -16,6 +16,6 @@ Measures _$MeasuresFromJson(Map<String, dynamic> json) => Measures(
     );
 
 Map<String, dynamic> _$MeasuresToJson(Measures instance) => <String, dynamic>{
-      'us': instance.us,
-      'metric': instance.metric,
+      'us': instance.us?.toJson(),
+      'metric': instance.metric?.toJson(),
     };

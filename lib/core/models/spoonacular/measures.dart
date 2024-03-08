@@ -7,7 +7,7 @@ import 'package:chow_down/core/models/spoonacular/us.dart';
 
 part 'measures.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Measures {
   final Us? us;
   final Metric? metric;

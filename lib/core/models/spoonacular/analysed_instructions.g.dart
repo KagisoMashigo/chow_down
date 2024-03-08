@@ -18,5 +18,5 @@ Map<String, dynamic> _$AnalyzedInstructionToJson(
         AnalyzedInstruction instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'steps': instance.steps,
+      'steps': instance.steps.map((e) => e.toJson()).toList(),
     };

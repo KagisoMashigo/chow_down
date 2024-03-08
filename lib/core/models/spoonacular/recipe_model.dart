@@ -7,7 +7,7 @@ import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 
 part 'recipe_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Recipe {
   final bool? vegetarian;
   final bool? vegan;
@@ -36,13 +36,13 @@ class Recipe {
   final String image;
   final String? imageType;
   final String? summary;
-  final List<dynamic>? cuisines;
-  final List<dynamic>? dishTypes;
-  final List<dynamic>? diets;
-  final List<dynamic>? occasions;
+  final List<String>? cuisines;
+  final List<String>? dishTypes;
+  final List<String>? diets;
+  final List<String>? occasions;
   final String? instructions;
   final List<AnalyzedInstruction>? analyzedInstructions;
-  final dynamic originalId;
+  final String? originalId;
   final String? spoonacularSourceUrl;
 
   Recipe({

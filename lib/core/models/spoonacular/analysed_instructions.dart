@@ -6,7 +6,7 @@ import 'package:chow_down/core/models/spoonacular/steps.dart';
 
 part 'analysed_instructions.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AnalyzedInstruction {
   final String name;
   final List<Step> steps;

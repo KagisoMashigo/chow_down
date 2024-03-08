@@ -20,6 +20,6 @@ Step _$StepFromJson(Map<String, dynamic> json) => Step(
 Map<String, dynamic> _$StepToJson(Step instance) => <String, dynamic>{
       'number': instance.number,
       'step': instance.step,
-      'ingredients': instance.ingredients,
-      'equipment': instance.equipment,
+      'ingredients': instance.ingredients?.map((e) => e.toJson()).toList(),
+      'equipment': instance.equipment?.map((e) => e.toJson()).toList(),
     };
