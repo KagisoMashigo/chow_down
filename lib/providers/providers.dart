@@ -6,10 +6,10 @@ import 'package:provider/single_child_widget.dart';
 // 🌎 Project imports:
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
-import 'package:chow_down/cubit/home_page/extract_bloc.dart';
-import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
-import 'package:chow_down/cubit/search/search_bloc.dart';
+import 'package:chow_down/blocs/home_page/extract_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 

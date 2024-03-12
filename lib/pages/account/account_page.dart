@@ -13,7 +13,7 @@ import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {

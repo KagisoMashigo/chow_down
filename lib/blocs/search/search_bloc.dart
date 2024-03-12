@@ -1,6 +1,6 @@
 // 📦 Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chow_down/cubit/search/search_event.dart';
+import 'package:chow_down/blocs/search/search_event.dart';
 import 'package:equatable/equatable.dart';
 
 // 🌎 Project imports:
