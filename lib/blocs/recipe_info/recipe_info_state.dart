@@ -1,10 +1,7 @@
-part of 'recipe_info_cubit.dart';
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
-abstract class RecipeInfoState extends Equatable {
+abstract class RecipeInfoState {
   const RecipeInfoState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class RecipeInfoInitial extends RecipeInfoState {
@@ -16,32 +13,19 @@ class RecipeInfoLoading extends RecipeInfoState {
 }
 
 class RecipeInfoLoaded extends RecipeInfoState {
-  const RecipeInfoLoaded(this.recipe);
   final Recipe recipe;
 
-  // TODO: incorporate freezed later on as this is not prod viable
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is RecipeInfoLoaded && other.recipe == recipe;
-  }
+  const RecipeInfoLoaded(this.recipe);
 
   @override
-  int get hashCode => recipe.hashCode;
+  String toString() => 'RecipeInfoLoaded{recipe: $recipe}';
 }
 
-class RecipInfoError extends RecipeInfoState {
+class RecipeInfoError extends RecipeInfoState {
   final String message;
-  const RecipInfoError(this.message);
+
+  const RecipeInfoError(this.message);
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is RecipInfoError && other.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
+  String toString() => 'RecipInfoError{message: $message}';
 }
