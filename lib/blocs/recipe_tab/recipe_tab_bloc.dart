@@ -1,9 +1,9 @@
 // 📦 Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';

@@ -1,6 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,6 +6,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/color.dart';
@@ -15,7 +16,6 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override

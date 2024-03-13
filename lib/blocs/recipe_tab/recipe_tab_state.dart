@@ -1,3 +1,4 @@
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 abstract class RecipeTabState {

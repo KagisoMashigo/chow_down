@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/home_page/extract_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -7,6 +6,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/home_page/extract_bloc.dart';
+import 'package:chow_down/blocs/home_page/extract_event.dart';
+import 'package:chow_down/blocs/home_page/extract_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
@@ -15,8 +17,6 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/blocs/home_page/extract_bloc.dart';
-import 'package:chow_down/blocs/home_page/extract_event.dart';
 import 'package:chow_down/pages/recipes/extracted_info_page.dart';
 
 class HomePage extends StatelessWidget {

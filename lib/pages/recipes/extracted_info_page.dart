@@ -1,7 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -10,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingre_card.dart';

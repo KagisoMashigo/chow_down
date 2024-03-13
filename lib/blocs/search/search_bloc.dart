@@ -1,9 +1,9 @@
 // 📦 Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chow_down/blocs/search/search_event.dart';
-import 'package:chow_down/blocs/search/search_state.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/search/search_event.dart';
+import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/models/error/error.dart';
 
