@@ -1,4 +1,4 @@
-part of 'extract_bloc.dart';
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 abstract class ExtractState {
   const ExtractState();
@@ -15,18 +15,11 @@ class ExtractPending extends ExtractState {
 
 class ExtractLoaded extends ExtractState {
   const ExtractLoaded(this.extractedResult);
+
   final Recipe extractedResult;
 
-  // TODO: incorporate freezed later on as this is not prod viable
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ExtractLoaded && other.extractedResult == extractedResult;
-  }
-
-  @override
-  int get hashCode => extractedResult.hashCode;
+  String toString() => 'ExtractLoaded{extractedResult: $extractedResult}';
 }
 
 class ExtractError extends ExtractState {
@@ -36,12 +29,5 @@ class ExtractError extends ExtractState {
   const ExtractError(this.message, this.code);
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ExtractError && other.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
+  String toString() => 'ExtractError{message: $message, code: $code}';
 }

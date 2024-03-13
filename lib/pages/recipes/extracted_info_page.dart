@@ -1,4 +1,7 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -17,7 +20,6 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
@@ -52,8 +54,9 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
 
   void initState() {
     super.initState();
-    Provider.of<RecipeInfoCubit>(context, listen: false)
-        .fetchRecipeInformation(widget.id, widget.sourceUrl);
+    BlocProvider.of<RecipeInfoBloc>(context).add(
+      FetchRecipeInformation(id: widget.id, sourceUrl: widget.sourceUrl!),
+    );
     _populateButtonList(TAB_OPTIONS, _isSelected);
     _database = Provider.of<Database>(context, listen: false);
   }
@@ -156,9 +159,9 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
           ),
         ),
         alignment: Alignment.center,
-        child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
+        child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
           listener: (context, state) {
-            if (state is RecipInfoError) {
+            if (state is RecipeInfoError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
