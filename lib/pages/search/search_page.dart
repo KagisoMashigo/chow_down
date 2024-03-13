@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/blocs/search/search_event.dart';
@@ -50,7 +51,7 @@ class SearchPage extends StatelessWidget {
               listener: (context, state) {
                 if (state is SearchError) {
                   FloatingFeedback(
-                    message: state.message,
+                    message: state.message!,
                     style: FloatingFeedbackStyle.alert,
                     duration: Duration(seconds: 3),
                   ).show(context);

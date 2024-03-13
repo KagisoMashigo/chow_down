@@ -1,13 +1,9 @@
-part of 'search_bloc.dart';
+import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 
-abstract class SearchState extends Equatable {
+abstract class SearchState {
   const SearchState();
-
-  @override
-  List<Object> get props => [];
 }
 
-// The initial search bar
 class SearchInitial extends SearchState {
   const SearchInitial();
 }
@@ -17,32 +13,19 @@ class SearchLoading extends SearchState {
 }
 
 class SearchLoaded extends SearchState {
-  const SearchLoaded(this.searchResultList);
   final RecipeCardInfoList searchResultList;
 
-  // TODO: incorporate freezed later on as this is not prod viable
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is SearchLoaded && other.searchResultList == searchResultList;
-  }
+  const SearchLoaded({required this.searchResultList});
 
   @override
-  int get hashCode => searchResultList.hashCode;
+  String toString() => 'SearchLoaded{searchResultList: $searchResultList}';
 }
 
 class SearchError extends SearchState {
-  final String message;
-  const SearchError(this.message);
+  final String? message;
+
+  const SearchError({this.message});
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is SearchError && other.message == message;
-  }
-
-  @override
-  int get hashCode => message.hashCode;
+  String toString() => 'SearchError{message: $message}';
 }
