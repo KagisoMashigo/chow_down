@@ -56,7 +56,7 @@ class App extends StatelessWidget {
         builder: (context, constraints) {
           return OrientationBuilder(
             builder: (context, orientation) {
-              Responsive().init(constraints, orientation);
+              Responsive.init(constraints, orientation);
               SystemChrome.setPreferredOrientations(
                 [
                   DeviceOrientation.portraitUp,
