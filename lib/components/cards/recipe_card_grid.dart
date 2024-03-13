@@ -1,16 +1,17 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
 class RecipeCardGrid extends StatefulWidget {
@@ -27,7 +28,9 @@ class RecipeCardGrid extends StatefulWidget {
 
 class _RecipeCardGridState extends State<RecipeCardGrid> {
   Future<void> _confirmDelete(
-      BuildContext context, RecipeTabCubit delete, Recipe recipe) async {
+    BuildContext context,
+    Recipe recipe,
+  ) async {
     final confirmDelete = await showAlertDialog(
       context,
       isSave: false,
@@ -37,14 +40,13 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
       cancelActionText: 'Cancel',
     );
     if (confirmDelete == true) {
-      delete.deleteRecipeFromCollection(recipe);
+      BlocProvider.of<RecipeTabBloc>(context).add(DeleteRecipeEvent(recipe));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final List<Recipe> results = widget.searchResultList;
-    final _delete = Provider.of<RecipeTabCubit>(context, listen: false);
 
     return GridView.count(
       primary: false,
@@ -54,15 +56,14 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
           : MediaQuery.of(context).size.aspectRatio * 2,
       mainAxisSpacing: 3 * Responsive.ratioVertical,
       crossAxisSpacing: 5.5 * Responsive.ratioHorizontal,
-      children: _getStructuredCardGrid(results, context, _delete),
+      children: _getStructuredCardGrid(results, context),
       shrinkWrap: true,
     );
   }
 
   List<Widget> _getStructuredCardGrid(
     List<Recipe> results,
-    context,
-    RecipeTabCubit delete,
+    BuildContext context,
   ) {
     return results
         .map(
@@ -128,7 +129,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                       ),
                       InkWell(
                         splashColor: ChowColors.black,
-                        onTap: (() => _confirmDelete(context, delete, recipe)),
+                        onTap: (() => _confirmDelete(context, recipe)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: 2 * Responsive.ratioHorizontal,

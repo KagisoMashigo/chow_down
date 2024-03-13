@@ -1,10 +1,11 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
@@ -14,7 +15,7 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 
 class RecipeTabPage extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
+    BlocProvider.of<RecipeTabBloc>(context).add(FetchHomeRecipesEvent());
   }
 
   void showSnackbar(
@@ -57,12 +58,12 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
               ),
             ),
             padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
+            child: BlocConsumer<RecipeTabBloc, RecipeTabState>(
               listener: (context, state) {
                 if (state is RecipTabError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(state.message),
+                      content: Text(state.message!),
                     ),
                   );
                 }
@@ -85,8 +86,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
 
   Future<void> _pullRefresh() async {
     await Future.delayed(Duration(seconds: 1));
-    await Provider.of<RecipeTabCubit>(context, listen: false)
-        .fetchHomeRecipesList();
+    BlocProvider.of<RecipeTabBloc>(context).add(FetchHomeRecipesEvent());
   }
 
   Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial

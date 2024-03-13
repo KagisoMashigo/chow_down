@@ -1,4 +1,5 @@
 // 📦 Package imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -8,7 +9,6 @@ import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_rep
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/blocs/home_page/extract_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
@@ -29,14 +29,14 @@ final _authProviders = <SingleChildWidget>[
 /// Providers that may or may not require an token, but provides functionality on the scope
 /// of the app domains
 final _functionalityProviders = <SingleChildWidget>[
-  BlocProvider<RecipeInfoCubit>(
-    create: (context) => RecipeInfoCubit(
+  BlocProvider<RecipeInfoBloc>(
+    create: (context) => RecipeInfoBloc(
       RemoteRecipe(),
       FirestoreDatabase(uid: Auth().currentUser.uid),
     ),
   ),
-  BlocProvider<RecipeTabCubit>(
-    create: (context) => RecipeTabCubit(
+  BlocProvider<RecipeTabBloc>(
+    create: (context) => RecipeTabBloc(
       FirestoreDatabase(uid: Auth().currentUser.uid),
     ),
   ),
