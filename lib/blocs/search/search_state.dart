@@ -1,3 +1,4 @@
+// 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 
 abstract class SearchState {

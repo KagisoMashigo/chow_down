@@ -11,7 +11,7 @@ class Responsive {
   static double ratioHorizontal = 0;
   static double ratioSquare = 0;
 
-  void init(BoxConstraints constraints, Orientation orientation) {
+  static void init(BoxConstraints constraints, Orientation orientation) {
     final bool isPortraitOriented = orientation == Orientation.portrait;
 
     _screenWidth =
