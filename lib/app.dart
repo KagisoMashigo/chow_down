@@ -1,3 +1,12 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/blocs/home_page/extract_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
@@ -10,10 +19,6 @@ import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_rep
 import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
