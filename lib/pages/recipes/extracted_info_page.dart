@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -211,7 +212,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
               ),
             ],
           ),
-          verticalDivider(factor: 2),
+          SizedBox(height: Spacing.md),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 4.5 * Responsive.ratioHorizontal),
@@ -245,7 +246,7 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                     ),
                   ],
                 ),
-                verticalDivider(factor: 2),
+                SizedBox(height: Spacing.md),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Container(
@@ -287,9 +288,9 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                     ),
                   ),
                 ),
-                verticalDivider(factor: 2),
+                SizedBox(height: Spacing.md),
                 _whichCard(_currentIndex, recipe),
-                verticalDivider(factor: 15),
+                SizedBox(height: Spacing.md),
               ],
             ),
           ),

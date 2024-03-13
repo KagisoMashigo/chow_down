@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -138,7 +139,7 @@ class AccountPage extends StatelessWidget {
             radius: 8 * Responsive.ratioHorizontal,
             photoUrl: user.photoURL!,
           ),
-          horizontalDivider(factor: 5),
+          SizedBox(width: Spacing.sm),
           user.displayName != null
               ? Expanded(
                   child: Text(
@@ -177,19 +178,18 @@ class AccountPage extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: defaultPadding(),
+          padding: EdgeInsets.all(Spacing.sm),
           child: Padding(
-            padding: defaultPadding(),
+            padding: EdgeInsets.all(Spacing.sm),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                verticalDivider(factor: 6),
-                // _buildUserInfo(auth.currentUser),
+                SizedBox(height: Spacing.sm),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: defaultPadding(),
+                    padding: EdgeInsets.all(Spacing.sm),
                     child: Text(
                       'Settings',
                       style: TextStyle(
@@ -218,7 +218,7 @@ class AccountPage extends StatelessWidget {
                     color: ChowColors.white,
                   ),
                 ),
-                verticalDivider(),
+                SizedBox(height: Spacing.sm),
                 ChowListTile(
                   onTap: () async {
                     _confirmCollectionDelete(context);
@@ -275,7 +275,7 @@ class AccountPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size.fromHeight(10 * Responsive.ratioHorizontal),
-                    padding: defaultPadding(),
+                    padding: EdgeInsets.all(Spacing.sm),
                     backgroundColor: ChowColors.beige200,
                   ),
                   onPressed: () => _confirmSignOut(context),

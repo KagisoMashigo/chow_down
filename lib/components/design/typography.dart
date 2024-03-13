@@ -23,6 +23,9 @@ class ChowBaseText extends StatelessWidget {
         text,
         style: TextStyle(
           fontSize: fontSize,
+          fontFamily: ChowFontFamilies.primary,
+          color: ChowFontColors.base,
+          fontWeight: ChowFontWeights.regular,
         ),
       ),
     );
@@ -49,10 +52,20 @@ class ChowFontWeights {
 
 class ChowLineHeights {
   static const double _base = 1.5;
-
   static const double xsm = 1.0;
   static const double sm = 1.25;
   static const double md = _base;
   static const double lg = 1.75;
   static const double xlg = 2.0;
+}
+
+class ChowFontSizes {
+  static const double _base = 12.0;
+  static const double xsm = 0.5 * _base;
+  static const double sm = 0.75 * _base;
+  static const double md = _base;
+  static const double lg = 1.125 * _base;
+  static const double xlg = 1.5 * _base;
+  static const double xxlg = 2 * _base;
+  static const double xxxlg = 4.0 * _base;
 }

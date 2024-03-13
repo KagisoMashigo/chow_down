@@ -209,7 +209,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
               ),
             ],
           ),
-          verticalDivider(factor: 2),
+          SizedBox(height: Spacing.sm),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 4.5 * Responsive.ratioHorizontal),
@@ -226,7 +226,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                         ),
                       ),
                     ),
-                    horizontalDivider(factor: 1.9),
+                    SizedBox(width: Spacing.sm),
                     ChowSaveButton(
                       onTap: () {
                         _buttonTapped();
@@ -238,7 +238,7 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                     ),
                   ],
                 ),
-                verticalDivider(factor: 2),
+                SizedBox(height: Spacing.sm),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Container(
@@ -280,9 +280,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                     ),
                   ),
                 ),
-                verticalDivider(factor: 2),
+                SizedBox(height: Spacing.sm),
                 _whichCard(_currentIndex, recipe),
-                verticalDivider(factor: 15),
+                SizedBox(height: Spacing.sm)
               ],
             ),
           ),

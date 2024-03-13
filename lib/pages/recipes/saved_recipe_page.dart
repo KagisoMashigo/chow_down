@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -136,7 +137,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
                   ),
                 )
               : SizedBox.shrink(),
-          verticalDivider(factor: 12),
+          SizedBox(height: Spacing.md)
         ],
       ),
     );

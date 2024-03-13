@@ -69,7 +69,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
         .map(
           (recipe) => Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ChowBorderRadii.sm),
               color: ChowColors.offWhite,
               boxShadow: [
                 BoxShadow(
@@ -109,10 +109,10 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                     ),
                   ),
                 ),
-                verticalDivider(),
+                SizedBox(height: Spacing.sm),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 2 * Responsive.ratioHorizontal,
+                    horizontal: Spacing.sm,
                   ),
                   child: Row(
                     children: [
@@ -120,7 +120,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                         child: Text(
                           recipe.title,
                           style: TextStyle(
-                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                            fontSize: ChowFontSizes.lg,
                             color: Colors.black,
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -132,7 +132,7 @@ class _RecipeCardGridState extends State<RecipeCardGrid> {
                         onTap: (() => _confirmDelete(context, recipe)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 2 * Responsive.ratioHorizontal,
+                            horizontal: Spacing.sm,
                           ),
                           child: Icon(
                             Icons.delete,
