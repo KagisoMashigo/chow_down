@@ -1,14 +1,11 @@
 // 📦 Package imports:
 import 'package:bloc/bloc.dart';
-import 'package:chow_down/cubit/search/search_event.dart';
-import 'package:equatable/equatable.dart';
+import 'package:chow_down/blocs/search/search_event.dart';
+import 'package:chow_down/blocs/search/search_state.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
-import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
-
-part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final RemoteSearchRepository _searchRepository;
@@ -28,12 +25,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       if (event.query.isNotEmpty) {
         final searchResults =
             await _searchRepository.getRecipesList(event.query);
-        emit(SearchLoaded(searchResults));
+        emit(SearchLoaded(searchResultList: searchResults));
       } else {
-        emit(SearchError('The query provided is invalid or empty'));
+        emit(SearchError(message: 'The query provided is invalid or empty'));
       }
     } on Failure catch (e) {
-      emit(SearchError(e.toString()));
+      emit(SearchError(message: e.toString()));
     }
   }
 
@@ -48,7 +45,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       emit(SearchInitial());
     } on Failure catch (e) {
-      emit(SearchError(e.toString()));
+      emit(SearchError(message: e.toString()));
     }
   }
 }

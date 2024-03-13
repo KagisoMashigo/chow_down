@@ -1,10 +1,11 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/save_button.dart';
@@ -16,7 +17,7 @@ import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/cubit/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
 
 const List<String> TAB_OPTIONS = [
   'Ingredients',
@@ -55,8 +56,12 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
 
   void initState() {
     super.initState();
-    Provider.of<RecipeInfoCubit>(context, listen: false)
-        .fetchRecipe(widget.id, widget.sourceUrl);
+    BlocProvider.of<RecipeInfoBloc>(context).add(
+      FetchRecipe(
+        id: widget.id,
+        url: widget.sourceUrl,
+      ),
+    );
     _populateButtonList(TAB_OPTIONS, _isSelected);
   }
 
@@ -151,9 +156,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
           ),
         ),
         alignment: Alignment.center,
-        child: BlocConsumer<RecipeInfoCubit, RecipeInfoState>(
+        child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
           listener: (context, state) {
-            if (state is RecipInfoError) {
+            if (state is RecipeInfoError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -225,16 +230,9 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
                     ChowSaveButton(
                       onTap: () {
                         _buttonTapped();
-                        Provider.of<RecipeInfoCubit>(context, listen: false)
-                            .saveRecipe(recipe);
-                        // showAlertDialog(
-                        //   context,
-                        //   isSave: true,
-                        //   title: 'Saved!',
-                        //   content:
-                        //       'You can find this recipe in your saved list.',
-                        //   defaultActionText: 'Gotcha!',
-                        // );
+                        BlocProvider.of<RecipeInfoBloc>(context).add(
+                          SaveRecipe(recipe: recipe),
+                        );
                       },
                       isButtonTapped: _isButtonTapped,
                     ),

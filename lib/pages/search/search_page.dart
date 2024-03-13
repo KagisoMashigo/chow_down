@@ -1,9 +1,10 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
-import 'package:chow_down/cubit/search/search_event.dart';
+import 'package:chow_down/blocs/search/search_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -16,7 +17,7 @@ import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
-import 'package:chow_down/cubit/search/search_bloc.dart';
+import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
 class SearchPage extends StatelessWidget {
@@ -50,7 +51,7 @@ class SearchPage extends StatelessWidget {
               listener: (context, state) {
                 if (state is SearchError) {
                   FloatingFeedback(
-                    message: state.message,
+                    message: state.message!,
                     style: FloatingFeedbackStyle.alert,
                     duration: Duration(seconds: 3),
                   ).show(context);

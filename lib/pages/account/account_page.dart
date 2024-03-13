@@ -1,9 +1,12 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +16,6 @@ import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
@@ -34,8 +36,8 @@ class AccountPage extends StatelessWidget {
 
   Future<void> _deleteAllData(BuildContext context) async {
     try {
-      Provider.of<RecipeTabCubit>(context, listen: false)
-          .deleteEntireCollection();
+      BlocProvider.of<RecipeTabBloc>(context)
+          .add(DeleteEntireCollectionEvent());
     } catch (e) {}
   }
 
