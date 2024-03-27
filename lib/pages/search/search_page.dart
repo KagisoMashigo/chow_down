@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -154,7 +155,7 @@ class SearchPage extends StatelessWidget {
                         backgroundColor: ChowColors.white,
                       ),
                     ),
-              verticalDivider(factor: 4)
+              SizedBox(height: Spacing.sm)
             ],
           )
         : Padding(

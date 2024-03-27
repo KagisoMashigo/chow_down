@@ -99,7 +99,7 @@ class RecipeDietCard extends StatelessWidget {
                 ),
               ],
             ),
-            verticalDivider(factor: 2),
+            SizedBox(height: Spacing.md),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

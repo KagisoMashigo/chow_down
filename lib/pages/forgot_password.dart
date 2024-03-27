@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -75,14 +76,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
         child: Padding(
-          padding: defaultPadding(),
+          padding: EdgeInsets.all(Spacing.sm),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              verticalDivider(factor: 15),
+              SizedBox(height: Spacing.sm),
               _showAlert(),
-              verticalDivider(),
+              SizedBox(height: Spacing.sm),
               Card(
                 color: Colors.transparent,
                 child: Padding(
@@ -92,7 +93,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       _buildEmailTextField(),
-                      verticalDivider(factor: 3),
+                      SizedBox(height: Spacing.sm),
                       FormSubmitButton(
                         color: ChowColors.beige100,
                         text: 'Reset Password',
@@ -139,11 +140,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget _showAlert() {
     return Container(
       width: 1 * Responsive.ratioHorizontal,
-      padding: defaultPadding(),
+      padding: EdgeInsets.all(Spacing.sm),
       child: Row(
         children: <Widget>[
           Padding(
-            padding: defaultPadding(),
+            padding: EdgeInsets.all(Spacing.sm),
             child: Icon(Icons.error_outline),
           ),
           Expanded(

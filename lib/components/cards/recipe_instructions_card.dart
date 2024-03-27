@@ -47,7 +47,7 @@ class RecipeInstCard extends StatelessWidget {
                   .toList(),
             ),
           ),
-          verticalDivider(factor: 2.5),
+          SizedBox(height: 4 * Responsive.ratioVertical),
         ],
       ),
     );
