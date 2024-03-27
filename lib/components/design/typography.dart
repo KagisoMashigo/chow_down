@@ -60,12 +60,12 @@ class ChowLineHeights {
 }
 
 class ChowFontSizes {
-  static const double _base = 12.0;
-  static const double xsm = 0.5 * _base;
-  static const double sm = 0.75 * _base;
-  static const double md = _base;
-  static const double lg = 1.125 * _base;
-  static const double xlg = 1.5 * _base;
-  static const double xxlg = 2 * _base;
-  static const double xxxlg = 4.0 * _base;
+  static const double _base = 16.0;
+  static const double xxsm = 0.5 * _base;
+  static const double xsm = 0.75 * _base;
+  static const double sm = _base;
+  static const double md = 1.25 * _base;
+  static const double lg = 1.5 * _base;
+  static const double xlg = 1.75 * _base;
+  static const double xxlg = 2.0 * _base;
 }
