@@ -2,30 +2,43 @@
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 abstract class RecipeTabState {
-  const RecipeTabState();
+  final List<Recipe> recipeCardList;
+
+  RecipeTabState({required this.recipeCardList});
+
+  @override
+  String toString() => 'RecipeTabState{recipeCardList: $recipeCardList}';
 }
 
 class RecipeTabInitial extends RecipeTabState {
-  const RecipeTabInitial();
+  RecipeTabInitial() : super(recipeCardList: []);
+
+  @override
+  String toString() => 'RecipeTabInitial{}';
 }
 
 class RecipeTabLoading extends RecipeTabState {
-  const RecipeTabLoading();
+  RecipeTabLoading({required List<Recipe> recipeCardList})
+      : super(recipeCardList: recipeCardList);
+
+  @override
+  String toString() => 'RecipeTabLoading{}';
 }
 
 class RecipeTabLoaded extends RecipeTabState {
   final List<Recipe> recipeCardList;
 
-  const RecipeTabLoaded({required this.recipeCardList});
+  RecipeTabLoaded({required this.recipeCardList})
+      : super(recipeCardList: recipeCardList);
 
   @override
   String toString() => 'RecipeTabLoaded{recipeCardList: $recipeCardList}';
 }
 
-class RecipTabError extends RecipeTabState {
+class RecipeTabError extends RecipeTabState {
   final String? message;
 
-  const RecipTabError({this.message});
+  RecipeTabError({this.message}) : super(recipeCardList: []);
 
   @override
   String toString() => 'RecipTabError{message: $message}';

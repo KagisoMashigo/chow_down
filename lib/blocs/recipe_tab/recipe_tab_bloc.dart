@@ -17,8 +17,9 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
     on<FetchHomeRecipesEvent>(_handleFetchHomeRecipes);
     on<DeleteRecipeEvent>(_handleDeleteRecipe);
     on<DeleteEntireCollectionEvent>(_handleDeleteEntireCollection);
-
     on<Refresh>(_handleRefresh);
+
+    add(FetchHomeRecipesEvent());
   }
 
   Future<void> _handleFetchHomeRecipes(
@@ -26,7 +27,7 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
     Emitter<RecipeTabState> emit,
   ) async {
     try {
-      emit(RecipeTabLoading());
+      emit(RecipeTabLoading(recipeCardList: []));
 
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
 
@@ -36,7 +37,7 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
         emit(RecipeTabLoaded(recipeCardList: searchResults));
       }
     } on Failure catch (e) {
-      emit(RecipTabError(message: e.toString()));
+      emit(RecipeTabError(message: e.toString()));
     }
   }
 
@@ -45,7 +46,7 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
     Emitter<RecipeTabState> emit,
   ) async {
     try {
-      emit(RecipeTabLoading());
+      emit(RecipeTabLoading(recipeCardList: []));
 
       await _database.deleteRecipe(event.recipe);
 
@@ -60,7 +61,7 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
         emit(RecipeTabLoaded(recipeCardList: searchResults));
       }
     } on Failure catch (e) {
-      emit(RecipTabError(message: e.toString()));
+      emit(RecipeTabError(message: e.toString()));
     }
   }
 
@@ -69,11 +70,11 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
     Emitter<RecipeTabState> emit,
   ) async {
     try {
-      emit(RecipeTabLoading());
+      emit(RecipeTabLoading(recipeCardList: []));
 
       await _database.deleteAllRecipes();
     } on Failure catch (e) {
-      emit(RecipTabError(message: e.toString()));
+      emit(RecipeTabError(message: e.toString()));
     }
   }
 
@@ -82,13 +83,13 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
     Emitter<RecipeTabState> emit,
   ) async {
     try {
-      emit(RecipeTabLoading());
+      emit(RecipeTabLoading(recipeCardList: []));
 
       await Future<void>.delayed(const Duration(seconds: 2));
 
       emit(RecipeTabInitial());
     } on Failure catch (e) {
-      emit(RecipTabError(message: e.toString()));
+      emit(RecipeTabError(message: e.toString()));
     }
   }
 }
