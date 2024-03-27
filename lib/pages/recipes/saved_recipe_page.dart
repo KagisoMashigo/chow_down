@@ -118,7 +118,7 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       child: Column(
         children: [
           RecipeCardGrid(
-            searchResultList: searchResultList,
+            searchResults: searchResultList,
           ),
           searchResultList.length > 10
               ? Align(
