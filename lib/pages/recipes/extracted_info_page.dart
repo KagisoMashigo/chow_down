@@ -5,26 +5,24 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
-import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingre_card.dart';
-import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
-import 'package:chow_down/services/firestore/firestore_db.dart';
 
-class ExtractedInfoPage extends StatefulWidget {
+class ExtractedInfoPage extends StatelessWidget {
+  final String title;
+  final int id;
+  final String? sourceUrl;
+
   const ExtractedInfoPage({
     Key? key,
     required this.title,
@@ -32,124 +30,11 @@ class ExtractedInfoPage extends StatefulWidget {
     this.sourceUrl,
   }) : super(key: key);
 
-  /// Recipe title
-  final String title;
-
-  /// Recipe id
-  final int id;
-
-  final String? sourceUrl;
-
   @override
-  _ExtractedInfoPageState createState() => _ExtractedInfoPageState();
-}
-
-class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
-  final List<bool> _isSelected = [];
-  late Database _database;
-
-  /// Initial selected button
-  int _currentIndex = 0;
-
-  bool _isButtonTapped = false;
-
-  void initState() {
-    super.initState();
-    BlocProvider.of<RecipeInfoBloc>(context).add(
-      FetchRecipeInformation(id: widget.id, sourceUrl: widget.sourceUrl!),
-    );
-    _populateButtonList(TAB_OPTIONS, _isSelected);
-    _database = Provider.of<Database>(context, listen: false);
-  }
-
-  void _buttonAnimation() {
-    setState(
-      () {
-        if (_isButtonTapped == false) {
-          _isButtonTapped = true;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = false;
-            });
-          });
-          // isButtonTapped = false;
-        } else if (_isButtonTapped == true) {
-          _isButtonTapped = false;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = true;
-            });
-          });
-        }
-      },
-    );
-  }
-
-  void showSnackbar(
-    BuildContext context,
-    String errorMessage,
-  ) =>
-      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
-
-  /// Handles how many buttons appear in nav and which is selected using bools
-  void _populateButtonList(List data, List<bool> isSelected) {
-    for (var i = 0; i < data.length; i++) {
-      if (i == 0) {
-        isSelected.add(true);
-      } else {
-        isSelected.add(false);
-      }
-    }
-  }
-
-  /// Determines which conditions to render on screen
-  Widget _whichCard(int index, Recipe recipe) {
-    switch (index) {
-      case 0:
-        return RecipeDescCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          summary: recipe.summary,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
-        );
-      case 1:
-        return RecipeInstCard(
-          analyzedInstructions: recipe.analyzedInstructions!,
-          instructions: recipe.instructions!,
-        );
-      case 2:
-        return RecipeDietCard(
-          dairyFree: recipe.dairyFree!,
-          glutenFree: recipe.glutenFree!,
-          healthScore: recipe.healthScore!,
-          vegetarian: recipe.vegetarian!,
-          vegan: recipe.vegan!,
-        );
-      default:
-        return RecipeDescCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
-        );
-    }
-  }
-
-  @override
-  Widget build(BuildContext conxtext) {
+  Widget build(BuildContext context) {
     return CustomLogoAppBar(
       imgUrl: 'assets/images/chow_down.png',
-      title: widget.title,
+      title: title,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -161,11 +46,13 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
         ),
         alignment: Alignment.center,
         child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
+          listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
             if (state is RecipeInfoError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.message),
+                  // TODO: use generic error message for now
+                  content: Text(state.message ?? 'An unknown error occurred'),
                 ),
               );
             }
@@ -174,10 +61,10 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
             if (state is RecipeInfoLoading) {
               return _buildLoading();
             } else if (state is RecipeInfoLoaded) {
-              return _buildContents(state.recipe);
+              return _buildContents(context, state.recipe);
             } else {
               // error state snackbar
-              return _buildInitialInput(state);
+              return _buildErrorInput(context, state);
             }
           },
         ),
@@ -185,7 +72,8 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
     );
   }
 
-  Widget _buildInitialInput(RecipeInfoState state) => EmptyContent(
+  Widget _buildErrorInput(BuildContext context, RecipeInfoState state) =>
+      EmptyContent(
         message: 'The was a problem saving this recipe. Please try again..',
         title: 'Something went wrong...',
         icon: Icons.error_outline_sharp,
@@ -197,7 +85,10 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
         ),
       );
 
-  Widget _buildContents(Recipe recipe) {
+  Widget _buildContents(BuildContext context, Recipe recipe) {
+    final List<bool> _isSelected = [];
+    _populateButtonList(TAB_OPTIONS, _isSelected);
+
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Column(
@@ -231,18 +122,10 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                     ),
                     ChowSaveButton(
                       onTap: () {
-                        _buttonAnimation();
-                        _database.saveRecipe(recipe);
-                        // showAlertDialog(
-                        //   context,
-                        //   isSave: false,
-                        //   title: 'Saved!',
-                        //   content:
-                        //       'You can find this recipe in your saved list.',
-                        //   defaultActionText: 'Gotcha!',
-                        // );
+                        // Perform save action here
+                        // You may need to pass a function to handle the save operation
                       },
-                      isButtonTapped: _isButtonTapped,
+                      isButtonTapped: false, // Set button tapped state
                     ),
                   ],
                 ),
@@ -272,24 +155,24 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
                           .toList(),
                       isSelected: _isSelected,
                       onPressed: (int newIndex) {
-                        setState(
-                          () {
-                            for (int i = 0; i < _isSelected.length; i++) {
-                              if (i == newIndex) {
-                                _isSelected[i] = true;
-                                _currentIndex = i;
-                              } else {
-                                _isSelected[i] = false;
-                              }
-                            }
-                          },
-                        );
+                        // Handle toggle button press
                       },
                     ),
                   ),
                 ),
                 SizedBox(height: Spacing.md),
-                _whichCard(_currentIndex, recipe),
+                // You may need to pass some functions or variables to below widget
+                RecipeDescCard(
+                  veryHealthy: recipe.veryHealthy!,
+                  readyInMinutes: recipe.readyInMinutes!,
+                  servings: recipe.servings!,
+                  creditsText: recipe.creditsText!,
+                  glutenFree: recipe.glutenFree!,
+                  vegetarian: recipe.vegetarian!,
+                  summary: recipe.summary,
+                  ingredients: recipe.extendedIngredients,
+                  sourceUrl: recipe.sourceUrl!,
+                ),
                 SizedBox(height: Spacing.md),
               ],
             ),
@@ -297,5 +180,15 @@ class _ExtractedInfoPageState extends State<ExtractedInfoPage> {
         ],
       ),
     );
+  }
+
+  void _populateButtonList(List data, List<bool> isSelected) {
+    for (var i = 0; i < data.length; i++) {
+      if (i == 0) {
+        isSelected.add(true);
+      } else {
+        isSelected.add(false);
+      }
+    }
   }
 }
