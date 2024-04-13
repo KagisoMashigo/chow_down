@@ -16,8 +16,8 @@ class ExtractRecipe extends ExtractEvent {
 }
 
 // Needs to be moved as it is not specific to extraction
-class Refresh extends ExtractEvent {
-  const Refresh();
+class RefreshHome extends ExtractEvent {
+  const RefreshHome();
 }
 
 class RecipeExtracted extends ExtractEvent {

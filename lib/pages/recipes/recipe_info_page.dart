@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_cubit.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
@@ -161,7 +161,8 @@ class _RecipeInfoPageState extends State<RecipeInfoPage> {
             if (state is RecipeInfoError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.message),
+                  // TODO: Use generic error message for now
+                  content: Text(state.message ?? 'An unknown error occurred'),
                 ),
               );
             }
