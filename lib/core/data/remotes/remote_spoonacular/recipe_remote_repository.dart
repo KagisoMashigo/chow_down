@@ -1,10 +1,10 @@
 // 🎯 Dart imports:
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -45,31 +45,46 @@ class RemoteRecipe implements RecipeRepository {
         return Recipe.fromJson(body);
       }
     } on SocketException catch (e) {
-      log(e.message);
+      printDebug(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      log(e.message);
+      printDebug(e.message);
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioException catch (e) {
-      log(e.message!);
+      printDebug(e.message!);
       if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: 'The request took too long to complete');
       }
       if (e.response?.statusCode == 503) {
+        printDebug(
+            'Error code: ${e.response?.statusCode}. In method getExistingRecipe');
+
         throw Failure(
           message:
               'Looks like the server is under maintenance. Please try again later.',
           code: 503,
         );
       } else if (e.response?.statusCode == 400) {
-        log('Error code: ${e.response?.statusCode}.');
+        printDebug(
+            'Error code: ${e.response?.statusCode}. In method getExistingRecipe');
 
         throw Failure(
           message: 'The URL provided is invalid or empty',
           code: 400,
         );
+      } else if (e.response?.statusCode == 402) {
+        printDebug(
+            'Error code: ${e.response?.statusCode}. In method getExistingRecipe');
+
+        // TODO: add analytics event for this
+
+        throw Failure(
+          message: 'API Quota exceeded. Please try again later.',
+          code: 402,
+        );
       } else {
-        log('Error code: ${e.response?.statusCode}.');
+        printDebug(
+            'Error code: ${e.response?.statusCode}. In method getExistingRecipe');
 
         throw Failure(
           message: 'There was a problem fetching the recipe. Please try again.',
@@ -97,13 +112,13 @@ class RemoteRecipe implements RecipeRepository {
                 'We were unable to extract the recipe from the provided URL');
       }
     } on SocketException catch (e) {
-      log(e.message);
+      printDebug(e.message);
       throw Failure(message: 'No Internet connection');
     } on HttpException catch (e) {
-      log(e.message);
+      printDebug(e.message);
       throw Failure(message: 'There was a problem extracting the recipe');
     } on DioException catch (e) {
-      log(e.message!);
+      printDebug(e.message!);
       if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: 'The request took too long to complete');
       }
@@ -114,14 +129,14 @@ class RemoteRecipe implements RecipeRepository {
           code: 503,
         );
       } else if (e.response?.statusCode == 400) {
-        log('Error code: ${e.response?.statusCode}.');
+        printDebug('Error code: ${e.response?.statusCode}.');
 
         throw Failure(
           message: 'The URL provided is invalid or empty',
           code: 400,
         );
       } else {
-        log('Error code: ${e.response?.statusCode}.');
+        printDebug('Error code: ${e.response?.statusCode}.');
 
         throw Failure(
           message:
