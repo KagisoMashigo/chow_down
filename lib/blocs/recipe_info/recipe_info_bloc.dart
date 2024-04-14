@@ -15,7 +15,6 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     on<FetchRecipe>(_handleFetchRecipe);
     on<SaveRecipe>(_handleSaveRecipe);
     on<FetchRecipeInformation>(_handleFetchRecipeInformation);
-    on<Refresh>(_handleRefresh);
   }
 
   final RemoteRecipe _recipeRepository;
@@ -88,16 +87,16 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     }
   }
 
-  Future<void> _handleRefresh(
-    Refresh event,
-    Emitter<RecipeInfoState> emit,
-  ) async {
-    try {
-      emit(RecipeInfoLoading());
+  // Future<void> _handleRefresh(
+  //   Refresh event,
+  //   Emitter<RecipeInfoState> emit,
+  // ) async {
+  //   try {
+  //     emit(RecipeInfoLoading());
 
-      emit(RecipeInfoInitial());
-    } on Failure catch (e) {
-      emit(RecipeInfoError(message: e.toString()));
-    }
-  }
+  //     emit(RecipeInfoInitial());
+  //   } on Failure catch (e) {
+  //     emit(RecipeInfoError(message: e.toString()));
+  //   }
+  // }
 }
