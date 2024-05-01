@@ -87,7 +87,7 @@ class RemoteRecipe implements RecipeRepository {
             'Error code: ${e.response?.statusCode}. In method getExistingRecipe');
 
         throw Failure(
-          message: 'There was a problem fetching the recipe. Please try again.',
+          message: 'There was a problem fetching the recipe: ${e.message}',
           code: e.response?.statusCode,
         );
       }

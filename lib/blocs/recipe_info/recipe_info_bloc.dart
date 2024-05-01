@@ -45,14 +45,7 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     Emitter<RecipeInfoState> emit,
   ) async {
     try {
-      emit(RecipeInfoLoading(
-        id: event.recipe.id,
-        url: event.recipe.sourceUrl,
-      ));
-
       await _database.saveRecipe(event.recipe);
-
-      emit(RecipeInfoLoaded(recipe: event.recipe));
     } on Failure catch (e) {
       emit(RecipeInfoError(
         message: e.toString(),
@@ -86,17 +79,4 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
       ));
     }
   }
-
-  // Future<void> _handleRefresh(
-  //   Refresh event,
-  //   Emitter<RecipeInfoState> emit,
-  // ) async {
-  //   try {
-  //     emit(RecipeInfoLoading());
-
-  //     emit(RecipeInfoInitial());
-  //   } on Failure catch (e) {
-  //     emit(RecipeInfoError(message: e.toString()));
-  //   }
-  // }
 }

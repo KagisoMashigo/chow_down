@@ -130,4 +130,9 @@ class Recipe {
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecipeToJson(this);
+
+  @override
+  String toString() {
+    return '{vegetarian: $vegetarian, vegan: $vegan, glutenFree: $glutenFree, dairyFree: $dairyFree, veryPopular: $veryPopular, sourceName: $sourceName, id: $id, title: $title, readyInMinutes: $readyInMinutes, servings: $servings, sourceUrl: $sourceUrl, diets: $diets, originalId: $originalId, spoonacularSourceUrl: $spoonacularSourceUrl}';
+  }
 }
