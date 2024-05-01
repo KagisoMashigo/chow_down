@@ -1,6 +1,8 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -111,16 +113,25 @@ class SearchPage extends StatelessWidget {
                       int index = recipe.key;
 
                       return GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeInfoPage(
-                              title: recipes[index].title,
+                        onTap: () {
+                          BlocProvider.of<RecipeInfoBloc>(context).add(
+                            FetchRecipe(
                               id: recipes[index].id,
-                              sourceUrl: recipes[index].sourceUrl!,
+                              url: recipes[index].sourceUrl!,
                             ),
-                          ),
-                        ),
+                          );
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipeInfoPage(
+                                title: recipes[index].title,
+                                id: recipes[index].id,
+                                sourceUrl: recipes[index].sourceUrl!,
+                              ),
+                            ),
+                          );
+                        },
                         child: RecipeCard(
                           loadingColor: ChowColors.blue300,
                           id: recipes[index].id,
