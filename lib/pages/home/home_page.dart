@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -118,10 +119,10 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ExtractedInfoPage(
+                  builder: (context) => RecipeInfoPage(
                     title: searchResult.title,
                     id: searchResult.id,
-                    sourceUrl: searchResult.sourceUrl,
+                    sourceUrl: searchResult.sourceUrl!,
                   ),
                 ),
               );
