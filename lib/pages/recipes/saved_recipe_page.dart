@@ -65,9 +65,7 @@ class RecipeTabPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is RecipeTabLoading) {
                   return _buildLoading();
-                }
-
-                if (state is RecipeTabError) {
+                } else if (state is RecipeTabError) {
                   return _buildErrors(state);
                 }
 

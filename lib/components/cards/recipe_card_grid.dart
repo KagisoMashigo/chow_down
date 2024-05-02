@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:flutter/material.dart';
 
@@ -41,6 +43,10 @@ class RecipeCardGrid extends StatelessWidget {
   Widget _buildRecipeImage(BuildContext context, Recipe recipe) {
     return InkWell(
       onTap: () {
+        BlocProvider.of<RecipeInfoBloc>(context).add(
+          FetchRecipe(id: recipe.id, url: recipe.sourceUrl!),
+        );
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => RecipeInfoPage(

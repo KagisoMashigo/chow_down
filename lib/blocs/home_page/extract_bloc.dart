@@ -14,7 +14,7 @@ class ExtractBloc extends Bloc<ExtractEvent, ExtractState> {
 
   ExtractBloc(this._recipeRepository) : super(ExtractInitial()) {
     on<ExtractRecipe>(_handleExtractRecipe);
-    on<Refresh>(_handleRefreshExtract);
+    on<RefreshHome>(_handleRefreshExtract);
   }
 
   Future<void> _handleExtractRecipe(
@@ -38,7 +38,7 @@ class ExtractBloc extends Bloc<ExtractEvent, ExtractState> {
   }
 
   Future<void> _handleRefreshExtract(
-    Refresh event,
+    RefreshHome event,
     Emitter<ExtractState> emit,
   ) async {
     try {

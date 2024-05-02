@@ -24,7 +24,3 @@ class FetchRecipeInformation extends RecipeInfoEvent {
 
   const FetchRecipeInformation({required this.id, required this.sourceUrl});
 }
-
-class Refresh extends RecipeInfoEvent {
-  const Refresh();
-}
