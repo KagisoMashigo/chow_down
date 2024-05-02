@@ -11,7 +11,7 @@ class Responsive {
   static double ratioHorizontal = 0;
   static double ratioSquare = 0;
 
-  void init(BoxConstraints constraints, Orientation orientation) {
+  static void init(BoxConstraints constraints, Orientation orientation) {
     final bool isPortraitOriented = orientation == Orientation.portrait;
 
     _screenWidth =
@@ -30,14 +30,3 @@ class Responsive {
   /// True IFF the horizontal ratio is less than 4 (Small screen)
   static bool isSmallScreen() => ratioHorizontal < 4;
 }
-
-SizedBox verticalDivider({double factor = 1.0}) =>
-    SizedBox(height: factor * Responsive.ratioVertical);
-
-SizedBox horizontalDivider({double factor = 1.0}) =>
-    SizedBox(width: factor * Responsive.ratioHorizontal);
-
-EdgeInsetsGeometry defaultPadding() => EdgeInsets.symmetric(
-      horizontal: 3 * Responsive.ratioHorizontal,
-      vertical: 0.5 * Responsive.ratioVertical,
-    );

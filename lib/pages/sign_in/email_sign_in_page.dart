@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -35,7 +36,7 @@ class EmailSignInPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            verticalDivider(factor: 15),
+            SizedBox(height: Spacing.sm),
             Padding(
               padding: EdgeInsets.all(Responsive.ratioSquare * 9),
               child: Card(

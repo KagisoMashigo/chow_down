@@ -1,12 +1,15 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/color.dart';
@@ -14,19 +17,9 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
 
-class RecipeTabPage extends StatefulWidget {
-  @override
-  _RecipeTabPageState createState() => _RecipeTabPageState();
-}
-
-class _RecipeTabPageState extends State<RecipeTabPage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
-  }
+class RecipeTabPage extends StatelessWidget {
+  const RecipeTabPage({Key? key}) : super(key: key);
 
   void showSnackbar(
     BuildContext context,
@@ -42,9 +35,10 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
       title: 'Saved Recipes',
       body: RefreshIndicator(
         color: Color.fromARGB(255, 234, 180, 225),
-        onRefresh: () => _pullRefresh(),
+        onRefresh: () => _pullRefresh(context),
         child: SingleChildScrollView(
           child: Container(
+            // TODO: Better backgrounds
             height: Responsive.isSmallScreen()
                 ? MediaQuery.of(context).size.height
                 : MediaQuery.of(context).size.height * 0.91,
@@ -57,12 +51,13 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
               ),
             ),
             padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
+            child: BlocConsumer<RecipeTabBloc, RecipeTabState>(
+              listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
-                if (state is RecipTabError) {
+                if (state is RecipeTabError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(state.message),
+                      content: Text(state.message!),
                     ),
                   );
                 }
@@ -70,11 +65,11 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
               builder: (context, state) {
                 if (state is RecipeTabLoading) {
                   return _buildLoading();
-                } else if (state is RecipeTabLoaded) {
-                  return _buildColumnWithData(state.recipeCardList);
-                } else {
-                  return _buildInitialInput(state);
+                } else if (state is RecipeTabError) {
+                  return _buildErrors(state);
                 }
+
+                return _buildColumnWithData(context, state.recipeCardList);
               },
             ),
           ),
@@ -83,13 +78,12 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
     );
   }
 
-  Future<void> _pullRefresh() async {
+  Future<void> _pullRefresh(BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
-    await Provider.of<RecipeTabCubit>(context, listen: false)
-        .fetchHomeRecipesList();
+    BlocProvider.of<RecipeTabBloc>(context).add(FetchHomeRecipesEvent());
   }
 
-  Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
+  Widget _buildErrors(RecipeTabState state) => state.recipeCardList.isEmpty
       ? Center(
           child: EmptyContent(
             message: 'It\'s as empty as your stomach...',
@@ -112,33 +106,35 @@ class _RecipeTabPageState extends State<RecipeTabPage> {
         ),
       );
 
-  Widget _buildColumnWithData(List<Recipe> searchResultList) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          RecipeCardGrid(
-            searchResultList: searchResultList,
-          ),
-          searchResultList.length > 10
-              ? Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton(
-                    onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => this.widget),
+  Widget _buildColumnWithData(
+    BuildContext context,
+    List<Recipe> searchResultList,
+  ) =>
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            RecipeCardGrid(
+              searchResults: searchResultList,
+            ),
+            searchResultList.length > 10
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FloatingActionButton(
+                      onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RecipeTabPage()),
+                      ),
+                      child: Icon(
+                        Icons.arrow_upward_outlined,
+                        color: ChowColors.black,
+                      ),
+                      backgroundColor: ChowColors.white,
                     ),
-                    child: Icon(
-                      Icons.arrow_upward_outlined,
-                      color: ChowColors.black,
-                    ),
-                    backgroundColor: ChowColors.white,
-                  ),
-                )
-              : SizedBox.shrink(),
-          verticalDivider(factor: 12),
-        ],
-      ),
-    );
-  }
+                  )
+                : SizedBox.shrink(),
+            SizedBox(height: Spacing.md)
+          ],
+        ),
+      );
 }

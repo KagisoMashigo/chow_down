@@ -7,33 +7,29 @@ import 'package:chow_down/components/design/chow.dart';
 class BaseCard extends StatelessWidget {
   final Widget child;
   final Color color;
-  final double paddingHorizontal;
-  final double paddingVertical;
   final double borderRadius;
+  final double topMargin;
 
   BaseCard({
     required this.child,
     this.color = ChowColors.white,
-    this.borderRadius = 16,
-    this.paddingHorizontal = 16,
-    this.paddingVertical = 16,
+    this.borderRadius = ChowBorderRadii.lg,
+    this.topMargin = 12,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(top: 12),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(this.borderRadius),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       color: color,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(
-          horizontal: paddingHorizontal,
-          vertical: paddingVertical,
+      child: Material(
+        elevation: 4.0,
+        borderRadius: BorderRadius.all(
+          Radius.circular(ChowBorderRadii.lg),
         ),
-        child: this.child,
+        child: child,
       ),
     );
   }
