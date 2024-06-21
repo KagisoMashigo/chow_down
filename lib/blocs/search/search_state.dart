@@ -7,10 +7,16 @@ abstract class SearchState {
 
 class SearchInitial extends SearchState {
   const SearchInitial();
+
+  @override
+  String toString() => 'SearchInitial{}';
 }
 
 class SearchLoading extends SearchState {
   const SearchLoading();
+
+  @override
+  String toString() => 'SearchLoading{}';
 }
 
 class SearchLoaded extends SearchState {
