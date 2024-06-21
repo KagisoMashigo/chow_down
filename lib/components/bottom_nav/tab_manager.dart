@@ -15,7 +15,7 @@ class TabManager extends StatefulWidget {
 }
 
 class _TabManagerState extends State<TabManager> {
-  TabItem _currentTab = TabItem.home;
+  TabItem _previousTab = TabItem.home;
 
   final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
     TabItem.home: GlobalKey<NavigatorState>(),
@@ -33,26 +33,34 @@ class _TabManagerState extends State<TabManager> {
     };
   }
 
-  void _selectTab(TabItem tabItem) {
+  void _selectTab(TabItem currentTab) {
     // This allows you to pop back to (the home) of the currently selected tab
-    if (tabItem == _currentTab) {
-      // TODO: review now that there is a new tab
-      navigatorKeys[tabItem]!.currentState!.popUntil(
+    final currentTabState = navigatorKeys[currentTab]?.currentState;
+
+    // Always pop to the first route when a tab is selected
+    if (currentTabState != null) {
+      navigatorKeys[currentTab]!.currentState!.popUntil(
             (route) => route.isFirst,
           );
+    }
+
+    // If the tab is the same as the previous tab, ensure any active route below the first route is popped
+    if (currentTab == _previousTab) {
+      navigatorKeys[currentTab]!.currentState!.maybePop();
     } else {
-      setState(() => _currentTab = tabItem);
+      setState(() => _previousTab = currentTab);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async =>
-          !await navigatorKeys[_currentTab]!.currentState!.maybePop(),
+    return PopScope(
+      onPopInvoked: (bool isPopGesture) {
+        navigatorKeys[_previousTab]!.currentState!.maybePop();
+      },
       child: CupertinoHomeScaffold(
         navigatorKeys: navigatorKeys,
-        currentTab: _currentTab,
+        currentTab: _previousTab,
         onSelectedTab: _selectTab,
         widgetBuilders: widgetBuilders,
       ),

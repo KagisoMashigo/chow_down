@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -100,6 +102,8 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
                   BlocProvider.of<RecipeInfoBloc>(context).add(
                     SaveRecipe(recipe: widget.recipe),
                   );
+                  BlocProvider.of<RecipeTabBloc>(context)
+                      .add(FetchHomeRecipesEvent());
                 },
                 isButtonTapped: _isButtonTapped,
               ),
