@@ -58,4 +58,17 @@ class StringHelper {
 
     return true;
   }
+
+  static String generateCustomId(String title) {
+    // Remove special characters and trim spaces
+    final cleanedTitle = title.replaceAll(RegExp(r"[^\s\w]"), '').trim();
+
+    // Generate a unique hash code for the cleaned title
+    final hashCode = cleanedTitle.hashCode;
+
+    // Combine the cleaned title and hash code to create a unique ID
+    final uniqueId = '$cleanedTitle-$hashCode';
+
+    return uniqueId;
+  }
 }
