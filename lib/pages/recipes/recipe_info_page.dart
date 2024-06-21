@@ -1,6 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/cards/recipe_card_toggler.dart';
-import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -11,10 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
+import 'package:chow_down/components/cards/recipe_card_toggler.dart';
 import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 
 const List<String> TAB_OPTIONS = [
   'Ingredients',
@@ -64,9 +64,6 @@ class RecipeInfoPage extends StatelessWidget {
         child: RefreshIndicator(
           onRefresh: () => _pullRefresh(context),
           child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
-            listenWhen: (previous, current) {
-              return previous == current;
-            },
             listener: (context, state) {
               if (state is RecipeInfoError) {
                 ScaffoldMessenger.of(context).showSnackBar(

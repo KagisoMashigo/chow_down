@@ -7,6 +7,7 @@ import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
 class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
@@ -18,7 +19,6 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
   }
 
   final RemoteRecipe _recipeRepository;
-
   final FirestoreDatabase _database;
 
   Future<void> _handleFetchRecipe(
@@ -26,6 +26,7 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     Emitter<RecipeInfoState> emit,
   ) async {
     try {
+      printDebug('Fetching recipe with id: ${event.id} and url: ${event.url}');
       emit(RecipeInfoLoading(id: event.id, url: event.url));
 
       final Recipe recipe = await _recipeRepository.getExistingRecipe(
@@ -33,10 +34,23 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
         event.url,
       );
 
+      printDebug(
+        'Recipe fetched successfully with id: ${recipe.id}',
+        colour: DebugColour.green,
+      );
       emit(RecipeInfoLoaded(recipe: recipe));
-    } on Failure catch (e) {
+    } on Failure catch (e, stack) {
+      printAndLog(
+        e,
+        'Fetching recipe failed for id: ${event.id}, url: ${event.url}, reason: $stack',
+      );
       emit(
-          RecipeInfoError(message: e.toString(), id: event.id, url: event.url));
+        RecipeInfoError(
+          message: e.toString(),
+          id: event.id,
+          url: event.url,
+        ),
+      );
     }
   }
 
@@ -45,8 +59,17 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     Emitter<RecipeInfoState> emit,
   ) async {
     try {
+      printDebug('Saving recipe with id: ${event.recipe.id}');
       await _database.saveRecipe(event.recipe);
-    } on Failure catch (e) {
+      printDebug(
+        'Recipe saved successfully with id: ${event.recipe.id}',
+        colour: DebugColour.green,
+      );
+    } on Failure catch (e, stack) {
+      printAndLog(
+        e,
+        'Saving recipe failed for id: ${event.recipe.id}, url: ${event.recipe.sourceUrl}, reason: $stack',
+      );
       emit(RecipeInfoError(
         message: e.toString(),
         id: event.recipe.id,
@@ -60,18 +83,26 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
     Emitter<RecipeInfoState> emit,
   ) async {
     try {
-      emit(RecipeInfoLoading(
-        id: event.id,
-        url: event.sourceUrl,
-      ));
+      printDebug(
+        'Fetching recipe information with id: ${event.id} and url: ${event.sourceUrl}',
+      );
+      emit(RecipeInfoLoading(id: event.id, url: event.sourceUrl));
 
       final Recipe recipe = await _recipeRepository.getExistingRecipe(
         event.id,
         event.sourceUrl,
       );
 
+      printDebug(
+        'Recipe information fetched successfully with id: ${recipe.id}',
+        colour: DebugColour.green,
+      );
       emit(RecipeInfoLoaded(recipe: recipe));
-    } on Failure catch (e) {
+    } on Failure catch (e, stack) {
+      printAndLog(
+        e,
+        'Fetching recipe information failed for id: ${event.id}, url: ${event.sourceUrl}, reason: $stack',
+      );
       emit(RecipeInfoError(
         message: e.toString(),
         id: event.id,

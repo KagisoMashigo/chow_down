@@ -1,7 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/components/cards/base_card.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -9,9 +6,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
