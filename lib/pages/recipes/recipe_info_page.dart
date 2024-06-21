@@ -64,9 +64,6 @@ class RecipeInfoPage extends StatelessWidget {
         child: RefreshIndicator(
           onRefresh: () => _pullRefresh(context),
           child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
-            listenWhen: (previous, current) {
-              return previous == current;
-            },
             listener: (context, state) {
               if (state is RecipeInfoError) {
                 ScaffoldMessenger.of(context).showSnackBar(
