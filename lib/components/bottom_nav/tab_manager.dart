@@ -54,9 +54,10 @@ class _TabManagerState extends State<TabManager> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async =>
-          !await navigatorKeys[_previousTab]!.currentState!.maybePop(),
+    return PopScope(
+      onPopInvoked: (bool isPopGesture) {
+        navigatorKeys[_previousTab]!.currentState!.maybePop();
+      },
       child: CupertinoHomeScaffold(
         navigatorKeys: navigatorKeys,
         currentTab: _previousTab,
