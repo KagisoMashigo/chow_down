@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({
@@ -36,7 +37,7 @@ class CustomLogoAppBar extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            horizontalDivider(factor: 2),
+            SizedBox(width: Spacing.sm),
             Expanded(
               child: Text(
                 title,
@@ -52,7 +53,7 @@ class CustomLogoAppBar extends StatelessWidget {
               width: 10 * Responsive.ratioHorizontal,
               fit: BoxFit.cover,
             ),
-            horizontalDivider(factor: 2.5),
+            SizedBox(width: Spacing.sm),
           ],
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
@@ -84,7 +85,7 @@ class RecipeCard extends StatelessWidget {
               ),
             ],
           ),
-          verticalDivider(factor: 1.5),
+          SizedBox(height: Spacing.xsm),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -112,7 +113,7 @@ class RecipeCard extends StatelessWidget {
                   ),
                 ),
               ),
-              horizontalDivider(factor: 6),
+              SizedBox(width: Spacing.sm),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +121,7 @@ class RecipeCard extends StatelessWidget {
                   Row(
                     children: [
                       Icon(Icons.timer_outlined),
-                      horizontalDivider(),
+                      SizedBox(width: Spacing.xsm),
                       Text(
                         StringHelper.cookTimeConverter(readyInMinutes),
                         style: TextStyle(
@@ -129,11 +130,11 @@ class RecipeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  verticalDivider(factor: 1.5),
+                  SizedBox(height: Spacing.xsm),
                   Row(
                     children: [
                       Icon(Icons.soup_kitchen),
-                      horizontalDivider(),
+                      SizedBox(width: Spacing.xsm),
                       Text(
                         '${servings.toString()} servings',
                         style: TextStyle(
@@ -142,11 +143,11 @@ class RecipeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  verticalDivider(factor: 1.5),
+                  SizedBox(height: Spacing.xsm),
                   Row(
                     children: [
                       Icon(Icons.food_bank_outlined),
-                      horizontalDivider(),
+                      SizedBox(width: Spacing.xsm),
                       Text(
                         '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
                         style: TextStyle(
@@ -155,7 +156,7 @@ class RecipeCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  verticalDivider(factor: 1.5),
+                  SizedBox(height: Spacing.xsm),
                 ],
               ),
             ],

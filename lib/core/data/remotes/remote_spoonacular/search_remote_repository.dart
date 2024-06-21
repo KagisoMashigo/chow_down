@@ -1,9 +1,9 @@
 // 🎯 Dart imports:
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 // 📦 Package imports:
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -25,18 +25,24 @@ class RemoteSearchRepository implements SearchRepository {
         'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=20&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
-      final response = await Dio().get(endpoint);
+      printDebug('Fetching recipes for query: $query');
+      final response = await dioClient.get(endpoint);
       final body = json.decode(response.toString());
-
+      printDebug('Successfully fetched recipes for query: $query');
       return RecipeCardInfoList.fromJson(body);
-    } on SocketException catch (e) {
-      print(e);
+    } on SocketException catch (e, stack) {
+      printAndLog(
+        e,
+        'No Internet connection while fetching recipes for query: $query, reason: $stack',
+      );
       throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
+    } on HttpException catch (e, stack) {
+      printAndLog(e,
+          'HTTP error occurred while fetching recipes for query: $query, reason: $stack');
       throw Failure(message: 'There was a problem fetching the recipes');
-    } on DioException catch (e) {
-      log(e.message!);
+    } on DioException catch (e, stack) {
+      printAndLog(e,
+          'Dio error occurred while fetching recipes for query: $query, reason: $stack');
       if (e.type == DioExceptionType.receiveTimeout) {
         throw Failure(message: 'The request took too long to complete');
       }
@@ -48,8 +54,7 @@ class RemoteSearchRepository implements SearchRepository {
           code: e.response?.statusCode,
         );
       } else if (e.response?.statusCode == 400) {
-        log('Error code: ${e.response?.statusCode}.');
-
+        printDebug('Error code: ${e.response?.statusCode} for query: $query');
         throw Failure(
           message: 'The query provided is invalid or empty',
           code: 400,

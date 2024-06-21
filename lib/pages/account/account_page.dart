@@ -4,16 +4,19 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
@@ -34,8 +37,8 @@ class AccountPage extends StatelessWidget {
 
   Future<void> _deleteAllData(BuildContext context) async {
     try {
-      Provider.of<RecipeTabCubit>(context, listen: false)
-          .deleteEntireCollection();
+      BlocProvider.of<RecipeTabBloc>(context)
+          .add(DeleteEntireCollectionEvent());
     } catch (e) {}
   }
 
@@ -136,7 +139,7 @@ class AccountPage extends StatelessWidget {
             radius: 8 * Responsive.ratioHorizontal,
             photoUrl: user.photoURL!,
           ),
-          horizontalDivider(factor: 5),
+          SizedBox(width: Spacing.sm),
           user.displayName != null
               ? Expanded(
                   child: Text(
@@ -175,19 +178,18 @@ class AccountPage extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: defaultPadding(),
+          padding: EdgeInsets.all(Spacing.sm),
           child: Padding(
-            padding: defaultPadding(),
+            padding: EdgeInsets.all(Spacing.sm),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                verticalDivider(factor: 6),
-                // _buildUserInfo(auth.currentUser),
+                SizedBox(height: Spacing.sm),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: defaultPadding(),
+                    padding: EdgeInsets.all(Spacing.sm),
                     child: Text(
                       'Settings',
                       style: TextStyle(
@@ -216,7 +218,7 @@ class AccountPage extends StatelessWidget {
                     color: ChowColors.white,
                   ),
                 ),
-                verticalDivider(),
+                SizedBox(height: Spacing.sm),
                 ChowListTile(
                   onTap: () async {
                     _confirmCollectionDelete(context);
@@ -273,7 +275,7 @@ class AccountPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     minimumSize:
                         Size.fromHeight(10 * Responsive.ratioHorizontal),
-                    padding: defaultPadding(),
+                    padding: EdgeInsets.all(Spacing.sm),
                     backgroundColor: ChowColors.beige200,
                   ),
                   onPressed: () => _confirmSignOut(context),

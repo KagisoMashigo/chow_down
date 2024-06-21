@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_form_change_notifier.dart';
 
 class EmailSignInPage extends StatelessWidget {
@@ -35,7 +36,7 @@ class EmailSignInPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            verticalDivider(factor: 15),
+            SizedBox(height: Spacing.sm),
             Padding(
               padding: EdgeInsets.all(Responsive.ratioSquare * 9),
               child: Card(

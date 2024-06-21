@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/pages/forgot_password.dart';
@@ -79,15 +79,15 @@ class _EmailSignInFormChangeNotifierState
   List<Widget> _buildChildren() {
     return [
       _buildEmailTextField(),
-      verticalDivider(factor: 1),
+      SizedBox(height: Spacing.sm),
       _buildPasswordTextField(),
-      verticalDivider(factor: 3),
+      SizedBox(height: Spacing.sm),
       FormSubmitButton(
         color: ChowColors.beige100,
         text: model.primaryButtonText,
         onPressed: model.canSubmit ? _submit : null,
       ),
-      verticalDivider(factor: 1),
+      SizedBox(height: Spacing.sm),
       TextButton(
         child: Text(
           model.secondaryButtonText,
@@ -162,7 +162,7 @@ class _EmailSignInFormChangeNotifierState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: defaultPadding(),
+      padding: EdgeInsets.all(Spacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,

@@ -6,6 +6,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/home_page/extract_bloc.dart';
+import 'package:chow_down/blocs/home_page/extract_event.dart';
+import 'package:chow_down/blocs/home_page/extract_state.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
@@ -14,9 +19,7 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/cubit/home_page/extract_bloc.dart';
-import 'package:chow_down/cubit/home_page/extract_event.dart';
-import 'package:chow_down/pages/recipes/extracted_info_page.dart';
+import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -104,16 +107,25 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Spacing.sm),
           child: GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ExtractedInfoPage(
-                  title: searchResult.title,
+            onTap: () {
+              BlocProvider.of<RecipeInfoBloc>(context).add(
+                FetchRecipeInformation(
                   id: searchResult.id,
-                  sourceUrl: searchResult.sourceUrl,
+                  sourceUrl: searchResult.sourceUrl!,
                 ),
-              ),
-            ),
+              );
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecipeInfoPage(
+                    title: searchResult.title,
+                    id: searchResult.id,
+                    sourceUrl: searchResult.sourceUrl!,
+                  ),
+                ),
+              );
+            },
             child: RecipeCard(
               loadingColor: ChowColors.red700,
               id: searchResult.id,
@@ -133,8 +145,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> _pullRefresh(BuildContext context) async =>
-      Future.delayed(Duration(milliseconds: 1500), () {
-        context.read<ExtractBloc>().add(Refresh());
-      });
+  Future<void> _pullRefresh(BuildContext context) async => Future.delayed(
+        Duration(milliseconds: 1500),
+        () {
+          context.read<ExtractBloc>().add(RefreshHome());
+        },
+      );
 }

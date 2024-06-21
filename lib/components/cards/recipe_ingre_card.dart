@@ -52,11 +52,11 @@ class RecipeDescCard extends StatelessWidget {
     return BaseCard(
       child: Column(
         children: [
-          verticalDivider(factor: 2),
+          SizedBox(height: Spacing.xsm),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              verticalDivider(factor: 4),
+              SizedBox(width: Spacing.xsm),
               DetailCard(
                 child: Column(
                   children: [
@@ -101,10 +101,10 @@ class RecipeDescCard extends StatelessWidget {
                 ),
                 color: ChowColors.black,
               ),
-              verticalDivider(factor: 4),
+              SizedBox(width: Spacing.xsm),
             ],
           ),
-          verticalDivider(factor: 4),
+          SizedBox(height: Spacing.xsm),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 4 * Responsive.ratioHorizontal),
@@ -129,7 +129,7 @@ class RecipeDescCard extends StatelessWidget {
                         ],
                       )
                     : SizedBox.shrink(),
-                verticalDivider(),
+                SizedBox(height: Spacing.xsm),
                 Row(
                   children: [
                     Expanded(
@@ -143,7 +143,7 @@ class RecipeDescCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                verticalDivider(),
+                SizedBox(height: Spacing.xsm),
                 Row(
                   children: [
                     Expanded(
@@ -157,7 +157,7 @@ class RecipeDescCard extends StatelessWidget {
               ],
             ),
           ),
-          verticalDivider(factor: 2.5),
+          SizedBox(height: Spacing.xsm),
           Center(
             child: Column(
               children: ingredients!

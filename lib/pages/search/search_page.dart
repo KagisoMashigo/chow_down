@@ -1,9 +1,6 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
-import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
-import 'package:chow_down/components/forms/chow_form.dart';
-import 'package:chow_down/cubit/search/search_event.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -11,12 +8,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/search/search_bloc.dart';
+import 'package:chow_down/blocs/search/search_event.dart';
+import 'package:chow_down/blocs/search/search_state.dart';
+import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/empty_content.dart';
+import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
-import 'package:chow_down/cubit/search/search_bloc.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 
 class SearchPage extends StatelessWidget {
@@ -50,7 +54,7 @@ class SearchPage extends StatelessWidget {
               listener: (context, state) {
                 if (state is SearchError) {
                   FloatingFeedback(
-                    message: state.message,
+                    message: state.message!,
                     style: FloatingFeedbackStyle.alert,
                     duration: Duration(seconds: 3),
                   ).show(context);
@@ -109,16 +113,25 @@ class SearchPage extends StatelessWidget {
                       int index = recipe.key;
 
                       return GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => RecipeInfoPage(
-                              title: recipes[index].title,
+                        onTap: () {
+                          BlocProvider.of<RecipeInfoBloc>(context).add(
+                            FetchRecipe(
                               id: recipes[index].id,
-                              sourceUrl: recipes[index].sourceUrl!,
+                              url: recipes[index].sourceUrl!,
                             ),
-                          ),
-                        ),
+                          );
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RecipeInfoPage(
+                                title: recipes[index].title,
+                                id: recipes[index].id,
+                                sourceUrl: recipes[index].sourceUrl!,
+                              ),
+                            ),
+                          );
+                        },
                         child: RecipeCard(
                           loadingColor: ChowColors.blue300,
                           id: recipes[index].id,
@@ -153,7 +166,7 @@ class SearchPage extends StatelessWidget {
                         backgroundColor: ChowColors.white,
                       ),
                     ),
-              verticalDivider(factor: 4)
+              SizedBox(height: Spacing.sm)
             ],
           )
         : Padding(

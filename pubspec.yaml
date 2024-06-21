@@ -21,6 +21,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  ansi_styles: ^0.3.2+1
   flutter:
     sdk: flutter
   auto_size_text: ^3.0.0
@@ -50,6 +51,7 @@ dependencies:
   firebase_analytics: ^10.5.1
   json_annotation: ^4.8.1
   another_flushbar: ^1.12.30
+  flutter_phoenix: ^1.1.1
 
 dev_dependencies:
   import_sorter: ^4.6.0
