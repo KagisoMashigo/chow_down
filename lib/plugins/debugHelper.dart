@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 // 🐦 Flutter imports:
+import 'package:ansi_styles/ansi_styles.dart';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
@@ -30,28 +31,28 @@ void printDebug(Object? object, {Type? type, DebugColour? colour}) {
 
   switch (colour) {
     case DebugColour.black:
-      _printWithColour(message, '\x1B[30m');
+      print(AnsiStyles.black(message));
       break;
     case DebugColour.red:
-      _printWithColour(message, '\x1B[31m');
+      print(AnsiStyles.red(message));
       break;
     case DebugColour.green:
-      _printWithColour(message, '\x1B[32m');
+      print(AnsiStyles.green(message));
       break;
     case DebugColour.yellow:
-      _printWithColour(message, '\x1B[33m');
+      print(AnsiStyles.yellow(message));
       break;
     case DebugColour.blue:
-      _printWithColour(message, '\x1B[34m');
+      print(AnsiStyles.blue(message));
       break;
     case DebugColour.magenta:
-      _printWithColour(message, '\x1B[35m');
+      print(AnsiStyles.magenta(message));
       break;
     case DebugColour.cyan:
-      _printWithColour(message, '\x1B[36m');
+      print(AnsiStyles.cyan(message));
       break;
     case DebugColour.white:
-      _printWithColour(message, '\x1B[37m');
+      print(AnsiStyles.white(message));
       break;
     default:
       print(message);
@@ -59,16 +60,15 @@ void printDebug(Object? object, {Type? type, DebugColour? colour}) {
   }
 }
 
-void _printWithColour(String message, String colourCode) {
-  printDebug('$colourCode$message\x1B[0m');
-}
-
 void printAndLog(Object? object, String reason) {
   if (object is Exception) {
     _crashlytics.recordError(object, StackTrace.current, reason: reason);
   } else {
-    _crashlytics.recordError(Exception(object), StackTrace.current,
-        reason: reason);
+    _crashlytics.recordError(
+      Exception(object),
+      StackTrace.current,
+      reason: reason,
+    );
   }
 }
 
