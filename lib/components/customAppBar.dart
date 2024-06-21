@@ -1,9 +1,9 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/spacing.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 
 class CustomLogoAppBar extends StatelessWidget {
   const CustomLogoAppBar({

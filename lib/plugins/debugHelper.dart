@@ -2,10 +2,10 @@
 import 'dart:convert';
 
 // 🐦 Flutter imports:
-import 'package:ansi_styles/ansi_styles.dart';
 import 'package:flutter/foundation.dart';
 
 // 📦 Package imports:
+import 'package:ansi_styles/ansi_styles.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 enum DebugColour {

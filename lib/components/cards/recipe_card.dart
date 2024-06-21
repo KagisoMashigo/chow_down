@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -8,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';

@@ -1,3 +1,10 @@
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
@@ -7,8 +14,6 @@ import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RecipeCardToggler extends StatefulWidget {
   final List<String> options;

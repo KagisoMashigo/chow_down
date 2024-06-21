@@ -1,8 +1,9 @@
 // 📦 Package imports:
-import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/plugins/debugHelper.dart';
 
 abstract class AuthBase {
   User get currentUser;
