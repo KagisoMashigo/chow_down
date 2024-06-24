@@ -72,7 +72,7 @@ class ApiException implements Exception {
       );
 }
 
-class Failure {
+class Failure implements Exception {
   final int? code;
   final String message;
 

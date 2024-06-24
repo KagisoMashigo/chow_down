@@ -7,6 +7,7 @@ import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/plugins/debugHelper.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final RemoteSearchRepository _searchRepository;
@@ -36,7 +37,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     } on Failure catch (e, stack) {
       printAndLog(e, 'Search failed for query: ${event.query}, reason: $stack');
-      emit(SearchError(message: e.toString()));
+      emit(SearchError(message: e.message));
     }
   }
 
@@ -54,7 +55,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(SearchInitial());
     } on Failure catch (e, stack) {
       printAndLog(e, 'Refresh search results failed, reason: $stack');
-      emit(SearchError(message: e.toString()));
+      emit(SearchError(message: e.message));
     }
   }
 }

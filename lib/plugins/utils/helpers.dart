@@ -1,3 +1,5 @@
+import 'package:chow_down/plugins/utils/constants.dart';
+
 class StringHelper {
   /// Allows for proper formatting of times
   static String cookTimeConverter(int cookTime) {
@@ -31,32 +33,12 @@ class StringHelper {
     return minutes;
   }
 
-  static String urlValidator(String url) {
-    if (url.isEmpty) {
-      return '';
-    }
-
-    if (url.startsWith('https://')) {
-      return url;
-    }
-    if (url.startsWith('http://')) {
-      return url.replaceFirst('http://', 'https://');
-    }
-
-    return 'https://$url';
-  }
-
   static bool isUrlValid(String? url) {
-    final validatedUrl = urlValidator(url!);
-
-    if (validatedUrl.isEmpty) {
-      return false;
-    }
-    if (!Uri.parse(validatedUrl).isAbsolute) {
+    if (url == null) {
       return false;
     }
 
-    return true;
+    return RegExp(URL_REGEX).hasMatch(url);
   }
 
   static String generateCustomId(String title) {

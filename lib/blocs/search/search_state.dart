@@ -1,7 +1,8 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class SearchState {
+abstract class SearchState extends Equatable {
   const SearchState();
 }
 
@@ -10,6 +11,9 @@ class SearchInitial extends SearchState {
 
   @override
   String toString() => 'SearchInitial{}';
+
+  @override
+  List<Object> get props => [];
 }
 
 class SearchLoading extends SearchState {
@@ -17,6 +21,9 @@ class SearchLoading extends SearchState {
 
   @override
   String toString() => 'SearchLoading{}';
+
+  @override
+  List<Object> get props => [];
 }
 
 class SearchLoaded extends SearchState {
@@ -26,6 +33,9 @@ class SearchLoaded extends SearchState {
 
   @override
   String toString() => 'SearchLoaded{searchResultList: $searchResultList}';
+
+  @override
+  List<Object> get props => [searchResultList];
 }
 
 class SearchError extends SearchState {
@@ -35,4 +45,7 @@ class SearchError extends SearchState {
 
   @override
   String toString() => 'SearchError{message: $message}';
+
+  @override
+  List<Object> get props => [message ?? ''];
 }
