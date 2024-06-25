@@ -26,7 +26,7 @@ class DetailCard extends StatelessWidget {
       padding: EdgeInsets.all(
         paddingVertical,
       ),
-      child: this.child,
+      child: child,
     );
   }
 }

@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/design/responsive.dart';
 
-class RecipeDietCard extends StatelessWidget {
-  const RecipeDietCard({
+class RecipeDietaryCard extends StatelessWidget {
+  const RecipeDietaryCard({
     Key? key,
     required this.glutenFree,
     required this.vegetarian,
@@ -34,131 +33,139 @@ class RecipeDietCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseCard(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(Spacing.md),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                DetailCard(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 3 * Responsive.ratioHorizontal),
-                        child: Text('Gluten Free:'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    DetailCard(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Spacing.xsm,
+                            ),
+                            child: Text('Gluten Free:'),
+                          ),
+                          if (glutenFree)
+                            Icon(
+                              Icons.check,
+                              color: ChowColors.green700,
+                            )
+                          else if (!glutenFree)
+                            Icon(
+                              Icons.close,
+                              color: ChowColors.red,
+                            )
+                          else
+                            Icon(
+                              Icons.question_mark,
+                              color: ChowColors.black,
+                              size: 20,
+                            ),
+                        ],
                       ),
-                      if (glutenFree)
-                        Icon(
-                          Icons.check,
-                          color: ChowColors.green700,
-                        )
-                      else if (!glutenFree)
-                        Icon(
-                          Icons.close,
-                          color: ChowColors.red,
-                        )
-                      else
-                        Icon(
-                          Icons.question_mark,
-                          color: ChowColors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                  color: ChowColors.black,
+                      color: ChowColors.black,
+                    ),
+                    DetailCard(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Spacing.xsm,
+                            ),
+                            child: Text('Dairy Free:'),
+                          ),
+                          if (dairyFree)
+                            Icon(
+                              Icons.check,
+                              color: ChowColors.green700,
+                            )
+                          else if (!dairyFree)
+                            Icon(
+                              Icons.close,
+                              color: ChowColors.red,
+                            )
+                          else
+                            Icon(
+                              Icons.question_mark,
+                              color: ChowColors.black,
+                              size: 20,
+                            ),
+                        ],
+                      ),
+                      color: ChowColors.black,
+                    ),
+                  ],
                 ),
-                DetailCard(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 3 * Responsive.ratioHorizontal),
-                        child: Text('Dairy Free:'),
+                SizedBox(height: Spacing.md),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    DetailCard(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Spacing.xsm,
+                            ),
+                            child: Text('Vegetarian:'),
+                          ),
+                          if (vegetarian)
+                            Icon(
+                              Icons.check,
+                              color: ChowColors.green700,
+                            )
+                          else if (!vegetarian)
+                            Icon(
+                              Icons.close,
+                              color: ChowColors.red,
+                            )
+                          else
+                            Icon(
+                              Icons.question_mark,
+                              color: ChowColors.black,
+                              size: 20,
+                            ),
+                        ],
                       ),
-                      if (dairyFree)
-                        Icon(
-                          Icons.check,
-                          color: ChowColors.green700,
-                        )
-                      else if (!dairyFree)
-                        Icon(
-                          Icons.close,
-                          color: ChowColors.red,
-                        )
-                      else
-                        Icon(
-                          Icons.question_mark,
-                          color: ChowColors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                  color: ChowColors.black,
-                ),
-              ],
-            ),
-            SizedBox(height: Spacing.md),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                DetailCard(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 3 * Responsive.ratioHorizontal,
-                        ),
-                        child: Text('Vegetarian:'),
+                      color: ChowColors.black,
+                    ),
+                    DetailCard(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Spacing.xsm,
+                            ),
+                            child: Text('Vegan:'),
+                          ),
+                          if (vegan)
+                            Icon(
+                              Icons.check,
+                              color: ChowColors.green700,
+                            )
+                          else if (!vegan)
+                            Icon(
+                              Icons.close,
+                              color: ChowColors.red,
+                            )
+                          else
+                            Icon(
+                              Icons.question_mark,
+                              color: ChowColors.black,
+                              size: 20,
+                            ),
+                        ],
                       ),
-                      if (vegetarian)
-                        Icon(
-                          Icons.check,
-                          color: ChowColors.green700,
-                        )
-                      else if (!vegetarian)
-                        Icon(
-                          Icons.close,
-                          color: ChowColors.red,
-                        )
-                      else
-                        Icon(
-                          Icons.question_mark,
-                          color: ChowColors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                  color: ChowColors.black,
-                ),
-                DetailCard(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 3 * Responsive.ratioHorizontal),
-                        child: Text('Vegan:'),
-                      ),
-                      if (vegan)
-                        Icon(
-                          Icons.check,
-                          color: ChowColors.green700,
-                        )
-                      else if (!vegan)
-                        Icon(
-                          Icons.close,
-                          color: ChowColors.red,
-                        )
-                      else
-                        Icon(
-                          Icons.question_mark,
-                          color: ChowColors.black,
-                          size: 20,
-                        ),
-                    ],
-                  ),
-                  color: ChowColors.black,
+                      color: ChowColors.black,
+                    ),
+                  ],
                 ),
               ],
             ),

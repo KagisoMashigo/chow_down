@@ -63,6 +63,14 @@ class App extends StatelessWidget {
                   DeviceOrientation.portraitDown,
                 ],
               );
+              SystemChrome.setSystemUIOverlayStyle(
+                SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.light,
+                  systemNavigationBarColor: Colors.white,
+                  systemNavigationBarIconBrightness: Brightness.light,
+                ),
+              );
               return ChowDown();
             },
           );
@@ -86,7 +94,7 @@ class ChowDown extends StatelessWidget {
       title: 'Chow Down',
       theme: ThemeData(
         appBarTheme: AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
         ),
         fontFamily: ChowFontFamilies.primary,
       ),

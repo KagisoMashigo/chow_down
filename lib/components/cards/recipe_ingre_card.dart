@@ -12,8 +12,8 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
 
-class RecipeDescCard extends StatelessWidget {
-  const RecipeDescCard({
+class RecipeDescriptionCard extends StatelessWidget {
+  const RecipeDescriptionCard({
     Key? key,
     required this.readyInMinutes,
     required this.servings,
@@ -46,136 +46,102 @@ class RecipeDescCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// This replaces all floating 0s
-    RegExp regex = RegExp(r'([.]*0)(?!.*\d)', unicode: true);
-
     return BaseCard(
-      child: Column(
-        children: [
-          SizedBox(height: Spacing.xsm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(width: Spacing.xsm),
-              DetailCard(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 3 * Responsive.ratioHorizontal),
-                      child: Text('Ready In: '),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 3 * Responsive.ratioHorizontal),
-                      child: Text(
-                        '${StringHelper.cookTimeConverter(readyInMinutes)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                color: ChowColors.black,
-              ),
-              DetailCard(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 3 * Responsive.ratioHorizontal),
-                      child: Text('Servings:'),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 3 * Responsive.ratioHorizontal),
-                      child: Text(
-                        '${servings.toString()}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                color: ChowColors.black,
-              ),
-              SizedBox(width: Spacing.xsm),
-            ],
-          ),
-          SizedBox(height: Spacing.xsm),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 4 * Responsive.ratioHorizontal),
-            child: Column(
+      child: Padding(
+        padding: EdgeInsets.all(
+          Spacing.sm,
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                veryHealthy
-                    ? Row(
-                        children: [
-                          Icon(
-                            Icons.star,
-                            size: 25,
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Very Healthy!',
-                              style: TextStyle(
-                                fontSize: 4 * Responsive.ratioHorizontal,
-                                fontStyle: FontStyle.italic,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : SizedBox.shrink(),
-                SizedBox(height: Spacing.xsm),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'By $creditsText',
-                        style: TextStyle(
-                          fontSize: 4 * Responsive.ratioHorizontal,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ),
-                  ],
+                SizedBox(width: Spacing.xsm),
+                _buildDetailCard(
+                  title: 'Ready In:',
+                  subtitle: '${StringHelper.cookTimeConverter(readyInMinutes)}',
                 ),
-                SizedBox(height: Spacing.xsm),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: _launchUrl,
-                        child: Text('Source: $sourceUrl'),
-                      ),
-                    ),
-                  ],
+                _buildDetailCard(
+                  title: 'Servings:',
+                  subtitle: '${servings.toString()}',
                 ),
+                SizedBox(width: Spacing.xsm),
               ],
             ),
-          ),
+            if (veryHealthy) ...[
+              SizedBox(height: Spacing.sm),
+              Row(
+                children: [
+                  Icon(
+                    Icons.star,
+                    size: 25,
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Very Healthy!',
+                      style: TextStyle(
+                        fontSize: 4 * Responsive.ratioHorizontal,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+            SizedBox(height: Spacing.sm),
+            Text(
+              'By $creditsText',
+              style: TextStyle(
+                fontSize: ChowFontSizes.md,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            SizedBox(height: Spacing.xsm),
+            TextButton(
+              onPressed: _launchUrl,
+              child: Text('Source: $sourceUrl'),
+            ),
+            SizedBox(height: Spacing.xsm),
+            ..._buildIngredients(ingredients!),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailCard({
+    required String title,
+    required String subtitle,
+  }) {
+    return DetailCard(
+      child: Column(
+        children: [
+          Text(title),
           SizedBox(height: Spacing.xsm),
-          Center(
-            child: Column(
-              children: ingredients!
-                  .map((ingredient) => ListTile(
-                        title: Text(
-                          '${ingredient.amount.toString().replaceAll(regex, '')} ${ingredient.unit == 'servings' ? '' : ingredient.unit} ${ingredient.name}',
-                          style: TextStyle(
-                            fontSize: 4 * Responsive.ratioHorizontal,
-                          ),
-                        ),
-                        leading: Icon(Icons.food_bank_sharp),
-                      ))
-                  .toList(),
+          Text(
+            subtitle,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],
       ),
+      color: ChowColors.black,
     );
+  }
+
+  List<Widget> _buildIngredients(List<ExtendedIngredients> ingredients) {
+    return ingredients
+        .map((ingredient) => ListTile(
+              title: Text(
+                '${StringHelper.processNumber(ingredient.amount.toString())} ${ingredient.unit == 'servings' ? '' : ingredient.unit} ${ingredient.name}',
+                style: TextStyle(
+                  fontSize: 4 * Responsive.ratioHorizontal,
+                ),
+              ),
+              leading: Icon(Icons.food_bank_sharp),
+            ))
+        .toList();
   }
 
   Future<void> _launchUrl() async {
