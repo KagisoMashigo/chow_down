@@ -146,10 +146,8 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
                 },
               )),
           SizedBox(height: Spacing.sm),
-          Padding(
-            padding: const EdgeInsets.only(bottom: Spacing.md),
-            child: _whichCard(context, _currentIndex, widget.recipe),
-          ),
+          _whichCard(context, _currentIndex, widget.recipe),
+          SizedBox(height: Spacing.xlg),
         ],
       ),
     );

@@ -134,7 +134,7 @@ class AccountPage extends StatelessWidget {
 
   Widget _buildUserInfo(User user) {
     return Padding(
-      padding: EdgeInsets.all(15 * Responsive.ratioSquare),
+      padding: EdgeInsets.all(Spacing.sm),
       child: Row(
         children: [
           Avatar(
@@ -274,8 +274,7 @@ class AccountPage extends StatelessWidget {
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize:
-                        Size.fromHeight(10 * Responsive.ratioHorizontal),
+                    minimumSize: Size.fromHeight(Spacing.md),
                     padding: EdgeInsets.all(Spacing.sm),
                     backgroundColor: ChowColors.beige200,
                   ),
@@ -283,7 +282,7 @@ class AccountPage extends StatelessWidget {
                   child: Text(
                     'Logout',
                     style: TextStyle(
-                      fontSize: 4.25 * Responsive.ratioHorizontal,
+                      fontSize: ChowFontSizes.sm,
                       color: ChowColors.white,
                     ),
                   ),

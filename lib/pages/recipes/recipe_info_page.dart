@@ -48,54 +48,61 @@ class RecipeInfoPage extends StatelessWidget {
     }
 
     return Scaffold(
-      body: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
-        listener: (context, state) {
-          if (state is RecipeInfoError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message ?? 'An unknown error occurred'),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  RECIPE_INFO_BACKGROUND_IMAGE,
-                ),
-                fit: BoxFit.fill,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(
+              RECIPE_INFO_BACKGROUND_IMAGE,
+            ),
+            fit: BoxFit.fill,
+          ),
+        ),
+        alignment: Alignment.center,
+        child: RefreshIndicator(
+          onRefresh: () => _pullRefresh(context),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 38.0),
+            child: SingleChildScrollView(
+              child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
+                listener: (context, state) {
+                  if (state is RecipeInfoError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content:
+                            Text(state.message ?? 'An unknown error occurred'),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  return RefreshIndicator(
+                    onRefresh: () => _pullRefresh(context),
+                    child: Builder(
+                      builder: (context) {
+                        if (state is RecipeInfoInitial) {
+                          BlocProvider.of<RecipeInfoBloc>(context).add(
+                            FetchRecipe(id: id, url: sourceUrl),
+                          );
+                          return _buildLoading();
+                        } else if (state is RecipeInfoLoading) {
+                          return _buildLoading();
+                        } else if (state is RecipeInfoLoaded) {
+                          return _buildContents(
+                            context,
+                            state.recipe,
+                          );
+                        } else {
+                          return _buildErrorMessage(state);
+                        }
+                      },
+                    ),
+                  );
+                },
               ),
             ),
-            alignment: Alignment.center,
-            child: RefreshIndicator(
-              onRefresh: () => _pullRefresh(context),
-              child: SingleChildScrollView(
-                physics: ClampingScrollPhysics(),
-                child: Builder(
-                  builder: (context) {
-                    if (state is RecipeInfoInitial) {
-                      BlocProvider.of<RecipeInfoBloc>(context).add(
-                        FetchRecipe(id: id, url: sourceUrl),
-                      );
-                      return _buildLoading();
-                    } else if (state is RecipeInfoLoading) {
-                      return _buildLoading();
-                    } else if (state is RecipeInfoLoaded) {
-                      return _buildContents(
-                        context,
-                        state.recipe,
-                      );
-                    } else {
-                      return _buildErrorMessage(state);
-                    }
-                  },
-                ),
-              ),
-            ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }
@@ -132,6 +139,7 @@ class RecipeInfoPage extends StatelessWidget {
           options: TAB_OPTIONS,
           recipe: recipe,
         ),
+        SizedBox(height: Spacing.xlg),
       ],
     );
   }
