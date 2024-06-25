@@ -65,103 +65,97 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseCard(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Expanded(
-                child: Text(
-                  name.toString(),
-                  style: TextStyle(
-                    fontSize: 4 * Responsive.ratioHorizontal,
-                    // fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(Spacing.xsm),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              name.toString(),
+              style: TextStyle(
+                fontSize: 4 * Responsive.ratioHorizontal,
+                color: Colors.black,
               ),
-            ],
-          ),
-          SizedBox(height: Spacing.xsm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Card(
-                elevation: 2,
-                clipBehavior: Clip.antiAlias,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: CachedNetworkImage(
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => SizedBox(
-                      height: 55,
-                      width: 5,
-                      child: SpinKitThreeBounce(
-                        color: loadingColor,
-                        size: 20.0,
+            ),
+            SizedBox(height: Spacing.xsm),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Card(
+                  elevation: 2,
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: CachedNetworkImage(
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => SizedBox(
+                        height: 55,
+                        width: 5,
+                        child: SpinKitThreeBounce(
+                          color: loadingColor,
+                          size: 20.0,
+                        ),
                       ),
+                      imageUrl: imageUrl,
+                      width: 35 * Responsive.ratioHorizontal,
+                      fit: BoxFit.cover,
                     ),
-                    imageUrl: imageUrl,
-                    width: 35 * Responsive.ratioHorizontal,
-                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              SizedBox(width: Spacing.sm),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.timer_outlined),
-                      SizedBox(width: Spacing.xsm),
-                      Text(
-                        StringHelper.cookTimeConverter(readyInMinutes),
-                        style: TextStyle(
-                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                SizedBox(width: Spacing.sm),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.timer_outlined),
+                        SizedBox(width: Spacing.xsm),
+                        Text(
+                          StringHelper.cookTimeConverter(readyInMinutes),
+                          style: TextStyle(
+                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Spacing.xsm),
-                  Row(
-                    children: [
-                      Icon(Icons.soup_kitchen),
-                      SizedBox(width: Spacing.xsm),
-                      Text(
-                        '${servings.toString()} servings',
-                        style: TextStyle(
-                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                      ],
+                    ),
+                    SizedBox(height: Spacing.xsm),
+                    Row(
+                      children: [
+                        Icon(Icons.soup_kitchen),
+                        SizedBox(width: Spacing.xsm),
+                        Text(
+                          '${servings.toString()} servings',
+                          style: TextStyle(
+                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Spacing.xsm),
-                  Row(
-                    children: [
-                      Icon(Icons.food_bank_outlined),
-                      SizedBox(width: Spacing.xsm),
-                      Text(
-                        '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
-                        style: TextStyle(
-                          fontSize: 3.75 * Responsive.ratioHorizontal,
+                      ],
+                    ),
+                    SizedBox(height: Spacing.xsm),
+                    Row(
+                      children: [
+                        Icon(Icons.food_bank_outlined),
+                        SizedBox(width: Spacing.xsm),
+                        Text(
+                          '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
+                          style: TextStyle(
+                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: Spacing.xsm),
-                ],
-              ),
-            ],
-          ),
-        ],
+                      ],
+                    ),
+                    SizedBox(height: Spacing.xsm),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

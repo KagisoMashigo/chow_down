@@ -11,11 +11,9 @@ import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
-import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/plugins/debugHelper.dart';
 
 const List<String> TAB_OPTIONS = [
   'Ingredients',
@@ -49,9 +47,7 @@ class RecipeInfoPage extends StatelessWidget {
       );
     }
 
-    return CustomLogoAppBar(
-      imgUrl: CHOW_DOWN_LOGO,
-      title: title,
+    return Scaffold(
       body: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
         listener: (context, state) {
           if (state is RecipeInfoError) {
@@ -125,7 +121,7 @@ class RecipeInfoPage extends StatelessWidget {
     return Column(
       children: [
         AspectRatio(
-          aspectRatio: 1.5,
+          aspectRatio: 1.25,
           child: CachedNetworkImage(
             imageUrl: recipe.image,
             fit: BoxFit.cover,

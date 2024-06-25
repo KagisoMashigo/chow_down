@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/typography.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -172,7 +174,7 @@ class AccountPage extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: CachedNetworkImageProvider(
-              'https://images.unsplash.com/photo-1614014077943-840960ce6694?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+              ACCOUNT_BACKGROUND_IMAGE,
             ),
             fit: BoxFit.cover,
           ),
@@ -193,12 +195,12 @@ class AccountPage extends StatelessWidget {
                     child: Text(
                       'Settings',
                       style: TextStyle(
-                          color: ChowColors.white,
-                          fontSize: 5.25 * Responsive.ratioHorizontal),
+                        color: ChowColors.white,
+                        fontSize: ChowFontSizes.lg,
+                      ),
                     ),
                   ),
                 ),
-                // verticalDivider(factor: 2),
                 _buildUserInfo(auth.currentUser),
                 // TODO: add lang tile for intl & raw string constants
                 ChowListTile(
@@ -218,7 +220,6 @@ class AccountPage extends StatelessWidget {
                     color: ChowColors.white,
                   ),
                 ),
-                SizedBox(height: Spacing.sm),
                 ChowListTile(
                   onTap: () async {
                     _confirmCollectionDelete(context);
@@ -283,6 +284,7 @@ class AccountPage extends StatelessWidget {
                     'Logout',
                     style: TextStyle(
                       fontSize: 4.25 * Responsive.ratioHorizontal,
+                      color: ChowColors.white,
                     ),
                   ),
                 ),

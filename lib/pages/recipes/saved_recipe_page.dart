@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/typography.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -10,9 +12,7 @@ import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
-import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
@@ -29,51 +29,72 @@ class RecipeTabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomLogoAppBar(
-      color: ChowColors.white,
-      imgUrl: 'assets/images/chow_down.png',
-      title: 'Saved Recipes',
-      body: RefreshIndicator(
-        color: Color.fromARGB(255, 234, 180, 225),
-        onRefresh: () => _pullRefresh(context),
-        child: SingleChildScrollView(
-          child: Container(
-            // TODO: Better backgrounds
-            height: Responsive.isSmallScreen()
-                ? MediaQuery.of(context).size.height
-                : MediaQuery.of(context).size.height * 0.91,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: CachedNetworkImageProvider(
-                  'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+                  SAVED_RECIPE_BACKGROUND_IMAGE,
                 ),
                 fit: BoxFit.cover,
               ),
             ),
-            padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            child: BlocConsumer<RecipeTabBloc, RecipeTabState>(
-              listenWhen: (previous, current) => previous != current,
-              listener: (context, state) {
-                if (state is RecipeTabError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message!),
+          ),
+          RefreshIndicator(
+            color: Color.fromARGB(255, 234, 180, 225),
+            onRefresh: () => _pullRefresh(context),
+            edgeOffset: 100,
+            child: Padding(
+              padding: const EdgeInsets.all(Spacing.md),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: Spacing.lg),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: Spacing.sm),
+                        child: Text(
+                          'Saved Recipes',
+                          style: TextStyle(
+                            color: ChowColors.black,
+                            fontSize: ChowFontSizes.lg,
+                          ),
+                        ),
+                      ),
                     ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is RecipeTabLoading) {
-                  return _buildLoading();
-                } else if (state is RecipeTabError) {
-                  return _buildErrors(state);
-                }
+                    BlocConsumer<RecipeTabBloc, RecipeTabState>(
+                      listenWhen: (previous, current) => previous != current,
+                      listener: (context, state) {
+                        if (state is RecipeTabError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.message!),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is RecipeTabLoading) {
+                          return _buildLoading();
+                        } else if (state is RecipeTabError) {
+                          return _buildErrors(state);
+                        }
 
-                return _buildColumnWithData(context, state.recipeCardList);
-              },
+                        return _buildColumnWithData(
+                            context, state.recipeCardList);
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -109,32 +130,33 @@ class RecipeTabPage extends StatelessWidget {
   Widget _buildColumnWithData(
     BuildContext context,
     List<Recipe> searchResultList,
-  ) =>
-      SingleChildScrollView(
-        child: Column(
-          children: [
-            RecipeCardGrid(
-              searchResults: searchResultList,
-            ),
-            searchResultList.length > 10
-                ? Align(
-                    alignment: Alignment.bottomCenter,
-                    child: FloatingActionButton(
-                      onPressed: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RecipeTabPage()),
-                      ),
-                      child: Icon(
-                        Icons.arrow_upward_outlined,
-                        color: ChowColors.black,
-                      ),
-                      backgroundColor: ChowColors.white,
-                    ),
-                  )
-                : SizedBox.shrink(),
-            SizedBox(height: Spacing.md)
-          ],
+  ) {
+    return Column(
+      children: [
+        RecipeCardGrid(
+          searchResults: searchResultList,
         ),
-      );
+        searchResultList.length > 10
+            ? Padding(
+                padding: const EdgeInsets.only(bottom: Spacing.lg),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
+                    onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => RecipeTabPage()),
+                    ),
+                    child: Icon(
+                      Icons.arrow_upward_outlined,
+                      color: ChowColors.black,
+                    ),
+                    backgroundColor: ChowColors.white,
+                  ),
+                ),
+              )
+            : SizedBox.shrink(),
+        SizedBox(height: Spacing.lg),
+      ],
+    );
+  }
 }
