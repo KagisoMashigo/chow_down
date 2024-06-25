@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -49,53 +50,58 @@ class RecipeInfoPage extends StatelessWidget {
     }
 
     return CustomLogoAppBar(
-      imgUrl: 'assets/images/chow_down.png',
+      imgUrl: CHOW_DOWN_LOGO,
       title: title,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              'https://images.unsplash.com/photo-1604147706283-d7119b5b822c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bGlnaHQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60',
+      body: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
+        listener: (context, state) {
+          if (state is RecipeInfoError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message ?? 'An unknown error occurred'),
+              ),
+            );
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  RECIPE_INFO_BACKGROUND_IMAGE,
+                ),
+                fit: BoxFit.fill,
+              ),
             ),
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: RefreshIndicator(
-          onRefresh: () => _pullRefresh(context),
-          child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
-            listener: (context, state) {
-              if (state is RecipeInfoError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    // TODO: Use generic error message for now
-                    content: Text(state.message ?? 'An unknown error occurred'),
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is RecipeInfoInitial) {
-                BlocProvider.of<RecipeInfoBloc>(context).add(
-                  FetchRecipe(id: id, url: sourceUrl),
-                );
-              }
-              if (state is RecipeInfoLoading) {
-                printDebug(state.toString());
-                return _buildLoading();
-              } else if (state is RecipeInfoLoaded) {
-                printDebug(state.toString());
-                return _buildContents(
-                  context,
-                  state.recipe,
-                );
-              } else {
-                printDebug(state.toString());
-                return _buildErrorMessage(state);
-              }
-            },
-          ),
-        ),
+            alignment: Alignment.center,
+            child: RefreshIndicator(
+              onRefresh: () => _pullRefresh(context),
+              child: SingleChildScrollView(
+                child: Builder(
+                  builder: (context) {
+                    if (state is RecipeInfoInitial) {
+                      BlocProvider.of<RecipeInfoBloc>(context).add(
+                        FetchRecipe(id: id, url: sourceUrl),
+                      );
+                      return _buildLoading();
+                    } else if (state is RecipeInfoLoading) {
+                      printDebug(state.toString());
+                      return _buildLoading();
+                    } else if (state is RecipeInfoLoaded) {
+                      printDebug(state.toString());
+                      return _buildContents(
+                        context,
+                        state.recipe,
+                      );
+                    } else {
+                      printDebug(state.toString());
+                      return _buildErrorMessage(state);
+                    }
+                  },
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -121,15 +127,12 @@ class RecipeInfoPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: CachedNetworkImage(
-                  imageUrl: recipe.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
+          AspectRatio(
+            aspectRatio: 1.5,
+            child: CachedNetworkImage(
+              imageUrl: recipe.image,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(height: Spacing.sm),
           RecipeCardToggler(
