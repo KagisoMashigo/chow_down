@@ -1,7 +1,8 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class RecipeTabState {
+abstract class RecipeTabState extends Equatable {
   final List<Recipe> recipeCardList;
 
   RecipeTabState({required this.recipeCardList});
@@ -15,6 +16,9 @@ class RecipeTabInitial extends RecipeTabState {
 
   @override
   String toString() => 'RecipeTabInitial{}';
+
+  @override
+  List<Object?> get props => [];
 }
 
 class RecipeTabLoading extends RecipeTabState {
@@ -23,6 +27,9 @@ class RecipeTabLoading extends RecipeTabState {
 
   @override
   String toString() => 'RecipeTabLoading{}';
+
+  @override
+  List<Object?> get props => [];
 }
 
 class RecipeTabLoaded extends RecipeTabState {
@@ -33,6 +40,9 @@ class RecipeTabLoaded extends RecipeTabState {
 
   @override
   String toString() => 'RecipeTabLoaded{recipeCardList: $recipeCardList}';
+
+  @override
+  List<Object?> get props => [recipeCardList];
 }
 
 class RecipeTabError extends RecipeTabState {
@@ -42,4 +52,7 @@ class RecipeTabError extends RecipeTabState {
 
   @override
   String toString() => 'RecipTabError{message: $message}';
+
+  @override
+  List<Object?> get props => [message];
 }

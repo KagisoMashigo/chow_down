@@ -208,6 +208,22 @@ class Recipe {
     );
   }
 
+  bool isVegan() {
+    return vegan ?? false;
+  }
+
+  bool isVegetarian() {
+    return vegetarian ?? false;
+  }
+
+  bool isDairyFree() {
+    return dairyFree ?? false;
+  }
+
+  bool isGlutenFree() {
+    return glutenFree ?? false;
+  }
+
   @override
   String toString() {
     return 'Recipe{vegetarian: $vegetarian, vegan: $vegan, glutenFree: $glutenFree, dairyFree: $dairyFree, veryPopular: $veryPopular, sourceName: $sourceName, id: $id, title: $title, readyInMinutes: $readyInMinutes, servings: $servings, sourceUrl: $sourceUrl, diets: $diets, originalId: $originalId, spoonacularSourceUrl: $spoonacularSourceUrl}';

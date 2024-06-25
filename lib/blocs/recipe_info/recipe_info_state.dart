@@ -1,7 +1,8 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class RecipeInfoState {
+abstract class RecipeInfoState extends Equatable {
   @override
   String toString() => 'RecipeInfoState{}';
 }
@@ -9,6 +10,9 @@ abstract class RecipeInfoState {
 class RecipeInfoInitial extends RecipeInfoState {
   @override
   String toString() => 'RecipeInfoInitial{}';
+
+  @override
+  List<Object?> get props => [];
 }
 
 class RecipeInfoLoading extends RecipeInfoState {
@@ -22,6 +26,9 @@ class RecipeInfoLoading extends RecipeInfoState {
 
   @override
   String toString() => 'RecipeInfoLoading{id: $id, url: $url}';
+
+  @override
+  List<Object?> get props => [id, url];
 }
 
 class RecipeInfoLoaded extends RecipeInfoState {
@@ -31,6 +38,9 @@ class RecipeInfoLoaded extends RecipeInfoState {
 
   @override
   String toString() => 'RecipeInfoLoaded{recipe: $recipe}';
+
+  @override
+  List<Object?> get props => [recipe];
 }
 
 class RecipeInfoError extends RecipeInfoState {
@@ -46,4 +56,7 @@ class RecipeInfoError extends RecipeInfoState {
 
   @override
   String toString() => 'RecipeInfoError{message: $message, id: $id, url: $url}';
+
+  @override
+  List<Object?> get props => [message, id, url];
 }
