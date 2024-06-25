@@ -7,8 +7,8 @@ import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/design/responsive.dart';
 
-class RecipeDietCard extends StatelessWidget {
-  const RecipeDietCard({
+class RecipeDietaryCard extends StatelessWidget {
+  const RecipeDietaryCard({
     Key? key,
     required this.glutenFree,
     required this.vegetarian,

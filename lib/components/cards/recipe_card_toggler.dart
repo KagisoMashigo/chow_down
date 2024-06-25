@@ -110,15 +110,25 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
             ],
           ),
           SizedBox(height: Spacing.sm),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Container(
+          Container(
               decoration: BoxDecoration(
                 color: ChowColors.white,
                 borderRadius: BorderRadius.circular(18.0),
               ),
               child: ToggleButtons(
-                children: widget.options.map((option) => Text(option)).toList(),
+                borderColor: Colors.black,
+                selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
+                borderWidth: 1,
+                borderRadius: BorderRadius.circular(8),
+                fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
+                selectedColor: Colors.black,
+                color: Colors.black,
+                children: widget.options
+                    .map((option) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(option),
+                        ))
+                    .toList(),
                 isSelected: _isSelected,
                 onPressed: (int newIndex) {
                   setState(
@@ -134,12 +144,12 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
                     },
                   );
                 },
-              ),
-            ),
-          ),
+              )),
           SizedBox(height: Spacing.sm),
-          _whichCard(context, _currentIndex, widget.recipe),
-          SizedBox(height: Spacing.sm)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Spacing.md),
+            child: _whichCard(context, _currentIndex, widget.recipe),
+          ),
         ],
       ),
     );
@@ -148,7 +158,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
   Widget _whichCard(BuildContext context, int index, Recipe recipe) {
     switch (index) {
       case 0:
-        return RecipeDescCard(
+        return RecipeDescriptionCard(
           veryHealthy: recipe.veryHealthy!,
           readyInMinutes: recipe.readyInMinutes!,
           servings: recipe.servings!,
@@ -159,12 +169,12 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           sourceUrl: recipe.sourceUrl!,
         );
       case 1:
-        return RecipeInstCard(
+        return RecipeInstructionsCard(
           analyzedInstructions: recipe.analyzedInstructions!,
           instructions: recipe.instructions!,
         );
       case 2:
-        return RecipeDietCard(
+        return RecipeDietaryCard(
           dairyFree: recipe.dairyFree!,
           glutenFree: recipe.glutenFree!,
           healthScore: recipe.healthScore!,
@@ -172,7 +182,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           vegan: recipe.vegan!,
         );
       default:
-        return RecipeDescCard(
+        return RecipeDescriptionCard(
           veryHealthy: recipe.veryHealthy!,
           readyInMinutes: recipe.readyInMinutes!,
           servings: recipe.servings!,

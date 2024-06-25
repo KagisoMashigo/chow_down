@@ -71,4 +71,16 @@ class StringHelper {
 
     return uniqueId;
   }
+
+  static String processNumber(String input) {
+    RegExp regex = RegExp(r'(\.0{1,2}(?!\d))|(\.00$)', unicode: true);
+
+    // Check if the input matches `.50`
+    if (input.endsWith('.50')) {
+      return input;
+    }
+
+    // Remove `.0` or `.00`
+    return input.replaceAll(regex, '');
+  }
 }

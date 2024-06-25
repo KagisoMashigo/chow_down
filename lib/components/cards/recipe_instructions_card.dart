@@ -6,8 +6,8 @@ import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 
-class RecipeInstCard extends StatelessWidget {
-  const RecipeInstCard({
+class RecipeInstructionsCard extends StatelessWidget {
+  const RecipeInstructionsCard({
     Key? key,
     this.analyzedInstructions,
     required this.instructions,

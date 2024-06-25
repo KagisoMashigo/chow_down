@@ -76,6 +76,7 @@ class RecipeInfoPage extends StatelessWidget {
             child: RefreshIndicator(
               onRefresh: () => _pullRefresh(context),
               child: SingleChildScrollView(
+                physics: ClampingScrollPhysics(),
                 child: Builder(
                   builder: (context) {
                     if (state is RecipeInfoInitial) {
@@ -84,16 +85,13 @@ class RecipeInfoPage extends StatelessWidget {
                       );
                       return _buildLoading();
                     } else if (state is RecipeInfoLoading) {
-                      printDebug(state.toString());
                       return _buildLoading();
                     } else if (state is RecipeInfoLoaded) {
-                      printDebug(state.toString());
                       return _buildContents(
                         context,
                         state.recipe,
                       );
                     } else {
-                      printDebug(state.toString());
                       return _buildErrorMessage(state);
                     }
                   },
@@ -124,23 +122,21 @@ class RecipeInfoPage extends StatelessWidget {
     BuildContext context,
     Recipe recipe,
   ) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          AspectRatio(
-            aspectRatio: 1.5,
-            child: CachedNetworkImage(
-              imageUrl: recipe.image,
-              fit: BoxFit.cover,
-            ),
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: 1.5,
+          child: CachedNetworkImage(
+            imageUrl: recipe.image,
+            fit: BoxFit.cover,
           ),
-          SizedBox(height: Spacing.sm),
-          RecipeCardToggler(
-            options: TAB_OPTIONS,
-            recipe: recipe,
-          ),
-        ],
-      ),
+        ),
+        SizedBox(height: Spacing.sm),
+        RecipeCardToggler(
+          options: TAB_OPTIONS,
+          recipe: recipe,
+        ),
+      ],
     );
   }
 }
