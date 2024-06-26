@@ -9,12 +9,12 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
-class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
+class SavedRecipeBloc extends Bloc<RecipeTabEvent, SavedRecipeState> {
   final FirestoreDatabase _database;
 
-  RecipeTabBloc(
+  SavedRecipeBloc(
     this._database,
-  ) : super(RecipeTabInitial()) {
+  ) : super(SavedRecipeInitial()) {
     on<FetchHomeRecipesEvent>(_handleFetchHomeRecipes);
     on<DeleteRecipeEvent>(_handleDeleteRecipe);
     on<DeleteEntireCollectionEvent>(_handleDeleteEntireCollection);
@@ -25,34 +25,34 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
 
   Future<void> _handleFetchHomeRecipes(
     FetchHomeRecipesEvent event,
-    Emitter<RecipeTabState> emit,
+    Emitter<SavedRecipeState> emit,
   ) async {
     try {
       printDebug('Fetching home recipes...');
-      emit(RecipeTabLoading(recipeCardList: []));
+      emit(SavedRecipePending(recipeCardList: []));
 
       final List<Recipe> searchResults = await _database.retrieveSavedRecipes();
 
       if (searchResults.isEmpty) {
         printDebug('No recipes found.');
-        emit(RecipeTabInitial());
+        emit(SavedRecipeInitial());
       } else {
         printDebug('Fetched ${searchResults.length} recipes.');
-        emit(RecipeTabLoaded(recipeCardList: searchResults));
+        emit(SavedRecipeLoaded(recipeCardList: searchResults));
       }
     } on Failure catch (e, stack) {
       printAndLog(e, 'Fetching home recipes failed: $stack');
-      emit(RecipeTabError(message: e.toString()));
+      emit(SavedRecipeError(message: e.toString()));
     }
   }
 
   Future<void> _handleDeleteRecipe(
     DeleteRecipeEvent event,
-    Emitter<RecipeTabState> emit,
+    Emitter<SavedRecipeState> emit,
   ) async {
     try {
       printDebug('Deleting recipe with ID: ${event.recipe.id}');
-      emit(RecipeTabLoading(recipeCardList: []));
+      emit(SavedRecipePending(recipeCardList: []));
 
       await _database.deleteRecipe(event.recipe);
       printDebug('Recipe deleted with ID: ${event.recipe.id}');
@@ -64,48 +64,48 @@ class RecipeTabBloc extends Bloc<RecipeTabEvent, RecipeTabState> {
 
       if (searchResults.isEmpty) {
         printDebug('No recipes found after deletion.');
-        emit(RecipeTabInitial());
+        emit(SavedRecipeInitial());
       } else {
         printDebug('Fetched ${searchResults.length} recipes after deletion.');
-        emit(RecipeTabLoaded(recipeCardList: searchResults));
+        emit(SavedRecipeLoaded(recipeCardList: searchResults));
       }
     } on Failure catch (e, stack) {
       printAndLog(e, 'Deleting recipe failed: $stack');
-      emit(RecipeTabError(message: e.toString()));
+      emit(SavedRecipeError(message: e.toString()));
     }
   }
 
   Future<void> _handleDeleteEntireCollection(
     DeleteEntireCollectionEvent event,
-    Emitter<RecipeTabState> emit,
+    Emitter<SavedRecipeState> emit,
   ) async {
     try {
       printDebug('Deleting entire collection of recipes.');
-      emit(RecipeTabLoading(recipeCardList: []));
+      emit(SavedRecipePending(recipeCardList: []));
 
       await _database.deleteAllRecipes();
       printDebug('Entire collection deleted.');
     } on Failure catch (e, stack) {
       printAndLog(e, 'Deleting entire collection failed: $stack');
-      emit(RecipeTabError(message: e.toString()));
+      emit(SavedRecipeError(message: e.toString()));
     }
   }
 
   Future<void> _handleRefresh(
     Refresh event,
-    Emitter<RecipeTabState> emit,
+    Emitter<SavedRecipeState> emit,
   ) async {
     try {
       printDebug('Refreshing recipe tab...');
-      emit(RecipeTabLoading(recipeCardList: []));
+      emit(SavedRecipePending(recipeCardList: []));
 
       await Future<void>.delayed(const Duration(seconds: 2));
 
       printDebug('Recipe tab refresh complete.');
-      emit(RecipeTabInitial());
+      emit(SavedRecipeInitial());
     } on Failure catch (e, stack) {
       printAndLog(e, 'Refreshing recipe tab failed: $stack');
-      emit(RecipeTabError(message: e.toString()));
+      emit(SavedRecipeError(message: e.toString()));
     }
   }
 }

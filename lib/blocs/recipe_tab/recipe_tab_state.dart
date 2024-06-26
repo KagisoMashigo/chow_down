@@ -1,45 +1,45 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
-abstract class RecipeTabState {
+abstract class SavedRecipeState {
   final List<Recipe> recipeCardList;
 
-  RecipeTabState({required this.recipeCardList});
+  SavedRecipeState({required this.recipeCardList});
 
   @override
-  String toString() => 'RecipeTabState{recipeCardList: $recipeCardList}';
+  String toString() => 'SavedRecipeState{recipeCardList: $recipeCardList}';
 }
 
-class RecipeTabInitial extends RecipeTabState {
-  RecipeTabInitial() : super(recipeCardList: []);
+class SavedRecipeInitial extends SavedRecipeState {
+  SavedRecipeInitial() : super(recipeCardList: []);
 
   @override
-  String toString() => 'RecipeTabInitial{}';
+  String toString() => 'SavedRecipeInitial{}';
 }
 
-class RecipeTabLoading extends RecipeTabState {
-  RecipeTabLoading({required List<Recipe> recipeCardList})
+class SavedRecipePending extends SavedRecipeState {
+  SavedRecipePending({required List<Recipe> recipeCardList})
       : super(recipeCardList: recipeCardList);
 
   @override
-  String toString() => 'RecipeTabLoading{}';
+  String toString() => 'SavedRecipePending{}';
 }
 
-class RecipeTabLoaded extends RecipeTabState {
+class SavedRecipeLoaded extends SavedRecipeState {
   final List<Recipe> recipeCardList;
 
-  RecipeTabLoaded({required this.recipeCardList})
+  SavedRecipeLoaded({required this.recipeCardList})
       : super(recipeCardList: recipeCardList);
 
   @override
-  String toString() => 'RecipeTabLoaded{recipeCardList: $recipeCardList}';
+  String toString() => 'SavedRecipeLoaded{recipeCardList: $recipeCardList}';
 }
 
-class RecipeTabError extends RecipeTabState {
+class SavedRecipeError extends SavedRecipeState {
   final String? message;
 
-  RecipeTabError({this.message}) : super(recipeCardList: []);
+  SavedRecipeError({this.message}) : super(recipeCardList: []);
 
   @override
-  String toString() => 'RecipTabError{message: $message}';
+  String toString() => 'SavedRecipeError{message: $message}';
 }

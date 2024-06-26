@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -36,8 +38,8 @@ class App extends StatelessWidget {
             FirestoreDatabase(uid: Auth().currentUser.uid),
           ),
         ),
-        BlocProvider<RecipeTabBloc>(
-          create: (context) => RecipeTabBloc(
+        BlocProvider<SavedRecipeBloc>(
+          create: (context) => SavedRecipeBloc(
             FirestoreDatabase(uid: Auth().currentUser.uid),
           ),
         ),
@@ -85,10 +87,6 @@ class App extends StatelessWidget {
 class ChowDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     return MaterialApp(
       color: ChowColors.black,
       title: 'Chow Down',
@@ -98,6 +96,9 @@ class ChowDown extends StatelessWidget {
         ),
         fontFamily: ChowFontFamilies.primary,
       ),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+      ],
       home: LandingPage(),
     );
   }

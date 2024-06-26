@@ -61,15 +61,16 @@ class RemoteRecipe implements RecipeRepository {
           code: 503,
         );
       } else if (e.response?.statusCode == 400) {
-        printDebug('Invalid URL provided: ${e.response?.statusCode}');
+        printDebug('Bad request: ${e.response?.statusCode}');
         throw Failure(
-          message: 'The URL provided is invalid or empty',
+          message: 'The URL provided is not valid, please try another one.',
           code: 400,
         );
       } else if (e.response?.statusCode == 402) {
         printDebug('API quota exceeded: ${e.response?.statusCode}');
         throw Failure(
-          message: 'API Quota exceeded. Please try again later.',
+          message:
+              'Looks like the server is having trouble. Please try again later.',
           code: 402,
         );
       } else {

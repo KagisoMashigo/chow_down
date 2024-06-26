@@ -36,7 +36,8 @@ class RecipeCardGrid extends StatelessWidget {
       defaultActionText: 'Delete',
       cancelActionText: 'Cancel',
     ).then((bool) => bool == true
-        ? BlocProvider.of<RecipeTabBloc>(context).add(DeleteRecipeEvent(recipe))
+        ? BlocProvider.of<SavedRecipeBloc>(context)
+            .add(DeleteRecipeEvent(recipe))
         : null);
   }
 

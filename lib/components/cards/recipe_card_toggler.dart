@@ -102,7 +102,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
                   BlocProvider.of<RecipeInfoBloc>(context).add(
                     SaveRecipe(recipe: widget.recipe),
                   );
-                  BlocProvider.of<RecipeTabBloc>(context)
+                  BlocProvider.of<SavedRecipeBloc>(context)
                       .add(FetchHomeRecipesEvent());
                 },
                 isButtonTapped: _isButtonTapped,
@@ -111,40 +111,41 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           ),
           SizedBox(height: Spacing.sm),
           Container(
-              decoration: BoxDecoration(
-                color: ChowColors.white,
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              child: ToggleButtons(
-                borderColor: Colors.black,
-                selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
-                borderWidth: 1,
-                borderRadius: BorderRadius.circular(8),
-                fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
-                selectedColor: Colors.black,
-                color: Colors.black,
-                children: widget.options
-                    .map((option) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(option),
-                        ))
-                    .toList(),
-                isSelected: _isSelected,
-                onPressed: (int newIndex) {
-                  setState(
-                    () {
-                      for (int i = 0; i < _isSelected.length; i++) {
-                        if (i == newIndex) {
-                          _isSelected[i] = true;
-                          _currentIndex = i;
-                        } else {
-                          _isSelected[i] = false;
-                        }
+            decoration: BoxDecoration(
+              color: ChowColors.white,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: ToggleButtons(
+              borderColor: Colors.black,
+              selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
+              borderWidth: 1,
+              borderRadius: BorderRadius.circular(8),
+              fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
+              selectedColor: Colors.black,
+              color: Colors.black,
+              children: widget.options
+                  .map((option) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(option),
+                      ))
+                  .toList(),
+              isSelected: _isSelected,
+              onPressed: (int newIndex) {
+                setState(
+                  () {
+                    for (int i = 0; i < _isSelected.length; i++) {
+                      if (i == newIndex) {
+                        _isSelected[i] = true;
+                        _currentIndex = i;
+                      } else {
+                        _isSelected[i] = false;
                       }
-                    },
-                  );
-                },
-              )),
+                    }
+                  },
+                );
+              },
+            ),
+          ),
           SizedBox(height: Spacing.sm),
           _whichCard(context, _currentIndex, widget.recipe),
           SizedBox(height: Spacing.xlg),
