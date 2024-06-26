@@ -1,15 +1,7 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingre_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
@@ -37,8 +29,6 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
   /// Initial selected button
   int _currentIndex = 0;
 
-  bool _isButtonTapped = false;
-
   void initState() {
     _populateButtonList(widget.options, _isSelected);
     super.initState();
@@ -55,71 +45,22 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
     }
   }
 
-  void _buttonTapped() {
-    setState(
-      () {
-        if (_isButtonTapped == false) {
-          _isButtonTapped = true;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = false;
-            });
-          });
-          // isButtonTapped = false;
-        } else if (_isButtonTapped == true) {
-          _isButtonTapped = false;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = true;
-            });
-          });
-        }
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Spacing.md),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.recipe.title,
-                  style: TextStyle(
-                    fontSize: Spacing.md,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(width: Spacing.sm),
-              ChowSaveButton(
-                onTap: () {
-                  _buttonTapped();
-                  BlocProvider.of<RecipeInfoBloc>(context).add(
-                    SaveRecipe(recipe: widget.recipe),
-                  );
-                  BlocProvider.of<SavedRecipeBloc>(context)
-                      .add(FetchHomeRecipesEvent());
-                },
-                isButtonTapped: _isButtonTapped,
-              ),
-            ],
-          ),
-          SizedBox(height: Spacing.sm),
           Container(
             decoration: BoxDecoration(
               color: ChowColors.white,
               borderRadius: BorderRadius.circular(18.0),
             ),
             child: ToggleButtons(
-              selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
+              selectedBorderColor: ChowColors.borderPurple,
               borderWidth: 1,
               borderRadius: BorderRadius.circular(14),
-              fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
+              fillColor: ChowColors.fillPurple,
               selectedColor: Colors.black,
               color: Colors.black,
               children: widget.options

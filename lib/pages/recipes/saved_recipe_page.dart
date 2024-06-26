@@ -42,7 +42,7 @@ class SavedRecipePage extends StatelessWidget {
           ),
           SafeArea(
             child: RefreshIndicator(
-              color: Color.fromARGB(255, 234, 180, 225),
+              color: ChowColors.borderGreen,
               onRefresh: () => _pullRefresh(context),
               edgeOffset: 100,
               child: SingleChildScrollView(
@@ -153,7 +153,7 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
 
   Widget _buildLoading() => Center(
         child: CircularProgressIndicator(
-          color: Color.fromARGB(255, 212, 147, 201),
+          color: ChowColors.white,
         ),
       );
 
@@ -211,7 +211,7 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
       ),
       child: ToggleButtons(
         selectedBorderColor: ChowColors.borderGreen,
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius: BorderRadius.circular(14),
         fillColor: ChowColors.fillGreen,
         selectedColor: Colors.black,

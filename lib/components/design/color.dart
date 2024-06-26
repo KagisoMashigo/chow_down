@@ -12,6 +12,9 @@ class ChowColors {
   static const Color blue300 = Color.fromARGB(255, 28, 202, 255);
   static const Color blue600 = Color.fromRGBO(48, 113, 169, 1);
   static const Color blue700 = Color.fromRGBO(0, 93, 170, 1);
+  // purple
+  static const Color borderPurple = Color.fromARGB(255, 69, 6, 164);
+  static Color fillPurple = Color.fromARGB(255, 69, 6, 164).withOpacity(0.1);
 
   //white
   static const Color white = Color.fromRGBO(255, 255, 255, 1);

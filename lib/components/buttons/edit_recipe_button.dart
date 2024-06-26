@@ -8,13 +8,13 @@ import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SaveRecipeButton extends StatefulWidget {
+class EditRecipeButton extends StatefulWidget {
   final Recipe recipe;
   final double size;
   final double iconSize;
   final bool outlined;
 
-  const SaveRecipeButton({
+  const EditRecipeButton({
     super.key,
     required this.recipe,
     this.size = 44,
@@ -23,10 +23,10 @@ class SaveRecipeButton extends StatefulWidget {
   });
 
   @override
-  State<SaveRecipeButton> createState() => _SaveRecipeButtonState();
+  State<EditRecipeButton> createState() => _EditRecipeButtonState();
 }
 
-class _SaveRecipeButtonState extends State<SaveRecipeButton> {
+class _EditRecipeButtonState extends State<EditRecipeButton> {
   @override
   void initState() {
     super.initState();
@@ -35,16 +35,10 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
   void _handleTap(
     BuildContext context,
     Recipe recipe,
-    bool isSaved,
   ) async {
-    if (isSaved) {
-      BlocProvider.of<SavedRecipeBloc>(context).add(DeleteRecipeEvent(recipe));
-    } else {
-      BlocProvider.of<RecipeInfoBloc>(context).add(
-        SaveRecipe(recipe: recipe),
-      );
-    }
-
+    BlocProvider.of<RecipeInfoBloc>(context).add(
+      SaveRecipe(recipe: recipe),
+    );
     BlocProvider.of<SavedRecipeBloc>(context).add(FetchHomeRecipesEvent());
   }
 
@@ -56,7 +50,7 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
 
     return InkWell(
       onTap: () {
-        _handleTap(context, widget.recipe, isSaved);
+        _handleTap(context, widget.recipe);
       },
       child: Semantics(
         button: true,
@@ -79,7 +73,7 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
                 )
               : null,
           child: Icon(
-            isSaved ? Icons.favorite : Icons.favorite_outline,
+            isSaved ? Icons.edit : Icons.edit_outlined,
             color: ChowColors.fillPurple,
             size: widget.iconSize,
           ),

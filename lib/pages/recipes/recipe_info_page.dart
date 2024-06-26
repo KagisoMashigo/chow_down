@@ -1,9 +1,14 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/components/buttons/edit_recipe_button.dart';
+import 'package:chow_down/components/buttons/save_button.dart';
+import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -37,7 +42,6 @@ class RecipeInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: cache recipes that have been fetched
 
-    // make refresh method that refetches the recipe
     Future<void> _pullRefresh(BuildContext context) async {
       return Future.delayed(
         Duration(milliseconds: 500),
@@ -55,50 +59,48 @@ class RecipeInfoPage extends StatelessWidget {
             image: CachedNetworkImageProvider(
               RECIPE_INFO_BACKGROUND_IMAGE,
             ),
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
         ),
-        alignment: Alignment.center,
-        child: RefreshIndicator(
-          onRefresh: () => _pullRefresh(context),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 38.0),
-            child: SingleChildScrollView(
-              child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
-                listener: (context, state) {
-                  if (state is RecipeInfoError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content:
-                            Text(state.message ?? 'An unknown error occurred'),
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  return RefreshIndicator(
-                    onRefresh: () => _pullRefresh(context),
-                    child: Builder(
-                      builder: (context) {
-                        if (state is RecipeInfoInitial) {
-                          BlocProvider.of<RecipeInfoBloc>(context).add(
-                            FetchRecipe(id: id, url: sourceUrl),
-                          );
-                          return _buildLoading();
-                        } else if (state is RecipeInfoLoading) {
-                          return _buildLoading();
-                        } else if (state is RecipeInfoLoaded) {
-                          return _buildContents(
-                            context,
-                            state.recipe,
-                          );
-                        } else {
-                          return _buildErrorMessage(state);
-                        }
-                      },
-                    ),
-                  );
-                },
+        child: SafeArea(
+          bottom: false,
+          child: Align(
+            alignment: Alignment.center,
+            child: RefreshIndicator(
+              onRefresh: () => _pullRefresh(context),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 38.0),
+                child: SingleChildScrollView(
+                  child: BlocConsumer<RecipeInfoBloc, RecipeInfoState>(
+                    listener: (context, state) {
+                      if (state is RecipeInfoError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                state.message ?? 'An unknown error occurred'),
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is RecipeInfoInitial) {
+                        BlocProvider.of<RecipeInfoBloc>(context).add(
+                          FetchRecipe(id: id, url: sourceUrl),
+                        );
+                        return _buildLoading();
+                      } else if (state is RecipeInfoLoading) {
+                        return _buildLoading();
+                      } else if (state is RecipeInfoLoaded) {
+                        return _buildContents(
+                          context,
+                          state.recipe,
+                        );
+                      } else {
+                        return _buildErrorMessage(state);
+                      }
+                    },
+                  ),
+                ),
               ),
             ),
           ),
@@ -121,6 +123,48 @@ class RecipeInfoPage extends StatelessWidget {
         ),
       );
 
+  Widget _buildTitleContent(Recipe recipe, BuildContext context) {
+    final isSaved = context.select((SavedRecipeBloc bloc) =>
+        bloc.state.recipeCardList.any((element) => element.id == recipe.id));
+
+    return BaseCard(
+      child: Padding(
+        padding: const EdgeInsets.all(Spacing.sm),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                recipe.title,
+                style: TextStyle(
+                  fontSize: ChowFontSizes.smd,
+                ),
+              ),
+            ),
+            SizedBox(width: Spacing.xsm),
+            Column(
+              children: [
+                SaveRecipeButton(
+                  recipe: recipe,
+                  size: Spacing.md,
+                  iconSize: Spacing.md,
+                ),
+                if (isSaved) ...[
+                  SizedBox(height: Spacing.sm),
+                  EditRecipeButton(
+                    recipe: recipe,
+                    size: Spacing.md,
+                    iconSize: Spacing.md,
+                  ),
+                ]
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildContents(
     BuildContext context,
     Recipe recipe,
@@ -133,6 +177,11 @@ class RecipeInfoPage extends StatelessWidget {
             imageUrl: recipe.image,
             fit: BoxFit.cover,
           ),
+        ),
+        SizedBox(height: Spacing.sm),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
+          child: _buildTitleContent(recipe, context),
         ),
         SizedBox(height: Spacing.sm),
         RecipeCardToggler(

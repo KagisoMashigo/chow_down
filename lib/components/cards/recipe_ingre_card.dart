@@ -89,11 +89,14 @@ class RecipeDescriptionCard extends StatelessWidget {
               )
             ],
             SizedBox(height: Spacing.sm),
-            Text(
-              'By $creditsText',
-              style: TextStyle(
-                fontSize: ChowFontSizes.md,
-                fontStyle: FontStyle.italic,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Spacing.sm),
+              child: Text(
+                'By $creditsText',
+                style: TextStyle(
+                  fontSize: ChowFontSizes.smd,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
             ),
             SizedBox(height: Spacing.xsm),
@@ -130,6 +133,7 @@ class RecipeDescriptionCard extends StatelessWidget {
     );
   }
 
+  // TODO: strip brackets from ingredients
   List<Widget> _buildIngredients(List<ExtendedIngredients> ingredients) {
     return ingredients
         .map((ingredient) => ListTile(
