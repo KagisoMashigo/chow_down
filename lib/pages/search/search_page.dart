@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,6 @@ import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
@@ -69,12 +69,14 @@ class SearchPage extends StatelessWidget {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: Responsive.ratioVertical * 10.0),
+                                top: Spacing.xlg,
+                              ),
                               child: ChowForm(
                                 submitForm: (context, url) => context
                                     .read<SearchBloc>()
                                     .add(SearchRecipes(query: url)),
                                 borderColor: ChowColors.white,
+                                hintText: 'Search for a recipe',
                               ),
                             ),
                             if (state is SearchLoaded)
@@ -151,24 +153,15 @@ class SearchPage extends StatelessWidget {
                   ? Container()
                   : Align(
                       alignment: Alignment.bottomCenter,
-                      child: FloatingActionButton(
-                        onPressed: () => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    SearchPage())),
-                        child: Icon(
-                          Icons.arrow_upward_outlined,
-                          color: ChowColors.black,
-                        ),
-                        backgroundColor: ChowColors.white,
+                      child: ChowBackToTopTransitionBuilder(
+                        desitnation: SearchPage(),
                       ),
                     ),
               SizedBox(height: Spacing.sm)
             ],
           )
         : Padding(
-            padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+            padding: EdgeInsets.all(Spacing.sm),
             child: EmptyContent(
               icon: Icons.question_mark,
               title: 'Oof no results...',

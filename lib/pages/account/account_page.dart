@@ -16,7 +16,6 @@ import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/services/auth.dart';
 
@@ -137,7 +136,7 @@ class AccountPage extends StatelessWidget {
       child: Row(
         children: [
           Avatar(
-            radius: 8 * Responsive.ratioHorizontal,
+            radius: Spacing.lg,
             photoUrl: user.photoURL!,
           ),
           SizedBox(width: Spacing.sm),
@@ -146,16 +145,18 @@ class AccountPage extends StatelessWidget {
                   child: Text(
                     user.displayName!,
                     style: TextStyle(
-                        color: ChowColors.white,
-                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                      color: ChowColors.white,
+                      fontSize: ChowFontSizes.lg,
+                    ),
                   ),
                 )
               : Expanded(
                   child: Text(
                     '${user.email}',
                     style: TextStyle(
-                        color: ChowColors.white,
-                        fontSize: 4 * Responsive.ratioHorizontal),
+                      color: ChowColors.white,
+                      fontSize: ChowFontSizes.md,
+                    ),
                   ),
                 )
         ],
@@ -274,7 +275,7 @@ class AccountPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size.fromHeight(Spacing.md),
                           padding: EdgeInsets.all(Spacing.sm),
-                          backgroundColor: ChowColors.beige200,
+                          backgroundColor: Color.fromARGB(255, 48, 81, 46),
                         ),
                         onPressed: () => _confirmSignOut(context),
                         child: Text(

@@ -27,6 +27,8 @@ class ChowColors {
   static const Color grey900 = Color.fromRGBO(51, 51, 51, 1);
   //green
   static const Color green100 = Color.fromRGBO(224, 237, 224, 1);
+  static const Color borderGreen = Color.fromARGB(255, 88, 106, 86);
+  static const Color fillGreen = Color.fromARGB(255, 202, 218, 201);
   static const Color green700 = Color.fromRGBO(1, 128, 0, 1);
   //red
   static const Color red100 = Color.fromRGBO(253, 214, 214, 1);

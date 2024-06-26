@@ -15,7 +15,6 @@ import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
@@ -44,8 +43,9 @@ class HomePage extends StatelessWidget {
                   child: SingleChildScrollView(
                     physics: ClampingScrollPhysics(),
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(top: 4 * Responsive.ratioVertical),
+                      padding: EdgeInsets.only(
+                        top: Spacing.lg,
+                      ),
                       child: BlocConsumer<ExtractBloc, ExtractState>(
                         listener: (context, state) {
                           if (state is ExtractError) {

@@ -116,10 +116,9 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
               borderRadius: BorderRadius.circular(18.0),
             ),
             child: ToggleButtons(
-              borderColor: Colors.black,
               selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
               borderWidth: 1,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(14),
               fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
               selectedColor: Colors.black,
               color: Colors.black,
