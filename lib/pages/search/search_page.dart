@@ -1,10 +1,10 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -30,59 +30,64 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: RefreshIndicator(
-        color: ChowColors.blue300,
-        onRefresh: () => _pullRefresh(context),
-        child: Container(
-          height: Responsive.isSmallScreen()
-              ? MediaQuery.of(context).size.height
-              : MediaQuery.of(context).size.height * 0.91,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                  'https://images.unsplash.com/photo-1559703248-dcaaec9fab78?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'),
-              fit: BoxFit.cover,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(BACKGROUND_TEXTURE),
+            fit: BoxFit.cover,
           ),
-          child: BlocConsumer<SearchBloc, SearchState>(
-            listener: (context, state) {
-              if (state is SearchError) {
-                FloatingFeedback(
-                  message: state.message!,
-                  style: FloatingFeedbackStyle.alert,
-                  duration: Duration(seconds: 3),
-                ).show(context);
-              }
-            },
-            builder: (context, state) {
-              if (state is SearchLoading) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: ChowColors.white,
-                  ),
-                );
-              }
+        ),
+        child: SafeArea(
+          child: RefreshIndicator(
+            color: ChowColors.blue300,
+            onRefresh: () => _pullRefresh(context),
+            child: Column(
+              children: [
+                Expanded(
+                  child: BlocConsumer<SearchBloc, SearchState>(
+                    listener: (context, state) {
+                      if (state is SearchError) {
+                        FloatingFeedback(
+                          message: state.message!,
+                          style: FloatingFeedbackStyle.alert,
+                          duration: Duration(seconds: 3),
+                        ).show(context);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is SearchLoading) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: ChowColors.white,
+                          ),
+                        );
+                      }
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(top: Responsive.ratioVertical * 10.0),
-                      child: ChowForm(
-                        submitForm: (context, url) => context
-                            .read<SearchBloc>()
-                            .add(SearchRecipes(query: url)),
-                        borderColor: ChowColors.white,
-                      ),
-                    ),
-                    if (state is SearchLoaded)
-                      _buildColumnWithData(state.searchResultList, context),
-                  ],
+                      return SingleChildScrollView(
+                        physics: BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: Responsive.ratioVertical * 10.0),
+                              child: ChowForm(
+                                submitForm: (context, url) => context
+                                    .read<SearchBloc>()
+                                    .add(SearchRecipes(query: url)),
+                                borderColor: ChowColors.white,
+                              ),
+                            ),
+                            if (state is SearchLoaded)
+                              _buildColumnWithData(
+                                  state.searchResultList, context),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                physics: BouncingScrollPhysics(),
-              );
-            },
+              ],
+            ),
           ),
         ),
       ),
@@ -98,7 +103,7 @@ class SearchPage extends StatelessWidget {
         ? Column(
             children: [
               Padding(
-                padding: EdgeInsets.all(5 * Responsive.ratioHorizontal),
+                padding: EdgeInsets.all(Spacing.sm),
                 child: Column(
                   children: mappedRecipes.map(
                     (recipe) {

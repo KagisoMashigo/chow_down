@@ -83,14 +83,7 @@ flutter:
     - assets/images/google-logo.png
     - assets/images/facebook-logo.png
     - assets/images/chow_down.png
-    - assets/images/home_img.jpg
-    - assets/images/spice_home.jpg
-    - assets/images/vege_home.jpg
-    - assets/images/bowl_home.jpg
-    - assets/images/fork_home.jpg
-    - assets/images/fire_home.jpg
-    - assets/images/mush_home.jpg
-    - assets/images/board_home.jpg
+    - assets/images/background.png
 
   fonts:
     - family: Lato

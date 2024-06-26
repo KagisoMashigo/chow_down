@@ -4,7 +4,6 @@ import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -18,8 +17,8 @@ import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
-class RecipeTabPage extends StatelessWidget {
-  const RecipeTabPage({Key? key}) : super(key: key);
+class SavedRecipePage extends StatelessWidget {
+  const SavedRecipePage({Key? key}) : super(key: key);
 
   void showSnackbar(
     BuildContext context,
@@ -30,25 +29,22 @@ class RecipeTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  SAVED_RECIPE_BACKGROUND_IMAGE,
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(BACKGROUND_TEXTURE),
+            fit: BoxFit.cover,
           ),
-          RefreshIndicator(
+        ),
+        child: SafeArea(
+          child: RefreshIndicator(
             color: Color.fromARGB(255, 234, 180, 225),
             onRefresh: () => _pullRefresh(context),
             edgeOffset: 100,
-            child: Padding(
-              padding: const EdgeInsets.all(Spacing.md),
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.all(Spacing.md),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,10 +63,10 @@ class RecipeTabPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    BlocConsumer<RecipeTabBloc, RecipeTabState>(
+                    BlocConsumer<SavedRecipeBloc, SavedRecipeState>(
                       listenWhen: (previous, current) => previous != current,
                       listener: (context, state) {
-                        if (state is RecipeTabError) {
+                        if (state is SavedRecipeError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(state.message!),
@@ -79,9 +75,9 @@ class RecipeTabPage extends StatelessWidget {
                         }
                       },
                       builder: (context, state) {
-                        if (state is RecipeTabLoading) {
+                        if (state is SavedRecipePending) {
                           return _buildLoading();
-                        } else if (state is RecipeTabError) {
+                        } else if (state is SavedRecipeError) {
                           return _buildErrors(state);
                         }
 
@@ -94,17 +90,17 @@ class RecipeTabPage extends StatelessWidget {
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
   Future<void> _pullRefresh(BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
-    BlocProvider.of<RecipeTabBloc>(context).add(FetchHomeRecipesEvent());
+    BlocProvider.of<SavedRecipeBloc>(context).add(FetchHomeRecipesEvent());
   }
 
-  Widget _buildErrors(RecipeTabState state) => state.recipeCardList.isEmpty
+  Widget _buildErrors(SavedRecipeState state) => state.recipeCardList.isEmpty
       ? Center(
           child: EmptyContent(
             message: 'It\'s as empty as your stomach...',
@@ -127,6 +123,39 @@ class RecipeTabPage extends StatelessWidget {
         ),
       );
 
+  // Widget _buildToggleButtons(List<String> options, List<Recipe> searchResultList) {
+  //   return ToggleButtons(
+  //     borderColor: Colors.black,
+  //     selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
+  //     borderWidth: 1,
+  //     borderRadius: BorderRadius.circular(8),
+  //     fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
+  //     selectedColor: Colors.black,
+  //     color: Colors.black,
+  //     children: options
+  //         .map((option) => Padding(
+  //               padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  //               child: Text(option),
+  //             ))
+  //         .toList(),
+  //     isSelected: _isSelected,
+  //     onPressed: (int newIndex) {
+  //       setState(
+  //         () {
+  //           for (int i = 0; i < _isSelected.length; i++) {
+  //             if (i == newIndex) {
+  //               _isSelected[i] = true;
+  //               _currentIndex = i;
+  //             } else {
+  //               _isSelected[i] = false;
+  //             }
+  //           }
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget _buildColumnWithData(
     BuildContext context,
     List<Recipe> searchResultList,
@@ -144,7 +173,8 @@ class RecipeTabPage extends StatelessWidget {
                   child: FloatingActionButton(
                     onPressed: () => Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => RecipeTabPage()),
+                      MaterialPageRoute(
+                          builder: (context) => SavedRecipePage()),
                     ),
                     child: Icon(
                       Icons.arrow_upward_outlined,
