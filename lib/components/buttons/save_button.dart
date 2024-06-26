@@ -66,21 +66,9 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
         child: Container(
           height: widget.size,
           width: widget.size,
-          decoration: widget.outlined
-              ? BoxDecoration(
-                  border: Border.all(
-                    color: ChowColors.borderPurple,
-                    width: 1.5,
-                    style: BorderStyle.solid,
-                  ),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(3),
-                  ),
-                )
-              : null,
           child: Icon(
             isSaved ? Icons.favorite : Icons.favorite_outline,
-            color: ChowColors.fillPurple,
+            color: ChowColors.red700,
             size: widget.iconSize,
           ),
         ),

@@ -88,7 +88,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           ),
           SizedBox(height: Spacing.sm),
           _whichCard(context, _currentIndex, widget.recipe),
-          SizedBox(height: Spacing.xlg),
+          SizedBox(height: Spacing.sm),
         ],
       ),
     );

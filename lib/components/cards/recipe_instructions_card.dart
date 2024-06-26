@@ -1,9 +1,10 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 
 class RecipeInstructionsCard extends StatelessWidget {
@@ -19,37 +20,42 @@ class RecipeInstructionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actualSteps = analyzedInstructions![0].steps;
+    final actualSteps = analyzedInstructions?[0].steps;
 
-    return BaseCard(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(4 * Responsive.ratioHorizontal),
+    return actualSteps != null
+        ? BaseCard(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: actualSteps
-                  .map((instruction) => ListTile(
-                        title: Text(
-                          instruction.step,
-                          style: TextStyle(
-                            fontSize: 4 * Responsive.ratioHorizontal,
-                          ),
-                        ),
-                        leading: Text(
-                          instruction.number.toString(),
-                          style: TextStyle(
-                            fontSize: 4 * Responsive.ratioHorizontal,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ))
-                  .toList(),
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(Spacing.sm),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: actualSteps
+                        .map((instruction) => ListTile(
+                              title: Text(
+                                instruction.step,
+                                style: TextStyle(
+                                  fontSize: ChowFontSizes.sm,
+                                ),
+                              ),
+                              leading: Text(
+                                instruction.number.toString(),
+                                style: TextStyle(
+                                  fontSize: ChowFontSizes.sm,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 4 * Responsive.ratioVertical),
-        ],
-      ),
-    );
+          )
+        : EmptyContent(
+            title: 'Instructions failed to load',
+            message:
+                'There was an issue loading the instructions for this recipe. Please try again.',
+          );
   }
 }

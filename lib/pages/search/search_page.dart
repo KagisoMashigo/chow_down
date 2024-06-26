@@ -39,7 +39,7 @@ class SearchPage extends StatelessWidget {
         ),
         child: SafeArea(
           child: RefreshIndicator(
-            color: ChowColors.blue300,
+            color: ChowColors.borderGreen,
             onRefresh: () => _pullRefresh(context),
             child: Column(
               children: [
