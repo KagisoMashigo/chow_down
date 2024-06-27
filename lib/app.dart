@@ -1,10 +1,10 @@
 // 🐦 Flutter imports:
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // 📦 Package imports:
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -68,9 +68,9 @@ class App extends StatelessWidget {
               SystemChrome.setSystemUIOverlayStyle(
                 SystemUiOverlayStyle(
                   statusBarColor: Colors.transparent,
-                  statusBarIconBrightness: Brightness.light,
+                  statusBarIconBrightness: Brightness.dark,
                   systemNavigationBarColor: Colors.white,
-                  systemNavigationBarIconBrightness: Brightness.light,
+                  systemNavigationBarIconBrightness: Brightness.dark,
                 ),
               );
               return ChowDown();
