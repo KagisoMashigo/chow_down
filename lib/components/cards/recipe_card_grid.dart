@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -42,10 +43,24 @@ class RecipeCardGrid extends StatelessWidget {
   }
 
   Widget _buildRecipeImage(BuildContext context, Recipe recipe) {
+    final image = recipe.image != null
+        ? CachedNetworkImage(
+            imageUrl: recipe.image!,
+            fit: BoxFit.cover,
+          )
+        : Image.asset(
+            NO_IMAGE_AVAILABLE,
+            fit: BoxFit.cover,
+          );
+
     return InkWell(
       onTap: () {
         BlocProvider.of<RecipeInfoBloc>(context).add(
-          FetchRecipe(id: recipe.id, url: recipe.sourceUrl!),
+          FetchRecipe(
+            id: recipe.id,
+            url: recipe.sourceUrl!,
+            savedRecipes: context.read<SavedRecipeBloc>().state.recipeCardList,
+          ),
         );
 
         Navigator.of(context).push(
@@ -59,16 +74,14 @@ class RecipeCardGrid extends StatelessWidget {
           ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(ChowBorderRadii.lg),
-          topRight: Radius.circular(ChowBorderRadii.lg),
-        ),
-        child: CachedNetworkImage(
-          imageUrl: recipe.image,
-          height: Spacing.sm * 8,
-          width: Spacing.sm * 12,
-          fit: BoxFit.cover,
+      child: AspectRatio(
+        aspectRatio: 1.25,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(ChowBorderRadii.lg),
+            topRight: Radius.circular(ChowBorderRadii.lg),
+          ),
+          child: image,
         ),
       ),
     );
@@ -113,7 +126,7 @@ class RecipeCardGrid extends StatelessWidget {
                           color: Colors.black,
                         ),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
+                        maxLines: 2,
                       ),
                     ),
                   ),

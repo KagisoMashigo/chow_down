@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -18,7 +19,7 @@ class RecipeCard extends StatelessWidget {
     Key? key,
     required this.id,
     required this.name,
-    required this.imageUrl,
+    this.imageUrl,
     required this.url,
     this.imageType,
     required this.readyInMinutes,
@@ -31,14 +32,11 @@ class RecipeCard extends StatelessWidget {
     required this.loadingColor,
   }) : super(key: key);
 
-  /// Recipe id
   final int id;
 
-  /// Recipe name
   final String name;
 
-  /// Recipe url
-  final String imageUrl;
+  final String? imageUrl;
 
   final String url;
 
@@ -64,6 +62,26 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final image = imageUrl != null
+        ? CachedNetworkImage(
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                SizedBox(
+              height: 55,
+              width: 5,
+              child: SpinKitThreeBounce(
+                color: loadingColor,
+                size: 20.0,
+              ),
+            ),
+            imageUrl: imageUrl!,
+            width: 35 * Responsive.ratioHorizontal,
+            fit: BoxFit.cover,
+          )
+        : Image.asset(
+            NO_IMAGE_AVAILABLE,
+            fit: BoxFit.cover,
+          );
+
     return BaseCard(
       child: Padding(
         padding: const EdgeInsets.all(Spacing.xsm),
@@ -90,20 +108,7 @@ class RecipeCard extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
-                    child: CachedNetworkImage(
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) => SizedBox(
-                        height: 55,
-                        width: 5,
-                        child: SpinKitThreeBounce(
-                          color: loadingColor,
-                          size: 20.0,
-                        ),
-                      ),
-                      imageUrl: imageUrl,
-                      width: 35 * Responsive.ratioHorizontal,
-                      fit: BoxFit.cover,
-                    ),
+                    child: image,
                   ),
                 ),
                 SizedBox(width: Spacing.sm),

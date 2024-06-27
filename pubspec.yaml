@@ -84,6 +84,7 @@ flutter:
     - assets/images/facebook-logo.png
     - assets/images/chow_down.png
     - assets/images/background.png
+    - assets/images/no_image.png
 
   fonts:
     - family: Lato

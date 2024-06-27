@@ -33,7 +33,7 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       readyInMinutes: json['readyInMinutes'] as int?,
       servings: json['servings'] as int?,
       sourceUrl: json['sourceUrl'] as String?,
-      image: json['image'] as String,
+      image: json['image'] as String?,
       imageType: json['imageType'] as String?,
       summary: json['summary'] as String?,
       cuisines: (json['cuisines'] as List<dynamic>?)

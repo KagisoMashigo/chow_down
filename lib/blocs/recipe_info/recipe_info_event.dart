@@ -8,8 +8,9 @@ abstract class RecipeInfoEvent {
 class FetchRecipe extends RecipeInfoEvent {
   final int id;
   final String url;
+  final List<Recipe>? savedRecipes;
 
-  const FetchRecipe({required this.id, required this.url});
+  const FetchRecipe({required this.id, required this.url, this.savedRecipes});
 }
 
 class SaveRecipe extends RecipeInfoEvent {

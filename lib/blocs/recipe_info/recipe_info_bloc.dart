@@ -29,16 +29,28 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
       printDebug('Fetching recipe with id: ${event.id} and url: ${event.url}');
       emit(RecipeInfoLoading(id: event.id, url: event.url));
 
-      final Recipe recipe = await _recipeRepository.getExistingRecipe(
-        event.id,
-        event.url,
+      final savedRecipe = event.savedRecipes?.firstWhere(
+        (element) => element.sourceUrl == event.url,
       );
 
-      printDebug(
-        'Recipe fetched successfully with id: ${recipe.id}',
-        colour: DebugColour.green,
-      );
-      emit(RecipeInfoLoaded(recipe: recipe));
+      if (event.savedRecipes != null && savedRecipe != null) {
+        printDebug(
+          'Recipe fetched successfully from database with id: ${event.id}',
+          colour: DebugColour.green,
+        );
+        emit(RecipeInfoLoaded(recipe: savedRecipe));
+      } else {
+        final recipe = await _recipeRepository.getExistingRecipe(
+          event.id,
+          event.url,
+        );
+
+        printDebug(
+          'Recipe fetched successfully from API with id: ${recipe.id}',
+          colour: DebugColour.green,
+        );
+        emit(RecipeInfoLoaded(recipe: recipe));
+      }
     } on Failure catch (e, stack) {
       printAndLog(
         e,

@@ -33,7 +33,7 @@ class Recipe {
   final int? readyInMinutes;
   final int? servings;
   final String? sourceUrl;
-  final String image;
+  final String? image;
   final String? imageType;
   final String? summary;
   final List<String>? cuisines;
@@ -97,32 +97,40 @@ class Recipe {
       gaps: snapshot['gaps'] as String?,
       lowFodmap: snapshot['lowFodmap'] as bool?,
       aggregateLikes: snapshot['aggregateLikes'] as int?,
-      spoonacularScore: snapshot['spoonacularScore'] as double?,
+      spoonacularScore: (snapshot['spoonacularScore'] as num?)?.toDouble(),
       healthScore: snapshot['healthScore'] as int?,
       creditsText: snapshot['creditsText'] as String?,
       license: snapshot['license'] as String?,
       sourceName: snapshot['sourceName'] as String?,
-      pricePerServing: (snapshot['pricePerServing'] as double?) ?? 0.0,
-      extendedIngredients: (snapshot['extendedIngredients'] as List<dynamic>)
-          .map((e) => ExtendedIngredients.fromJson(e))
+      pricePerServing: (snapshot['pricePerServing'] as num?)?.toDouble(),
+      extendedIngredients: (snapshot['extendedIngredients'] as List<dynamic>?)
+          ?.map((e) => ExtendedIngredients.fromJson(e as Map<String, dynamic>))
           .toList(),
       id: snapshot['id'] as int,
       title: snapshot['title'] as String,
       readyInMinutes: snapshot['readyInMinutes'] as int?,
       servings: snapshot['servings'] as int?,
       sourceUrl: snapshot['sourceUrl'] as String?,
-      image: snapshot['image'] as String,
+      image: snapshot['image'] as String?,
       imageType: snapshot['imageType'] as String?,
       summary: snapshot['summary'] as String?,
-      cuisines: (snapshot['cuisines'] as List<dynamic>?)?.cast<String>(),
-      dishTypes: (snapshot['dishTypes'] as List<dynamic>?)?.cast<String>(),
-      diets: (snapshot['diets'] as List<dynamic>?)?.cast<String>(),
-      occasions: (snapshot['occasions'] as List<dynamic>?)?.cast<String>(),
-      instructions: snapshot['instructions'] as String,
-      analyzedInstructions: (snapshot['analyzedInstructions'] as List<dynamic>?)
-          ?.map((e) => AnalyzedInstruction.fromJson(e))
+      cuisines: (snapshot['cuisines'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      originalId: snapshot['originalId'],
+      dishTypes: (snapshot['dishTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      diets: (snapshot['diets'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      occasions: (snapshot['occasions'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      instructions: snapshot['instructions'] as String?,
+      analyzedInstructions: (snapshot['analyzedInstructions'] as List<dynamic>?)
+          ?.map((e) => AnalyzedInstruction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      originalId: snapshot['originalId'] as String?,
       spoonacularSourceUrl: snapshot['spoonacularSourceUrl'] as String?,
     );
   }

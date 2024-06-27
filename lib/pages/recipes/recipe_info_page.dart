@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -19,12 +18,6 @@ import 'package:chow_down/components/cards/recipe_card_toggler.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-
-const List<String> TAB_OPTIONS = [
-  'Ingredients',
-  'Instructions',
-  'Dietry Info',
-];
 
 class RecipeInfoPage extends StatelessWidget {
   final String title;
@@ -40,14 +33,18 @@ class RecipeInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: cache recipes that have been fetched
-
     Future<void> _pullRefresh(BuildContext context) async {
       return Future.delayed(
         Duration(milliseconds: 500),
-        () => context
-            .read<RecipeInfoBloc>()
-            .add(FetchRecipe(id: id, url: sourceUrl)),
+        () => context.read<RecipeInfoBloc>().add(
+              FetchRecipe(
+                id: id,
+                url: sourceUrl,
+                savedRecipes: context.select(
+                  (SavedRecipeBloc bloc) => bloc.state.recipeCardList,
+                ),
+              ),
+            ),
       );
     }
 
@@ -85,7 +82,13 @@ class RecipeInfoPage extends StatelessWidget {
                     builder: (context, state) {
                       if (state is RecipeInfoInitial) {
                         BlocProvider.of<RecipeInfoBloc>(context).add(
-                          FetchRecipe(id: id, url: sourceUrl),
+                          FetchRecipe(
+                            id: id,
+                            url: sourceUrl,
+                            savedRecipes: context.select(
+                                (SavedRecipeBloc bloc) =>
+                                    bloc.state.recipeCardList),
+                          ),
                         );
                         return _buildLoading();
                       } else if (state is RecipeInfoLoading) {
@@ -169,14 +172,21 @@ class RecipeInfoPage extends StatelessWidget {
     BuildContext context,
     Recipe recipe,
   ) {
+    final image = recipe.image != null
+        ? CachedNetworkImage(
+            imageUrl: recipe.image!,
+            fit: BoxFit.cover,
+          )
+        : Image.asset(
+            NO_IMAGE_AVAILABLE,
+            fit: BoxFit.cover,
+          );
+
     return Column(
       children: [
         AspectRatio(
           aspectRatio: 1.25,
-          child: CachedNetworkImage(
-            imageUrl: recipe.image,
-            fit: BoxFit.cover,
-          ),
+          child: image,
         ),
         SizedBox(height: Spacing.sm),
         Padding(
