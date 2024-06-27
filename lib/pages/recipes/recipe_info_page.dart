@@ -142,21 +142,21 @@ class RecipeInfoPage extends StatelessWidget {
               ),
             ),
             SizedBox(width: Spacing.xsm),
-            Column(
+            Row(
               children: [
-                SaveRecipeButton(
-                  recipe: recipe,
-                  size: Spacing.md,
-                  iconSize: Spacing.md,
-                ),
                 if (isSaved) ...[
-                  SizedBox(height: Spacing.sm),
                   EditRecipeButton(
                     recipe: recipe,
                     size: Spacing.md,
                     iconSize: Spacing.md,
                   ),
-                ]
+                  SizedBox(width: Spacing.sm),
+                ],
+                SaveRecipeButton(
+                  recipe: recipe,
+                  size: Spacing.md,
+                  iconSize: Spacing.md,
+                ),
               ],
             ),
           ],

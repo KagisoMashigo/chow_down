@@ -97,7 +97,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
   Widget _whichCard(BuildContext context, int index, Recipe recipe) {
     switch (index) {
       case 0:
-        return RecipeDescriptionCard(
+        return RecipeIngredientsCard(
           veryHealthy: recipe.veryHealthy!,
           readyInMinutes: recipe.readyInMinutes!,
           servings: recipe.servings!,
@@ -121,7 +121,7 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           vegan: recipe.vegan!,
         );
       default:
-        return RecipeDescriptionCard(
+        return RecipeIngredientsCard(
           veryHealthy: recipe.veryHealthy!,
           readyInMinutes: recipe.readyInMinutes!,
           servings: recipe.servings!,

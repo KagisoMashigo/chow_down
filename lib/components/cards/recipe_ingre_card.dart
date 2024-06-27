@@ -12,8 +12,8 @@ import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
 
-class RecipeDescriptionCard extends StatelessWidget {
-  const RecipeDescriptionCard({
+class RecipeIngredientsCard extends StatelessWidget {
+  const RecipeIngredientsCard({
     Key? key,
     required this.readyInMinutes,
     required this.servings,
@@ -134,6 +134,7 @@ class RecipeDescriptionCard extends StatelessWidget {
   }
 
   // TODO: strip brackets from ingredients
+  // TODO: round decimals to 2nd place
   List<Widget> _buildIngredients(List<ExtendedIngredients> ingredients) {
     return ingredients
         .map((ingredient) => ListTile(
