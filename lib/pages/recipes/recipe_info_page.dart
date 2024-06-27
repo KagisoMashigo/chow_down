@@ -128,8 +128,9 @@ class RecipeInfoPage extends StatelessWidget {
       );
 
   Widget _buildTitleContent(Recipe recipe, BuildContext context) {
-    final isSaved = context.select((SavedRecipeBloc bloc) =>
-        bloc.state.recipeCardList.any((element) => element.id == recipe.id));
+    final isSaved = context.select((SavedRecipeBloc bloc) => bloc
+        .state.recipeCardList
+        .any((element) => element.sourceUrl == recipe.sourceUrl));
 
     return BaseCard(
       child: Padding(
