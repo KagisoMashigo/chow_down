@@ -1,6 +1,7 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +119,10 @@ class SearchPage extends StatelessWidget {
                             FetchRecipe(
                               id: recipes[index].id,
                               url: recipes[index].sourceUrl!,
+                              savedRecipes: context
+                                  .read<SavedRecipeBloc>()
+                                  .state
+                                  .recipeCardList,
                             ),
                           );
 
@@ -133,7 +138,7 @@ class SearchPage extends StatelessWidget {
                           );
                         },
                         child: RecipeCard(
-                          loadingColor: ChowColors.blue300,
+                          loadingColor: ChowColors.borderGreen,
                           id: recipes[index].id,
                           name: recipes[index].title,
                           imageUrl: recipes[index].image,

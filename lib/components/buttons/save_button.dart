@@ -52,7 +52,7 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
   Widget build(BuildContext context) {
     final isSaved = context.select((SavedRecipeBloc bloc) => bloc
         .state.recipeCardList
-        .any((element) => element.id == widget.recipe.id));
+        .any((element) => element.sourceUrl == widget.recipe.sourceUrl));
 
     return InkWell(
       onTap: () {

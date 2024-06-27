@@ -9,7 +9,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
@@ -67,14 +66,12 @@ class RecipeCard extends StatelessWidget {
             progressIndicatorBuilder: (context, url, downloadProgress) =>
                 SizedBox(
               height: 55,
-              width: 5,
               child: SpinKitThreeBounce(
                 color: loadingColor,
                 size: 20.0,
               ),
             ),
             imageUrl: imageUrl!,
-            width: 35 * Responsive.ratioHorizontal,
             fit: BoxFit.cover,
           )
         : Image.asset(
@@ -92,7 +89,7 @@ class RecipeCard extends StatelessWidget {
             Text(
               name.toString(),
               style: TextStyle(
-                fontSize: 4 * Responsive.ratioHorizontal,
+                fontSize: ChowFontSizes.smd,
                 color: Colors.black,
               ),
             ),
@@ -100,62 +97,68 @@ class RecipeCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Card(
-                  elevation: 2,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: image,
+                Flexible(
+                  flex: 1,
+                  child: Card(
+                    elevation: 2,
+                    clipBehavior: Clip.antiAlias,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: image,
+                    ),
                   ),
                 ),
                 SizedBox(width: Spacing.sm),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(Icons.timer_outlined),
-                        SizedBox(width: Spacing.xsm),
-                        Text(
-                          StringHelper.cookTimeConverter(readyInMinutes),
-                          style: TextStyle(
-                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                Flexible(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.timer_outlined),
+                          SizedBox(width: Spacing.xsm),
+                          Text(
+                            StringHelper.cookTimeConverter(readyInMinutes),
+                            style: TextStyle(
+                              fontSize: ChowFontSizes.sm,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Spacing.xsm),
-                    Row(
-                      children: [
-                        Icon(Icons.soup_kitchen),
-                        SizedBox(width: Spacing.xsm),
-                        Text(
-                          '${servings.toString()} servings',
-                          style: TextStyle(
-                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ],
+                      ),
+                      SizedBox(height: Spacing.xsm),
+                      Row(
+                        children: [
+                          Icon(Icons.soup_kitchen),
+                          SizedBox(width: Spacing.xsm),
+                          Text(
+                            '${servings.toString()} servings',
+                            style: TextStyle(
+                              fontSize: ChowFontSizes.sm,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Spacing.xsm),
-                    Row(
-                      children: [
-                        Icon(Icons.food_bank_outlined),
-                        SizedBox(width: Spacing.xsm),
-                        Text(
-                          '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
-                          style: TextStyle(
-                            fontSize: 3.75 * Responsive.ratioHorizontal,
+                        ],
+                      ),
+                      SizedBox(height: Spacing.xsm),
+                      Row(
+                        children: [
+                          Icon(Icons.food_bank_outlined),
+                          SizedBox(width: Spacing.xsm),
+                          Text(
+                            '${vegan ? 'Vegan' : _isVegetarian(vegetarian)}',
+                            style: TextStyle(
+                              fontSize: ChowFontSizes.sm,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: Spacing.xsm),
-                  ],
+                        ],
+                      ),
+                      SizedBox(height: Spacing.xsm),
+                    ],
+                  ),
                 ),
               ],
             ),

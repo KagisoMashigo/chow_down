@@ -85,9 +85,10 @@ class RecipeInfoPage extends StatelessWidget {
                           FetchRecipe(
                             id: id,
                             url: sourceUrl,
-                            savedRecipes: context.select(
-                                (SavedRecipeBloc bloc) =>
-                                    bloc.state.recipeCardList),
+                            savedRecipes: context
+                                .read<SavedRecipeBloc>()
+                                .state
+                                .recipeCardList,
                           ),
                         );
                         return _buildLoading();

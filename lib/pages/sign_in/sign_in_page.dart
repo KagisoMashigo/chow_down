@@ -83,7 +83,6 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  /// Builds the header
   Widget _buildHeader() {
     if (isLoading) {
       return Center(

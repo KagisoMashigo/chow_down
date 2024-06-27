@@ -29,9 +29,14 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
       printDebug('Fetching recipe with id: ${event.id} and url: ${event.url}');
       emit(RecipeInfoLoading(id: event.id, url: event.url));
 
-      final savedRecipe = event.savedRecipes?.firstWhere(
-        (element) => element.sourceUrl == event.url,
-      );
+      final hasMatch = event.savedRecipes
+              ?.any((element) => element.sourceUrl == event.url) ??
+          false;
+
+      final savedRecipe = hasMatch
+          ? event.savedRecipes
+              ?.firstWhere((element) => element.sourceUrl == event.url)
+          : null;
 
       if (event.savedRecipes != null && savedRecipe != null) {
         printDebug(

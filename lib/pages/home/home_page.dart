@@ -1,4 +1,4 @@
-// 🐦 Flutter imports:
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -109,9 +109,11 @@ class HomePage extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               BlocProvider.of<RecipeInfoBloc>(context).add(
-                FetchRecipeInformation(
+                FetchRecipe(
                   id: searchResult.id,
-                  sourceUrl: searchResult.sourceUrl!,
+                  url: searchResult.sourceUrl!,
+                  savedRecipes:
+                      context.read<SavedRecipeBloc>().state.recipeCardList,
                 ),
               );
 

@@ -44,7 +44,7 @@ class ExtractBloc extends Bloc<ExtractEvent, ExtractState> {
         'Recipe extraction failed for URL: ${event.url}, reason: $stack',
       );
 
-      emit(ExtractError(e.toString(), e.code));
+      emit(ExtractError('Failed to extract recipe. Please try again.', e.code));
     }
   }
 
