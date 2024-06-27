@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 // 📦 Package imports:
-import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 
 abstract class SearchRepository {
   Future<RecipeCardInfoList> getRecipesList(String query);

@@ -1,7 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/builders/back_to_top_builder.dart';
-import 'package:chow_down/components/design/typography.dart';
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -11,12 +8,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
 import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
+import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
+import 'package:chow_down/components/design/typography.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class SavedRecipePage extends StatelessWidget {
   const SavedRecipePage({Key? key}) : super(key: key);

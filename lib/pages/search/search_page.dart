@@ -1,9 +1,6 @@
 // 🐦 Flutter imports:
 
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/components/builders/back_to_top_builder.dart';
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -12,10 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // 🌎 Project imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
 import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/blocs/search/search_event.dart';
 import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
@@ -23,6 +22,7 @@ import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);

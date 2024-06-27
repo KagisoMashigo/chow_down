@@ -1,7 +1,9 @@
 // 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:flutter/material.dart';
 
 class EditRecipeButton extends StatefulWidget {
   final Recipe recipe;

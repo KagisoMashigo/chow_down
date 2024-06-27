@@ -1,9 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/components/buttons/edit_recipe_button.dart';
-import 'package:chow_down/components/buttons/save_button.dart';
-import 'package:chow_down/components/cards/base_card.dart';
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -14,10 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
+import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/components/buttons/edit_recipe_button.dart';
+import 'package:chow_down/components/buttons/save_button.dart';
+import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeInfoPage extends StatelessWidget {
   final String title;

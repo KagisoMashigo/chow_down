@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -16,6 +15,7 @@ import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeCardGrid extends StatelessWidget {
   final List<Recipe> searchResults;

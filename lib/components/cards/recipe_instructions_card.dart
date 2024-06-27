@@ -1,10 +1,10 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/empty_content.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/analysed_instructions.dart';
 
 class RecipeInstructionsCard extends StatelessWidget {

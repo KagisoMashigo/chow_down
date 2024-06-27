@@ -1,10 +1,10 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/typography.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
+import 'package:chow_down/components/design/typography.dart';
 
 class ChowForm extends StatelessWidget {
   final void Function(BuildContext context, String text) submitForm;
