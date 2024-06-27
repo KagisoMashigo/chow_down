@@ -1,9 +1,12 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditRecipeButton extends StatefulWidget {
   final Recipe recipe;
@@ -31,7 +34,10 @@ class _EditRecipeButtonState extends State<EditRecipeButton> {
     BuildContext context,
     Recipe recipe,
   ) async {
+    final editRecipeState = context.read<EditRecipeBloc>().state;
     // TODO: implement edit recipe
+    print('Attempting to edit recipe---->>>>>>>>');
+    context.read<EditRecipeBloc>().add(EditRecipe(recipe: recipe));
   }
 
   @override

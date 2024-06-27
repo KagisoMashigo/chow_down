@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,6 +28,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final database = FirestoreDatabase(uid: Auth().currentUser.uid);
+
     Widget widget = MultiBlocProvider(
       providers: [
         Provider<AuthBase>(
@@ -35,12 +38,12 @@ class App extends StatelessWidget {
         BlocProvider<RecipeInfoBloc>(
           create: (context) => RecipeInfoBloc(
             RemoteRecipe(),
-            FirestoreDatabase(uid: Auth().currentUser.uid),
+            database,
           ),
         ),
         BlocProvider<SavedRecipeBloc>(
           create: (context) => SavedRecipeBloc(
-            FirestoreDatabase(uid: Auth().currentUser.uid),
+            database,
           ),
         ),
         BlocProvider<SearchBloc>(
@@ -51,6 +54,11 @@ class App extends StatelessWidget {
         BlocProvider<ExtractBloc>(
           create: (context) => ExtractBloc(
             RemoteRecipe(),
+          ),
+        ),
+        BlocProvider<EditRecipeBloc>(
+          create: (context) => EditRecipeBloc(
+            database,
           ),
         ),
       ],

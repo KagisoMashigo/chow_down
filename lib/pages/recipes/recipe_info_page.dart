@@ -1,4 +1,6 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -132,41 +134,54 @@ class RecipeInfoPage extends StatelessWidget {
         .state.recipeCardList
         .any((element) => element.sourceUrl == recipe.sourceUrl));
 
-    return BaseCard(
-      child: Padding(
-        padding: const EdgeInsets.all(Spacing.sm),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text(
-                recipe.title,
-                style: TextStyle(
-                  fontSize: ChowFontSizes.smd,
-                ),
-              ),
-            ),
-            SizedBox(width: Spacing.xsm),
-            Row(
+    return BlocBuilder<EditRecipeBloc, EditRecipeState>(
+      builder: (context, state) {
+        return BaseCard(
+          child: Padding(
+            padding: const EdgeInsets.all(Spacing.sm),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (isSaved) ...[
-                  EditRecipeButton(
-                    recipe: recipe,
-                    size: Spacing.md,
-                    iconSize: Spacing.md,
-                  ),
-                  SizedBox(width: Spacing.sm),
-                ],
-                SaveRecipeButton(
-                  recipe: recipe,
-                  size: Spacing.md,
-                  iconSize: Spacing.md,
+                state is EditRecipePending
+                    ? Flexible(
+                        child: TextField(
+                          // controller: state.titleController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter a new title',
+                          ),
+                        ),
+                      )
+                    : Flexible(
+                        child: Text(
+                          recipe.title,
+                          style: TextStyle(
+                            fontSize: ChowFontSizes.smd,
+                          ),
+                        ),
+                      ),
+                SizedBox(width: Spacing.xsm),
+                Row(
+                  children: [
+                    if (isSaved) ...[
+                      EditRecipeButton(
+                        recipe: recipe,
+                        size: Spacing.md,
+                        iconSize: Spacing.md,
+                      ),
+                      SizedBox(width: Spacing.sm),
+                    ],
+                    SaveRecipeButton(
+                      recipe: recipe,
+                      size: Spacing.md,
+                      iconSize: Spacing.md,
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

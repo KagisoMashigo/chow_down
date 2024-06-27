@@ -16,7 +16,8 @@ class EditRecipeBloc extends Bloc<EditRecipeEvent, EditRecipeState> {
 
   void _handleEditRecipe(EditRecipeEvent event, Emitter<EditRecipeState> emit) {
     emit(EditRecipePending());
-    emit(EditRecipeSuccess());
+
+    // emit(EditRecipeSuccess());
   }
 
   void _handleRemoveIngredient(

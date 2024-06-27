@@ -1,9 +1,13 @@
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+
 abstract class EditRecipeEvent {
   const EditRecipeEvent();
 }
 
 class EditRecipe extends EditRecipeEvent {
-  const EditRecipe();
+  final Recipe recipe;
+
+  const EditRecipe({required this.recipe});
 }
 
 class RemoveIngredient extends EditRecipeEvent {
