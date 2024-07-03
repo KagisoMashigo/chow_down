@@ -10,6 +10,17 @@ class EditRecipe extends EditRecipeEvent {
   const EditRecipe({required this.recipe});
 }
 
+class SaveEditedRecipe extends EditRecipeEvent {
+  final Recipe recipe;
+  final String? text;
+
+  const SaveEditedRecipe({required this.recipe, this.text});
+}
+
+class CancelEditRecipe extends EditRecipeEvent {
+  const CancelEditRecipe();
+}
+
 class RemoveIngredient extends EditRecipeEvent {
   final int index;
 

@@ -1,7 +1,10 @@
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class EditRecipeState extends Equatable {
-  const EditRecipeState();
+  final Recipe? recipe;
+
+  const EditRecipeState({this.recipe});
 }
 
 class EditRecipeInitial extends EditRecipeState {
@@ -15,31 +18,46 @@ class EditRecipeInitial extends EditRecipeState {
 }
 
 class EditRecipePending extends EditRecipeState {
-  const EditRecipePending();
+  final Recipe recipe;
+
+  const EditRecipePending({required this.recipe}) : super(recipe: recipe);
 
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => 'EditRecipePending{}';
+  String toString() => 'EditRecipePending{recipe: $recipe}';
 }
 
 class EditRecipeSuccess extends EditRecipeState {
-  const EditRecipeSuccess();
+  final Recipe recipe;
+  const EditRecipeSuccess({required this.recipe}) : super(recipe: recipe);
 
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => 'EditRecipeSuccess{}';
+  String toString() => 'EditRecipeSuccess{recipe: $recipe}';
 }
 
 class EditRecipeFailure extends EditRecipeState {
-  const EditRecipeFailure();
+  final String message;
+
+  const EditRecipeFailure({required this.message});
 
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => 'EditRecipeFailure{}';
+  String toString() => 'EditRecipeFailure{message: $message}';
+}
+
+class EditRecipeCancel extends EditRecipeState {
+  const EditRecipeCancel();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'EditRecipeCancel{}';
 }
