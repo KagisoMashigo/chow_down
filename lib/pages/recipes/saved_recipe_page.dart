@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -13,18 +14,21 @@ import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/design/typography.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/snackBar.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class SavedRecipePage extends StatelessWidget {
   const SavedRecipePage({Key? key}) : super(key: key);
 
-  void showSnackbar(
+  void showFloatingFeedback(
     BuildContext context,
     String errorMessage,
   ) =>
-      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
+      FloatingFeedback(
+        message: errorMessage,
+        style: FloatingFeedbackStyle.alert,
+        duration: Duration(seconds: 3),
+      ).show(context);
 
   @override
   Widget build(BuildContext context) {
