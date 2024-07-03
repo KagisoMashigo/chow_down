@@ -75,6 +75,19 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
     context.read<EditRecipeBloc>().add(SaveEditedRecipe(recipe: updatedRecipe));
   }
 
+  // TODO: Implement remove ingredient
+  // void _removeIngredient(int index) {
+  //   final updatedIngredients =
+  //       List<ExtendedIngredients>.from(widget.recipe.extendedIngredients!)
+  //         ..removeAt(index);
+
+  //   final updatedRecipe = widget.recipe.copyWith(
+  //     extendedIngredients: updatedIngredients,
+  //   );
+
+  //   context.read<EditRecipeBloc>().add(SaveEditedRecipe(recipe: updatedRecipe));
+  // }
+
   Widget _buildDetailCard({
     required String title,
     required String subtitle,
@@ -195,6 +208,16 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
             Flexible(
               child: Row(
                 children: [
+                  // TODO: Implement remove ingredient
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.remove_circle,
+                  //     color: ChowColors.black,
+                  //     size: ChowFontSizes.xsm,
+                  //   ),
+                  //   onPressed: () => _removeIngredient(index),
+                  // ),
+                  // SizedBox(width: Spacing.xxsm),
                   Expanded(
                     child: TestFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
