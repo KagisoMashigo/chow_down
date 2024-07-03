@@ -7,8 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // 🌎 Project imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
@@ -49,14 +49,15 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
       );
     }
 
-    BlocProvider.of<SavedRecipeBloc>(context).add(FetchHomeRecipesEvent());
+    BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    final isSaved = context.select((SavedRecipeBloc bloc) => bloc
-        .state.recipeCardList
-        .any((element) => element.sourceUrl == widget.recipe.sourceUrl));
+    final isSaved = context.read<SavedRecipeBloc>().state.savedRecipeList !=
+            null &&
+        context.select((SavedRecipeBloc bloc) => bloc.state.savedRecipeList!
+            .any((element) => element.sourceUrl == widget.recipe.sourceUrl));
 
     return InkWell(
       onTap: () {

@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // 🌎 Project imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/blocs/search/search_event.dart';
 import 'package:chow_down/blocs/search/search_state.dart';
@@ -122,7 +122,7 @@ class SearchPage extends StatelessWidget {
                               savedRecipes: context
                                   .read<SavedRecipeBloc>()
                                   .state
-                                  .recipeCardList,
+                                  .savedRecipeList,
                             ),
                           );
 

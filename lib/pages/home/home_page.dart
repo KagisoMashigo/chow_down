@@ -10,7 +10,7 @@ import 'package:chow_down/blocs/home_page/extract_event.dart';
 import 'package:chow_down/blocs/home_page/extract_state.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
@@ -114,7 +114,7 @@ class HomePage extends StatelessWidget {
                   id: searchResult.id,
                   url: searchResult.sourceUrl!,
                   savedRecipes:
-                      context.read<SavedRecipeBloc>().state.recipeCardList,
+                      context.read<SavedRecipeBloc>().state.savedRecipeList,
                 ),
               );
 

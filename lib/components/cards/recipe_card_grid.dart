@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // 🌎 Project imports:
 import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
@@ -18,11 +18,11 @@ import 'package:chow_down/pages/recipes/recipe_info_page.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeCardGrid extends StatelessWidget {
-  final List<Recipe> searchResults;
+  final List<Recipe> results;
 
   const RecipeCardGrid({
     Key? key,
-    required this.searchResults,
+    required this.results,
   }) : super(key: key);
 
   Future<void> _confirmDelete(
@@ -59,7 +59,7 @@ class RecipeCardGrid extends StatelessWidget {
           FetchRecipe(
             id: recipe.id,
             url: recipe.sourceUrl!,
-            savedRecipes: context.read<SavedRecipeBloc>().state.recipeCardList,
+            savedRecipes: context.read<SavedRecipeBloc>().state.savedRecipeList,
           ),
         );
 
@@ -95,7 +95,7 @@ class RecipeCardGrid extends StatelessWidget {
       childAspectRatio: 0.825,
       mainAxisSpacing: Spacing.sm,
       crossAxisSpacing: Spacing.sm,
-      children: _getStructuredCardGrid(searchResults, context),
+      children: _getStructuredCardGrid(results, context),
       shrinkWrap: true,
     );
   }
