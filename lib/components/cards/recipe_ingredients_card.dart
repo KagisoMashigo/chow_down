@@ -118,7 +118,7 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                       children: [
                         Icon(
                           Icons.star,
-                          size: 25,
+                          size: ChowFontSizes.lg,
                         ),
                         SizedBox(width: Spacing.xsm),
                         Expanded(

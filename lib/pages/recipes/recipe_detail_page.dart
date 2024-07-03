@@ -120,8 +120,8 @@ class RecipeDetailPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 16.0,
-                  left: 16.0,
+                  top: Spacing.xsm,
+                  left: Spacing.xsm,
                   child: IconButton(
                     icon: Icon(
                       Icons.arrow_back_ios_new,
