@@ -105,7 +105,9 @@ class SignInPage extends StatelessWidget {
   Widget _buildHeader() {
     if (isLoading) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: ChowColors.white,
+        ),
       );
     }
 

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_form_change_notifier.dart';
 
 class EmailSignInPage extends StatelessWidget {

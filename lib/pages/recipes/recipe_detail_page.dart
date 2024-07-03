@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
@@ -55,61 +56,68 @@ class RecipeDetailPage extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              RECIPE_INFO_BACKGROUND_IMAGE,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: CachedNetworkImageProvider(
+                RECIPE_INFO_BACKGROUND_IMAGE,
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
-        ),
-        child: SafeArea(
-          bottom: false,
-          child: Align(
-            alignment: Alignment.center,
-            child: RefreshIndicator(
-              onRefresh: () => _pullRefresh(context),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 38.0),
-                child: SingleChildScrollView(
-                  child: BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
-                    listener: (context, state) {
-                      if (state is RecipeInfoError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                state.message ?? 'An unknown error occurred'),
-                          ),
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is RecipeInfoInitial) {
-                        BlocProvider.of<RecipeDetailBloc>(context).add(
-                          FetchRecipe(
-                            id: id,
-                            url: sourceUrl,
-                            savedRecipes: context
-                                .read<SavedRecipeBloc>()
-                                .state
-                                .savedRecipeList,
-                          ),
-                        );
-                        return _buildLoading();
-                      } else if (state is RecipeInfoLoading) {
-                        return _buildLoading();
-                      } else if (state is RecipeInfoLoaded) {
-                        return _buildContents(
-                          context,
-                          state.recipe,
-                        );
-                      } else {
-                        return _buildErrorMessage(state);
-                      }
-                    },
+          child: SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.center,
+              child: RefreshIndicator(
+                onRefresh: () => _pullRefresh(context),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 38.0),
+                  child: SingleChildScrollView(
+                    child: BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
+                      listener: (context, state) {
+                        if (state is RecipeInfoError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  state.message ?? 'An unknown error occurred'),
+                            ),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is RecipeInfoInitial) {
+                          BlocProvider.of<RecipeDetailBloc>(context).add(
+                            FetchRecipe(
+                              id: id,
+                              url: sourceUrl,
+                              savedRecipes: context
+                                  .read<SavedRecipeBloc>()
+                                  .state
+                                  .savedRecipeList,
+                            ),
+                          );
+                          return _buildLoading();
+                        } else if (state is RecipeInfoLoading) {
+                          return _buildLoading();
+                        } else if (state is RecipeInfoLoaded) {
+                          return _buildContents(
+                            context,
+                            state.recipe,
+                          );
+                        } else {
+                          return _buildErrorMessage(state);
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),

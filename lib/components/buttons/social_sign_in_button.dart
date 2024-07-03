@@ -14,7 +14,6 @@ class SocialSignInButton extends CustomElevatedButton {
     required VoidCallback onPressed,
   }) : super(
           child: Row(
-            // The below is a great hack when spacing two children evenly
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               pictureWidget,
