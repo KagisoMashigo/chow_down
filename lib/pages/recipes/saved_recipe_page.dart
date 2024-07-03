@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_state.dart';
-import 'package:chow_down/components/builders/back_to_top_builder.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
@@ -61,7 +60,7 @@ class SavedRecipePage extends StatelessWidget {
 
   Future<void> _pullRefresh(BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
-    BlocProvider.of<SavedRecipeBloc>(context).add(FetchHomeRecipesEvent());
+    BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
   }
 }
 
@@ -126,7 +125,8 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
 
             return _buildColumnWithData(
               context,
-              state.recipeCardList,
+              state.savedRecipeList ?? [],
+              state.editedRecipeList ?? [],
             );
           },
         ),
@@ -134,22 +134,23 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
     );
   }
 
-  Widget _buildErrors(SavedRecipeState state) => state.recipeCardList.isEmpty
-      ? Center(
-          child: EmptyContent(
-            message: 'It\'s as empty as your stomach...',
-            title: 'No recipes currently saved',
-            icon: Icons.hourglass_empty,
-          ),
-        )
-      : Center(
-          child: EmptyContent(
-            message:
-                'Please pull to refresh. If this persists please restart the application.',
-            title: 'Something went wrong...',
-            icon: Icons.error_outline_sharp,
-          ),
-        );
+  Widget _buildErrors(SavedRecipeState state) =>
+      state.savedRecipeList != null && state.savedRecipeList!.isEmpty
+          ? Center(
+              child: EmptyContent(
+                message: 'It\'s as empty as your stomach...',
+                title: 'No recipes currently saved',
+                icon: Icons.hourglass_empty,
+              ),
+            )
+          : Center(
+              child: EmptyContent(
+                message:
+                    'Please pull to refresh. If this persists please restart the application.',
+                title: 'Something went wrong...',
+                icon: Icons.error_outline_sharp,
+              ),
+            );
 
   Widget _buildLoading() => Center(
         child: CircularProgressIndicator(
@@ -159,22 +160,14 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
 
   Widget _buildColumnWithData(
     BuildContext context,
-    List<Recipe> searchResultList,
+    List<Recipe> savedRecipeList,
+    List<Recipe> editedRecipeList,
   ) {
     return Column(
       children: [
-        RecipeCardGrid(
-          searchResults: searchResultList,
-        ),
-        SizedBox(height: Spacing.md),
-        searchResultList.length > 10
-            ? Align(
-                alignment: Alignment.bottomCenter,
-                child: ChowBackToTopTransitionBuilder(
-                  desitnation: SavedRecipePage(),
-                ),
-              )
-            : SizedBox.shrink(),
+        _currentIndex == 0
+            ? RecipeCardGrid(results: savedRecipeList)
+            : RecipeCardGrid(results: editedRecipeList),
       ],
     );
   }
@@ -192,10 +185,7 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
           child: _buildToggleButtons(options),
         ),
         SizedBox(height: Spacing.sm),
-        _whichList(
-          context,
-          _currentIndex,
-        ),
+        _buildSavedRecipes(),
         SizedBox(height: Spacing.xlg),
       ],
     );
@@ -242,29 +232,5 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
         },
       ),
     );
-  }
-
-  Widget _whichList(
-    BuildContext context,
-    int index,
-  ) {
-    switch (index) {
-      case 0:
-        return _buildSavedRecipes();
-      case 1:
-        return Column(
-          children: [
-            Center(
-              child: EmptyContent(
-                title: 'Not Built Yet...',
-                message: 'Coming soon!',
-                icon: Icons.hourglass_empty,
-              ),
-            ),
-          ],
-        );
-      default:
-        return _buildSavedRecipes();
-    }
   }
 }
