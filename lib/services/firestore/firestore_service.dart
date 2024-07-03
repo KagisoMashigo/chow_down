@@ -10,6 +10,9 @@ import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
 
+// TODO: recipe is not saving the edited version correct
+// title is not saving at all
+
 class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
@@ -36,6 +39,25 @@ class FirestoreService {
       printDebug('Deleted original ID: ${recipe.id}');
     } catch (e, stack) {
       _handleException(e, stack, 'deleting recipe with ID: ${recipe.id}');
+    }
+  }
+
+  Future<void> saveEditedRecipe({
+    required String path,
+    required Recipe recipe,
+  }) async {
+    final CollectionReference<Map<String, dynamic>> _collectionRef =
+        FirebaseFirestore.instance.collection(path);
+
+    try {
+      printDebug(
+          'Attempting to save recipe with ID: ${recipe.id} at path: $path');
+
+      final documentId = StringHelper.generateCustomId(recipe.sourceUrl!);
+      await _collectionRef.doc(documentId).set(recipe.toJson());
+      printDebug('Saved recipe with generated ID: $documentId');
+    } catch (e, stack) {
+      _handleException(e, stack, 'saving recipe with ID: ${recipe.id}');
     }
   }
 
@@ -80,6 +102,28 @@ class FirestoreService {
     } catch (e, stack) {
       _handleException(e, stack, 'fetching saved recipes at path: $path');
       throw Failure(message: 'Failed to fetch saved recipes. Please try again');
+    }
+  }
+
+  Future<List<Recipe>> fetchEditedRecipes({required String path}) async {
+    final _collectionRef = FirebaseFirestore.instance.collection(path);
+
+    try {
+      printDebug('Fetching edited recipes at path: $path');
+      final QuerySnapshot finalSnapshot = await _collectionRef.get();
+      final List<DocumentSnapshot> documents = finalSnapshot.docs;
+
+      final List<Recipe> editedRecipes = documents.map((document) {
+        return Recipe.fromFirestore(document.data() as Map<String, dynamic>);
+      }).toList();
+
+      printDebug(
+          'Fetched ${editedRecipes.length} edited recipes at path: $path');
+      return editedRecipes;
+    } catch (e, stack) {
+      _handleException(e, stack, 'fetching edited recipes at path: $path');
+      throw Failure(
+          message: 'Failed to fetch edited recipes. Please try again');
     }
   }
 

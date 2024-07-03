@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
@@ -29,11 +27,9 @@ class EditRecipeBloc extends Bloc<EditRecipeEvent, EditRecipeState> {
     SaveEditedRecipe event,
     Emitter<EditRecipeState> emit,
   ) {
-    // fix copywith
-    log('Saving edited recipe... with text: ${event.text}');
     // might need to change ID or doc id
-    _database.saveEditedRecipe(event.recipe.copyWith(title: event.text));
-    emit(EditRecipeSuccess(recipe: event.recipe.copyWith(title: event.text)));
+    _database.saveEditedRecipe(event.recipe);
+    emit(EditRecipeSuccess(recipe: event.recipe));
   }
 
   void _handleCancelEdit(

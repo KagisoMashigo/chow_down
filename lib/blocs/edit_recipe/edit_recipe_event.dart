@@ -12,9 +12,8 @@ class EditRecipe extends EditRecipeEvent {
 
 class SaveEditedRecipe extends EditRecipeEvent {
   final Recipe recipe;
-  final String? text;
 
-  const SaveEditedRecipe({required this.recipe, this.text});
+  const SaveEditedRecipe({required this.recipe});
 }
 
 class CancelEditRecipe extends EditRecipeEvent {

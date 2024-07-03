@@ -112,7 +112,7 @@ class RecipeCardGrid extends StatelessWidget {
           FetchRecipe(
             id: recipe.id,
             url: recipe.sourceUrl!,
-            savedRecipes: context.read<SavedRecipeBloc>().state.savedRecipeList,
+            savedRecipes: results,
           ),
         );
 
@@ -122,6 +122,7 @@ class RecipeCardGrid extends StatelessWidget {
               title: recipe.title,
               id: recipe.id,
               sourceUrl: recipe.sourceUrl!,
+              savedRecipes: results,
             ),
             fullscreenDialog: true,
           ),

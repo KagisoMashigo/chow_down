@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/design/chow.dart';
@@ -44,7 +44,7 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
     if (isSaved) {
       BlocProvider.of<SavedRecipeBloc>(context).add(DeleteRecipeEvent(recipe));
     } else {
-      BlocProvider.of<RecipeInfoBloc>(context).add(
+      BlocProvider.of<RecipeDetailBloc>(context).add(
         SaveRecipe(recipe: recipe),
       );
     }

@@ -1,4 +1,3 @@
-// 🐦 Flutter imports:
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:flutter/material.dart';
@@ -64,15 +63,13 @@ class _EditRecipeButtonState extends State<EditRecipeButton> {
 }
 
 class FinishEditRecipeButton extends StatefulWidget {
-  final Recipe recipe;
   final double size;
   final double iconSize;
-  final String? text;
+  final VoidCallback onTap;
 
   const FinishEditRecipeButton({
     super.key,
-    required this.recipe,
-    this.text,
+    required this.onTap,
     this.size = 44,
     this.iconSize = 24,
   });
@@ -87,22 +84,11 @@ class _FinishEditRecipeButtonState extends State<FinishEditRecipeButton> {
     super.initState();
   }
 
-  void _handleTap(
-    BuildContext context,
-    Recipe recipe,
-    String? text,
-  ) async {
-    print('Attempting to save edited recipe---->>>>>>>>');
-    context
-        .read<EditRecipeBloc>()
-        .add(SaveEditedRecipe(recipe: recipe, text: text));
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _handleTap(context, widget.recipe, widget.text);
+        widget.onTap();
       },
       child: Semantics(
         button: true,

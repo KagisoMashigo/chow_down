@@ -133,6 +133,12 @@ class SearchPage extends StatelessWidget {
                                 title: recipes[index].title,
                                 id: recipes[index].id,
                                 sourceUrl: recipes[index].sourceUrl!,
+                                // TODO what if it is null?
+                                savedRecipes: context
+                                        .read<SavedRecipeBloc>()
+                                        .state
+                                        .savedRecipeList ??
+                                    [],
                               ),
                             ),
                           );

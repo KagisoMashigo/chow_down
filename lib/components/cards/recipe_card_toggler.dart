@@ -108,20 +108,12 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
     switch (index) {
       case 0:
         return RecipeIngredientsCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
+          recipe: recipe,
           onEdit: _buildWidgetOrTextfield,
         );
       case 1:
         return RecipeInstructionsCard(
-          analyzedInstructions: recipe.analyzedInstructions!,
-          instructions: recipe.instructions!,
+          recipe: recipe,
           onEdit: _buildWidgetOrTextfield,
         );
       case 2:
@@ -134,15 +126,8 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
         );
       default:
         return RecipeIngredientsCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
+          recipe: recipe,
+          onEdit: _buildWidgetOrTextfield,
         );
     }
   }

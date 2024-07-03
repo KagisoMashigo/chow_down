@@ -15,7 +15,7 @@ import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
-import 'package:chow_down/components/buttons/edit_recipe_button.dart';
+import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
@@ -28,12 +28,14 @@ class RecipeDetailPage extends StatelessWidget {
   final String title;
   final int id;
   final String sourceUrl;
+  final List<Recipe> savedRecipes;
 
   const RecipeDetailPage({
     Key? key,
     required this.title,
     required this.id,
     required this.sourceUrl,
+    required this.savedRecipes,
   }) : super(key: key);
 
   @override
@@ -196,9 +198,15 @@ class RecipeDetailPage extends StatelessWidget {
                     ],
                     if (state is EditRecipePending) ...[
                       FinishEditRecipeButton(
-                        recipe: recipe,
                         size: Spacing.md,
                         iconSize: Spacing.md,
+                        onTap: () {
+                          BlocProvider.of<RecipeDetailBloc>(context).add(
+                            SaveRecipe(
+                                recipe: recipe
+                                    .savedEditedTitle('This is a test title')),
+                          );
+                        },
                         // text: titleController?.value.text,
                       ),
                       SizedBox(width: Spacing.sm),
