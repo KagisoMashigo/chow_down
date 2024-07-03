@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
-import 'package:chow_down/components/forms/text_form_field.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +59,7 @@ class RecipeInstructionsCard extends StatelessWidget {
                         ...actualSteps.map((instruction) {
                           return onEdit!(
                             state: context.watch<EditRecipeBloc>().state,
-                            editableChild: TestFormField(
+                            editableChild: TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               initialValue: instruction.step,

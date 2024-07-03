@@ -2,7 +2,7 @@ import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TestFormField extends StatefulWidget {
+class TextFormField extends StatefulWidget {
   final String? label;
   final TextStyle? labelStyle;
   final String? hint;
@@ -36,8 +36,9 @@ class TestFormField extends StatefulWidget {
   final TextStyle? hintStyle;
   final EdgeInsets? contentPadding;
   final AutovalidateMode? autovalidateMode;
+  final InputDecoration? decoration;
 
-  const TestFormField({
+  const TextFormField({
     Key? key,
     this.controller,
     this.maxLength,
@@ -72,13 +73,14 @@ class TestFormField extends StatefulWidget {
     this.hintStyle,
     this.contentPadding,
     this.autovalidateMode,
+    this.decoration,
   }) : super(key: key);
 
   @override
-  TestFormFieldState createState() => TestFormFieldState();
+  TextFormFieldState createState() => TextFormFieldState();
 }
 
-class TestFormFieldState extends State<TestFormField> {
+class TextFormFieldState extends State<TextFormField> {
   late bool _isTextObscured;
 
   @override
@@ -118,7 +120,7 @@ class TestFormFieldState extends State<TestFormField> {
       maxLines: widget.maxLines ?? 1,
       keyboardType: widget.keyboardType,
       // TODO review this cursor color
-      cursorColor: ChowColors.borderGreen,
+      // cursorColor: ChowColors.borderGreen,
       enableSuggestions: widget.enableSuggestions,
       autocorrect: widget.autocorrect,
       autofillHints: widget.autofillHints,
@@ -166,13 +168,13 @@ class TestFormFieldState extends State<TestFormField> {
         //     const TextStyle(color: VistaTextFieldTokens.labelColor),
       ),
       obscureText: _isTextObscured,
-      enabled: !widget.isDisabled,
+      // enabled: !widget.isDisabled,
       inputFormatters: widget.inputFormatters,
       initialValue: widget.initialValue,
-      textCapitalization: widget.upperCase
-          ? TextCapitalization.characters
-          : TextCapitalization.none,
-      style: widget.textStyle,
+      // textCapitalization: widget.upperCase
+      //     ? TextCapitalization.characters
+      //     : TextCapitalization.none,
+      // style: widget.textStyle,
     );
   }
 }

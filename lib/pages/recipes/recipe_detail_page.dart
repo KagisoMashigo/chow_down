@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
-import 'package:chow_down/components/forms/text_form_field.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -162,7 +161,7 @@ class RecipeDetailPage extends StatelessWidget {
     return state is EditRecipePending
         // TODO: heights need to be the same
         ? Expanded(
-            child: TestFormField(
+            child: TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               initialValue: recipe.title,
               // label: tr('egiftcard.recipient_email.label'),

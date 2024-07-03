@@ -5,7 +5,6 @@ import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
-import 'package:chow_down/components/forms/text_form_field.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -219,7 +218,7 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                   // ),
                   // SizedBox(width: Spacing.xxsm),
                   Expanded(
-                    child: TestFormField(
+                    child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: ingredient.amount.toString(),
                       keyboardType: TextInputType.text,
@@ -238,7 +237,7 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                   ),
                   SizedBox(width: Spacing.xsm),
                   Expanded(
-                    child: TestFormField(
+                    child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: ingredient.unit,
                       keyboardType: TextInputType.text,
@@ -260,7 +259,7 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
             ),
             SizedBox(width: Spacing.sm),
             Expanded(
-              child: TestFormField(
+              child: TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 initialValue: ingredient.name,
                 keyboardType: TextInputType.name,
