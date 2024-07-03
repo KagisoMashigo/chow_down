@@ -1,9 +1,11 @@
 // 🐦 Flutter imports:
+
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
-import 'package:chow_down/components/cards/recipe_ingre_card.dart';
+import 'package:chow_down/components/cards/recipe_ingredients_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
@@ -43,6 +45,14 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
         isSelected.add(false);
       }
     }
+  }
+
+  Widget _buildWidgetOrTextfield({
+    required EditRecipeState state,
+    required Widget editableChild,
+    required Widget staticChild,
+  }) {
+    return state is EditRecipePending ? editableChild : staticChild;
   }
 
   @override
@@ -106,11 +116,13 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           vegetarian: recipe.vegetarian!,
           ingredients: recipe.extendedIngredients,
           sourceUrl: recipe.sourceUrl!,
+          onEdit: _buildWidgetOrTextfield,
         );
       case 1:
         return RecipeInstructionsCard(
           analyzedInstructions: recipe.analyzedInstructions!,
           instructions: recipe.instructions!,
+          onEdit: _buildWidgetOrTextfield,
         );
       case 2:
         return RecipeDietaryCard(

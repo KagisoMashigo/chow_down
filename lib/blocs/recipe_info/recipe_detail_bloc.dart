@@ -2,16 +2,16 @@
 import 'package:bloc/bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
 import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
 import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';
 
-class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
-  RecipeInfoBloc(this._recipeRepository, this._database)
+class RecipeDetailBloc extends Bloc<RecipeDetailEvent, RecipeDetailState> {
+  RecipeDetailBloc(this._recipeRepository, this._database)
       : super(RecipeInfoInitial()) {
     on<FetchRecipe>(_handleFetchRecipe);
     on<SaveRecipe>(_handleSaveRecipe);
@@ -23,7 +23,7 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
 
   Future<void> _handleFetchRecipe(
     FetchRecipe event,
-    Emitter<RecipeInfoState> emit,
+    Emitter<RecipeDetailState> emit,
   ) async {
     try {
       printDebug('Fetching recipe with id: ${event.id} and url: ${event.url}');
@@ -73,7 +73,7 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
 
   Future<void> _handleSaveRecipe(
     SaveRecipe event,
-    Emitter<RecipeInfoState> emit,
+    Emitter<RecipeDetailState> emit,
   ) async {
     try {
       printDebug('Saving recipe with id: ${event.recipe.id}');
@@ -97,7 +97,7 @@ class RecipeInfoBloc extends Bloc<RecipeInfoEvent, RecipeInfoState> {
 
   Future<void> _handleFetchRecipeInformation(
     FetchRecipeInformation event,
-    Emitter<RecipeInfoState> emit,
+    Emitter<RecipeDetailState> emit,
   ) async {
     try {
       printDebug(

@@ -1,11 +1,11 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
-abstract class RecipeInfoEvent {
-  const RecipeInfoEvent();
+abstract class RecipeDetailEvent {
+  const RecipeDetailEvent();
 }
 
-class FetchRecipe extends RecipeInfoEvent {
+class FetchRecipe extends RecipeDetailEvent {
   final int id;
   final String url;
   final List<Recipe>? savedRecipes;
@@ -13,13 +13,13 @@ class FetchRecipe extends RecipeInfoEvent {
   const FetchRecipe({required this.id, required this.url, this.savedRecipes});
 }
 
-class SaveRecipe extends RecipeInfoEvent {
+class SaveRecipe extends RecipeDetailEvent {
   final Recipe recipe;
 
   const SaveRecipe({required this.recipe});
 }
 
-class FetchRecipeInformation extends RecipeInfoEvent {
+class FetchRecipeInformation extends RecipeDetailEvent {
   final int id;
   final String sourceUrl;
 

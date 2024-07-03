@@ -11,9 +11,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_state.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/buttons/edit_recipe_button.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
@@ -73,7 +73,7 @@ class RecipeDetailPage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 38.0),
                 child: SingleChildScrollView(
-                  child: BlocConsumer<RecipeDetailBloc, RecipeInfoState>(
+                  child: BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
                     listener: (context, state) {
                       if (state is RecipeInfoError) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -118,7 +118,7 @@ class RecipeDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorMessage(RecipeInfoState state) => Center(
+  Widget _buildErrorMessage(RecipeDetailState state) => Center(
         child: EmptyContent(
           message: 'If this persists please restart the application.',
           title: 'Something went wrong...',

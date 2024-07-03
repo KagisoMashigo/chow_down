@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/blocs/home_page/extract_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/components/design/color.dart';
@@ -34,8 +34,8 @@ class App extends StatelessWidget {
         Provider<AuthBase>(
           create: (_) => Auth(),
         ),
-        BlocProvider<RecipeInfoBloc>(
-          create: (context) => RecipeInfoBloc(
+        BlocProvider<RecipeDetailBloc>(
+          create: (context) => RecipeDetailBloc(
             RemoteRecipe(),
             database,
           ),

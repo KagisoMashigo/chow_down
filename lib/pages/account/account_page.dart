@@ -8,8 +8,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';

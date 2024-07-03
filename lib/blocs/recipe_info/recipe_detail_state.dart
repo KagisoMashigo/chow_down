@@ -1,17 +1,17 @@
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
-abstract class RecipeInfoState {
+abstract class RecipeDetailState {
   @override
   String toString() => 'RecipeInfoState{}';
 }
 
-class RecipeInfoInitial extends RecipeInfoState {
+class RecipeInfoInitial extends RecipeDetailState {
   @override
   String toString() => 'RecipeInfoInitial{}';
 }
 
-class RecipeInfoLoading extends RecipeInfoState {
+class RecipeInfoLoading extends RecipeDetailState {
   final int? id;
   final String? url;
 
@@ -24,7 +24,7 @@ class RecipeInfoLoading extends RecipeInfoState {
   String toString() => 'RecipeInfoLoading{id: $id, url: $url}';
 }
 
-class RecipeInfoLoaded extends RecipeInfoState {
+class RecipeInfoLoaded extends RecipeDetailState {
   final Recipe recipe;
 
   RecipeInfoLoaded({required this.recipe});
@@ -33,7 +33,7 @@ class RecipeInfoLoaded extends RecipeInfoState {
   String toString() => 'RecipeInfoLoaded{recipe: $recipe}';
 }
 
-class RecipeInfoError extends RecipeInfoState {
+class RecipeInfoError extends RecipeDetailState {
   final String? message;
   final int? id;
   final String? url;

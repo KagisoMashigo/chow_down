@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/home_page/extract_bloc.dart';
 import 'package:chow_down/blocs/home_page/extract_event.dart';
 import 'package:chow_down/blocs/home_page/extract_state.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
@@ -18,7 +18,7 @@ import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/pages/recipes/recipe_detail_page.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class HomePage extends StatelessWidget {
@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Spacing.sm),
           child: GestureDetector(
             onTap: () {
-              BlocProvider.of<RecipeInfoBloc>(context).add(
+              BlocProvider.of<RecipeDetailBloc>(context).add(
                 FetchRecipe(
                   id: searchResult.id,
                   url: searchResult.sourceUrl!,
@@ -121,7 +121,7 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RecipeInfoPage(
+                  builder: (context) => RecipeDetailPage(
                     title: searchResult.title,
                     id: searchResult.id,
                     sourceUrl: searchResult.sourceUrl!,

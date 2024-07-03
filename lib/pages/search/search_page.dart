@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/blocs/search/search_event.dart';
@@ -21,7 +21,7 @@ import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/search_result_model.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/pages/recipes/recipe_detail_page.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class SearchPage extends StatelessWidget {
@@ -115,7 +115,7 @@ class SearchPage extends StatelessWidget {
 
                       return GestureDetector(
                         onTap: () {
-                          BlocProvider.of<RecipeInfoBloc>(context).add(
+                          BlocProvider.of<RecipeDetailBloc>(context).add(
                             FetchRecipe(
                               id: recipes[index].id,
                               url: recipes[index].sourceUrl!,
@@ -129,7 +129,7 @@ class SearchPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RecipeInfoPage(
+                              builder: (context) => RecipeDetailPage(
                                 title: recipes[index].title,
                                 id: recipes[index].id,
                                 sourceUrl: recipes[index].sourceUrl!,
