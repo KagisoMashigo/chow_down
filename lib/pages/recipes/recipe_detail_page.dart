@@ -48,9 +48,7 @@ class RecipeDetailPage extends StatelessWidget {
               FetchRecipe(
                 id: id,
                 url: sourceUrl,
-                savedRecipes: context.select(
-                  (SavedRecipeBloc bloc) => bloc.state.savedRecipeList,
-                ),
+                savedRecipes: savedRecipes,
               ),
             ),
       );
@@ -180,9 +178,7 @@ class RecipeDetailPage extends StatelessWidget {
     BuildContext context,
   ) {
     final isSaved =
-        context.read<SavedRecipeBloc>().state.savedRecipeList != null &&
-            context.select((SavedRecipeBloc bloc) => bloc.state.savedRecipeList!
-                .any((element) => element.sourceUrl == recipe.sourceUrl));
+        savedRecipes.any((element) => element.sourceUrl == recipe.sourceUrl);
 
     return BlocBuilder<EditRecipeBloc, EditRecipeState>(
       builder: (context, state) {
@@ -227,6 +223,7 @@ class RecipeDetailPage extends StatelessWidget {
                     if (state is! EditRecipePending) ...[
                       SaveRecipeButton(
                         recipe: recipe,
+                        isSaved: isSaved,
                         size: Spacing.md,
                         iconSize: Spacing.md,
                       ),

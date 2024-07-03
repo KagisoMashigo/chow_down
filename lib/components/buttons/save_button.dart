@@ -17,10 +17,12 @@ class SaveRecipeButton extends StatefulWidget {
   final double size;
   final double iconSize;
   final bool outlined;
+  final bool isSaved;
 
   const SaveRecipeButton({
     super.key,
     required this.recipe,
+    this.isSaved = false,
     this.size = 44,
     this.iconSize = 24,
     this.outlined = false,
@@ -54,25 +56,20 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isSaved = context.read<SavedRecipeBloc>().state.savedRecipeList !=
-            null &&
-        context.select((SavedRecipeBloc bloc) => bloc.state.savedRecipeList!
-            .any((element) => element.sourceUrl == widget.recipe.sourceUrl));
-
     return InkWell(
       onTap: () {
-        _handleTap(context, widget.recipe, isSaved);
+        _handleTap(context, widget.recipe, widget.isSaved);
       },
       child: Semantics(
         button: true,
         focusable: true,
         label: 'Save Recipe',
-        hint: isSaved ? 'Saved' : 'Not Saved',
+        hint: widget.isSaved ? 'Saved' : 'Not Saved',
         child: Container(
           height: widget.size,
           width: widget.size,
           child: Icon(
-            isSaved ? Icons.favorite : Icons.favorite_outline,
+            widget.isSaved ? Icons.favorite : Icons.favorite_outline,
             color: ChowColors.red700,
             size: widget.iconSize,
           ),
