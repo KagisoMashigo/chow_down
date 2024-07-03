@@ -29,6 +29,7 @@ class EmailSignInPage extends StatelessWidget {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               appBar: AppBar(
+                foregroundColor: ChowColors.white,
                 backgroundColor: Colors.transparent,
               ),
               body: Column(

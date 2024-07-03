@@ -18,6 +18,7 @@ Future<void> showExceptionAlertDialog(
       title: title,
       content: _message(exception),
       defaultActionText: 'OK',
+      cancelActionText: 'Cancel',
     );
 
 String _message(Exception exception) {
