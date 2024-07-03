@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,7 @@ class CupertinoHomeScaffold extends StatelessWidget {
       icon: Icon(
         itemData?.icon,
         color: color,
+        size: Spacing.md,
       ),
     );
   }
