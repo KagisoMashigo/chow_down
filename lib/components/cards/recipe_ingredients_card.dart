@@ -17,7 +17,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
 
@@ -36,14 +35,24 @@ class RecipeIngredientsCard extends StatefulWidget {
 }
 
 class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
-  late Map<int, String> _editedIngredients;
+  late Map<int, String> _editedIngredientNames;
+  late Map<int, double> _editedIngredientAmounts;
+  late Map<int, String> _editedIngredientUnits;
 
   @override
   void initState() {
     super.initState();
-    _editedIngredients = {
+    _editedIngredientNames = {
       for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
         i: widget.recipe.extendedIngredients![i].name
+    };
+    _editedIngredientAmounts = {
+      for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
+        i: widget.recipe.extendedIngredients![i].amount!
+    };
+    _editedIngredientUnits = {
+      for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
+        i: widget.recipe.extendedIngredients![i].unit!
     };
   }
 
@@ -52,7 +61,11 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
         widget.recipe.extendedIngredients!.asMap().entries.map((entry) {
       int index = entry.key;
       ExtendedIngredients ingredient = entry.value;
-      return ingredient.copyWith(name: _editedIngredients[index]);
+      return ingredient.copyWith(
+        name: _editedIngredientNames[index],
+        amount: _editedIngredientAmounts[index],
+        unit: _editedIngredientUnits[index],
+      );
     }).toList();
 
     final updatedRecipe = widget.recipe.copyWith(
@@ -177,27 +190,77 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
       int index = ingredients.indexOf(ingredient);
       return widget.onEdit!(
         state: context.watch<EditRecipeBloc>().state,
-        editableChild: TestFormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          initialValue: ingredient.name,
-          keyboardType: TextInputType.name,
-          onChanged: (value) {
-            setState(() {
-              _editedIngredients[index] = value;
-            });
-          },
-          validator: (value) {
-            if (value != null && value.isNotEmpty) {
-              log('Validator: $value');
-            }
-            return null;
-          },
+        editableChild: Row(
+          children: [
+            Flexible(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TestFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: ingredient.amount.toString(),
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        setState(() {
+                          _editedIngredientAmounts[index] = value as double;
+                        });
+                      },
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          log('Validator: $value');
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  SizedBox(width: Spacing.xsm),
+                  Expanded(
+                    child: TestFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: ingredient.unit,
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        setState(() {
+                          _editedIngredientAmounts[index] = value as double;
+                        });
+                      },
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          log('Validator: $value');
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: Spacing.sm),
+            Expanded(
+              child: TestFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                initialValue: ingredient.name,
+                keyboardType: TextInputType.name,
+                onChanged: (value) {
+                  setState(() {
+                    _editedIngredientNames[index] = value;
+                  });
+                },
+                validator: (value) {
+                  if (value != null && value.isNotEmpty) {
+                    log('Validator: $value');
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
         ),
         staticChild: ListTile(
           title: Text(
             '${StringHelper.processNumber(ingredient.amount.toString())} ${ingredient.unit == 'servings' ? '' : ingredient.unit} ${ingredient.name}',
             style: TextStyle(
-              fontSize: 4 * Responsive.ratioHorizontal,
+              fontSize: ChowFontSizes.sm,
             ),
           ),
           leading: Icon(Icons.food_bank_sharp),
