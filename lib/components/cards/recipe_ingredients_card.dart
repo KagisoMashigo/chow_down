@@ -109,23 +109,31 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
               ],
             ),
             if (widget.recipe.veryHealthy!) ...[
-              SizedBox(height: Spacing.sm),
-              Row(
-                children: [
-                  Icon(
-                    Icons.star,
-                    size: 25,
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Very Healthy!',
-                      style: TextStyle(
-                        fontSize: 4 * Responsive.ratioHorizontal,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(left: Spacing.sm),
+                child: Column(
+                  children: [
+                    SizedBox(height: Spacing.md),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.star,
+                          size: 25,
+                        ),
+                        SizedBox(width: Spacing.xsm),
+                        Expanded(
+                          child: Text(
+                            'Very Healthy!',
+                            style: TextStyle(
+                              fontSize: ChowFontSizes.smd,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
               )
             ],
             SizedBox(height: Spacing.sm),

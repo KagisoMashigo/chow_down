@@ -15,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
-import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/base_card.dart';
@@ -73,52 +72,68 @@ class RecipeDetailPage extends StatelessWidget {
           ),
           child: SafeArea(
             bottom: false,
-            child: Align(
-              alignment: Alignment.center,
-              child: RefreshIndicator(
-                onRefresh: () => _pullRefresh(context),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 38.0),
-                  child: SingleChildScrollView(
-                    child: BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
-                      listener: (context, state) {
-                        if (state is RecipeInfoError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                  state.message ?? 'An unknown error occurred'),
-                            ),
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is RecipeInfoInitial) {
-                          BlocProvider.of<RecipeDetailBloc>(context).add(
-                            FetchRecipe(
-                              id: id,
-                              url: sourceUrl,
-                              savedRecipes: context
-                                  .read<SavedRecipeBloc>()
-                                  .state
-                                  .savedRecipeList,
-                            ),
-                          );
-                          return _buildLoading();
-                        } else if (state is RecipeInfoLoading) {
-                          return _buildLoading();
-                        } else if (state is RecipeInfoLoaded) {
-                          return _buildContents(
-                            context,
-                            state.recipe,
-                          );
-                        } else {
-                          return _buildErrorMessage(state);
-                        }
-                      },
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: RefreshIndicator(
+                    onRefresh: () => _pullRefresh(context),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 38.0),
+                      child: SingleChildScrollView(
+                        child:
+                            BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
+                          listener: (context, state) {
+                            if (state is RecipeInfoError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.message ??
+                                      'An unknown error occurred'),
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is RecipeInfoInitial) {
+                              BlocProvider.of<RecipeDetailBloc>(context).add(
+                                FetchRecipe(
+                                  id: id,
+                                  url: sourceUrl,
+                                  savedRecipes: savedRecipes,
+                                ),
+                              );
+                              return _buildLoading();
+                            } else if (state is RecipeInfoLoading) {
+                              return _buildLoading();
+                            } else if (state is RecipeInfoLoaded) {
+                              return _buildContents(
+                                context,
+                                state.recipe,
+                              );
+                            } else {
+                              return _buildErrorMessage(state);
+                            }
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Positioned(
+                  top: 16.0,
+                  left: 16.0,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                      size: ChowFontSizes.xxlg,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -211,7 +226,6 @@ class RecipeDetailPage extends StatelessWidget {
                                     .savedEditedTitle('This is a test title')),
                           );
                         },
-                        // text: titleController?.value.text,
                       ),
                       SizedBox(width: Spacing.sm),
                       CancelEditRecipeButton(
