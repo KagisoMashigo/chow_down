@@ -81,9 +81,9 @@ class SavedRecipeBloc extends Bloc<SavedRecipeEvent, SavedRecipeState> {
   ) async {
     try {
       printDebug('Deleting recipe with ID: ${event.recipe.id}');
-      emit(SavedRecipePending(recipeCardList: []));
+      emit(SavedRecipePending());
 
-      await _database.deleteRecipe(event.recipe);
+      await _database.deleteRecipe(event.recipe, isEdited: event.isEdited);
       printDebug('Recipe deleted with ID: ${event.recipe.id}');
 
       await Future<void>.delayed(const Duration(milliseconds: 50));

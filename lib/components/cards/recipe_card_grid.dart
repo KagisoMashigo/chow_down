@@ -22,10 +22,12 @@ import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeCardGrid extends StatelessWidget {
   final List<Recipe> results;
+  final bool isEdited;
 
   const RecipeCardGrid({
     Key? key,
     required this.results,
+    this.isEdited = false,
   }) : super(key: key);
 
   Future<void> _confirmDelete(
@@ -41,7 +43,7 @@ class RecipeCardGrid extends StatelessWidget {
       cancelActionText: 'Cancel',
     ).then((bool) => bool == true
         ? BlocProvider.of<SavedRecipeBloc>(context)
-            .add(DeleteRecipeEvent(recipe))
+            .add(DeleteRecipeEvent(recipe, isEdited: isEdited))
         : null);
   }
 

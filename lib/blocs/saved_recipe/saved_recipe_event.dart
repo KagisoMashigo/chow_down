@@ -15,8 +15,9 @@ class FetchEditedRecipesEvent extends SavedRecipeEvent {
 
 class DeleteRecipeEvent extends SavedRecipeEvent {
   final Recipe recipe;
+  final bool isEdited;
 
-  const DeleteRecipeEvent(this.recipe);
+  const DeleteRecipeEvent(this.recipe, {this.isEdited = false});
 }
 
 class DeleteEntireCollectionEvent extends SavedRecipeEvent {

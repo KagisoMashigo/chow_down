@@ -8,7 +8,7 @@ abstract class Database {
   Future<List<Recipe>> retrieveSavedRecipes();
   Future<void> saveRecipe(Recipe recipe);
   Future<void> saveEditedRecipe(Recipe recipe);
-  Future<void> deleteRecipe(Recipe recipe);
+  Future<void> deleteRecipe(Recipe recipe, {bool isEdited});
   Future<void> deleteAllRecipes();
 }
 
@@ -78,11 +78,13 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteRecipe(Recipe recipe) async {
+  Future<void> deleteRecipe(Recipe recipe, {bool isEdited = false}) async {
     try {
       printDebug('Deleting recipe with ID: ${recipe.id} for user: $uid');
       await _service.deleteData(
-          path: APIPath.savedRecipes(uid), recipe: recipe);
+        path: isEdited ? APIPath.editedRecipes(uid) : APIPath.savedRecipes(uid),
+        recipe: recipe,
+      );
       printDebug('Deleted recipe with ID: ${recipe.id} for user: $uid');
     } catch (e, stack) {
       printAndLog(e,
