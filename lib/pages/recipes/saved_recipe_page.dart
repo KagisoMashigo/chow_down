@@ -129,8 +129,8 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
 
             return _buildColumnWithData(
               context,
-              state.savedRecipeList ?? [],
-              state.editedRecipeList ?? [],
+              context.watch<SavedRecipeBloc>().state.savedRecipeList ?? [],
+              context.watch<SavedRecipeBloc>().state.editedRecipeList ?? [],
             );
           },
         ),
@@ -171,7 +171,7 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
       children: [
         _currentIndex == 0
             ? RecipeCardGrid(results: savedRecipeList)
-            : RecipeCardGrid(results: editedRecipeList),
+            : RecipeCardGrid(results: editedRecipeList, isEdited: true),
       ],
     );
   }
@@ -198,43 +198,37 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
   Widget _buildToggleButtons(
     List<String> options,
   ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: ChowColors.white,
-        borderRadius: BorderRadius.circular(18.0),
-      ),
-      child: ToggleButtons(
-        selectedBorderColor: ChowColors.borderGreen,
-        borderWidth: 2,
-        borderRadius: BorderRadius.circular(14),
-        fillColor: ChowColors.fillGreen,
-        selectedColor: Colors.black,
-        color: Colors.black,
-        children: options
-            .map((option) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
-                  child: Text(
-                    option,
-                    style: TextStyle(fontSize: ChowFontSizes.sm),
-                  ),
-                ))
-            .toList(),
-        isSelected: _isSelected,
-        onPressed: (int newIndex) {
-          setState(
-            () {
-              for (int i = 0; i < _isSelected.length; i++) {
-                if (i == newIndex) {
-                  _isSelected[i] = true;
-                  _currentIndex = i;
-                } else {
-                  _isSelected[i] = false;
-                }
+    return ToggleButtons(
+      selectedBorderColor: ChowColors.borderGreen,
+      borderWidth: 2,
+      borderRadius: BorderRadius.circular(14),
+      fillColor: ChowColors.fillGreen,
+      selectedColor: Colors.black,
+      color: Colors.black,
+      children: options
+          .map((option) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Spacing.sm),
+                child: Text(
+                  option,
+                  style: TextStyle(fontSize: ChowFontSizes.sm),
+                ),
+              ))
+          .toList(),
+      isSelected: _isSelected,
+      onPressed: (int newIndex) {
+        setState(
+          () {
+            for (int i = 0; i < _isSelected.length; i++) {
+              if (i == newIndex) {
+                _isSelected[i] = true;
+                _currentIndex = i;
+              } else {
+                _isSelected[i] = false;
               }
-            },
-          );
-        },
-      ),
+            }
+          },
+        );
+      },
     );
   }
 }

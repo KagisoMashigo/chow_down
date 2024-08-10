@@ -29,6 +29,8 @@ class EditRecipeBloc extends Bloc<EditRecipeEvent, EditRecipeState> {
   ) {
     // might need to change ID or doc id
     _database.saveEditedRecipe(event.recipe);
+
+    _database.retrieveEditedRecipes();
     emit(EditRecipeSuccess(recipe: event.recipe));
   }
 

@@ -219,11 +219,9 @@ class RecipeDetailPage extends StatelessWidget {
                         size: Spacing.md,
                         iconSize: Spacing.md,
                         onTap: () {
-                          BlocProvider.of<RecipeDetailBloc>(context).add(
-                            SaveRecipe(
-                                recipe: recipe
-                                    .savedEditedTitle('This is a test title')),
-                          );
+                          // TODO: FIX SAVING TITLE
+                          BlocProvider.of<RecipeDetailBloc>(context)
+                              .add(SaveRecipe(recipe: recipe));
                         },
                       ),
                       SizedBox(width: Spacing.sm),
