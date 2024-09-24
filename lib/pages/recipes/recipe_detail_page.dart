@@ -3,6 +3,8 @@ import 'dart:developer';
 
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -14,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
-import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
@@ -27,18 +28,18 @@ class RecipeDetailPage extends StatelessWidget {
   final String title;
   final int id;
   final String sourceUrl;
-  final List<Recipe> savedRecipes;
 
   const RecipeDetailPage({
     Key? key,
     required this.title,
     required this.id,
     required this.sourceUrl,
-    required this.savedRecipes,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final savedRecipes = context.read<SavedRecipeBloc>().state.savedRecipeList;
+
     Future<void> _pullRefresh(BuildContext context) async {
       return Future.delayed(
         Duration(milliseconds: 500),
@@ -46,7 +47,8 @@ class RecipeDetailPage extends StatelessWidget {
               FetchRecipe(
                 id: id,
                 url: sourceUrl,
-                savedRecipes: savedRecipes,
+                savedRecipes:
+                    context.read<SavedRecipeBloc>().state.savedRecipeList,
               ),
             ),
       );
@@ -79,41 +81,80 @@ class RecipeDetailPage extends StatelessWidget {
                     onRefresh: () => _pullRefresh(context),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 38.0),
-                      child: SingleChildScrollView(
-                        child:
-                            BlocConsumer<RecipeDetailBloc, RecipeDetailState>(
-                          listener: (context, state) {
-                            if (state is RecipeInfoError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(state.message ??
-                                      'An unknown error occurred'),
-                                ),
-                              );
-                            }
-                          },
-                          builder: (context, state) {
-                            if (state is RecipeInfoInitial) {
-                              BlocProvider.of<RecipeDetailBloc>(context).add(
-                                FetchRecipe(
-                                  id: id,
-                                  url: sourceUrl,
-                                  savedRecipes: savedRecipes,
-                                ),
-                              );
-                              return _buildLoading();
-                            } else if (state is RecipeInfoLoading) {
-                              return _buildLoading();
-                            } else if (state is RecipeInfoLoaded) {
-                              return _buildContents(
-                                context,
-                                state.recipe,
-                              );
-                            } else {
-                              return _buildErrorMessage(state);
-                            }
-                          },
-                        ),
+                      child: BlocConsumer<SavedRecipeBloc, SavedRecipeState>(
+                        listener: (context, state) {
+                          if (state is SavedRecipeLoaded) {
+                            log('Saved recipes loaded');
+                            BlocProvider.of<RecipeDetailBloc>(context).add(
+                              FetchRecipe(
+                                id: id,
+                                url: sourceUrl,
+                                savedRecipes: state.savedRecipeList,
+                              ),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return SingleChildScrollView(
+                            child: BlocConsumer<RecipeDetailBloc,
+                                RecipeDetailState>(
+                              listener: (context, state) {
+                                if (state is RecipeInfoError) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(state.message ??
+                                          'An unknown error occurred'),
+                                    ),
+                                  );
+                                }
+                              },
+                              builder: (context, state) {
+                                if (state is RecipeInfoInitial) {
+                                  BlocProvider.of<RecipeDetailBloc>(context)
+                                      .add(
+                                    FetchRecipe(
+                                      id: id,
+                                      url: sourceUrl,
+                                      savedRecipes: context
+                                          .watch<SavedRecipeBloc>()
+                                          .state
+                                          .savedRecipeList,
+                                    ),
+                                  );
+                                  return _buildLoading();
+                                } else if (state is RecipeInfoLoading) {
+                                  log('Loading recipe...');
+                                  return _buildLoading();
+                                } else if (state is RecipeInfoLoaded) {
+                                  final isSaved = context
+                                          .watch<SavedRecipeBloc>()
+                                          .state
+                                          .savedRecipeList
+                                          ?.any((element) {
+                                        log('Recipe url: ${state.recipe.sourceUrl}');
+
+                                        log('element sourceUrl: ${state.recipe.sourceUrl}');
+                                        return element.sourceUrl ==
+                                            state.recipe.sourceUrl;
+                                      }) ??
+                                      false;
+
+                                  log('savedRecipes: ${savedRecipes?.length}');
+
+                                  log('Recipe is saved: $isSaved');
+
+                                  return _buildContents(
+                                    context,
+                                    state.recipe,
+                                    isSaved,
+                                  );
+                                } else {
+                                  return _buildErrorMessage(state);
+                                }
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -190,10 +231,9 @@ class RecipeDetailPage extends StatelessWidget {
   Widget _buildTitleContent(
     Recipe recipe,
     BuildContext context,
+    bool isSaved,
   ) {
-    final isSaved =
-        savedRecipes.any((element) => element.sourceUrl == recipe.sourceUrl);
-
+    log('isSaved in title: $isSaved');
     return BlocBuilder<EditRecipeBloc, EditRecipeState>(
       builder: (context, state) {
         return BaseCard(
@@ -202,45 +242,24 @@ class RecipeDetailPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildWidgetOrTextfield(state, recipe),
-                SizedBox(width: Spacing.xsm),
-                Row(
-                  children: [
-                    if (isSaved && state is! EditRecipePending) ...[
-                      EditRecipeButton(
-                        recipe: recipe,
-                        size: Spacing.md,
-                        iconSize: Spacing.md,
-                      ),
-                      SizedBox(width: Spacing.sm),
-                    ],
-                    if (state is EditRecipePending) ...[
-                      FinishEditRecipeButton(
-                        size: Spacing.md,
-                        iconSize: Spacing.md,
-                        onTap: () {
-                          // TODO: FIX SAVING TITLE
-                          BlocProvider.of<RecipeDetailBloc>(context)
-                              .add(SaveRecipe(recipe: recipe));
-                        },
-                      ),
-                      SizedBox(width: Spacing.sm),
-                      CancelEditRecipeButton(
-                        recipe: recipe,
-                        size: Spacing.md,
-                        iconSize: Spacing.md,
-                      ),
-                    ],
-                    if (state is! EditRecipePending) ...[
-                      SaveRecipeButton(
-                        recipe: recipe,
-                        isSaved: isSaved,
-                        size: Spacing.md,
-                        iconSize: Spacing.md,
-                      ),
-                    ]
-                  ],
+                Flexible(
+                  child: Text(
+                    recipe.title,
+                    style: TextStyle(
+                      fontSize: ChowFontSizes.smd,
+                    ),
+                  ),
                 ),
+                SizedBox(width: Spacing.xsm),
+                if (state is! EditRecipePending) ...[
+                  SaveRecipeButton(
+                    key: ValueKey(isSaved),
+                    recipe: recipe,
+                    isSaved: isSaved,
+                    size: Spacing.md,
+                    iconSize: Spacing.md,
+                  )
+                ]
               ],
             ),
           ),
@@ -252,6 +271,7 @@ class RecipeDetailPage extends StatelessWidget {
   Widget _buildContents(
     BuildContext context,
     Recipe recipe,
+    bool isSaved,
   ) {
     final image = recipe.image != null
         ? CachedNetworkImage(
@@ -272,7 +292,7 @@ class RecipeDetailPage extends StatelessWidget {
         SizedBox(height: Spacing.sm),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
-          child: _buildTitleContent(recipe, context),
+          child: _buildTitleContent(recipe, context, isSaved),
         ),
         SizedBox(height: Spacing.sm),
         RecipeCardToggler(
