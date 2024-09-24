@@ -40,7 +40,7 @@ class RecipeDetailBloc extends Bloc<RecipeDetailEvent, RecipeDetailState> {
 
       if (event.savedRecipes != null && savedRecipe != null) {
         printDebug(
-          'Recipe fetched successfully from database with id: ${event.id}',
+          'Recipe fetched successfully from saved recipe list with id: ${event.id}',
           colour: DebugColour.green,
         );
         emit(RecipeInfoLoaded(recipe: savedRecipe));
@@ -54,6 +54,7 @@ class RecipeDetailBloc extends Bloc<RecipeDetailEvent, RecipeDetailState> {
           'Recipe fetched successfully from API with id: ${recipe.id}',
           colour: DebugColour.green,
         );
+
         emit(RecipeInfoLoaded(recipe: recipe));
       }
     } on Failure catch (e, stack) {

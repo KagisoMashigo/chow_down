@@ -22,10 +22,10 @@ class SaveRecipeButton extends StatefulWidget {
   const SaveRecipeButton({
     super.key,
     required this.recipe,
-    this.isSaved = false,
     this.size = 44,
     this.iconSize = 24,
     this.outlined = false,
+    this.isSaved = false,
   });
 
   @override
@@ -33,23 +33,28 @@ class SaveRecipeButton extends StatefulWidget {
 }
 
 class _SaveRecipeButtonState extends State<SaveRecipeButton> {
+  late bool isSaved;
+
   @override
   void initState() {
     super.initState();
+    isSaved = widget.isSaved;
   }
 
   void _handleTap(
     BuildContext context,
     Recipe recipe,
-    bool isSaved,
   ) async {
     if (isSaved) {
       BlocProvider.of<SavedRecipeBloc>(context).add(DeleteRecipeEvent(recipe));
     } else {
-      BlocProvider.of<RecipeDetailBloc>(context).add(
-        SaveRecipe(recipe: recipe),
-      );
+      BlocProvider.of<RecipeDetailBloc>(context)
+          .add(SaveRecipe(recipe: recipe));
     }
+
+    setState(() {
+      isSaved = !isSaved;
+    });
 
     BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
   }
@@ -58,18 +63,18 @@ class _SaveRecipeButtonState extends State<SaveRecipeButton> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        _handleTap(context, widget.recipe, widget.isSaved);
+        _handleTap(context, widget.recipe);
       },
       child: Semantics(
         button: true,
         focusable: true,
         label: 'Save Recipe',
-        hint: widget.isSaved ? 'Saved' : 'Not Saved',
+        hint: isSaved ? 'Saved' : 'Not Saved',
         child: Container(
           height: widget.size,
           width: widget.size,
           child: Icon(
-            widget.isSaved ? Icons.favorite : Icons.favorite_outline,
+            isSaved ? Icons.favorite : Icons.favorite_outline,
             color: ChowColors.red700,
             size: widget.iconSize,
           ),

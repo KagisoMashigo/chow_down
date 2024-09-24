@@ -4,8 +4,11 @@ import 'dart:developer';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,7 +74,10 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
       extendedIngredients: updatedIngredients,
     );
 
-    context.read<EditRecipeBloc>().add(SaveEditedRecipe(recipe: updatedRecipe));
+    BlocProvider.of<EditRecipeBloc>(context)
+        .add(SaveEditedRecipe(recipe: updatedRecipe));
+
+    BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
   }
 
   // TODO: Implement remove ingredient
@@ -108,8 +114,48 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
     );
   }
 
+  Widget _buildEditButtons(bool isSaved, EditRecipeBloc editRecipeBloc) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (isSaved && editRecipeBloc.state is! EditRecipePending) ...[
+          EditRecipeButton(
+            recipe: widget.recipe,
+            size: Spacing.md,
+            iconSize: Spacing.md,
+          ),
+          SizedBox(width: Spacing.sm),
+        ],
+        if (editRecipeBloc.state is EditRecipePending) ...[
+          FinishEditRecipeButton(
+            size: Spacing.md,
+            iconSize: Spacing.lg,
+            onTap: () {
+              printDebug('Saving edited ingredients...');
+              _saveEditedIngredients();
+            },
+          ),
+          SizedBox(width: Spacing.lg),
+          CancelEditRecipeButton(
+            recipe: widget.recipe,
+            size: Spacing.md,
+            iconSize: Spacing.lg,
+          ),
+        ],
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final editRecipeBloc = context.watch<EditRecipeBloc>();
+    final isSaved = context
+            .watch<SavedRecipeBloc>()
+            .state
+            .savedRecipeList
+            ?.any((element) => element.sourceUrl == widget.recipe.sourceUrl) ??
+        false;
+
     return BaseCard(
       child: Padding(
         padding: EdgeInsets.all(
@@ -162,31 +208,13 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
               )
             ],
             SizedBox(height: Spacing.sm),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (context.watch<EditRecipeBloc>().state
-                    is EditRecipePending) ...[
-                  FinishEditRecipeButton(
-                    size: Spacing.md,
-                    iconSize: Spacing.md,
-                    onTap: _saveEditedIngredients,
-                  ),
-                  SizedBox(width: Spacing.sm),
-                  CancelEditRecipeButton(
-                    recipe: widget.recipe,
-                    size: Spacing.md,
-                    iconSize: Spacing.md,
-                  ),
-                ],
-              ],
-            ),
-            SizedBox(height: Spacing.xsm),
             TextButton(
               onPressed: _launchUrl,
               child: Text('Source: ${widget.recipe.sourceUrl}'),
             ),
             SizedBox(height: Spacing.xsm),
+            _buildEditButtons(isSaved, editRecipeBloc),
+            SizedBox(height: Spacing.sm),
             ..._buildIngredients(widget.recipe.extendedIngredients!, context),
           ],
         ),

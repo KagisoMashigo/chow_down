@@ -12,9 +12,7 @@ import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
-import 'package:chow_down/components/design/typography.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class SavedRecipePage extends StatelessWidget {
@@ -68,41 +66,10 @@ class SavedRecipePage extends StatelessWidget {
   }
 }
 
-class SavedRecipesToggler extends StatefulWidget {
+class SavedRecipesToggler extends StatelessWidget {
   const SavedRecipesToggler({
     super.key,
   });
-
-  @override
-  State<SavedRecipesToggler> createState() => _SavedRecipesTogglerState();
-}
-
-class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
-  final List<bool> _isSelected = [];
-
-  /// Initial selected button
-  int _currentIndex = 0;
-
-  final options = [
-    'Saved Recipes',
-    'Edited Recipes',
-  ];
-
-  void initState() {
-    _populateButtonList(options, _isSelected);
-    super.initState();
-  }
-
-  /// Handles how many buttons appear in nav and which is selected using bools
-  void _populateButtonList(List data, List<bool> isSelected) {
-    for (var i = 0; i < data.length; i++) {
-      if (i == 0) {
-        isSelected.add(true);
-      } else {
-        isSelected.add(false);
-      }
-    }
-  }
 
   Widget _buildSavedRecipes() {
     return Column(
@@ -127,11 +94,7 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
               return _buildErrors(state);
             }
 
-            return _buildColumnWithData(
-              context,
-              context.watch<SavedRecipeBloc>().state.savedRecipeList ?? [],
-              context.watch<SavedRecipeBloc>().state.editedRecipeList ?? [],
-            );
+            return RecipeCardGrid(results: state.savedRecipeList!);
           },
         ),
       ],
@@ -162,73 +125,15 @@ class _SavedRecipesTogglerState extends State<SavedRecipesToggler> {
         ),
       );
 
-  Widget _buildColumnWithData(
-    BuildContext context,
-    List<Recipe> savedRecipeList,
-    List<Recipe> editedRecipeList,
-  ) {
-    return Column(
-      children: [
-        _currentIndex == 0
-            ? RecipeCardGrid(results: savedRecipeList)
-            : RecipeCardGrid(results: editedRecipeList, isEdited: true),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(height: Spacing.sm),
-        Container(
-          decoration: BoxDecoration(
-            color: ChowColors.white,
-            borderRadius: BorderRadius.circular(18.0),
-          ),
-          child: _buildToggleButtons(options),
-        ),
         SizedBox(height: Spacing.sm),
         _buildSavedRecipes(),
         SizedBox(height: Spacing.xlg),
       ],
-    );
-  }
-
-  Widget _buildToggleButtons(
-    List<String> options,
-  ) {
-    return ToggleButtons(
-      selectedBorderColor: ChowColors.borderGreen,
-      borderWidth: 2,
-      borderRadius: BorderRadius.circular(14),
-      fillColor: ChowColors.fillGreen,
-      selectedColor: Colors.black,
-      color: Colors.black,
-      children: options
-          .map((option) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: Spacing.sm),
-                child: Text(
-                  option,
-                  style: TextStyle(fontSize: ChowFontSizes.sm),
-                ),
-              ))
-          .toList(),
-      isSelected: _isSelected,
-      onPressed: (int newIndex) {
-        setState(
-          () {
-            for (int i = 0; i < _isSelected.length; i++) {
-              if (i == newIndex) {
-                _isSelected[i] = true;
-                _currentIndex = i;
-              } else {
-                _isSelected[i] = false;
-              }
-            }
-          },
-        );
-      },
     );
   }
 }

@@ -99,7 +99,7 @@ class _FinishEditRecipeButtonState extends State<FinishEditRecipeButton> {
           height: widget.size,
           width: widget.size,
           child: Icon(
-            Icons.check,
+            Icons.check_circle,
             color: ChowColors.green700,
             size: widget.iconSize,
           ),

@@ -8,9 +8,18 @@ abstract class RecipeDetailEvent {
 class FetchRecipe extends RecipeDetailEvent {
   final int id;
   final String url;
+  final bool isEdited;
   final List<Recipe>? savedRecipes;
 
-  const FetchRecipe({required this.id, required this.url, this.savedRecipes});
+  const FetchRecipe({
+    required this.id,
+    required this.url,
+    this.savedRecipes,
+    this.isEdited = false,
+  });
+
+  @override
+  String toString() => 'FetchRecipe{id: $id, url: $url, isEdited: $isEdited}';
 }
 
 class SaveRecipe extends RecipeDetailEvent {

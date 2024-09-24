@@ -51,9 +51,8 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
     required EditRecipeState state,
     required Widget editableChild,
     required Widget staticChild,
-  }) {
-    return state is EditRecipePending ? editableChild : staticChild;
-  }
+  }) =>
+      state is EditRecipePending ? editableChild : staticChild;
 
   @override
   Widget build(BuildContext context) {

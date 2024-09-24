@@ -124,7 +124,6 @@ class RecipeCardGrid extends StatelessWidget {
               title: recipe.title,
               id: recipe.id,
               sourceUrl: recipe.sourceUrl!,
-              savedRecipes: results,
             ),
             fullscreenDialog: true,
           ),

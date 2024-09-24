@@ -15,17 +15,15 @@ class SavedRecipeBloc extends Bloc<SavedRecipeEvent, SavedRecipeState> {
   SavedRecipeBloc(
     this._database,
   ) : super(SavedRecipeInitial()) {
-    on<FetchSavedRecipesEvent>(_handleFetchHomeRecipes);
-    // on<FetchEditedRecipesEvent>(_handleFetchEditedRecipes);
+    on<FetchSavedRecipesEvent>(_handleFetchSavedRecipes);
     on<DeleteRecipeEvent>(_handleDeleteRecipe);
     on<DeleteEntireCollectionEvent>(_handleDeleteEntireCollection);
     on<Refresh>(_handleRefresh);
 
     add(FetchSavedRecipesEvent());
-    // add(FetchEditedRecipesEvent());
   }
 
-  Future<void> _handleFetchHomeRecipes(
+  Future<void> _handleFetchSavedRecipes(
     FetchSavedRecipesEvent event,
     Emitter<SavedRecipeState> emit,
   ) async {

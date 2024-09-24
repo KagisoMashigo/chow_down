@@ -125,10 +125,6 @@ class HomePage extends StatelessWidget {
                     title: searchResult.title,
                     id: searchResult.id,
                     sourceUrl: searchResult.sourceUrl!,
-                    savedRecipes:
-                        // TODO what if it is null?
-                        context.read<SavedRecipeBloc>().state.savedRecipeList ??
-                            [],
                   ),
                 ),
               );
