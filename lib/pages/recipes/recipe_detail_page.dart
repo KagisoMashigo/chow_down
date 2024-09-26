@@ -1,21 +1,23 @@
-// 🐦 Flutter imports:
+// 🎯 Dart imports:
 import 'dart:developer';
 
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
-import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
-import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
@@ -169,6 +171,7 @@ class RecipeDetailPage extends StatelessWidget {
                       size: ChowFontSizes.xxlg,
                     ),
                     onPressed: () {
+                      context.read<EditRecipeBloc>().add(CancelEditRecipe());
                       Navigator.of(context).pop();
                     },
                   ),
@@ -194,39 +197,6 @@ class RecipeDetailPage extends StatelessWidget {
           color: Colors.black,
         ),
       );
-
-  Widget _buildWidgetOrTextfield(
-    EditRecipeState state,
-    Recipe recipe,
-  ) {
-    return state is EditRecipePending
-        // TODO: heights need to be the same
-        ? Expanded(
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              initialValue: recipe.title,
-              // label: tr('egiftcard.recipient_email.label'),
-              keyboardType: TextInputType.name,
-              onChanged: (value) {
-                log('On changed: $value');
-              },
-              validator: (value) {
-                if (value != null && value.isNotEmpty) {
-                  log('Validator: $value');
-                }
-                return null;
-              },
-            ),
-          )
-        : Flexible(
-            child: Text(
-              recipe.title,
-              style: TextStyle(
-                fontSize: ChowFontSizes.smd,
-              ),
-            ),
-          );
-  }
 
   Widget _buildTitleContent(
     Recipe recipe,

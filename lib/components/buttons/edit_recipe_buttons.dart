@@ -39,7 +39,7 @@ class _EditRecipeButtonState extends State<EditRecipeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         _handleTap(context, widget.recipe);
       },
@@ -86,7 +86,7 @@ class _FinishEditRecipeButtonState extends State<FinishEditRecipeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         widget.onTap();
       },

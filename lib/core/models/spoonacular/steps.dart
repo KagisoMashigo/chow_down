@@ -24,4 +24,18 @@ class Step {
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
 
   Map<String, dynamic> toJson() => _$StepToJson(this);
+
+  Step copyWith({
+    int? number,
+    String? step,
+    List<Ingredient>? ingredients,
+    List<Equipment>? equipment,
+  }) {
+    return Step(
+      number: number ?? this.number,
+      step: step ?? this.step,
+      ingredients: ingredients ?? this.ingredients,
+      equipment: equipment ?? this.equipment,
+    );
+  }
 }
