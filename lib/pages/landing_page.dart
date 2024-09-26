@@ -1,12 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
-import 'package:chow_down/blocs/home_page/extract_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
-import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
-import 'package:chow_down/blocs/search/search_bloc.dart';
-import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
-import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -15,7 +7,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
+import 'package:chow_down/blocs/home_page/extract_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/components/bottom_nav/tab_manager.dart';
+import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/core/data/remotes/remote_spoonacular/recipe_remote_repository.dart';
+import 'package:chow_down/core/data/remotes/remote_spoonacular/search_remote_repository.dart';
 import 'package:chow_down/pages/sign_in/sign_in_page.dart';
 import 'package:chow_down/services/auth.dart';
 import 'package:chow_down/services/firestore/firestore_db.dart';

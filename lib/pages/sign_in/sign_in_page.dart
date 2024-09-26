@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +13,7 @@ import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/pages/sign_in/email_sign_in_page.dart';
 import 'package:chow_down/pages/sign_in/sign_in_manager.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:chow_down/services/auth.dart';
 
 class SignInPage extends StatelessWidget {

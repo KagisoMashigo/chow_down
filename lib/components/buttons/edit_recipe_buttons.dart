@@ -1,11 +1,14 @@
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 // 🌎 Project imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EditRecipeButton extends StatefulWidget {
   final Recipe recipe;

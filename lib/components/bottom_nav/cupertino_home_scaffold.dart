@@ -1,10 +1,10 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/chow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/bottom_nav/tab_item.dart';
+import 'package:chow_down/components/design/chow.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
   const CupertinoHomeScaffold({

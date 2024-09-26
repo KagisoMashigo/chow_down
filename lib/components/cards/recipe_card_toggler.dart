@@ -1,9 +1,10 @@
 // 🐦 Flutter imports:
 
-import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
 import 'package:chow_down/components/cards/recipe_ingredients_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';

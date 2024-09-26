@@ -1,9 +1,9 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/typography.dart';
 import 'package:flutter/cupertino.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
+import 'package:chow_down/components/design/typography.dart';
 
 class SocialSignInButton extends CustomElevatedButton {
   SocialSignInButton({

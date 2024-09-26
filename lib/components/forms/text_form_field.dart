@@ -1,6 +1,9 @@
-import 'package:chow_down/components/design/chow.dart';
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/components/design/chow.dart';
 
 class TextFormField extends StatefulWidget {
   final String? label;

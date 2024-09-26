@@ -1,6 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -11,8 +9,10 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:chow_down/services/auth.dart';
 
 class ForgotPasswordPage extends StatefulWidget {

@@ -1,7 +1,4 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/builders/back_to_top_builder.dart';
-import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/pages/recipes/saved_recipe_page.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -14,10 +11,13 @@ import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/pages/recipes/recipe_detail_page.dart';
+import 'package:chow_down/pages/recipes/saved_recipe_page.dart';
 import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeCardGrid extends StatelessWidget {
