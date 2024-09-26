@@ -275,7 +275,7 @@ class AccountPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size.fromHeight(Spacing.md),
                           padding: EdgeInsets.all(Spacing.sm),
-                          backgroundColor: Color.fromARGB(255, 48, 81, 46),
+                          backgroundColor: Color.fromARGB(255, 39, 58, 35),
                         ),
                         onPressed: () => _confirmSignOut(context),
                         child: Text(

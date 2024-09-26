@@ -15,7 +15,7 @@ const List<String> TAB_OPTIONS = [
 
 // Image Constants
 const CHOW_DOWN_LOGO = 'assets/images/chow_down.png';
-const BACKGROUND_TEXTURE = 'assets/images/background.png';
+const BACKGROUND_TEXTURE = 'assets/images/black.jpg';
 const NO_IMAGE_AVAILABLE = 'assets/images/no_image.png';
 const SIGN_IN_PAGE_BACKGROUND_IMAGE =
     'https://images.unsplash.com/photo-1502174832274-bc176e52765a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60';
