@@ -64,6 +64,7 @@ class ChowFontSizes {
   static const double xxsm = 0.5 * _base;
   static const double xsm = 0.75 * _base;
   static const double sm = _base;
+  static const double smd = 1.15 * _base;
   static const double md = 1.25 * _base;
   static const double lg = 1.5 * _base;
   static const double xlg = 1.75 * _base;

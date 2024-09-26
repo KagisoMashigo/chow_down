@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
-import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/chow.dart';
 
 class SignInButton extends CustomElevatedButton {
   SignInButton({
@@ -16,7 +16,7 @@ class SignInButton extends CustomElevatedButton {
             text,
             style: TextStyle(
               color: textColor,
-              fontSize: 4 * Responsive.ratioHorizontal,
+              fontSize: ChowFontSizes.md,
             ),
           ),
           color: color,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/bottom_nav/tab_item.dart';
+import 'package:chow_down/components/design/chow.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
   const CupertinoHomeScaffold({
@@ -44,13 +45,14 @@ class CupertinoHomeScaffold extends StatelessWidget {
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
     final itemData = TabItemData.allTabs[tabItem];
-    final color = currentTab == tabItem ? Colors.indigo : Colors.grey;
+    final color =
+        currentTab == tabItem ? Color.fromARGB(255, 70, 105, 68) : Colors.grey;
     return BottomNavigationBarItem(
       icon: Icon(
         itemData?.icon,
         color: color,
+        size: Spacing.md,
       ),
-      label: itemData?.label,
     );
   }
 }

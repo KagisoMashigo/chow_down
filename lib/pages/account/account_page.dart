@@ -1,24 +1,22 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/components/design/typography.dart';
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
 import 'package:chow_down/components/avatar.dart';
 import 'package:chow_down/components/chow_list_tile.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
+import 'package:chow_down/components/design/typography.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:chow_down/services/auth.dart';
 
 class AccountPage extends StatelessWidget {
@@ -39,7 +37,7 @@ class AccountPage extends StatelessWidget {
 
   Future<void> _deleteAllData(BuildContext context) async {
     try {
-      BlocProvider.of<RecipeTabBloc>(context)
+      BlocProvider.of<SavedRecipeBloc>(context)
           .add(DeleteEntireCollectionEvent());
     } catch (e) {}
   }
@@ -138,7 +136,7 @@ class AccountPage extends StatelessWidget {
       child: Row(
         children: [
           Avatar(
-            radius: 8 * Responsive.ratioHorizontal,
+            radius: Spacing.lg,
             photoUrl: user.photoURL!,
           ),
           SizedBox(width: Spacing.sm),
@@ -147,16 +145,18 @@ class AccountPage extends StatelessWidget {
                   child: Text(
                     user.displayName!,
                     style: TextStyle(
-                        color: ChowColors.white,
-                        fontSize: 5.5 * Responsive.ratioHorizontal),
+                      color: ChowColors.white,
+                      fontSize: ChowFontSizes.lg,
+                    ),
                   ),
                 )
               : Expanded(
                   child: Text(
                     '${user.email}',
                     style: TextStyle(
-                        color: ChowColors.white,
-                        fontSize: 4 * Responsive.ratioHorizontal),
+                      color: ChowColors.white,
+                      fontSize: ChowFontSizes.md,
+                    ),
                   ),
                 )
         ],
@@ -173,122 +173,124 @@ class AccountPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: CachedNetworkImageProvider(
-              ACCOUNT_BACKGROUND_IMAGE,
-            ),
+            image: AssetImage(BACKGROUND_TEXTURE),
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(Spacing.sm),
-          child: Padding(
-            padding: EdgeInsets.all(Spacing.sm),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: Spacing.sm),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.all(Spacing.sm),
-                    child: Text(
-                      'Settings',
-                      style: TextStyle(
-                        color: ChowColors.white,
-                        fontSize: ChowFontSizes.lg,
+        child: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(Spacing.sm),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: Spacing.sm),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(Spacing.sm),
+                          child: Text(
+                            'Settings',
+                            style: TextStyle(
+                              color: ChowColors.white,
+                              fontSize: ChowFontSizes.lg,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      _buildUserInfo(auth.currentUser),
+                      // TODO: add lang tile for intl & raw string constants
+                      ChowListTile(
+                        onTap: () async {
+                          _confirmAccountDelete(context);
+                        },
+                        leading: Icon(
+                          Icons.delete_forever,
+                          color: ChowColors.white,
+                        ),
+                        title: Text(
+                          'Delete account',
+                          style: TextStyle(color: ChowColors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right_outlined,
+                          color: ChowColors.white,
+                        ),
+                      ),
+                      ChowListTile(
+                        onTap: () async {
+                          _confirmCollectionDelete(context);
+                        },
+                        leading: Icon(
+                          Icons.clear,
+                          color: ChowColors.white,
+                        ),
+                        title: Text(
+                          'Clear recipes',
+                          style: TextStyle(color: ChowColors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right_outlined,
+                          color: ChowColors.white,
+                        ),
+                      ),
+                      ChowListTile(
+                        onTap: () async {
+                          _confirmAppDataDelete(context);
+                        },
+                        leading: Icon(
+                          Icons.delete_sweep,
+                          color: ChowColors.white,
+                        ),
+                        title: Text(
+                          'Delete application data',
+                          style: TextStyle(color: ChowColors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right_outlined,
+                          color: ChowColors.white,
+                        ),
+                      ),
+                      ChowListTile(
+                        onTap: () async {
+                          _confirmCacheDelete(context);
+                        },
+                        leading: Icon(
+                          Icons.cached,
+                          color: ChowColors.white,
+                        ),
+                        title: Text(
+                          'Clear cache',
+                          style: TextStyle(color: ChowColors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right_outlined,
+                          color: ChowColors.white,
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.fromHeight(Spacing.md),
+                          padding: EdgeInsets.all(Spacing.sm),
+                          backgroundColor: Color.fromARGB(255, 39, 58, 35),
+                        ),
+                        onPressed: () => _confirmSignOut(context),
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(
+                            fontSize: ChowFontSizes.sm,
+                            color: ChowColors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                _buildUserInfo(auth.currentUser),
-                // TODO: add lang tile for intl & raw string constants
-                ChowListTile(
-                  onTap: () async {
-                    _confirmAccountDelete(context);
-                  },
-                  leading: Icon(
-                    Icons.delete_forever,
-                    color: ChowColors.white,
-                  ),
-                  title: Text(
-                    'Delete account',
-                    style: TextStyle(color: ChowColors.white),
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right_outlined,
-                    color: ChowColors.white,
-                  ),
-                ),
-                ChowListTile(
-                  onTap: () async {
-                    _confirmCollectionDelete(context);
-                  },
-                  leading: Icon(
-                    Icons.clear,
-                    color: ChowColors.white,
-                  ),
-                  title: Text(
-                    'Clear recipes',
-                    style: TextStyle(color: ChowColors.white),
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right_outlined,
-                    color: ChowColors.white,
-                  ),
-                ),
-                ChowListTile(
-                  onTap: () async {
-                    _confirmAppDataDelete(context);
-                  },
-                  leading: Icon(
-                    Icons.delete_sweep,
-                    color: ChowColors.white,
-                  ),
-                  title: Text(
-                    'Delete application data',
-                    style: TextStyle(color: ChowColors.white),
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right_outlined,
-                    color: ChowColors.white,
-                  ),
-                ),
-                ChowListTile(
-                  onTap: () async {
-                    _confirmCacheDelete(context);
-                  },
-                  leading: Icon(
-                    Icons.cached,
-                    color: ChowColors.white,
-                  ),
-                  title: Text(
-                    'Clear cache',
-                    style: TextStyle(color: ChowColors.white),
-                  ),
-                  trailing: Icon(
-                    Icons.chevron_right_outlined,
-                    color: ChowColors.white,
-                  ),
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size.fromHeight(Spacing.md),
-                    padding: EdgeInsets.all(Spacing.sm),
-                    backgroundColor: ChowColors.beige200,
-                  ),
-                  onPressed: () => _confirmSignOut(context),
-                  child: Text(
-                    'Logout',
-                    style: TextStyle(
-                      fontSize: ChowFontSizes.sm,
-                      color: ChowColors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

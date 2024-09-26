@@ -12,7 +12,7 @@ ExtendedIngredients _$ExtendedIngredientsFromJson(Map<String, dynamic> json) =>
       aisle: json['aisle'] as String?,
       image: json['image'] as String?,
       consistency: json['consistency'] as String?,
-      name: json['name'] as String?,
+      name: json['name'] as String,
       nameClean: json['nameClean'] as String?,
       original: json['original'] as String?,
       originalString: json['originalString'] as String?,

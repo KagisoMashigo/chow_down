@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
-import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/spacing.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/pages/forgot_password.dart';
@@ -91,7 +90,10 @@ class _EmailSignInFormChangeNotifierState
       TextButton(
         child: Text(
           model.secondaryButtonText,
-          style: TextStyle(color: ChowColors.white),
+          style: TextStyle(
+            color: ChowColors.white,
+            fontSize: ChowFontSizes.sm,
+          ),
         ),
         onPressed: !model.isLoading ? _toggleFormType : null,
       ),
@@ -124,7 +126,10 @@ class _EmailSignInFormChangeNotifierState
       child: TextButton(
           child: Text(
             'Forgot your password?',
-            style: TextStyle(color: ChowColors.white),
+            style: TextStyle(
+              color: ChowColors.white,
+              fontSize: ChowFontSizes.sm,
+            ),
           ),
           onPressed: () => _forgotPassword(context)),
       visible: visible,

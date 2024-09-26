@@ -1,26 +1,25 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/plugins/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/blocs/home_page/extract_bloc.dart';
 import 'package:chow_down/blocs/home_page/extract_event.dart';
 import 'package:chow_down/blocs/home_page/extract_state.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/forms/chow_form.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/pages/recipes/recipe_detail_page.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -28,64 +27,74 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () => _pullRefresh(context),
-        color: ChowColors.black,
-        child: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Container(
-            height: Responsive.isSmallScreen()
-                ? MediaQuery.of(context).size.height
-                : MediaQuery.of(context).size.height * 0.91,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(HOME_BACKGROUND_IMAGE),
-                fit: BoxFit.cover,
-              ),
-            ),
-            padding: EdgeInsets.only(top: 4 * Responsive.ratioVertical),
-            child: BlocConsumer<ExtractBloc, ExtractState>(
-              listener: (context, state) {
-                if (state is ExtractError) {
-                  FloatingFeedback(
-                    message: state.message,
-                    style: FloatingFeedbackStyle.alert,
-                    duration: Duration(seconds: 3),
-                  ).show(context);
-                }
-              },
-              builder: (context, state) {
-                if (state is ExtractPending) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: ChowColors.white,
-                    ),
-                  );
-                }
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(BACKGROUND_TEXTURE),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () => _pullRefresh(context),
+            color: ChowColors.black,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: Spacing.lg,
+                      ),
+                      child: BlocConsumer<ExtractBloc, ExtractState>(
+                        listener: (context, state) {
+                          if (state is ExtractError) {
+                            FloatingFeedback(
+                              message: state.message,
+                              style: FloatingFeedbackStyle.alert,
+                              duration: Duration(seconds: 3),
+                            ).show(context);
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is ExtractPending) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: ChowColors.white,
+                              ),
+                            );
+                          }
 
-                return Column(
-                  children: [
-                    SizedBox(height: Spacing.md),
-                    Image.asset(
-                      CHOW_DOWN_LOGO,
-                      height: Spacing.massive,
-                      width: Spacing.massive,
-                      fit: BoxFit.fill,
+                          return Column(
+                            children: [
+                              SizedBox(height: Spacing.md),
+                              Image.asset(
+                                CHOW_DOWN_LOGO,
+                                height: Spacing.massive,
+                                width: Spacing.massive,
+                                fit: BoxFit.fill,
+                              ),
+                              SizedBox(height: Spacing.md),
+                              ChowForm(
+                                submitForm: (context, url) => context
+                                    .read<ExtractBloc>()
+                                    .add(ExtractRecipe(url: url)),
+                              ),
+                              SizedBox(height: Spacing.sm),
+                              if (state is! ExtractPending) HelpCard(),
+                              SizedBox(height: Spacing.xsm),
+                              if (state is ExtractLoaded)
+                                _buildColumnWithData(
+                                    state.extractedResult, context),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                    SizedBox(height: Spacing.md),
-                    ChowForm(
-                      submitForm: (context, url) => context
-                          .read<ExtractBloc>()
-                          .add(ExtractRecipe(url: url)),
-                    ),
-                    SizedBox(height: Spacing.sm),
-                    if (state is! ExtractPending) HelpCard(),
-                    SizedBox(height: Spacing.xsm),
-                    if (state is ExtractLoaded)
-                      _buildColumnWithData(state.extractedResult, context),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -100,17 +109,19 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Spacing.sm),
           child: GestureDetector(
             onTap: () {
-              BlocProvider.of<RecipeInfoBloc>(context).add(
-                FetchRecipeInformation(
+              BlocProvider.of<RecipeDetailBloc>(context).add(
+                FetchRecipe(
                   id: searchResult.id,
-                  sourceUrl: searchResult.sourceUrl!,
+                  url: searchResult.sourceUrl!,
+                  savedRecipes:
+                      context.read<SavedRecipeBloc>().state.savedRecipeList,
                 ),
               );
 
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => RecipeInfoPage(
+                  builder: (context) => RecipeDetailPage(
                     title: searchResult.title,
                     id: searchResult.id,
                     sourceUrl: searchResult.sourceUrl!,

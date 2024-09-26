@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/custom_raised_button.dart';
-import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/typography.dart';
 
 class SocialSignInButton extends CustomElevatedButton {
   SocialSignInButton({
@@ -14,7 +14,6 @@ class SocialSignInButton extends CustomElevatedButton {
     required VoidCallback onPressed,
   }) : super(
           child: Row(
-            // The below is a great hack when spacing two children evenly
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               pictureWidget,
@@ -22,7 +21,7 @@ class SocialSignInButton extends CustomElevatedButton {
                 text,
                 style: TextStyle(
                   color: textColor,
-                  fontSize: 4 * Responsive.ratioHorizontal,
+                  fontSize: ChowFontSizes.smd,
                 ),
               ),
               Opacity(

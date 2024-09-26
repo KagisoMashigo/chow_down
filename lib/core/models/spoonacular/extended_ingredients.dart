@@ -12,7 +12,7 @@ class ExtendedIngredients {
   final String? aisle;
   final String? image;
   final String? consistency;
-  final String? name;
+  final String name;
   final String? nameClean;
   final String? original;
   final String? originalString;
@@ -39,6 +39,40 @@ class ExtendedIngredients {
     this.metaInformation,
     this.measures,
   });
+
+  ExtendedIngredients copyWith({
+    int? id,
+    String? aisle,
+    String? image,
+    String? consistency,
+    String? name,
+    String? nameClean,
+    String? original,
+    String? originalString,
+    String? originalName,
+    double? amount,
+    String? unit,
+    List? meta,
+    List? metaInformation,
+    Measures? measures,
+  }) {
+    return ExtendedIngredients(
+      id: id ?? this.id,
+      aisle: aisle ?? this.aisle,
+      image: image ?? this.image,
+      consistency: consistency ?? this.consistency,
+      name: name ?? this.name,
+      nameClean: nameClean ?? this.nameClean,
+      original: original ?? this.original,
+      originalString: originalString ?? this.originalString,
+      originalName: originalName ?? this.originalName,
+      amount: amount ?? this.amount,
+      unit: unit ?? this.unit,
+      meta: meta ?? this.meta,
+      metaInformation: metaInformation ?? this.metaInformation,
+      measures: measures ?? this.measures,
+    );
+  }
 
   factory ExtendedIngredients.fromJson(Map<String, dynamic> json) =>
       _$ExtendedIngredientsFromJson(json);

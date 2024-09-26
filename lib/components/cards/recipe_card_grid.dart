@@ -6,22 +6,28 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
+import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/alert_dialogs/show_alert_dialog.dart';
+import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/design/chow.dart';
+import 'package:chow_down/components/empty_content.dart';
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/pages/recipes/recipe_info_page.dart';
+import 'package:chow_down/pages/recipes/recipe_detail_page.dart';
+import 'package:chow_down/pages/recipes/saved_recipe_page.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
 class RecipeCardGrid extends StatelessWidget {
-  final List<Recipe> searchResults;
+  final List<Recipe> results;
+  final bool isEdited;
 
   const RecipeCardGrid({
     Key? key,
-    required this.searchResults,
+    required this.results,
+    this.isEdited = false,
   }) : super(key: key);
 
   Future<void> _confirmDelete(
@@ -36,20 +42,85 @@ class RecipeCardGrid extends StatelessWidget {
       defaultActionText: 'Delete',
       cancelActionText: 'Cancel',
     ).then((bool) => bool == true
-        ? BlocProvider.of<RecipeTabBloc>(context).add(DeleteRecipeEvent(recipe))
+        ? BlocProvider.of<SavedRecipeBloc>(context)
+            .add(DeleteRecipeEvent(recipe, isEdited: isEdited))
         : null);
   }
 
+  List<Widget> _buildRecipeGrid(
+    List<Recipe> results,
+    BuildContext context,
+  ) {
+    return results
+        .map(
+          (recipe) => _RecipeGridCard(
+            firstChild: Flexible(
+              flex: 3,
+              child: _buildRecipeImage(context, recipe),
+            ),
+            secondChild: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: Spacing.xsm,
+                      bottom: Spacing.xsm,
+                    ),
+                    child: Text(
+                      recipe.title,
+                      style: TextStyle(
+                        fontSize: ChowFontSizes.sm,
+                        color: Colors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Spacing.xsm,
+                    right: Spacing.xsm,
+                  ),
+                  child: InkWell(
+                    splashColor: ChowColors.black,
+                    onTap: (() => _confirmDelete(context, recipe)),
+                    child: Icon(
+                      Icons.delete,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+        .toList();
+  }
+
   Widget _buildRecipeImage(BuildContext context, Recipe recipe) {
+    final image = recipe.image != null
+        ? CachedNetworkImage(
+            imageUrl: recipe.image!,
+            fit: BoxFit.cover,
+          )
+        : Image.asset(
+            NO_IMAGE_AVAILABLE,
+            fit: BoxFit.cover,
+          );
+
     return InkWell(
       onTap: () {
-        BlocProvider.of<RecipeInfoBloc>(context).add(
-          FetchRecipe(id: recipe.id, url: recipe.sourceUrl!),
+        BlocProvider.of<RecipeDetailBloc>(context).add(
+          FetchRecipe(
+            id: recipe.id,
+            url: recipe.sourceUrl!,
+            savedRecipes: results,
+          ),
         );
 
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => RecipeInfoPage(
+            builder: (context) => RecipeDetailPage(
               title: recipe.title,
               id: recipe.id,
               sourceUrl: recipe.sourceUrl!,
@@ -58,16 +129,14 @@ class RecipeCardGrid extends StatelessWidget {
           ),
         );
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(ChowBorderRadii.lg),
-          topRight: Radius.circular(ChowBorderRadii.lg),
-        ),
-        child: CachedNetworkImage(
-          imageUrl: recipe.image,
-          height: Spacing.sm * 8,
-          width: Spacing.sm * 12,
-          fit: BoxFit.cover,
+      child: AspectRatio(
+        aspectRatio: 1.25,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(ChowBorderRadii.lg),
+            topRight: Radius.circular(ChowBorderRadii.lg),
+          ),
+          child: image,
         ),
       ),
     );
@@ -75,65 +144,34 @@ class RecipeCardGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      primary: false,
-      crossAxisCount: 2,
-      childAspectRatio: 0.825,
-      mainAxisSpacing: Spacing.sm,
-      crossAxisSpacing: Spacing.sm,
-      children: _getStructuredCardGrid(searchResults, context),
-      shrinkWrap: true,
-    );
-  }
-
-  List<Widget> _getStructuredCardGrid(
-    List<Recipe> results,
-    BuildContext context,
-  ) =>
-      results
-          .map(
-            (recipe) => _RecipeGridCard(
-              firstChild: Flexible(
-                flex: 3,
-                child: _buildRecipeImage(context, recipe),
-              ),
-              secondChild: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        left: Spacing.xsm,
-                        bottom: Spacing.xsm,
-                      ),
-                      child: Text(
-                        recipe.title,
-                        style: TextStyle(
-                          fontSize: ChowFontSizes.sm,
-                          color: Colors.black,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: Spacing.xsm,
-                      right: Spacing.xsm,
-                    ),
-                    child: InkWell(
-                      splashColor: ChowColors.black,
-                      onTap: (() => _confirmDelete(context, recipe)),
-                      child: Icon(
-                        Icons.delete,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+    return results.isEmpty
+        ? EmptyContent(
+            title: 'Nothing here yet...',
+            message: 'When you edit recipes they will show up here.',
           )
-          .toList();
+        : Column(
+            children: [
+              GridView.count(
+                primary: false,
+                crossAxisCount: 2,
+                childAspectRatio: 0.825,
+                mainAxisSpacing: Spacing.sm,
+                crossAxisSpacing: Spacing.sm,
+                children: _buildRecipeGrid(results, context),
+                shrinkWrap: true,
+              ),
+              SizedBox(height: Spacing.md),
+              results.length > 10
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ChowBackToTopTransitionBuilder(
+                        desitnation: SavedRecipePage(),
+                      ),
+                    )
+                  : SizedBox.shrink(),
+            ],
+          );
+  }
 }
 
 class _RecipeGridCard extends StatelessWidget {

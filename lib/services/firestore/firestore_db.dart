@@ -7,7 +7,8 @@ import 'package:chow_down/services/firestore/firestore_service.dart';
 abstract class Database {
   Future<List<Recipe>> retrieveSavedRecipes();
   Future<void> saveRecipe(Recipe recipe);
-  Future<void> deleteRecipe(Recipe recipe);
+  Future<void> saveEditedRecipe(Recipe recipe);
+  Future<void> deleteRecipe(Recipe recipe, {bool isEdited});
   Future<void> deleteAllRecipes();
 }
 
@@ -34,6 +35,20 @@ class FirestoreDatabase implements Database {
     }
   }
 
+  Future<List<Recipe>> retrieveEditedRecipes() async {
+    try {
+      printDebug('Retrieving edited recipes for user: $uid');
+      final recipes =
+          await _service.fetchEditedRecipes(path: APIPath.editedRecipes(uid));
+      printDebug('Retrieved ${recipes.length} edited recipes for user: $uid');
+      return recipes;
+    } catch (e, stack) {
+      printAndLog(e,
+          'Failed to retrieve edited recipes for user: $uid, reason: $stack');
+      rethrow;
+    }
+  }
+
   @override
   Future<void> saveRecipe(Recipe recipe) async {
     try {
@@ -49,10 +64,27 @@ class FirestoreDatabase implements Database {
   }
 
   @override
-  Future<void> deleteRecipe(Recipe recipe) async {
+  Future<void> saveEditedRecipe(Recipe recipe) async {
+    try {
+      printDebug('Saving edited recipe with ID: ${recipe.id} for user: $uid');
+      await _service.saveEditedRecipe(
+          path: APIPath.editedRecipes(uid), recipe: recipe);
+      printDebug('Saved edited recipe with ID: ${recipe.id} for user: $uid');
+    } catch (e, stack) {
+      printAndLog(e,
+          'Failed to save edited recipe with ID: ${recipe.id} for user: $uid, reason: $stack');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteRecipe(Recipe recipe, {bool isEdited = false}) async {
     try {
       printDebug('Deleting recipe with ID: ${recipe.id} for user: $uid');
-      await _service.deleteData(path: APIPath.recipe(uid), recipe: recipe);
+      await _service.deleteData(
+        path: isEdited ? APIPath.editedRecipes(uid) : APIPath.savedRecipes(uid),
+        recipe: recipe,
+      );
       printDebug('Deleted recipe with ID: ${recipe.id} for user: $uid');
     } catch (e, stack) {
       printAndLog(e,

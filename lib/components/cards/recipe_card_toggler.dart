@@ -1,17 +1,12 @@
 // 🐦 Flutter imports:
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_bloc.dart';
-import 'package:chow_down/blocs/recipe_tab/recipe_tab_event.dart';
+
+// 🐦 Flutter imports:
 import 'package:flutter/material.dart';
 
-// 📦 Package imports:
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 // 🌎 Project imports:
-import 'package:chow_down/blocs/recipe_info/recipe_info_bloc.dart';
-import 'package:chow_down/blocs/recipe_info/recipe_info_event.dart';
-import 'package:chow_down/components/buttons/save_button.dart';
+import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/components/cards/recipe_dietry_card.dart';
-import 'package:chow_down/components/cards/recipe_ingre_card.dart';
+import 'package:chow_down/components/cards/recipe_ingredients_card.dart';
 import 'package:chow_down/components/cards/recipe_instructions_card.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
@@ -37,8 +32,6 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
   /// Initial selected button
   int _currentIndex = 0;
 
-  bool _isButtonTapped = false;
-
   void initState() {
     _populateButtonList(widget.options, _isSelected);
     super.initState();
@@ -55,28 +48,12 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
     }
   }
 
-  void _buttonTapped() {
-    setState(
-      () {
-        if (_isButtonTapped == false) {
-          _isButtonTapped = true;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = false;
-            });
-          });
-          // isButtonTapped = false;
-        } else if (_isButtonTapped == true) {
-          _isButtonTapped = false;
-          Future.delayed(Duration(milliseconds: 1200), () {
-            setState(() {
-              _isButtonTapped = true;
-            });
-          });
-        }
-      },
-    );
-  }
+  Widget _buildWidgetOrTextfield({
+    required EditRecipeState state,
+    required Widget editableChild,
+    required Widget staticChild,
+  }) =>
+      state is EditRecipePending ? editableChild : staticChild;
 
   @override
   Widget build(BuildContext context) {
@@ -84,70 +61,44 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
       padding: EdgeInsets.symmetric(horizontal: Spacing.md),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  widget.recipe.title,
-                  style: TextStyle(
-                    fontSize: Spacing.md,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(width: Spacing.sm),
-              ChowSaveButton(
-                onTap: () {
-                  _buttonTapped();
-                  BlocProvider.of<RecipeInfoBloc>(context).add(
-                    SaveRecipe(recipe: widget.recipe),
-                  );
-                  BlocProvider.of<RecipeTabBloc>(context)
-                      .add(FetchHomeRecipesEvent());
-                },
-                isButtonTapped: _isButtonTapped,
-              ),
-            ],
+          Container(
+            decoration: BoxDecoration(
+              color: ChowColors.white,
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            child: ToggleButtons(
+              selectedBorderColor: ChowColors.borderPurple,
+              borderWidth: 1,
+              borderRadius: BorderRadius.circular(14),
+              fillColor: ChowColors.fillPurple,
+              selectedColor: Colors.black,
+              color: Colors.black,
+              children: widget.options
+                  .map((option) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(option),
+                      ))
+                  .toList(),
+              isSelected: _isSelected,
+              onPressed: (int newIndex) {
+                setState(
+                  () {
+                    for (int i = 0; i < _isSelected.length; i++) {
+                      if (i == newIndex) {
+                        _isSelected[i] = true;
+                        _currentIndex = i;
+                      } else {
+                        _isSelected[i] = false;
+                      }
+                    }
+                  },
+                );
+              },
+            ),
           ),
           SizedBox(height: Spacing.sm),
-          Container(
-              decoration: BoxDecoration(
-                color: ChowColors.white,
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              child: ToggleButtons(
-                borderColor: Colors.black,
-                selectedBorderColor: Color.fromARGB(255, 69, 6, 164),
-                borderWidth: 1,
-                borderRadius: BorderRadius.circular(8),
-                fillColor: Color.fromARGB(255, 69, 6, 164).withOpacity(0.1),
-                selectedColor: Colors.black,
-                color: Colors.black,
-                children: widget.options
-                    .map((option) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(option),
-                        ))
-                    .toList(),
-                isSelected: _isSelected,
-                onPressed: (int newIndex) {
-                  setState(
-                    () {
-                      for (int i = 0; i < _isSelected.length; i++) {
-                        if (i == newIndex) {
-                          _isSelected[i] = true;
-                          _currentIndex = i;
-                        } else {
-                          _isSelected[i] = false;
-                        }
-                      }
-                    },
-                  );
-                },
-              )),
-          SizedBox(height: Spacing.sm),
           _whichCard(context, _currentIndex, widget.recipe),
-          SizedBox(height: Spacing.xlg),
+          SizedBox(height: Spacing.sm),
         ],
       ),
     );
@@ -156,20 +107,14 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
   Widget _whichCard(BuildContext context, int index, Recipe recipe) {
     switch (index) {
       case 0:
-        return RecipeDescriptionCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
+        return RecipeIngredientsCard(
+          recipe: recipe,
+          onEdit: _buildWidgetOrTextfield,
         );
       case 1:
         return RecipeInstructionsCard(
-          analyzedInstructions: recipe.analyzedInstructions!,
-          instructions: recipe.instructions!,
+          recipe: recipe,
+          onEdit: _buildWidgetOrTextfield,
         );
       case 2:
         return RecipeDietaryCard(
@@ -180,16 +125,9 @@ class _RecipeCardTogglerState extends State<RecipeCardToggler> {
           vegan: recipe.vegan!,
         );
       default:
-        return RecipeDescriptionCard(
-          veryHealthy: recipe.veryHealthy!,
-          readyInMinutes: recipe.readyInMinutes!,
-          servings: recipe.servings!,
-          creditsText: recipe.creditsText!,
-          glutenFree: recipe.glutenFree!,
-          vegetarian: recipe.vegetarian!,
-          summary: recipe.summary!,
-          ingredients: recipe.extendedIngredients,
-          sourceUrl: recipe.sourceUrl!,
+        return RecipeIngredientsCard(
+          recipe: recipe,
+          onEdit: _buildWidgetOrTextfield,
         );
     }
   }
