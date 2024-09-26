@@ -1,25 +1,28 @@
 // 🐦 Flutter imports:
-import 'dart:developer';
 
+// 🎯 Dart imports:
+import 'dart:math';
+
+// 🐦 Flutter imports:
+import 'package:flutter/material.dart';
+
+// 📦 Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+// 🌎 Project imports:
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_bloc.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_event.dart';
 import 'package:chow_down/blocs/edit_recipe/edit_recipe_state.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/components/buttons/edit_recipe_buttons.dart';
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/plugins/debugHelper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-// 📦 Package imports:
-import 'package:url_launcher/url_launcher.dart';
-
-// 🌎 Project imports:
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/detail_card.dart';
 import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/core/models/spoonacular/extended_ingredients.dart';
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
 import 'package:chow_down/plugins/utils/helpers.dart';
 
 class RecipeIngredientsCard extends StatefulWidget {
@@ -37,41 +40,17 @@ class RecipeIngredientsCard extends StatefulWidget {
 }
 
 class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
-  late Map<int, String> _editedIngredientNames;
-  late Map<int, double> _editedIngredientAmounts;
-  late Map<int, String> _editedIngredientUnits;
+  late List<ExtendedIngredients> _editedIngredients;
 
   @override
   void initState() {
     super.initState();
-    _editedIngredientNames = {
-      for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
-        i: widget.recipe.extendedIngredients![i].name
-    };
-    _editedIngredientAmounts = {
-      for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
-        i: widget.recipe.extendedIngredients![i].amount!
-    };
-    _editedIngredientUnits = {
-      for (var i = 0; i < widget.recipe.extendedIngredients!.length; i++)
-        i: widget.recipe.extendedIngredients![i].unit!
-    };
+    _editedIngredients = List.from(widget.recipe.extendedIngredients!);
   }
 
   void _saveEditedIngredients() {
-    final updatedIngredients =
-        widget.recipe.extendedIngredients!.asMap().entries.map((entry) {
-      int index = entry.key;
-      ExtendedIngredients ingredient = entry.value;
-      return ingredient.copyWith(
-        name: _editedIngredientNames[index],
-        amount: _editedIngredientAmounts[index],
-        unit: _editedIngredientUnits[index],
-      );
-    }).toList();
-
     final updatedRecipe = widget.recipe.copyWith(
-      extendedIngredients: updatedIngredients,
+      extendedIngredients: _editedIngredients,
     );
 
     BlocProvider.of<EditRecipeBloc>(context)
@@ -80,18 +59,24 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
     BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
   }
 
-  // TODO: Implement remove ingredient
-  // void _removeIngredient(int index) {
-  //   final updatedIngredients =
-  //       List<ExtendedIngredients>.from(widget.recipe.extendedIngredients!)
-  //         ..removeAt(index);
+  void _removeIngredient(int index) {
+    setState(() {
+      _editedIngredients.removeAt(index);
+    });
+  }
 
-  //   final updatedRecipe = widget.recipe.copyWith(
-  //     extendedIngredients: updatedIngredients,
-  //   );
-
-  //   context.read<EditRecipeBloc>().add(SaveEditedRecipe(recipe: updatedRecipe));
-  // }
+  void _addIngredient() {
+    setState(() {
+      _editedIngredients.add(
+        ExtendedIngredients(
+          id: Random().nextInt(1000),
+          name: '',
+          amount: 0.0,
+          unit: '',
+        ),
+      );
+    });
+  }
 
   Widget _buildDetailCard({
     required String title,
@@ -118,14 +103,12 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        if (isSaved && editRecipeBloc.state is! EditRecipePending) ...[
+        if (isSaved && editRecipeBloc.state is! EditRecipePending)
           EditRecipeButton(
             recipe: widget.recipe,
             size: Spacing.md,
             iconSize: Spacing.md,
           ),
-          SizedBox(width: Spacing.sm),
-        ],
         if (editRecipeBloc.state is EditRecipePending) ...[
           FinishEditRecipeButton(
             size: Spacing.md,
@@ -135,13 +118,14 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
               _saveEditedIngredients();
             },
           ),
-          SizedBox(width: Spacing.lg),
+          SizedBox(width: Spacing.md),
           CancelEditRecipeButton(
             recipe: widget.recipe,
             size: Spacing.md,
             iconSize: Spacing.lg,
           ),
         ],
+        SizedBox(width: Spacing.sm),
       ],
     );
   }
@@ -215,19 +199,26 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
             SizedBox(height: Spacing.xsm),
             _buildEditButtons(isSaved, editRecipeBloc),
             SizedBox(height: Spacing.sm),
-            ..._buildIngredients(widget.recipe.extendedIngredients!, context),
+            if (editRecipeBloc.state is EditRecipePending) ...[
+              SizedBox(height: Spacing.sm),
+              ElevatedButton(
+                onPressed: _addIngredient,
+                child: Text('Add Ingredient'),
+              ),
+              SizedBox(height: Spacing.sm),
+            ],
+            ..._buildIngredients(context),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> _buildIngredients(
-    List<ExtendedIngredients> ingredients,
-    BuildContext context,
-  ) {
-    return ingredients.map((ingredient) {
-      int index = ingredients.indexOf(ingredient);
+  List<Widget> _buildIngredients(BuildContext context) {
+    return _editedIngredients.asMap().entries.map((entry) {
+      int index = entry.key;
+      ExtendedIngredients ingredient = entry.value;
+
       return widget.onEdit!(
         state: context.watch<EditRecipeBloc>().state,
         editableChild: Row(
@@ -235,29 +226,34 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
             Flexible(
               child: Row(
                 children: [
-                  // TODO: Implement remove ingredient
-                  // IconButton(
-                  //   icon: Icon(
-                  //     Icons.remove_circle,
-                  //     color: ChowColors.black,
-                  //     size: ChowFontSizes.xsm,
-                  //   ),
-                  //   onPressed: () => _removeIngredient(index),
-                  // ),
-                  // SizedBox(width: Spacing.xxsm),
+                  IconButton(
+                    icon: Icon(
+                      Icons.remove_circle,
+                      color: ChowColors.red,
+                      size: ChowFontSizes.sm,
+                    ),
+                    onPressed: () => _removeIngredient(index),
+                  ),
+                  SizedBox(width: Spacing.xxsm),
                   Expanded(
                     child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: ingredient.amount.toString(),
-                      keyboardType: TextInputType.text,
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
                       onChanged: (value) {
                         setState(() {
-                          _editedIngredientAmounts[index] = value as double;
+                          _editedIngredients[index] = ingredient.copyWith(
+                            amount: double.tryParse(value) ?? 0.0,
+                          );
                         });
                       },
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
-                          log('Validator: $value');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please enter a valid number'),
+                            ),
+                          );
                         }
                         return null;
                       },
@@ -266,17 +262,22 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                   SizedBox(width: Spacing.xsm),
                   Expanded(
                     child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       initialValue: ingredient.unit,
                       keyboardType: TextInputType.text,
                       onChanged: (value) {
                         setState(() {
-                          _editedIngredientAmounts[index] = value as double;
+                          _editedIngredients[index] = ingredient.copyWith(
+                            unit: value,
+                          );
                         });
                       },
                       validator: (value) {
                         if (value != null && value.isNotEmpty) {
-                          log('Validator: $value');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please enter a unit'),
+                            ),
+                          );
                         }
                         return null;
                       },
@@ -288,17 +289,22 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
             SizedBox(width: Spacing.sm),
             Expanded(
               child: TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
                 initialValue: ingredient.name,
-                keyboardType: TextInputType.name,
+                keyboardType: TextInputType.text,
                 onChanged: (value) {
                   setState(() {
-                    _editedIngredientNames[index] = value;
+                    _editedIngredients[index] = ingredient.copyWith(
+                      name: value,
+                    );
                   });
                 },
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
-                    log('Validator: $value');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter an ingredient'),
+                      ),
+                    );
                   }
                   return null;
                 },

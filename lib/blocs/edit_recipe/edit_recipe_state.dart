@@ -1,5 +1,8 @@
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
+// 📦 Package imports:
 import 'package:equatable/equatable.dart';
+
+// 🌎 Project imports:
+import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 
 abstract class EditRecipeState extends Equatable {
   final Recipe? recipe;
