@@ -7,15 +7,14 @@ import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/components/buttons/form_submit_button.dart';
-import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/chow.dart';
 import 'package:chow_down/components/errors/show_exception_alert_dialog.dart';
 import 'package:chow_down/models/page/email_sign_in_change_model.dart';
 import 'package:chow_down/pages/forgot_password.dart';
 import 'package:chow_down/services/auth.dart';
 
 class EmailSignInFormChangeNotifier extends StatefulWidget {
-  EmailSignInFormChangeNotifier({@required this.model});
+  EmailSignInFormChangeNotifier({required this.model});
   final EmailSignInChangeModel model;
 
   static Widget create(BuildContext context) {
@@ -79,21 +78,21 @@ class _EmailSignInFormChangeNotifierState
   List<Widget> _buildChildren() {
     return [
       _buildEmailTextField(),
-      verticalDivider(factor: 1),
+      SizedBox(height: Spacing.sm),
       _buildPasswordTextField(),
-      verticalDivider(factor: 3),
+      SizedBox(height: Spacing.sm),
       FormSubmitButton(
         color: ChowColors.beige100,
         text: model.primaryButtonText,
         onPressed: model.canSubmit ? _submit : null,
       ),
-      verticalDivider(factor: 1),
+      SizedBox(height: Spacing.sm),
       TextButton(
         child: Text(
           model.secondaryButtonText,
           style: TextStyle(
             color: ChowColors.white,
-            fontSize: Responsive.ratioHorizontal * 4,
+            fontSize: ChowFontSizes.sm,
           ),
         ),
         onPressed: !model.isLoading ? _toggleFormType : null,
@@ -129,7 +128,7 @@ class _EmailSignInFormChangeNotifierState
             'Forgot your password?',
             style: TextStyle(
               color: ChowColors.white,
-              fontSize: Responsive.ratioHorizontal * 4,
+              fontSize: ChowFontSizes.sm,
             ),
           ),
           onPressed: () => _forgotPassword(context)),
@@ -168,7 +167,7 @@ class _EmailSignInFormChangeNotifierState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: defaultPadding(),
+      padding: EdgeInsets.all(Spacing.sm),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,

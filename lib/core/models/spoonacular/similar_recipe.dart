@@ -1,37 +1,38 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'similar_recipe.g.dart';
+
+@JsonSerializable()
 class Similar {
   final String id;
   final String name;
-  final String image;
-  final String readyInMinutes;
-  final String servings;
+  final String? image;
+  final String? readyInMinutes;
+  final String? servings;
   Similar({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.image,
     this.readyInMinutes,
     this.servings,
   });
-  factory Similar.fromJson(Map<String, dynamic> json) {
-    return Similar(
-      id: json['id'].toString(),
-      name: json['title'],
-      image:
-          "https://spoonacular.com/recipeImages/${json['id']}-556x370.${json['imageType']}",
-      readyInMinutes: json['readyInMinutes'].toString(),
-      servings: json['servings'].toString(),
-    );
-  }
+
+  factory Similar.fromJson(Map<String, dynamic> json) =>
+      _$SimilarFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SimilarToJson(this);
 }
 
+@JsonSerializable()
 class SimilarList {
   final List<Similar> list;
   SimilarList({
-    this.list,
+    required this.list,
   });
 
-  factory SimilarList.fromJson(List<dynamic> json) {
-    return SimilarList(
-      list: json.map((data) => Similar.fromJson(data)).toList(),
-    );
-  }
+  factory SimilarList.fromJson(Map<String, dynamic> json) =>
+      _$SimilarListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SimilarListToJson(this);
 }

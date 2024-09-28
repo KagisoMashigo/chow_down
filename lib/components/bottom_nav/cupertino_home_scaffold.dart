@@ -1,6 +1,5 @@
 // 🐦 Flutter imports:
 import 'package:chow_down/components/design/chow.dart';
-import 'package:chow_down/components/design/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +8,11 @@ import 'package:chow_down/components/bottom_nav/tab_item.dart';
 
 class CupertinoHomeScaffold extends StatelessWidget {
   const CupertinoHomeScaffold({
-    Key key,
-    @required this.currentTab,
-    @required this.onSelectedTab,
-    @required this.widgetBuilders,
-    @required this.navigatorKeys,
+    Key? key,
+    required this.currentTab,
+    required this.onSelectedTab,
+    required this.widgetBuilders,
+    required this.navigatorKeys,
   }) : super(key: key);
 
   final TabItem currentTab;
@@ -38,22 +37,21 @@ class CupertinoHomeScaffold extends StatelessWidget {
         final item = TabItem.values[index];
         return CupertinoTabView(
           navigatorKey: navigatorKeys[item],
-          builder: (context) => widgetBuilders[item](context),
+          builder: (context) => widgetBuilders[item]!(context),
         );
       },
     );
   }
 
   BottomNavigationBarItem _buildItem(TabItem tabItem) {
-    final iconSize = Responsive.ratioHorizontal * 8;
     final itemData = TabItemData.allTabs[tabItem];
     final color =
-        currentTab == tabItem ? Color.fromARGB(255, 0, 0, 0) : Colors.grey;
+        currentTab == tabItem ? Color.fromARGB(255, 70, 105, 68) : Colors.grey;
     return BottomNavigationBarItem(
       icon: Icon(
-        itemData.icon,
+        itemData?.icon,
         color: color,
-        size: iconSize,
+        size: Spacing.md,
       ),
     );
   }

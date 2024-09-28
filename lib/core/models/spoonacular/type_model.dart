@@ -1,36 +1,38 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'type_model.g.dart';
+
+@JsonSerializable()
 class FoodType {
   final String id;
   final String name;
-  final String image;
-  final String readyInMinutes;
-  final String servings;
+  final String? image;
+  final String? readyInMinutes;
+  final String? servings;
   FoodType({
-    this.id,
-    this.name,
+    required this.id,
+    required this.name,
     this.image,
     this.readyInMinutes,
     this.servings,
   });
-  factory FoodType.fromJson(Map<String, dynamic> json) {
-    return FoodType(
-      id: json['id'].toString(),
-      name: json['title'],
-      image: json['image'],
-      readyInMinutes: json['readyInMinutes'].toString(),
-      servings: json['servings'].toString(),
-    );
-  }
+
+  factory FoodType.fromJson(Map<String, dynamic> json) =>
+      _$FoodTypeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FoodTypeToJson(this);
 }
 
+@JsonSerializable()
 class FoodTypeList {
   final List<FoodType> list;
   FoodTypeList({
-    this.list,
+    required this.list,
   });
 
-  factory FoodTypeList.fromJson(List<dynamic> json) {
-    return FoodTypeList(
-      list: json.map((data) => FoodType.fromJson(data)).toList(),
-    );
-  }
+  factory FoodTypeList.fromJson(Map<String, dynamic> json) =>
+      _$FoodTypeListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FoodTypeListToJson(this);
 }

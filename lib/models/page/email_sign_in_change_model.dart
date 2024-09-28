@@ -8,7 +8,7 @@ import 'package:chow_down/services/auth.dart';
 
 class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   EmailSignInChangeModel({
-    @required this.auth,
+    required this.auth,
     this.password = '',
     this.email = '',
     this.isLoading = false,
@@ -72,12 +72,12 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
     return emailValidator.isValid(email) && !isLoading;
   }
 
-  String get passwordErrorText {
+  String? get passwordErrorText {
     bool showErrorText = submitted && !passwordValidator.isValid(password);
     return showErrorText ? invalidPasswordErrorText : null;
   }
 
-  String get emailErrorText {
+  String? get emailErrorText {
     bool showErrorText = submitted && !emailValidator.isValid(email);
     return showErrorText ? invalidEmailErrorText : null;
   }
@@ -104,11 +104,11 @@ class EmailSignInChangeModel with EmailAndPasswordValidators, ChangeNotifier {
   void updatePassword(String password) => updateWith(password: password);
 
   void updateWith({
-    String password,
-    String email,
-    bool isLoading,
-    bool submitted,
-    EmailSignInFormType formType,
+    final String? password,
+    final String? email,
+    final bool? isLoading,
+    final bool? submitted,
+    final EmailSignInFormType? formType,
   }) {
     this.email = email ?? this.email;
     this.password = password ?? this.password;

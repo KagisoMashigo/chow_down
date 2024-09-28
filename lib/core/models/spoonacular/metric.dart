@@ -1,19 +1,21 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'metric.g.dart';
+
+@JsonSerializable()
 class Metric {
-  double amount;
-  String unitShort;
-  String unitLong;
+  final double? amount;
+  final String? unitShort;
+  final String? unitLong;
 
-  Metric({this.amount, this.unitShort, this.unitLong});
+  Metric({
+    this.amount,
+    this.unitShort,
+    this.unitLong,
+  });
 
-  factory Metric.fromJson(json) => Metric(
-        amount: (json['amount'] as num).toDouble(),
-        unitShort: json['unitShort'] as String,
-        unitLong: json['unitLong'] as String,
-      );
+  factory Metric.fromJson(Map<String, dynamic> json) => _$MetricFromJson(json);
 
-  toJson() => {
-        'amount': amount,
-        'unitShort': unitShort,
-        'unitLong': unitLong,
-      };
+  Map<String, dynamic> toJson() => _$MetricToJson(this);
 }

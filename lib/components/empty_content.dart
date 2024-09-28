@@ -5,12 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 
 class EmptyContent extends StatelessWidget {
-  const EmptyContent({Key key, this.title, this.message, this.icon})
-      : super(key: key);
+  const EmptyContent({
+    Key? key,
+    required this.title,
+    required this.message,
+    this.icon,
+  }) : super(key: key);
 
   final String title;
   final String message;
-  final IconData icon;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {

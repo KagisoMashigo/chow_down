@@ -1,19 +1,21 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'us.g.dart';
+
+@JsonSerializable()
 class Us {
-  double amount;
-  String unitShort;
-  String unitLong;
+  final double amount;
+  final String? unitShort;
+  final String? unitLong;
 
-  Us({this.amount, this.unitShort, this.unitLong});
+  Us({
+    required this.amount,
+    this.unitShort,
+    this.unitLong,
+  });
 
-  factory Us.fromJson(json) => Us(
-        amount: (json['amount'] as num).toDouble(),
-        unitShort: json['unitShort'] as String,
-        unitLong: json['unitLong'] as String,
-      );
+  factory Us.fromJson(Map<String, dynamic> json) => _$UsFromJson(json);
 
-  toJson() => {
-        'amount': amount,
-        'unitShort': unitShort,
-        'unitLong': unitLong,
-      };
+  Map<String, dynamic> toJson() => _$UsToJson(this);
 }

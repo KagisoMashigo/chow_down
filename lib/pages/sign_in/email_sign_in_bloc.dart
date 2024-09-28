@@ -1,15 +1,12 @@
 // 🎯 Dart imports:
 import 'dart:async';
 
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // 🌎 Project imports:
 import 'package:chow_down/models/page/email_sign_in_model.dart';
 import 'package:chow_down/services/auth.dart';
 
 class EmailSignInBloc {
-  EmailSignInBloc({@required this.auth});
+  EmailSignInBloc({required this.auth});
   final AuthBase auth;
 
   final StreamController<EmailSignInModel> _modelController =
@@ -54,19 +51,19 @@ class EmailSignInBloc {
   void updatePassword(String password) => updateWith(password: password);
 
   void updateWith({
-    String password,
-    String email,
-    bool isLoading,
-    bool submitted,
-    EmailSignInFormType formType,
+    final String? password,
+    final String? email,
+    final bool? isLoading,
+    final bool? submitted,
+    final EmailSignInFormType? formType,
   }) {
     // update model
     _model = _model.copyWith(
-      email: email,
-      password: password,
-      submitted: submitted,
-      isLoading: isLoading,
-      formType: formType,
+      email: email!,
+      password: password!,
+      submitted: submitted!,
+      isLoading: isLoading!,
+      formType: formType!,
     );
     // add updated model to _modelController
     _modelController.add(_model);

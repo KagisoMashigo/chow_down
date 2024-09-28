@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 
 class ChowListTile extends StatelessWidget {
   const ChowListTile({
-    Key key,
-    @required this.title,
-    this.onTap,
+    Key? key,
+    required this.title,
+    required this.onTap,
     this.leading,
     this.trailing,
   }) : super(key: key);
 
   final Text title;
-  final Icon leading;
-  final Icon trailing;
+  final Icon? leading;
+  final Icon? trailing;
   final VoidCallback onTap;
 
   @override

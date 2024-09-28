@@ -1,31 +1,34 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'search_autocomplete_model.g.dart';
+
+@JsonSerializable()
 class SearchAutoComplete {
   final String id;
-  final String name;
-  final String image;
+  final String? name;
+  final String? image;
   SearchAutoComplete({
-    this.id,
+    required this.id,
     this.name,
     this.image,
   });
-  factory SearchAutoComplete.fromJson(Map<String, dynamic> json) {
-    return SearchAutoComplete(
-      id: json['id'].toString(),
-      name: json['title'],
-      image:
-          "https://spoonacular.com/recipeImages/${json['id']}-556x370.${json['imageType']}",
-    );
-  }
+
+  factory SearchAutoComplete.fromJson(Map<String, dynamic> json) =>
+      _$SearchAutoCompleteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchAutoCompleteToJson(this);
 }
 
+@JsonSerializable()
 class SearchAutoCompleteList {
-  final List<SearchAutoComplete> list;
+  final List<SearchAutoComplete>? list;
   SearchAutoCompleteList({
     this.list,
   });
 
-  factory SearchAutoCompleteList.fromJson(List<dynamic> json) {
-    return SearchAutoCompleteList(
-      list: json.map((data) => SearchAutoComplete.fromJson(data)).toList(),
-    );
-  }
+  factory SearchAutoCompleteList.fromJson(Map<String, dynamic> json) =>
+      _$SearchAutoCompleteListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchAutoCompleteListToJson(this);
 }

@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.13+6
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependency_overrides:
   firebase_core_platform_interface: 4.5.1
@@ -26,41 +26,42 @@ dependency_overrides:
 dependencies:
   flutter:
     sdk: flutter
-  auto_size_text: ^2.1.0
+  # App dependencies
+  auto_size_text: ^3.0.0
+  another_flushbar: ^1.12.30
+  ansi_styles: ^0.3.2+1
   bloc: ^8.0.2
-  cloud_firestore: ^2.5.2
-  dio: ^4.0.0
-  equatable: ^2.0.3
-  firebase_auth: ^3.1.1
-  flutter_bloc: ^8.0.1
-  firebase_core: ^1.24.0
-  flutter_dotenv: ^5.0.2
-  google_sign_in: 5.1.0
-  intl: 0.17.0
-  provider: ^6.0.0
-  rxdart: ^0.24.1
-  google_fonts: ^3.0.1
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  cached_network_image: ^3.3.0
+  cloud_firestore: ^5.0.2
   cupertino_icons: ^1.0.2
-  json_serializable: ^6.3.1
-  cached_network_image: ^2.5.1
-  url_launcher: ^6.1.5
+  dio: ^5.3.3
+  equatable: ^2.0.3
+  firebase_auth: ^5.1.1
+  firebase_analytics: ^11.1.0
+  firebase_core: ^3.1.1
+  firebase_crashlytics: ^4.0.2
+  flutter_bloc: ^8.0.1
+  flutter_dotenv: ^5.0.2
+  flutter_phoenix: ^1.1.1
   flutter_spinkit: ^5.1.0
+  google_fonts: ^6.1.0
+  google_sign_in: ^6.1.5
+  json_annotation: ^4.8.1
+  json_serializable: ^6.3.1
   path_provider: ^2.0.11
-  firebase_crashlytics: ^2.8.12
-  firebase_analytics: ^9.3.7
+  provider: ^6.0.0
+  rxdart: ^0.27.7
+  url_launcher: ^6.1.5
 
 dev_dependencies:
-  import_sorter: ^4.6.0
   flutter_test:
     sdk: flutter
-  build_runner: ^2.1.4
-  flutter_launcher_icons: ^0.9.3
-  freezed: ^0.15.0+1
-  freezed_annotation: ^0.15.0
+  build_runner: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
+  freezed: ^2.4.5
+  freezed_annotation: ^2.4.1
   flutter_native_splash: ^2.0.0
+  import_sorter: ^4.6.0
 
 flutter_native_splash:
   color: "#000000"
@@ -79,17 +80,7 @@ flutter:
 
   assets:
     - .env
-    - assets/images/google-logo.png
-    - assets/images/facebook-logo.png
-    - assets/images/chow_down.png
-    - assets/images/home_img.jpg
-    - assets/images/spice_home.jpg
-    - assets/images/vege_home.jpg
-    - assets/images/bowl_home.jpg
-    - assets/images/fork_home.jpg
-    - assets/images/fire_home.jpg
-    - assets/images/mush_home.jpg
-    - assets/images/board_home.jpg
+    - assets/images/
 
   fonts:
     - family: Lato

@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 class DetailCard extends StatelessWidget {
   final Widget child;
   final Color color;
-  final Padding padding;
   final double borderRadius;
   final double paddingVertical;
 
   DetailCard({
-    @required this.child,
-    @required this.color,
-    this.padding,
+    required this.child,
+    required this.color,
     this.borderRadius = 10,
     this.paddingVertical = 10,
   });
@@ -28,7 +26,7 @@ class DetailCard extends StatelessWidget {
       padding: EdgeInsets.all(
         paddingVertical,
       ),
-      child: this.child,
+      child: child,
     );
   }
 }

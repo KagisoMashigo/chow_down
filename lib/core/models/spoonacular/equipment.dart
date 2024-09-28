@@ -1,39 +1,36 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
+part 'equipment.g.dart';
+
+@JsonSerializable()
 class Equipment {
   final String name;
-  final String image;
+  final String? image;
   final int id;
-  final String localizedName;
+  final String? localizedName;
   Equipment({
-    this.id,
+    required this.id,
     this.localizedName,
-    this.name,
+    required this.name,
     this.image,
   });
 
-  factory Equipment.fromJson(Map<String, dynamic> json) {
-    return Equipment(
-        image: "https://spoonacular.com/cdn/equipment_100x100/${json['image']}",
-        name: json['name'],
-        localizedName: json['localizedName'],
-        id: json['id']);
-  }
+  factory Equipment.fromJson(Map<String, dynamic> json) =>
+      _$EquipmentFromJson(json);
 
-  toJson() => {
-        'id': id,
-        'name': name,
-        'localizedName': localizedName,
-        'image': image,
-      };
+  Map<String, dynamic> toJson() => _$EquipmentToJson(this);
 }
 
+@JsonSerializable()
 class EquipmentList {
   final List<Equipment> items;
   EquipmentList({
-    this.items,
+    required this.items,
   });
-  factory EquipmentList.fromJson(List<dynamic> list) {
-    return new EquipmentList(
-      items: list.map((data) => Equipment.fromJson(data)).toList(),
-    );
-  }
+
+  factory EquipmentList.fromJson(Map<String, dynamic> json) =>
+      _$EquipmentListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EquipmentListToJson(this);
 }

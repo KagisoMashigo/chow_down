@@ -1,93 +1,145 @@
 // 🎯 Dart imports:
 import 'dart:io';
 
-// 🐦 Flutter imports:
-import 'package:flutter/foundation.dart';
-
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
 import 'package:chow_down/models/error/error.dart';
+import 'package:chow_down/plugins/debugHelper.dart';
+import 'package:chow_down/plugins/utils/helpers.dart';
+
+// TODO: recipe is not saving the edited version correct
+// title is not saving at all
 
 class FirestoreService {
   FirestoreService._();
   static final instance = FirestoreService._();
 
   Future<void> deleteData({
-    @required String path,
-    @required Recipe recipe,
+    required String path,
+    required Recipe recipe,
   }) async {
+    final reference = FirebaseFirestore.instance.collection(path);
+    final originalId = reference.doc(recipe.id.toString());
+    final customId = reference.doc(StringHelper.generateCustomId(recipe.title));
+
     try {
-      final reference = FirebaseFirestore.instance.collection(path);
-
-      // OG ref to delete
-      final originalId = reference.doc(recipe.id.toString());
-
-      // Generated ref to delete
-      final customId = reference
-          .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''));
+      printDebug(
+          'Attempting to delete recipe with ID: ${recipe.id} at path: $path');
 
       if (recipe.id.toString().length < 6) {
         await customId.delete();
+        printDebug(
+            'Deleted custom ID: ${StringHelper.generateCustomId(recipe.title)}');
       }
 
       await originalId.delete();
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem deleting the data');
+      printDebug('Deleted original ID: ${recipe.id}');
+    } catch (e, stack) {
+      _handleException(e, stack, 'deleting recipe with ID: ${recipe.id}');
     }
   }
 
-  Future<void> saveRecipe(
-      {@required String path, @required Recipe recipe}) async {
-    try {
-      final CollectionReference _collectionRef =
-          FirebaseFirestore.instance.collection(path);
+  Future<void> saveEditedRecipe({
+    required String path,
+    required Recipe recipe,
+  }) async {
+    final CollectionReference<Map<String, dynamic>> _collectionRef =
+        FirebaseFirestore.instance.collection(path);
 
-      final CollectionReference<Recipe> convertedCollection =
-          _collectionRef.withConverter<Recipe>(
-        fromFirestore: (snapshot, _) => Recipe.fromJson(snapshot.data()),
-        toFirestore: (recipe, _) => recipe.toJson(),
-      );
+    try {
+      printDebug(
+          'Attempting to save recipe with ID: ${recipe.id} at path: $path');
+
+      final documentId = StringHelper.generateCustomId(recipe.sourceUrl!);
+      await _collectionRef.doc(documentId).set(recipe.toJson());
+      printDebug('Saved recipe with generated ID: $documentId');
+    } catch (e, stack) {
+      _handleException(e, stack, 'saving recipe with ID: ${recipe.id}');
+    }
+  }
+
+  Future<void> saveRecipe({
+    required String path,
+    required Recipe recipe,
+  }) async {
+    final CollectionReference<Map<String, dynamic>> _collectionRef =
+        FirebaseFirestore.instance.collection(path);
+
+    try {
+      printDebug(
+          'Attempting to save recipe with ID: ${recipe.id} at path: $path');
 
       if (recipe.id < 0) {
-        await convertedCollection
-            .doc(recipe.sourceUrl.toString().replaceAll(RegExp(r"[^\s\w]"), ''))
-            .set(recipe);
+        final documentId = StringHelper.generateCustomId(recipe.title);
+        await _collectionRef.doc(documentId).set(recipe.toJson());
+        printDebug('Saved recipe with generated ID: $documentId');
       } else {
-        await convertedCollection.doc(recipe.id.toString()).set(recipe);
+        await _collectionRef.doc(recipe.id.toString()).set(recipe.toJson());
+        printDebug('Saved recipe with original ID: ${recipe.id}');
       }
-    } on SocketException catch (e) {
-      print(e);
-      throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem saving the recipe');
+    } catch (e, stack) {
+      _handleException(e, stack, 'saving recipe with ID: ${recipe.id}');
     }
   }
 
-  Future<List<Recipe>> fetchSavedRecipes({@required String path}) async {
+  Future<List<Recipe>> fetchSavedRecipes({required String path}) async {
+    final _collectionRef = FirebaseFirestore.instance.collection(path);
+
     try {
-      final CollectionReference _collectionRef =
-          FirebaseFirestore.instance.collection(path);
-      final List<Recipe> savedRecipes = [];
+      printDebug('Fetching saved recipes at path: $path');
       final QuerySnapshot finalSnapshot = await _collectionRef.get();
       final List<DocumentSnapshot> documents = finalSnapshot.docs;
-      for (var document in documents) {
-        savedRecipes.add(Recipe.fromFirestore(document));
-      }
+
+      final List<Recipe> savedRecipes = documents.map((document) {
+        return Recipe.fromFirestore(document.data() as Map<String, dynamic>);
+      }).toList();
+
+      printDebug('Fetched ${savedRecipes.length} saved recipes at path: $path');
       return savedRecipes;
-    } on SocketException catch (e) {
-      print(e);
+    } catch (e, stack) {
+      _handleException(e, stack, 'fetching saved recipes at path: $path');
+      throw Failure(message: 'Failed to fetch saved recipes. Please try again');
+    }
+  }
+
+  Future<List<Recipe>> fetchEditedRecipes({required String path}) async {
+    final _collectionRef = FirebaseFirestore.instance.collection(path);
+
+    try {
+      printDebug('Fetching edited recipes at path: $path');
+      final QuerySnapshot finalSnapshot = await _collectionRef.get();
+      final List<DocumentSnapshot> documents = finalSnapshot.docs;
+
+      final List<Recipe> editedRecipes = documents.map((document) {
+        return Recipe.fromFirestore(document.data() as Map<String, dynamic>);
+      }).toList();
+
+      printDebug(
+          'Fetched ${editedRecipes.length} edited recipes at path: $path');
+      return editedRecipes;
+    } catch (e, stack) {
+      _handleException(e, stack, 'fetching edited recipes at path: $path');
+      throw Failure(
+          message: 'Failed to fetch edited recipes. Please try again');
+    }
+  }
+
+  void _handleException(Object e, StackTrace stack, String action) {
+    if (e is SocketException) {
+      printAndLog(e, 'No Internet connection while $action, reason: $stack');
       throw Failure(message: 'No Internet connection');
-    } on HttpException catch (e) {
-      print(e);
-      throw Failure(message: 'There was a problem fetching the recipes');
+    } else if (e is HttpException) {
+      printAndLog(e, 'HTTP error occurred while $action, reason: $stack');
+      throw Failure(message: 'There was a problem $action');
+    } else if (e is FirebaseException) {
+      printAndLog(e, 'Firestore error occurred while $action, reason: $stack');
+      throw Exception('Error while $action');
+    } else {
+      printAndLog(e, 'An error occurred while $action, reason: $stack');
+      throw Failure(message: 'An unknown error occurred');
     }
   }
 }

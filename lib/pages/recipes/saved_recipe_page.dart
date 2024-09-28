@@ -2,143 +2,141 @@
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 // 🌎 Project imports:
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
+import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
+import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/annotated_region.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
-import 'package:chow_down/components/customAppBar.dart';
 import 'package:chow_down/components/design/color.dart';
-import 'package:chow_down/components/design/responsive.dart';
+import 'package:chow_down/components/design/spacing.dart';
 import 'package:chow_down/components/empty_content.dart';
-import 'package:chow_down/components/snackBar.dart';
-import 'package:chow_down/core/models/spoonacular/recipe_model.dart';
-import 'package:chow_down/cubit/recipe_tab/recipe_tab_cubit.dart';
+import 'package:chow_down/plugins/utils/constants.dart';
 
-class RecipeTabPage extends StatefulWidget {
-  @override
-  _RecipeTabPageState createState() => _RecipeTabPageState();
-}
+class SavedRecipePage extends StatelessWidget {
+  const SavedRecipePage({Key? key}) : super(key: key);
 
-class _RecipeTabPageState extends State<RecipeTabPage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<RecipeTabCubit>(context, listen: false).fetchHomeRecipesList();
-  }
-
-  void showSnackbar(
+  void showFloatingFeedback(
     BuildContext context,
     String errorMessage,
   ) =>
-      ScaffoldMessenger.of(context).showSnackBar(warningSnackBar(errorMessage));
+      FloatingFeedback(
+        message: errorMessage,
+        style: FloatingFeedbackStyle.alert,
+        duration: Duration(seconds: 3),
+      ).show(context);
 
   @override
   Widget build(BuildContext context) {
-    return CustomLogoAppBar(
-      color: ChowColors.white,
-      imgUrl: 'assets/images/chow_down.png',
-      title: 'Saved Recipes',
-      body: RefreshIndicator(
-        color: Color.fromARGB(255, 234, 180, 225),
-        onRefresh: () => _pullRefresh(),
-        child: SingleChildScrollView(
-          child: Container(
-            height: Responsive.isSmallScreen()
-                ? MediaQuery.of(context).size.height
-                : MediaQuery.of(context).size.height * 0.91,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: CachedNetworkImageProvider(
-                  'https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80',
+    return ChowAnnotatedRegion(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(BACKGROUND_TEXTURE),
+                  fit: BoxFit.cover,
                 ),
-                fit: BoxFit.cover,
               ),
             ),
-            padding: EdgeInsets.all(5.5 * Responsive.ratioHorizontal),
-            child: BlocConsumer<RecipeTabCubit, RecipeTabState>(
-              listener: (context, state) {
-                if (state is RecipTabError) {
-                  return ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is RecipeTabLoading) {
-                  return _buildLoading();
-                } else if (state is RecipeTabLoaded) {
-                  return _buildColumnWithData(state.recipeCardList);
-                } else {
-                  return _buildInitialInput(state);
-                }
-              },
+            SafeArea(
+              child: RefreshIndicator(
+                color: ChowColors.borderGreen,
+                onRefresh: () => _pullRefresh(context),
+                edgeOffset: 100,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
+                    child: SavedRecipesToggler(),
+                  ),
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
   }
 
-  Future<void> _pullRefresh() async {
+  Future<void> _pullRefresh(BuildContext context) async {
     await Future.delayed(Duration(seconds: 1));
-    await Provider.of<RecipeTabCubit>(context, listen: false)
-        .fetchHomeRecipesList();
+    BlocProvider.of<SavedRecipeBloc>(context).add(FetchSavedRecipesEvent());
+  }
+}
+
+class SavedRecipesToggler extends StatelessWidget {
+  const SavedRecipesToggler({
+    super.key,
+  });
+
+  Widget _buildSavedRecipes() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        BlocConsumer<SavedRecipeBloc, SavedRecipeState>(
+          listenWhen: (previous, current) => previous != current,
+          listener: (context, state) {
+            if (state is SavedRecipeError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message!),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is SavedRecipePending) {
+              return _buildLoading();
+            } else if (state is SavedRecipeError) {
+              return _buildErrors(state);
+            }
+
+            return RecipeCardGrid(results: state.savedRecipeList!);
+          },
+        ),
+      ],
+    );
   }
 
-  Widget _buildInitialInput(RecipeTabState state) => state is RecipeTabInitial
-      ? Center(
-          child: EmptyContent(
-            message: 'It\'s as empty as your stomach...',
-            title: 'No recipes currently saved',
-            icon: Icons.hourglass_empty,
-          ),
-        )
-      : Center(
-          child: EmptyContent(
-            message:
-                'Please pull to refresh. If this persists please restart the application.',
-            title: 'Something went wrong...',
-            icon: Icons.error_outline_sharp,
-          ),
-        );
+  Widget _buildErrors(SavedRecipeState state) =>
+      state.savedRecipeList != null && state.savedRecipeList!.isEmpty
+          ? Center(
+              child: EmptyContent(
+                message: 'It\'s as empty as your stomach...',
+                title: 'No recipes currently saved',
+                icon: Icons.hourglass_empty,
+              ),
+            )
+          : Center(
+              child: EmptyContent(
+                message:
+                    'Please pull to refresh. If this persists please restart the application.',
+                title: 'Something went wrong...',
+                icon: Icons.error_outline_sharp,
+              ),
+            );
 
   Widget _buildLoading() => Center(
         child: CircularProgressIndicator(
-          color: Color.fromARGB(255, 212, 147, 201),
+          color: ChowColors.white,
         ),
       );
 
-  Widget _buildColumnWithData(List<Recipe> searchResultList) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          RecipeCardGrid(
-            searchResultList: searchResultList,
-          ),
-          searchResultList.length > 10
-              ? Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FloatingActionButton(
-                    onPressed: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => this.widget),
-                    ),
-                    child: Icon(
-                      Icons.arrow_upward_outlined,
-                      color: ChowColors.black,
-                    ),
-                    backgroundColor: ChowColors.white,
-                  ),
-                )
-              : SizedBox.shrink(),
-          verticalDivider(factor: 12),
-        ],
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: Spacing.sm),
+        SizedBox(height: Spacing.sm),
+        _buildSavedRecipes(),
+        SizedBox(height: Spacing.xlg),
+      ],
     );
   }
 }

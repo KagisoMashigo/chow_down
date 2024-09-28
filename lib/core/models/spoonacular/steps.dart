@@ -1,35 +1,41 @@
+// 📦 Package imports:
+import 'package:json_annotation/json_annotation.dart';
+
 // 🌎 Project imports:
 import 'package:chow_down/core/models/spoonacular/ingredients.dart';
 import 'equipment.dart';
 
+part 'steps.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class Step {
-  int number;
-  String step;
-  List<Ingredient> ingredients;
-  List<Equipment> equipment;
+  final int number;
+  final String step;
+  final List<Ingredient>? ingredients;
+  final List<Equipment>? equipment;
 
   Step({
-    this.number,
-    this.step,
+    required this.number,
+    required this.step,
     this.ingredients,
     this.equipment,
   });
 
-  factory Step.fromJson(json) => Step(
-        number: json['number'] as int,
-        step: json['step'] as String,
-        ingredients: (json['ingredients'] as List<dynamic>)
-            .map((e) => Ingredient.fromJson(e))
-            .toList(),
-        equipment: (json['equipment'] as List<dynamic>)
-            .map((e) => Equipment.fromJson(e))
-            .toList(),
-      );
+  factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
 
-  toJson() => {
-        'number': number,
-        'step': step,
-        'ingredients': ingredients.map((e) => e.toJson()).toList(),
-        'equipment': equipment.map((e) => e.toJson()).toList(),
-      };
+  Map<String, dynamic> toJson() => _$StepToJson(this);
+
+  Step copyWith({
+    int? number,
+    String? step,
+    List<Ingredient>? ingredients,
+    List<Equipment>? equipment,
+  }) {
+    return Step(
+      number: number ?? this.number,
+      step: step ?? this.step,
+      ingredients: ingredients ?? this.ingredients,
+      equipment: equipment ?? this.equipment,
+    );
+  }
 }
