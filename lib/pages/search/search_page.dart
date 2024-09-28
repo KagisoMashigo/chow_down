@@ -14,6 +14,7 @@ import 'package:chow_down/blocs/search/search_bloc.dart';
 import 'package:chow_down/blocs/search/search_event.dart';
 import 'package:chow_down/blocs/search/search_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/annotated_region.dart';
 import 'package:chow_down/components/builders/back_to_top_builder.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
@@ -29,67 +30,69 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(BACKGROUND_TEXTURE),
-            fit: BoxFit.cover,
+    return ChowAnnotatedRegion(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(BACKGROUND_TEXTURE),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: RefreshIndicator(
-            color: ChowColors.borderGreen,
-            onRefresh: () => _pullRefresh(context),
-            child: Column(
-              children: [
-                Expanded(
-                  child: BlocConsumer<SearchBloc, SearchState>(
-                    listener: (context, state) {
-                      if (state is SearchError) {
-                        FloatingFeedback(
-                          message: state.message!,
-                          style: FloatingFeedbackStyle.alert,
-                          duration: Duration(seconds: 3),
-                        ).show(context);
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is SearchLoading) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: ChowColors.white,
+          child: SafeArea(
+            child: RefreshIndicator(
+              color: ChowColors.borderGreen,
+              onRefresh: () => _pullRefresh(context),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: BlocConsumer<SearchBloc, SearchState>(
+                      listener: (context, state) {
+                        if (state is SearchError) {
+                          FloatingFeedback(
+                            message: state.message!,
+                            style: FloatingFeedbackStyle.alert,
+                            duration: Duration(seconds: 3),
+                          ).show(context);
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is SearchLoading) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: ChowColors.white,
+                            ),
+                          );
+                        }
+
+                        return SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: Spacing.xlg,
+                                ),
+                                child: ChowForm(
+                                  submitForm: (context, url) => context
+                                      .read<SearchBloc>()
+                                      .add(SearchRecipes(query: url)),
+                                  borderColor: ChowColors.white,
+                                  hintText: 'Search for a recipe',
+                                ),
+                              ),
+                              if (state is SearchLoaded)
+                                _buildColumnWithData(
+                                    state.searchResultList, context),
+                            ],
                           ),
                         );
-                      }
-
-                      return SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: Spacing.xlg,
-                              ),
-                              child: ChowForm(
-                                submitForm: (context, url) => context
-                                    .read<SearchBloc>()
-                                    .add(SearchRecipes(query: url)),
-                                borderColor: ChowColors.white,
-                                hintText: 'Search for a recipe',
-                              ),
-                            ),
-                            if (state is SearchLoaded)
-                              _buildColumnWithData(
-                                  state.searchResultList, context),
-                          ],
-                        ),
-                      );
-                    },
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

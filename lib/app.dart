@@ -13,9 +13,6 @@ import 'package:chow_down/components/design/typography.dart';
 import 'package:chow_down/pages/landing_page.dart';
 import 'package:chow_down/services/auth.dart';
 
-// 🌎 Project imports:
-
-
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -32,14 +29,7 @@ class App extends StatelessWidget {
                 DeviceOrientation.portraitDown,
               ],
             );
-            SystemChrome.setSystemUIOverlayStyle(
-              SystemUiOverlayStyle(
-                statusBarColor: Colors.transparent,
-                statusBarIconBrightness: Brightness.dark,
-                systemNavigationBarColor: Colors.white,
-                systemNavigationBarIconBrightness: Brightness.dark,
-              ),
-            );
+
             return ChowDown();
           },
         );

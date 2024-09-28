@@ -3,7 +3,6 @@ import 'dart:developer';
 
 // 🐦 Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // 📦 Package imports:
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,6 +17,7 @@ import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_state.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
+import 'package:chow_down/components/annotated_region.dart';
 import 'package:chow_down/components/buttons/save_button.dart';
 import 'package:chow_down/components/cards/base_card.dart';
 import 'package:chow_down/components/cards/recipe_card_toggler.dart';
@@ -42,26 +42,8 @@ class RecipeDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final savedRecipes = context.read<SavedRecipeBloc>().state.savedRecipeList;
 
-    Future<void> _pullRefresh(BuildContext context) async {
-      return Future.delayed(
-        Duration(milliseconds: 500),
-        () => context.read<RecipeDetailBloc>().add(
-              FetchRecipe(
-                id: id,
-                url: sourceUrl,
-                savedRecipes:
-                    context.read<SavedRecipeBloc>().state.savedRecipeList,
-              ),
-            ),
-      );
-    }
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
+    return ChowAnnotatedRegion(
+      isDark: true,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         body: SingleChildScrollView(
@@ -184,6 +166,20 @@ class RecipeDetailPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _pullRefresh(BuildContext context) async {
+    return Future.delayed(
+      Duration(milliseconds: 500),
+      () => context.read<RecipeDetailBloc>().add(
+            FetchRecipe(
+              id: id,
+              url: sourceUrl,
+              savedRecipes:
+                  context.read<SavedRecipeBloc>().state.savedRecipeList,
+            ),
+          ),
     );
   }
 

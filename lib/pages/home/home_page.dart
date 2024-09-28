@@ -12,6 +12,7 @@ import 'package:chow_down/blocs/recipe_info/recipe_detail_bloc.dart';
 import 'package:chow_down/blocs/recipe_info/recipe_detail_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/annotated_region.dart';
 import 'package:chow_down/components/cards/expanded_help_card.dart';
 import 'package:chow_down/components/cards/recipe_card.dart';
 import 'package:chow_down/components/design/color.dart';
@@ -26,75 +27,77 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(BACKGROUND_TEXTURE),
-            fit: BoxFit.cover,
+    return ChowAnnotatedRegion(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(BACKGROUND_TEXTURE),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: () => _pullRefresh(context),
-            color: ChowColors.black,
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: Spacing.lg,
-                      ),
-                      child: BlocConsumer<ExtractBloc, ExtractState>(
-                        listener: (context, state) {
-                          if (state is ExtractError) {
-                            FloatingFeedback(
-                              message: state.message,
-                              style: FloatingFeedbackStyle.alert,
-                              duration: Duration(seconds: 3),
-                            ).show(context);
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is ExtractPending) {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: ChowColors.white,
-                              ),
-                            );
-                          }
+          child: SafeArea(
+            child: RefreshIndicator(
+              onRefresh: () => _pullRefresh(context),
+              color: ChowColors.black,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: ClampingScrollPhysics(),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: Spacing.lg,
+                        ),
+                        child: BlocConsumer<ExtractBloc, ExtractState>(
+                          listener: (context, state) {
+                            if (state is ExtractError) {
+                              FloatingFeedback(
+                                message: state.message,
+                                style: FloatingFeedbackStyle.alert,
+                                duration: Duration(seconds: 3),
+                              ).show(context);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is ExtractPending) {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: ChowColors.white,
+                                ),
+                              );
+                            }
 
-                          return Column(
-                            children: [
-                              SizedBox(height: Spacing.md),
-                              Image.asset(
-                                CHOW_DOWN_LOGO,
-                                height: Spacing.massive,
-                                width: Spacing.massive,
-                                fit: BoxFit.fill,
-                              ),
-                              SizedBox(height: Spacing.md),
-                              ChowForm(
-                                submitForm: (context, url) => context
-                                    .read<ExtractBloc>()
-                                    .add(ExtractRecipe(url: url)),
-                              ),
-                              SizedBox(height: Spacing.sm),
-                              if (state is! ExtractPending) HelpCard(),
-                              SizedBox(height: Spacing.xsm),
-                              if (state is ExtractLoaded)
-                                _buildColumnWithData(
-                                    state.extractedResult, context),
-                            ],
-                          );
-                        },
+                            return Column(
+                              children: [
+                                SizedBox(height: Spacing.md),
+                                Image.asset(
+                                  CHOW_DOWN_LOGO,
+                                  height: Spacing.massive,
+                                  width: Spacing.massive,
+                                  fit: BoxFit.fill,
+                                ),
+                                SizedBox(height: Spacing.md),
+                                ChowForm(
+                                  submitForm: (context, url) => context
+                                      .read<ExtractBloc>()
+                                      .add(ExtractRecipe(url: url)),
+                                ),
+                                SizedBox(height: Spacing.sm),
+                                if (state is! ExtractPending) HelpCard(),
+                                SizedBox(height: Spacing.xsm),
+                                if (state is ExtractLoaded)
+                                  _buildColumnWithData(
+                                      state.extractedResult, context),
+                              ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

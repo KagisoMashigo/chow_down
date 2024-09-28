@@ -9,6 +9,7 @@ import 'package:chow_down/blocs/saved_recipe/saved_recipe_bloc.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_event.dart';
 import 'package:chow_down/blocs/saved_recipe/saved_recipe_state.dart';
 import 'package:chow_down/components/alert_dialogs/floating_feedback.dart';
+import 'package:chow_down/components/annotated_region.dart';
 import 'package:chow_down/components/cards/recipe_card_grid.dart';
 import 'package:chow_down/components/design/color.dart';
 import 'package:chow_down/components/design/spacing.dart';
@@ -30,32 +31,34 @@ class SavedRecipePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(BACKGROUND_TEXTURE),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SafeArea(
-            child: RefreshIndicator(
-              color: ChowColors.borderGreen,
-              onRefresh: () => _pullRefresh(context),
-              edgeOffset: 100,
-              child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
-                  child: SavedRecipesToggler(),
+    return ChowAnnotatedRegion(
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(BACKGROUND_TEXTURE),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
-        ],
+            SafeArea(
+              child: RefreshIndicator(
+                color: ChowColors.borderGreen,
+                onRefresh: () => _pullRefresh(context),
+                edgeOffset: 100,
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: Spacing.md),
+                    child: SavedRecipesToggler(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
