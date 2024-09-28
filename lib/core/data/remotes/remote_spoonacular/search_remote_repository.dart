@@ -22,7 +22,7 @@ class RemoteSearchRepository implements SearchRepository {
   @override
   Future<RecipeCardInfoList> getRecipesList(String query) async {
     final endpoint =
-        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=$results&sort=popularity&sortDirection=desc&addRecipeInformation';
+        'https://api.spoonacular.com/recipes/complexSearch?query=$query&apiKey=$apiKey&instructionsRequired=true&addRecipeInformation=true&number=20&sort=popularity&sortDirection=desc&addRecipeInformation';
 
     try {
       printDebug('Fetching recipes for query: $query');
