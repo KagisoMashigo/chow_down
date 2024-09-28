@@ -63,120 +63,123 @@ class RecipeDetailPage extends StatelessWidget {
         statusBarBrightness: Brightness.light,
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: CachedNetworkImageProvider(
-                RECIPE_INFO_BACKGROUND_IMAGE,
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(
+                  RECIPE_INFO_BACKGROUND_IMAGE,
+                ),
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover,
             ),
-          ),
-          child: SafeArea(
-            bottom: false,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: RefreshIndicator(
-                    onRefresh: () => _pullRefresh(context),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 38.0),
-                      child: BlocConsumer<SavedRecipeBloc, SavedRecipeState>(
-                        listener: (context, state) {
-                          if (state is SavedRecipeLoaded) {
-                            log('Saved recipes loaded');
-                            BlocProvider.of<RecipeDetailBloc>(context).add(
-                              FetchRecipe(
-                                id: id,
-                                url: sourceUrl,
-                                savedRecipes: state.savedRecipeList,
+            child: SafeArea(
+              bottom: false,
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: RefreshIndicator(
+                      onRefresh: () => _pullRefresh(context),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 38.0),
+                        child: BlocConsumer<SavedRecipeBloc, SavedRecipeState>(
+                          listener: (context, state) {
+                            if (state is SavedRecipeLoaded) {
+                              log('Saved recipes loaded');
+                              BlocProvider.of<RecipeDetailBloc>(context).add(
+                                FetchRecipe(
+                                  id: id,
+                                  url: sourceUrl,
+                                  savedRecipes: state.savedRecipeList,
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return SingleChildScrollView(
+                              child: BlocConsumer<RecipeDetailBloc,
+                                  RecipeDetailState>(
+                                listener: (context, state) {
+                                  if (state is RecipeInfoError) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(state.message ??
+                                            'An unknown error occurred'),
+                                      ),
+                                    );
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state is RecipeInfoInitial) {
+                                    BlocProvider.of<RecipeDetailBloc>(context)
+                                        .add(
+                                      FetchRecipe(
+                                        id: id,
+                                        url: sourceUrl,
+                                        savedRecipes: context
+                                            .watch<SavedRecipeBloc>()
+                                            .state
+                                            .savedRecipeList,
+                                      ),
+                                    );
+                                    return _buildLoading();
+                                  } else if (state is RecipeInfoLoading) {
+                                    log('Loading recipe...');
+                                    return _buildLoading();
+                                  } else if (state is RecipeInfoLoaded) {
+                                    final isSaved = context
+                                            .watch<SavedRecipeBloc>()
+                                            .state
+                                            .savedRecipeList
+                                            ?.any((element) {
+                                          log('Recipe url: ${state.recipe.sourceUrl}');
+
+                                          log('element sourceUrl: ${state.recipe.sourceUrl}');
+                                          return element.sourceUrl ==
+                                              state.recipe.sourceUrl;
+                                        }) ??
+                                        false;
+
+                                    log('savedRecipes: ${savedRecipes?.length}');
+
+                                    log('Recipe is saved: $isSaved');
+
+                                    return _buildContents(
+                                      context,
+                                      state.recipe,
+                                      isSaved,
+                                    );
+                                  } else {
+                                    return _buildErrorMessage(state);
+                                  }
+                                },
                               ),
                             );
-                          }
-                        },
-                        builder: (context, state) {
-                          return SingleChildScrollView(
-                            child: BlocConsumer<RecipeDetailBloc,
-                                RecipeDetailState>(
-                              listener: (context, state) {
-                                if (state is RecipeInfoError) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(state.message ??
-                                          'An unknown error occurred'),
-                                    ),
-                                  );
-                                }
-                              },
-                              builder: (context, state) {
-                                if (state is RecipeInfoInitial) {
-                                  BlocProvider.of<RecipeDetailBloc>(context)
-                                      .add(
-                                    FetchRecipe(
-                                      id: id,
-                                      url: sourceUrl,
-                                      savedRecipes: context
-                                          .watch<SavedRecipeBloc>()
-                                          .state
-                                          .savedRecipeList,
-                                    ),
-                                  );
-                                  return _buildLoading();
-                                } else if (state is RecipeInfoLoading) {
-                                  log('Loading recipe...');
-                                  return _buildLoading();
-                                } else if (state is RecipeInfoLoaded) {
-                                  final isSaved = context
-                                          .watch<SavedRecipeBloc>()
-                                          .state
-                                          .savedRecipeList
-                                          ?.any((element) {
-                                        log('Recipe url: ${state.recipe.sourceUrl}');
-
-                                        log('element sourceUrl: ${state.recipe.sourceUrl}');
-                                        return element.sourceUrl ==
-                                            state.recipe.sourceUrl;
-                                      }) ??
-                                      false;
-
-                                  log('savedRecipes: ${savedRecipes?.length}');
-
-                                  log('Recipe is saved: $isSaved');
-
-                                  return _buildContents(
-                                    context,
-                                    state.recipe,
-                                    isSaved,
-                                  );
-                                } else {
-                                  return _buildErrorMessage(state);
-                                }
-                              },
-                            ),
-                          );
-                        },
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: Spacing.xsm,
-                  left: Spacing.xsm,
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back_ios_new,
-                      color: Colors.white,
-                      size: ChowFontSizes.xxlg,
+                  Positioned(
+                    top: Spacing.xsm,
+                    left: Spacing.xsm,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_new,
+                        color: Colors.white,
+                        size: ChowFontSizes.xxlg,
+                      ),
+                      onPressed: () {
+                        context.read<EditRecipeBloc>().add(CancelEditRecipe());
+                        Navigator.of(context).pop();
+                      },
                     ),
-                    onPressed: () {
-                      context.read<EditRecipeBloc>().add(CancelEditRecipe());
-                      Navigator.of(context).pop();
-                    },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
