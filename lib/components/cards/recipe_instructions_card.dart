@@ -183,16 +183,6 @@ class _RecipeInstructionsCardState extends State<RecipeInstructionsCard> {
                     );
                   });
                 },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Instruction cannot be empty'),
-                      ),
-                    );
-                  }
-                  return null;
-                },
               ),
             ),
           ],

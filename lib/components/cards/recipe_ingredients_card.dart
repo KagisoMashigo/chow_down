@@ -247,16 +247,6 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                           );
                         });
                       },
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Please enter a valid number'),
-                            ),
-                          );
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   SizedBox(width: Spacing.xsm),
@@ -270,16 +260,6 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                             unit: value,
                           );
                         });
-                      },
-                      validator: (value) {
-                        if (value != null && value.isNotEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Please enter a unit'),
-                            ),
-                          );
-                        }
-                        return null;
                       },
                     ),
                   ),
@@ -297,16 +277,6 @@ class _RecipeIngredientsCardState extends State<RecipeIngredientsCard> {
                       name: value,
                     );
                   });
-                },
-                validator: (value) {
-                  if (value != null && value.isNotEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Please enter an ingredient'),
-                      ),
-                    );
-                  }
-                  return null;
                 },
               ),
             ),
